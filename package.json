@@ -7,12 +7,11 @@
     "lint": "eslint '**/*.js'",
     "lint:fix": "prettier-eslint '**/*.js' --write",
     "test": "jest",
-    "flow": "flow",
-    "precommit": "npm run flow"
+    "flow": "flow"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "flow check && lint-staged"
     }
   },
   "lint-staged": {
