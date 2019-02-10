@@ -7,7 +7,8 @@
     "lint": "eslint '**/*.js'",
     "lint:fix": "prettier-eslint '**/*.js' --write",
     "test": "jest",
-    "flow": "flow"
+    "flow": "flow",
+    "precommit": "npm run flow"
   },
   "husky": {
     "hooks": {
@@ -16,7 +17,6 @@
   },
   "lint-staged": {
     "*.js": [
-      "npm run flow",
       "npm run lint:fix",
       "git add"
     ]
