@@ -17,7 +17,7 @@
 .*/Libraries/polyfills/.*
 
 ; Ignore metro
-.*/node_modules/metro/.*
+.*/node_modules/.*
 
 [include]
 
@@ -27,6 +27,7 @@ node_modules/react-native/flow/
 node_modules/react-native/flow-github/
 
 [options]
+module.name_mapper='^{~}/\(.*\)$' -> '<PROJECT_ROOT>/{src}/\1'
 emoji=true
 
 esproposal.optional_chaining=enable
@@ -67,4 +68,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 
 [version]
-^0.89.0
+^0.92.1
