@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import { View, Text } from 'react-native';
 import RNFS from 'react-native-fs';
 import { Provider } from 'react-redux';
-
+import Video from 'react-native-video';
 import './config/ReactotronConfig';
 
 import store from './store';
@@ -26,7 +26,19 @@ const App = (): Object => {
             backgroundColor: '#f0f',
           }}
         >
-          <Text>BJS</Text>
+          <Video
+            source={{ uri: '' }}
+            audioOnly
+            playInBackground
+            style={{ width: 800, height: 800 }}
+            resizeMode="cover"
+            repeat
+            volume={4.0}
+            rate={1.0}
+            ignoreSilentSwitch="ignore"
+            onLoad={() => console.log('loaded')}
+            onProgress={() => console.log('loading')}
+          />
         </View>
       </Provider>
     </Fragment>
