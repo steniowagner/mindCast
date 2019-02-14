@@ -3,11 +3,16 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Creators as PlayerCreators } from '~/store/ducks/player';
+
 import PlayerControls from './components/PlayerControls';
 
 class Player extends Component<{}, {}> {
   componentDidMount() {
-    console.tron.log('');
+    const { setPodcast } = this.props;
+    setPodcast();
   }
 
   render() {
@@ -26,4 +31,9 @@ class Player extends Component<{}, {}> {
   }
 }
 
-export default Player;
+const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Player);

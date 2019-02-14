@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 type PlayerProps = {
+  currentPodcastURI: Object,
   paused: boolean,
 };
 
@@ -22,22 +23,26 @@ const SoundComponent = ({
   nextPodcast,
   player,
 }: Props): Object => {
-  const { paused } = player;
-
-  return (
+  const { currentPodcastURI, paused } = player;
+  console.tron.log(currentPodcastURI);
+  return currentPodcastURI ? (
     <Sound
-      source={require('./teste.mp3')}
+      source={{
+        uri: currentPodcastURI,
+      }}
+      onError={() => console.tron.log('errr')}
+      onBuffer={() => console.tron.log('onBuffer')}
       playInBackground
-      paused={paused}
+      paused={false}
       repeat={false}
       audioOnly
       rate={1.0}
       ignoreSilentSwitch="ignore"
-      onLoad={() => console.tron.log('loaded')}
+      onLoad={() => console.tron.log('onLoad')}
       onProgress={({ currentTime }) => setCurrentTime(currentTime)}
       onEnd={() => nextPodcast()}
     />
-  );
+  ) : null;
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);

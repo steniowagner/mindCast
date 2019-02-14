@@ -5,20 +5,39 @@ export const Types = {
   NEXT_PODCAST: 'player/NEXT_PODCAST',
   PREVIOUS_PODCAST: 'player/PREVIOUS_PODCAST',
   SET_PODCAST: 'player/SET_PODCAST',
+  SET_PODCAST_SUCCESS: 'player/SET_PODCAST_SUCCESS',
 };
 
+const podcasts = [
+  {
+    title: 'OH NANANA',
+    id: 1,
+    url: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
+  },
+  {
+    title: 'eu vou cair',
+    id: 2,
+    path: './cair.mp3',
+  },
+];
+
 const INITIAL_STATE = {
-  currentPodcast: null,
-  podcastInfo: null,
+  currentPodcastURI: null,
   currentTime: '00:00',
+  playlist: podcasts,
+  playlistIndex: 0,
   paused: true,
   error: false,
-  playlist: [],
 };
 
 export const Creators = {
   setPodcast: () => ({
-    type: Types.PLAY_PODCAST,
+    type: Types.SET_PODCAST,
+  }),
+
+  setPodcastSuccess: currentPodcastURI => ({
+    type: Types.SET_PODCAST_SUCCESS,
+    payload: { currentPodcastURI },
   }),
 
   setCurrentTime: currentTime => ({
@@ -46,18 +65,18 @@ export const Creators = {
 const parseCurrentPodcastTime = (rawTime) => {
   const currentTime = Math.ceil(rawTime);
 
-  const currentTimeInMinutes = currentTime / 60;
+  const currentTimeInMinutes = Math.floor(currentTime / 60);
   const currentTimeInSeconds = currentTime % 60;
 
   let minutes = '00';
   let seconds = '00';
 
   if (currentTimeInMinutes > 9) {
-    minutes = Math.floor(currentTimeInMinutes);
+    minutes = currentTimeInMinutes;
   }
 
   if (currentTimeInMinutes >= 1 && currentTimeInMinutes <= 9) {
-    minutes = `0${Math.floor(currentTimeInMinutes)}`;
+    minutes = `0${currentTimeInMinutes}`;
   }
 
   if (currentTimeInSeconds > 9 && currentTimeInSeconds <= 59) {
@@ -77,6 +96,17 @@ const parseCurrentPodcastTime = (rawTime) => {
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
+    case Types.SET_PODCAST:
+      return {
+        ...state,
+      };
+
+    case Types.SET_PODCAST_SUCCESS:
+      return {
+        ...state,
+        currentPodcastURI: payload.currentPodcastURI,
+      };
+
     case Types.PLAY_PODCAST:
       return {
         ...state,
@@ -93,6 +123,11 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         currentTime: parseCurrentPodcastTime(payload.currentTime),
+      };
+
+    case Types.PREVIOUS_PODCAST:
+      return {
+        ...state,
       };
 
     default:
