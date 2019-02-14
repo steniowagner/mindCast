@@ -30,6 +30,62 @@ const _isPodcastAlreadyCached = async (currentPodcast) => {
   return podcastCached;
 };
 
+export function* shufflePlaylist() {
+  try {
+    const {
+      shouldShufflePlaylist,
+      originalPlaylistIndex,
+      originalPlaylist,
+      currentPodcast,
+    } = yield select(state => state.player);
+
+    if (shouldShufflePlaylist) {
+      return yield put(
+        PlayerCreators.shufflePlaylistSuccess({
+          playlistIndex: originalPlaylistIndex,
+          playlist: originalPlaylist,
+          originalPlaylistIndex,
+          originalPlaylist,
+        }),
+      );
+    }
+
+    const currentPlaylist = originalPlaylist.filter(
+      podcast => podcast.id !== currentPodcast.id,
+    );
+
+    let currentIndex = currentPlaylist.length;
+    let temporaryValue;
+    let randomIndex;
+
+    while (currentIndex > 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = currentPlaylist[currentIndex];
+      currentPlaylist[currentIndex] = currentPlaylist[randomIndex];
+      currentPlaylist[randomIndex] = temporaryValue;
+    }
+
+    currentPlaylist.unshift(currentPodcast);
+
+    const currentPodcastIndexOnOriginalPlaylist = originalPlaylist.findIndex(
+      podcast => podcast.id === currentPodcast.id,
+    );
+
+    yield put(
+      PlayerCreators.shufflePlaylistSuccess({
+        originalPlaylistIndex: currentPodcastIndexOnOriginalPlaylist,
+        originalPlaylist,
+        playlist: currentPlaylist,
+        playlistIndex: 0,
+      }),
+    );
+  } catch (err) {
+    // console.tron.log(err);
+  }
+}
+
 export function* setPodcast() {
   try {
     const { playlistIndex, playlist } = yield select(state => state.player);
@@ -47,9 +103,9 @@ export function* setPodcast() {
           }.mp3`,
         },
       ]),
-    ); */
+    );
 
-    /* yield call(RNFS.downloadFile, {
+    yield call(RNFS.downloadFile, {
       fromUrl: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
       toFile: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
         currentPodcast.id

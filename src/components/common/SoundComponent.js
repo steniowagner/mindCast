@@ -24,16 +24,16 @@ const SoundComponent = ({
   player,
 }: Props): Object => {
   const { currentPodcastURI, paused } = player;
-  console.tron.log(currentPodcastURI);
+
   return currentPodcastURI ? (
     <Sound
       source={{
         uri: currentPodcastURI,
       }}
-      onError={() => console.tron.log('errr')}
+      onError={() => {}}
       onBuffer={() => console.tron.log('onBuffer')}
       playInBackground
-      paused={false}
+      paused={paused}
       repeat={false}
       audioOnly
       rate={1.0}

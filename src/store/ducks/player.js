@@ -1,4 +1,7 @@
 export const Types = {
+  SHUFFLE_PLAYLIST_SUCCESS: 'player/SHUFFLE_PLAYLIST_SUCCESS',
+  SHUFFLE_PLAYLIST: 'player/SHUFFLE_PLAYLIST',
+
   SET_CURRENT_TIME_PODCAST: 'player/SET_CURRENT_TIME_PODCAST',
   PLAY_PODCAST: 'player/PLAY_PODCAST',
   STOP_PODCAST: 'player/STOP_PODCAST',
@@ -10,20 +13,35 @@ export const Types = {
 
 const podcasts = [
   {
-    title: 'OH NANANA',
+    title: '01',
     id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
   },
   {
-    title: 'eu vou cair',
+    title: '02',
     id: 2,
+    path: './cair.mp3',
+  },
+  {
+    title: '03',
+    id: 3,
+    url: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
+  },
+  {
+    title: '04',
+    id: 4,
     path: './cair.mp3',
   },
 ];
 
 const INITIAL_STATE = {
-  currentPodcastURI: null,
+  shouldShufflePlaylist: false,
+  shouldRepeatPlaylist: false,
+  shouldRepeatCurrent: false,
+  currentPodcast: podcasts[1],
   currentTime: '00:00',
+  originalPlaylist: podcasts,
+  originalPlaylistIndex: 1,
   playlist: podcasts,
   playlistIndex: 0,
   paused: true,
@@ -31,6 +49,15 @@ const INITIAL_STATE = {
 };
 
 export const Creators = {
+  shufflePlaylist: () => ({
+    type: Types.SHUFFLE_PLAYLIST,
+  }),
+
+  shufflePlaylistSuccess: payload => ({
+    type: Types.SHUFFLE_PLAYLIST_SUCCESS,
+    payload,
+  }),
+
   setPodcast: () => ({
     type: Types.SET_PODCAST,
   }),
@@ -96,6 +123,18 @@ const parseCurrentPodcastTime = (rawTime) => {
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
+    case Types.SHUFFLE_PLAYLIST:
+      return {
+        ...state,
+      };
+
+    case Types.SHUFFLE_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        shouldShufflePlaylist: !state.shouldShufflePlaylist,
+      };
+
     case Types.SET_PODCAST:
       return {
         ...state,

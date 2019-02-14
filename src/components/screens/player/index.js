@@ -7,12 +7,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
-import PlayerControls from './components/PlayerControls';
+import BottomPlayerOptions from './components/BottomPlayerOptions';
+import PlaybackControls from './components/PlaybackControls';
 
 class Player extends Component<{}, {}> {
   componentDidMount() {
     const { setPodcast } = this.props;
-    setPodcast();
+    // setPodcast();
   }
 
   render() {
@@ -25,7 +26,8 @@ class Player extends Component<{}, {}> {
           alignItems: 'center',
         }}
       >
-        <PlayerControls />
+        <PlaybackControls />
+        <BottomPlayerOptions />
       </View>
     );
   }
