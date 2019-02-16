@@ -23,7 +23,7 @@ const SoundComponent = ({
   playNext,
   player,
 }: Props): Object => {
-  const { currentPodcast, paused } = player;
+  const { currentPodcast, shouldRepeatCurrent, paused } = player;
 
   const isPodcastDefined = !!currentPodcast
     && !!currentPodcast.uri
@@ -38,13 +38,17 @@ const SoundComponent = ({
       onBuffer={() => console.tron.log('onBuffer')}
       playInBackground
       paused={paused}
-      repeat={false}
+      repeat={shouldRepeatCurrent}
       audioOnly
       rate={1.0}
       ignoreSilentSwitch="ignore"
       onLoad={() => console.tron.log('onLoad')}
       onProgress={({ currentTime }) => setCurrentTime(currentTime)}
-      onEnd={() => playNext()}
+      onEnd={() => {
+        if (!shouldRepeatCurrent) {
+          playNext();
+        }
+      }}
     />
   ) : null;
 };

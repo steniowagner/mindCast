@@ -19,8 +19,8 @@ type Props = {
 };
 
 const BottomPlayerOptions = (x): Object => {
-  const { shouldShufflePlaylist } = x.player;
-  const { shufflePlaylist } = x;
+  const { shouldShufflePlaylist, shouldRepeatCurrent } = x.player;
+  const { shufflePlaylist, setRepeatCurrent } = x;
 
   return (
     <View
@@ -47,9 +47,15 @@ const BottomPlayerOptions = (x): Object => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => setRepeatCurrent()}
       >
-        <Text>REP</Text>
+        <Text
+          style={{
+            color: shouldRepeatCurrent ? 'white' : 'black',
+          }}
+        >
+          REP
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity

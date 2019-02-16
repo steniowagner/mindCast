@@ -5,6 +5,8 @@ export const Types = {
   PLAY_NEXT_REQUEST_SUCCESS: 'player/PLAY_NEXT_REQUEST_SUCCESS',
   PLAY_NEXT_REQUEST: 'player/PLAY_NEXT_REQUEST',
 
+  SET_REPEAT_CURRENT: 'player/SET_REPEAT_CURRENT',
+
   RESTART_PLAYER: 'player/RESTART_PLAYER',
 
   SET_CURRENT_TIME_PODCAST: 'player/SET_CURRENT_TIME_PODCAST',
@@ -39,7 +41,7 @@ const podcasts = [
 const INITIAL_STATE = {
   shouldShufflePlaylist: false,
   shouldRepeatPlaylist: true,
-  shouldRepeatSingle: false,
+  shouldRepeatCurrent: false,
   currentPodcast: podcasts[0],
   currentTime: '00:00',
   originalPlaylist: podcasts,
@@ -98,6 +100,10 @@ export const Creators = {
     type: Types.RESTART_PLAYER,
     payload: { originalPlaylistIndex, currentPodcast },
   }),
+
+  setRepeatCurrent: () => ({
+    type: Types.SET_REPEAT_CURRENT,
+  }),
 };
 
 const parseCurrentPodcastTime = (rawTime) => {
@@ -131,8 +137,6 @@ const parseCurrentPodcastTime = (rawTime) => {
 
   return `${minutes}:${seconds}`;
 };
-
-// PQ TÁ DESLIGANDO O ALEATÓRIO DEPOIS DE REORIDUZIR A PLAYLIST?
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
@@ -194,6 +198,12 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.PREVIOUS_PODCAST:
       return {
         ...state,
+      };
+
+    case Types.SET_REPEAT_CURRENT:
+      return {
+        ...state,
+        shouldRepeatCurrent: !state.shouldRepeatCurrent,
       };
 
     case Types.RESTART_PLAYER:
