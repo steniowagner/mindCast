@@ -15,7 +15,7 @@ type PlaybackProps = {
 type Props = {
   previousPodcast: Function,
   pausePodcast: Function,
-  nextPodcast: Function,
+  playNext: Function,
   playPodcast: Function,
   player: PlaybackProps,
 };
@@ -43,7 +43,7 @@ const getMainButtonConfig = (
 const PlaybackControls = ({
   previousPodcast,
   pausePodcast,
-  nextPodcast,
+  playNext,
   playPodcast,
   player,
 }: Props): Object => {
@@ -100,7 +100,7 @@ const PlaybackControls = ({
           <Text>{text}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => nextPodcast()}
+          onPress={() => playNext()}
         >
           <Text>NEXT</Text>
         </TouchableOpacity>

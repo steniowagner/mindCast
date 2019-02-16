@@ -8,27 +8,31 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 type PlayerProps = {
-  currentPodcastURI: Object,
+  currentPodcast: Object,
   paused: boolean,
 };
 
 type Props = {
   setCurrentTime: Function,
-  nextPodcast: Function,
+  playNext: Function,
   player: PlayerProps,
 };
 
 const SoundComponent = ({
   setCurrentTime,
-  nextPodcast,
+  playNext,
   player,
 }: Props): Object => {
-  const { currentPodcastURI, paused } = player;
+  const { currentPodcast, paused } = player;
 
-  return currentPodcastURI ? (
+  const isPodcastDefined = !!currentPodcast
+    && !!currentPodcast.uri
+    && typeof currentPodcast.uri === 'string';
+
+  return isPodcastDefined ? (
     <Sound
       source={{
-        uri: currentPodcastURI,
+        uri: currentPodcast.uri,
       }}
       onError={() => {}}
       onBuffer={() => console.tron.log('onBuffer')}
@@ -40,7 +44,7 @@ const SoundComponent = ({
       ignoreSilentSwitch="ignore"
       onLoad={() => console.tron.log('onLoad')}
       onProgress={({ currentTime }) => setCurrentTime(currentTime)}
-      onEnd={() => nextPodcast()}
+      onEnd={() => playNext()}
     />
   ) : null;
 };

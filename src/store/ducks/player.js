@@ -1,11 +1,15 @@
 export const Types = {
+  SHUFFLE_PLAYLIST_REQUEST: 'player/SHUFFLE_PLAYLIST_REQUEST',
   SHUFFLE_PLAYLIST_SUCCESS: 'player/SHUFFLE_PLAYLIST_SUCCESS',
-  SHUFFLE_PLAYLIST: 'player/SHUFFLE_PLAYLIST',
+
+  PLAY_NEXT_REQUEST_SUCCESS: 'player/PLAY_NEXT_REQUEST_SUCCESS',
+  PLAY_NEXT_REQUEST: 'player/PLAY_NEXT_REQUEST',
+
+  RESTART_PLAYER: 'player/RESTART_PLAYER',
 
   SET_CURRENT_TIME_PODCAST: 'player/SET_CURRENT_TIME_PODCAST',
   PLAY_PODCAST: 'player/PLAY_PODCAST',
   STOP_PODCAST: 'player/STOP_PODCAST',
-  NEXT_PODCAST: 'player/NEXT_PODCAST',
   PREVIOUS_PODCAST: 'player/PREVIOUS_PODCAST',
   SET_PODCAST: 'player/SET_PODCAST',
   SET_PODCAST_SUCCESS: 'player/SET_PODCAST_SUCCESS',
@@ -13,44 +17,41 @@ export const Types = {
 
 const podcasts = [
   {
-    title: '01',
+    title: 'Borracha',
+    author: '1',
     id: 1,
-    url: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/borracha.mp3',
   },
   {
-    title: '02',
+    title: 'Eu vou Cair',
+    author: '2',
     id: 2,
-    path: './cair.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/eu_vou_cair.mp3',
   },
   {
-    title: '03',
+    title: 'Eu vou Cair Caralho',
+    author: '3',
     id: 3,
-    url: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
-  },
-  {
-    title: '04',
-    id: 4,
-    path: './cair.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/eu_vou_cair_caralho.mp3',
   },
 ];
 
 const INITIAL_STATE = {
   shouldShufflePlaylist: false,
-  shouldRepeatPlaylist: false,
-  shouldRepeatCurrent: false,
-  currentPodcast: podcasts[1],
+  shouldRepeatPlaylist: true,
+  shouldRepeatSingle: false,
+  currentPodcast: podcasts[0],
   currentTime: '00:00',
   originalPlaylist: podcasts,
-  originalPlaylistIndex: 1,
+  originalPlaylistIndex: 0,
   playlist: podcasts,
   playlistIndex: 0,
-  paused: true,
-  error: false,
+  paused: false,
 };
 
 export const Creators = {
   shufflePlaylist: () => ({
-    type: Types.SHUFFLE_PLAYLIST,
+    type: Types.SHUFFLE_PLAYLIST_REQUEST,
   }),
 
   shufflePlaylistSuccess: payload => ({
@@ -62,9 +63,9 @@ export const Creators = {
     type: Types.SET_PODCAST,
   }),
 
-  setPodcastSuccess: currentPodcastURI => ({
+  setPodcastSuccess: currentPodcast => ({
     type: Types.SET_PODCAST_SUCCESS,
-    payload: { currentPodcastURI },
+    payload: { currentPodcast },
   }),
 
   setCurrentTime: currentTime => ({
@@ -80,12 +81,22 @@ export const Creators = {
     type: Types.STOP_PODCAST,
   }),
 
-  nextPodcast: () => ({
-    type: Types.NEXT_PODCAST,
+  playNext: () => ({
+    type: Types.PLAY_NEXT_REQUEST,
+  }),
+
+  playNextSuccess: payload => ({
+    type: Types.PLAY_NEXT_REQUEST_SUCCESS,
+    payload,
   }),
 
   previousPodcast: () => ({
     type: Types.PREVIOUS_PODCAST,
+  }),
+
+  restartPlayer: (originalPlaylistIndex, currentPodcast) => ({
+    type: Types.RESTART_PLAYER,
+    payload: { originalPlaylistIndex, currentPodcast },
   }),
 };
 
@@ -121,9 +132,11 @@ const parseCurrentPodcastTime = (rawTime) => {
   return `${minutes}:${seconds}`;
 };
 
+// PQ TÁ DESLIGANDO O ALEATÓRIO DEPOIS DE REORIDUZIR A PLAYLIST?
+
 const player = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case Types.SHUFFLE_PLAYLIST:
+    case Types.SHUFFLE_PLAYLIST_REQUEST:
       return {
         ...state,
       };
@@ -143,7 +156,8 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.SET_PODCAST_SUCCESS:
       return {
         ...state,
-        currentPodcastURI: payload.currentPodcastURI,
+        currentPodcast: payload.currentPodcast,
+        paused: false,
       };
 
     case Types.PLAY_PODCAST:
@@ -164,9 +178,31 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         currentTime: parseCurrentPodcastTime(payload.currentTime),
       };
 
+    case Types.PLAY_NEXT_REQUEST:
+      return {
+        ...state,
+      };
+
+    case Types.PLAY_NEXT_REQUEST_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        currentTime: '00:00',
+        paused: true,
+      };
+
     case Types.PREVIOUS_PODCAST:
       return {
         ...state,
+      };
+
+    case Types.RESTART_PLAYER:
+      return {
+        ...state,
+        originalPlaylistIndex: payload.originalPlaylistIndex,
+        currentPodcast: payload.currentPodcast,
+        currentTime: '00:00',
+        paused: true,
       };
 
     default:

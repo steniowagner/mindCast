@@ -1,20 +1,36 @@
 import { call, select, put } from 'redux-saga/effects';
-import { Platform } from 'react-native';
-import RNFS from 'react-native-fs';
 
-import {
-  persistItemInStorage,
-  getItemFromStorage,
-  KEYS,
-} from '~/utils/AsyncStorageManager';
-import {
+import { getItemFromStorage, KEYS } from '~/utils/AsyncStorageManager';
+import { Creators as PlayerCreators } from '../ducks/player';
+
+/*
+  import {
   requestPermission,
   PERMISSIONS_TYPES,
 } from '~/utils/AndroidPermissionsManager';
+  const FILE_PREFIX = Platform.OS === 'android' ? 'file://' : '';
+  // yield requestPermission(PERMISSIONS_TYPES.READ_EXTERNAL_STORAGE);
 
-import { Creators as PlayerCreators } from '../ducks/player';
+  yield persistItemInStorage(
+    KEYS.PODCAST,
+    JSON.stringify([
+      {
+        ...currentPodcast,
+        path: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
+          currentPodcast.id
+        }.mp3`,
+      },
+    ]),
+  );
 
-const FILE_PREFIX = Platform.OS === 'android' ? 'file://' : '';
+  yield call(RNFS.downloadFile, {
+    fromUrl: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
+    toFile: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
+      currentPodcast.id
+    }.mp3`,
+    discretionary: true,
+  });
+*/
 
 const _isPodcastAlreadyCached = async (currentPodcast) => {
   const rawPodcastsSaved = await getItemFromStorage(KEYS.PODCAST, []);
@@ -28,6 +44,23 @@ const _isPodcastAlreadyCached = async (currentPodcast) => {
   )[0];
 
   return podcastCached;
+};
+
+const _definePodcastURI = async (currentPodcast) => {
+  const podcastCached = await _isPodcastAlreadyCached(currentPodcast);
+
+  const isPodcastAlreadyCached = !!podcastCached
+    && !!podcastCached.path
+    && typeof podcastCached.path === 'string';
+
+  const uri = isPodcastAlreadyCached ? podcastCached.path : currentPodcast.url;
+
+  const podcastWithURI = {
+    ...currentPodcast,
+    uri,
+  };
+
+  return podcastWithURI;
 };
 
 export function* shufflePlaylist() {
@@ -44,17 +77,15 @@ export function* shufflePlaylist() {
         PlayerCreators.shufflePlaylistSuccess({
           playlistIndex: originalPlaylistIndex,
           playlist: originalPlaylist,
-          originalPlaylistIndex,
-          originalPlaylist,
         }),
       );
     }
 
-    const currentPlaylist = originalPlaylist.filter(
+    const shuffledPlaylist = originalPlaylist.filter(
       podcast => podcast.id !== currentPodcast.id,
     );
 
-    let currentIndex = currentPlaylist.length;
+    let currentIndex = shuffledPlaylist.length;
     let temporaryValue;
     let randomIndex;
 
@@ -62,12 +93,12 @@ export function* shufflePlaylist() {
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
 
-      temporaryValue = currentPlaylist[currentIndex];
-      currentPlaylist[currentIndex] = currentPlaylist[randomIndex];
-      currentPlaylist[randomIndex] = temporaryValue;
+      temporaryValue = shuffledPlaylist[currentIndex];
+      shuffledPlaylist[currentIndex] = shuffledPlaylist[randomIndex];
+      shuffledPlaylist[randomIndex] = temporaryValue;
     }
 
-    currentPlaylist.unshift(currentPodcast);
+    shuffledPlaylist.unshift(currentPodcast);
 
     const currentPodcastIndexOnOriginalPlaylist = originalPlaylist.findIndex(
       podcast => podcast.id === currentPodcast.id,
@@ -76,8 +107,7 @@ export function* shufflePlaylist() {
     yield put(
       PlayerCreators.shufflePlaylistSuccess({
         originalPlaylistIndex: currentPodcastIndexOnOriginalPlaylist,
-        originalPlaylist,
-        playlist: currentPlaylist,
+        playlist: shuffledPlaylist,
         playlistIndex: 0,
       }),
     );
@@ -91,38 +121,87 @@ export function* setPodcast() {
     const { playlistIndex, playlist } = yield select(state => state.player);
     const currentPodcast = playlist[playlistIndex];
 
-    yield requestPermission(PERMISSIONS_TYPES.READ_EXTERNAL_STORAGE);
+    const podcastWithURI = yield _definePodcastURI(currentPodcast);
 
-    /* yield persistItemInStorage(
-      KEYS.PODCAST,
-      JSON.stringify([
-        {
-          ...currentPodcast,
-          path: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
-            currentPodcast.id
-          }.mp3`,
-        },
-      ]),
-    );
-
-    yield call(RNFS.downloadFile, {
-      fromUrl: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
-      toFile: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
-        currentPodcast.id
-      }.mp3`,
-      discretionary: true,
-    }); */
-
-    const podcastCached = yield _isPodcastAlreadyCached(currentPodcast);
-
-    const isPodcastAlreadyCached = !!podcastCached
-      && !!podcastCached.path
-      && typeof podcastCached.path === 'string';
-
-    const podcastURI = isPodcastAlreadyCached
-      ? podcastCached.path
-      : currentPodcast.url;
-
-    yield put(PlayerCreators.setPodcastSuccess(podcastURI));
+    yield put(PlayerCreators.setPodcastSuccess(podcastWithURI));
   } catch (err) {}
+}
+
+function* _defineNextPodcastWhenShouldRepeatPlaylist(
+  nextPodcast,
+  playlistIndex,
+) {
+  const {
+    shouldShufflePlaylist,
+    originalPlaylistIndex,
+    originalPlaylist,
+  } = yield select(state => state.player);
+
+  let originalPlaylistCurrentIndex = originalPlaylistIndex;
+
+  if (shouldShufflePlaylist) {
+    originalPlaylistCurrentIndex = originalPlaylist.findIndex(
+      podcast => podcast.id === nextPodcast.id,
+    );
+  }
+
+  yield put(
+    PlayerCreators.playNextSuccess({
+      originalPlaylistIndex: originalPlaylistCurrentIndex,
+      currentPodcast: nextPodcast,
+      playlistIndex,
+    }),
+  );
+
+  yield call(setPodcast);
+}
+
+export function* playNext() {
+  try {
+    const {
+      shouldRepeatPlaylist,
+      originalPlaylist,
+      playlistIndex,
+      playlist,
+    } = yield select(state => state.player);
+
+    const isLastPodcastOfPlaylist = playlistIndex === playlist.length - 1;
+    const isLastPodcastShouldRepeatPlaylist = isLastPodcastOfPlaylist && shouldRepeatPlaylist;
+    const isLastPodcastNotRepeatPlaylist = isLastPodcastOfPlaylist && !shouldRepeatPlaylist;
+
+    if (isLastPodcastShouldRepeatPlaylist) {
+      yield _defineNextPodcastWhenShouldRepeatPlaylist(playlist[0], 0);
+    }
+
+    if (!isLastPodcastOfPlaylist) {
+      yield _defineNextPodcastWhenShouldRepeatPlaylist(
+        playlist[playlistIndex + 1],
+        playlistIndex + 1,
+      );
+    }
+
+    if (isLastPodcastNotRepeatPlaylist) {
+      let firstPodcastPlaylist = playlist[0];
+
+      const hasURIDefined = !!firstPodcastPlaylist.uri
+        && typeof firstPodcastPlaylist.uri === 'string';
+
+      if (!hasURIDefined) {
+        firstPodcastPlaylist = yield _definePodcastURI(firstPodcastPlaylist);
+      }
+
+      const originalPlaylistIndex = originalPlaylist.findIndex(
+        podcast => podcast.id === firstPodcastPlaylist.id,
+      );
+
+      yield put(
+        PlayerCreators.restartPlayer(
+          originalPlaylistIndex,
+          firstPodcastPlaylist,
+        ),
+      );
+    }
+  } catch (err) {
+    console.tron.log('err');
+  }
 }

@@ -9,11 +9,13 @@ import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 import BottomPlayerOptions from './components/BottomPlayerOptions';
 import PlaybackControls from './components/PlaybackControls';
+import CurrentPodcast from './components/CurrentPodcast';
 
 class Player extends Component<{}, {}> {
   componentDidMount() {
     const { setPodcast } = this.props;
-    // setPodcast();
+
+    setPodcast();
   }
 
   render() {
@@ -27,6 +29,7 @@ class Player extends Component<{}, {}> {
         }}
       >
         <PlaybackControls />
+        <CurrentPodcast />
         <BottomPlayerOptions />
       </View>
     );
