@@ -5,6 +5,9 @@ export const Types = {
   PLAY_NEXT_REQUEST_SUCCESS: 'player/PLAY_NEXT_REQUEST_SUCCESS',
   PLAY_NEXT_REQUEST: 'player/PLAY_NEXT_REQUEST',
 
+  PLAY_PREVIOUS_REQUEST_SUCCESS: 'player/PLAY_PREVIOUS_REQUEST_SUCCESS',
+  PLAY_PREVIOUS_REQUEST: 'player/PLAY_PREVIOUS_REQUEST',
+
   SET_REPEAT_CURRENT: 'player/SET_REPEAT_CURRENT',
 
   RESTART_PLAYER: 'player/RESTART_PLAYER',
@@ -48,7 +51,7 @@ const INITIAL_STATE = {
   originalPlaylistIndex: 0,
   playlist: podcasts,
   playlistIndex: 0,
-  paused: false,
+  paused: true,
 };
 
 export const Creators = {
@@ -92,8 +95,13 @@ export const Creators = {
     payload,
   }),
 
-  previousPodcast: () => ({
-    type: Types.PREVIOUS_PODCAST,
+  playPrevious: () => ({
+    type: Types.PLAY_PREVIOUS_REQUEST,
+  }),
+
+  playPreviousSuccess: payload => ({
+    type: Types.PLAY_PREVIOUS_REQUEST_SUCCESS,
+    payload,
   }),
 
   restartPlayer: (originalPlaylistIndex, currentPodcast) => ({
@@ -161,6 +169,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         currentPodcast: payload.currentPodcast,
+        currentTime: '00:00',
         paused: false,
       };
 
@@ -185,19 +194,32 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.PLAY_NEXT_REQUEST:
       return {
         ...state,
+        currentTime: '00:00',
       };
 
     case Types.PLAY_NEXT_REQUEST_SUCCESS:
       return {
         ...state,
         ...payload,
-        currentTime: '00:00',
+        shouldRepeatCurrent: false,
         paused: true,
       };
 
-    case Types.PREVIOUS_PODCAST:
+    case Types.PLAY_PREVIOUS_REQUEST:
       return {
         ...state,
+        paused: true,
+      };
+
+    case Types.PLAY_PREVIOUS_REQUEST_SUCCESS:
+      return {
+        ...state,
+        ...payload,
+        currentTime: '00:00',
+        currentPodcast: {
+          ...state.currentPodcast,
+          uri: null,
+        },
       };
 
     case Types.SET_REPEAT_CURRENT:
@@ -211,7 +233,8 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         originalPlaylistIndex: payload.originalPlaylistIndex,
         currentPodcast: payload.currentPodcast,
-        currentTime: '00:00',
+        shouldRepeatCurrent: false,
+        playlistIndex: 0,
         paused: true,
       };
 

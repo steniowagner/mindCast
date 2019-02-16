@@ -32,6 +32,17 @@ import { Creators as PlayerCreators } from '../ducks/player';
   });
 */
 
+const _findIndexInsideOriginalPlaylist = (
+  originalPlaylist,
+  podcastSearched,
+) => {
+  const index = originalPlaylist.findIndex(
+    podcast => podcast.id === podcastSearched.id,
+  );
+
+  return index;
+};
+
 const _isPodcastAlreadyCached = async (currentPodcast) => {
   const rawPodcastsSaved = await getItemFromStorage(KEYS.PODCAST, []);
 
@@ -100,8 +111,9 @@ export function* shufflePlaylist() {
 
     shuffledPlaylist.unshift(currentPodcast);
 
-    const currentPodcastIndexOnOriginalPlaylist = originalPlaylist.findIndex(
-      podcast => podcast.id === currentPodcast.id,
+    const currentPodcastIndexOnOriginalPlaylist = _findIndexInsideOriginalPlaylist(
+      originalPlaylist,
+      currentPodcast,
     );
 
     yield put(
@@ -112,7 +124,7 @@ export function* shufflePlaylist() {
       }),
     );
   } catch (err) {
-    // console.tron.log(err);
+    console.tron.log(err);
   }
 }
 
@@ -124,7 +136,9 @@ export function* setPodcast() {
     const podcastWithURI = yield _definePodcastURI(currentPodcast);
 
     yield put(PlayerCreators.setPodcastSuccess(podcastWithURI));
-  } catch (err) {}
+  } catch (err) {
+    console.tron.log(err);
+  }
 }
 
 function* _defineNextPodcastWhenShouldRepeatPlaylist(
@@ -140,8 +154,9 @@ function* _defineNextPodcastWhenShouldRepeatPlaylist(
   let originalPlaylistCurrentIndex = originalPlaylistIndex;
 
   if (shouldShufflePlaylist) {
-    originalPlaylistCurrentIndex = originalPlaylist.findIndex(
-      podcast => podcast.id === nextPodcast.id,
+    originalPlaylistCurrentIndex = _findIndexInsideOriginalPlaylist(
+      originalPlaylist,
+      nextPodcast,
     );
   }
 
@@ -190,8 +205,9 @@ export function* playNext() {
         firstPodcastPlaylist = yield _definePodcastURI(firstPodcastPlaylist);
       }
 
-      const originalPlaylistIndex = originalPlaylist.findIndex(
-        podcast => podcast.id === firstPodcastPlaylist.id,
+      const originalPlaylistIndex = _findIndexInsideOriginalPlaylist(
+        originalPlaylist,
+        firstPodcastPlaylist,
       );
 
       yield put(
@@ -202,6 +218,86 @@ export function* playNext() {
       );
     }
   } catch (err) {
-    console.tron.log('err');
+    console.tron.log(err);
+  }
+}
+
+function* _getSecondsPassedSincePodcastStarted() {
+  const { currentTime } = yield select(state => state.player);
+
+  const rawMinutes = currentTime.split(':')[0];
+  const rawSeconds = currentTime.split(':')[1];
+
+  const minutes = parseInt(rawMinutes, 10);
+  const seconds = parseInt(rawSeconds, 10);
+
+  return minutes * 60 + seconds;
+}
+
+function* _rewindToPreviousPodcast(newPlaylistIndex) {
+  try {
+    const {
+      shouldShufflePlaylist,
+      originalPlaylistIndex,
+      originalPlaylist,
+      playlist,
+    } = yield select(state => state.player);
+
+    let newOriginalPlaylistIndex = originalPlaylistIndex;
+
+    const previousPodcast = playlist[newPlaylistIndex];
+
+    if (shouldShufflePlaylist) {
+      newOriginalPlaylistIndex = _findIndexInsideOriginalPlaylist(
+        originalPlaylist,
+        previousPodcast,
+      );
+    }
+
+    yield put(
+      PlayerCreators.playPreviousSuccess({
+        originalPlaylistIndex: newOriginalPlaylistIndex,
+        playlistIndex: newPlaylistIndex,
+        shouldRepeatCurrent: false,
+      }),
+    );
+  } catch (err) {
+    console.tron.log(err);
+  }
+}
+
+export function* playPrevious() {
+  try {
+    const secondsPassedSincePodcastStarted = yield _getSecondsPassedSincePodcastStarted();
+
+    if (secondsPassedSincePodcastStarted <= 3) {
+      const { shouldRepeatPlaylist, playlistIndex, playlist } = yield select(
+        state => state.player,
+      );
+
+      if (playlistIndex === 0 && shouldRepeatPlaylist) {
+        yield _rewindToPreviousPodcast(playlist.length - 1);
+      }
+
+      if (playlistIndex === 0 && !shouldRepeatPlaylist) {
+        yield put(
+          PlayerCreators.playPreviousSuccess({
+            shouldRepeatCurrent: false,
+          }),
+        );
+      }
+
+      if (playlistIndex !== 0) {
+        yield _rewindToPreviousPodcast(playlistIndex - 1);
+      }
+    }
+
+    if (secondsPassedSincePodcastStarted > 3) {
+      yield put(PlayerCreators.playPreviousSuccess({}));
+    }
+
+    yield call(setPodcast);
+  } catch (err) {
+    console.tron.log(err);
   }
 }
