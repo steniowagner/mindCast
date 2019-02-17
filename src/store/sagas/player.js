@@ -3,35 +3,6 @@ import { call, select, put } from 'redux-saga/effects';
 import { getItemFromStorage, KEYS } from '~/utils/AsyncStorageManager';
 import { Creators as PlayerCreators } from '../ducks/player';
 
-/*
-  import {
-  requestPermission,
-  PERMISSIONS_TYPES,
-} from '~/utils/AndroidPermissionsManager';
-  const FILE_PREFIX = Platform.OS === 'android' ? 'file://' : '';
-  // yield requestPermission(PERMISSIONS_TYPES.READ_EXTERNAL_STORAGE);
-
-  yield persistItemInStorage(
-    KEYS.PODCAST,
-    JSON.stringify([
-      {
-        ...currentPodcast,
-        path: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
-          currentPodcast.id
-        }.mp3`,
-      },
-    ]),
-  );
-
-  yield call(RNFS.downloadFile, {
-    fromUrl: 'https://s3-sa-east-1.amazonaws.com/gonative/1.mp3',
-    toFile: `${FILE_PREFIX}${RNFS.ExternalDirectoryPath}/${
-      currentPodcast.id
-    }.mp3`,
-    discretionary: true,
-  });
-*/
-
 const _findIndexInsideOriginalPlaylist = (
   originalPlaylist,
   podcastSearched,
@@ -73,6 +44,50 @@ const _definePodcastURI = async (currentPodcast) => {
 
   return podcastWithURI;
 };
+
+function* _getSecondsPassedSincePodcastStarted() {
+  const { currentTime } = yield select(state => state.player);
+
+  const rawMinutes = currentTime.split(':')[0];
+  const rawSeconds = currentTime.split(':')[1];
+
+  const minutes = parseInt(rawMinutes, 10);
+  const seconds = parseInt(rawSeconds, 10);
+
+  return minutes * 60 + seconds;
+}
+
+function* _rewindToPreviousPodcast(newPlaylistIndex) {
+  try {
+    const {
+      shouldShufflePlaylist,
+      originalPlaylistIndex,
+      originalPlaylist,
+      playlist,
+    } = yield select(state => state.player);
+
+    let newOriginalPlaylistIndex = originalPlaylistIndex;
+
+    const previousPodcast = playlist[newPlaylistIndex];
+
+    if (shouldShufflePlaylist) {
+      newOriginalPlaylistIndex = _findIndexInsideOriginalPlaylist(
+        originalPlaylist,
+        previousPodcast,
+      );
+    }
+
+    yield put(
+      PlayerCreators.playPreviousSuccess({
+        originalPlaylistIndex: newOriginalPlaylistIndex,
+        playlistIndex: newPlaylistIndex,
+        shouldRepeatCurrent: false,
+      }),
+    );
+  } catch (err) {
+    console.tron.log(err);
+  }
+}
 
 export function* shufflePlaylist() {
   try {
@@ -217,50 +232,6 @@ export function* playNext() {
         ),
       );
     }
-  } catch (err) {
-    console.tron.log(err);
-  }
-}
-
-function* _getSecondsPassedSincePodcastStarted() {
-  const { currentTime } = yield select(state => state.player);
-
-  const rawMinutes = currentTime.split(':')[0];
-  const rawSeconds = currentTime.split(':')[1];
-
-  const minutes = parseInt(rawMinutes, 10);
-  const seconds = parseInt(rawSeconds, 10);
-
-  return minutes * 60 + seconds;
-}
-
-function* _rewindToPreviousPodcast(newPlaylistIndex) {
-  try {
-    const {
-      shouldShufflePlaylist,
-      originalPlaylistIndex,
-      originalPlaylist,
-      playlist,
-    } = yield select(state => state.player);
-
-    let newOriginalPlaylistIndex = originalPlaylistIndex;
-
-    const previousPodcast = playlist[newPlaylistIndex];
-
-    if (shouldShufflePlaylist) {
-      newOriginalPlaylistIndex = _findIndexInsideOriginalPlaylist(
-        originalPlaylist,
-        previousPodcast,
-      );
-    }
-
-    yield put(
-      PlayerCreators.playPreviousSuccess({
-        originalPlaylistIndex: newOriginalPlaylistIndex,
-        playlistIndex: newPlaylistIndex,
-        shouldRepeatCurrent: false,
-      }),
-    );
   } catch (err) {
     console.tron.log(err);
   }

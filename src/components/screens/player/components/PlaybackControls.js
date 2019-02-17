@@ -14,26 +14,26 @@ type PlaybackProps = {
 
 type Props = {
   playPrevious: Function,
-  pausePodcast: Function,
-  playPodcast: Function,
   player: PlaybackProps,
   playNext: Function,
+  pause: Function,
+  play: Function,
 };
 
 const getMainButtonConfig = (
-  playPodcast: Function,
-  pausePodcast: Function,
+  play: Function,
+  pause: Function,
   paused: boolean,
 ): Object => {
   const mainButtonConfig = {
     paused: {
       text: 'PLAYING',
-      action: pausePodcast,
+      action: pause,
     },
 
     playing: {
       text: 'PAUSED',
-      action: playPodcast,
+      action: play,
     },
   };
 
@@ -42,17 +42,13 @@ const getMainButtonConfig = (
 
 const PlaybackControls = ({
   playPrevious,
-  pausePodcast,
+  pause,
   playNext,
-  playPodcast,
+  play,
   player,
 }: Props): Object => {
   const { paused, currentTime } = player;
-  const { text, action } = getMainButtonConfig(
-    playPodcast,
-    pausePodcast,
-    paused,
-  );
+  const { text, action } = getMainButtonConfig(play, pause, paused);
 
   return (
     <View

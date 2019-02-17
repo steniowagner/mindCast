@@ -8,13 +8,14 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 type PlayerProps = {
+  shouldSeekProgressSlider: boolean,
   currentTimeInSeconds: number,
   currentPodcast: Object,
   currentTime: string,
 };
 
 type Props = {
-  seekProgressTimerRequest: Function,
+  seekProgressTimer: Function,
   player: PlayerProps,
 };
 
@@ -52,10 +53,10 @@ class ProgressSlider extends Component<Props, State> {
     });
   }
 
-  onSlidingComplete = (value: number): void => {
-    const { seekProgressTimerRequest } = this.props;
+  onSlidingComplete = (slideValue: number): void => {
+    const { seekProgressTimer } = this.props;
 
-    this.setState({ isSliding: false }, () => seekProgressTimerRequest(value));
+    this.setState({ isSliding: false, slideValue }, () => seekProgressTimer(slideValue));
   };
 
   onValueChange = (slideValue: number): void => {
