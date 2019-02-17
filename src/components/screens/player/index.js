@@ -10,6 +10,7 @@ import { Creators as PlayerCreators } from '~/store/ducks/player';
 import BottomPlayerOptions from './components/BottomPlayerOptions';
 import PlaybackControls from './components/PlaybackControls';
 import CurrentPodcast from './components/CurrentPodcast';
+import ProgressSlider from './components/ProgressSlider';
 
 class Player extends Component<{}, {}> {
   componentDidMount() {
@@ -29,6 +30,7 @@ class Player extends Component<{}, {}> {
         }}
       >
         <PlaybackControls />
+        <ProgressSlider />
         <CurrentPodcast />
         <BottomPlayerOptions />
       </View>

@@ -8,6 +8,9 @@ export const Types = {
   PLAY_PREVIOUS_REQUEST_SUCCESS: 'player/PLAY_PREVIOUS_REQUEST_SUCCESS',
   PLAY_PREVIOUS_REQUEST: 'player/PLAY_PREVIOUS_REQUEST',
 
+  SEEK_PROGRESS_TIMER_REQUEST: 'player/SEEK_PROGRESS_TIMER_REQUEST',
+  SEEK_PROGRESS_TIMER: 'player/SEEK_PROGRESS_TIMER',
+
   SET_REPEAT_CURRENT: 'player/SET_REPEAT_CURRENT',
 
   RESTART_PLAYER: 'player/RESTART_PLAYER',
@@ -22,35 +25,51 @@ export const Types = {
 
 const podcasts = [
   {
-    title: 'Borracha',
-    author: '1',
+    title: 'Valerie',
+    author: 'Tomorrows Bad Seeds',
     id: 1,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/borracha.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    duration: '04:11',
+    totalDurationInSeconds: 251,
   },
   {
-    title: 'Eu vou Cair',
-    author: '2',
+    title: 'Till I Die (Ragnar Lothbrok)',
+    author: 'Tech N9ne, 2Pac & Eminem',
     id: 2,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/eu_vou_cair.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
+    duration: '04:00',
+    totalDurationInSeconds: 240,
   },
   {
-    title: 'Eu vou Cair Caralho',
-    author: '3',
+    title: 'This Girl',
+    author: 'Kungs vs Cookin’ on 3 Burners',
     id: 3,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/eu_vou_cair_caralho.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
+    duration: '03:17',
+    totalDurationInSeconds: 197,
+  },
+  {
+    title: 'Summit',
+    author: 'Skrillex feat. Ellie Goulding',
+    id: 4,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
+    duration: '06:10',
+    totalDurationInSeconds: 370,
   },
 ];
 
 const INITIAL_STATE = {
+  shouldSeekProgressSlider: false,
   shouldShufflePlaylist: false,
   shouldRepeatPlaylist: true,
   shouldRepeatCurrent: false,
   currentPodcast: podcasts[0],
-  currentTime: '00:00',
   originalPlaylist: podcasts,
   originalPlaylistIndex: 0,
+  currentTime: '00:00',
   playlist: podcasts,
   playlistIndex: 0,
+  seekValue: -1,
   paused: true,
 };
 
@@ -111,6 +130,16 @@ export const Creators = {
 
   setRepeatCurrent: () => ({
     type: Types.SET_REPEAT_CURRENT,
+  }),
+
+  seekProgressTimerRequest: seekValue => ({
+    type: Types.SEEK_PROGRESS_TIMER_REQUEST,
+    payload: { seekValue },
+  }),
+
+  seekProgressTimerSuccess: seekValue => ({
+    type: Types.SEEK_PROGRESS_TIMER,
+    payload: { seekValue },
   }),
 };
 
@@ -236,6 +265,20 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         shouldRepeatCurrent: false,
         playlistIndex: 0,
         paused: true,
+      };
+
+    case Types.SEEK_PROGRESS_TIMER_REQUEST:
+      return {
+        ...state,
+        shouldSeekProgressSlider: true,
+        seekValue: payload.seekValue,
+      };
+
+    case Types.SEEK_PROGRESS_TIMER:
+      return {
+        ...state,
+        currentTime: parseCurrentPodcastTime(payload.seekValue),
+        shouldSeekProgressSlider: false,
       };
 
     default:

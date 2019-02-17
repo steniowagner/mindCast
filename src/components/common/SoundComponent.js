@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 import Sound from 'react-native-video';
 
 import { bindActionCreators } from 'redux';
@@ -8,50 +8,69 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 type PlayerProps = {
+  shouldSeekProgressSlider: boolean,
+  shouldRepeatCurrent: boolean,
   currentPodcast: Object,
+  seekValue: number,
   paused: boolean,
 };
 
 type Props = {
+  seekProgressTimerSuccess: Function,
   setCurrentTime: Function,
-  playNext: Function,
   player: PlayerProps,
+  playNext: Function,
 };
 
-const SoundComponent = ({
-  setCurrentTime,
-  playNext,
-  player,
-}: Props): Object => {
-  const { currentPodcast, shouldRepeatCurrent, paused } = player;
+class SoundComponent extends Component<Props, {}> {
+  _soundRef: Object = null;
 
-  const isPodcastDefined = !!currentPodcast
-    && !!currentPodcast.uri
-    && typeof currentPodcast.uri === 'string';
+  componentWillReceiveProps(nextProps) {
+    const { seekProgressTimerSuccess, player } = nextProps;
+    const { shouldSeekProgressSlider, seekValue } = player;
 
-  return isPodcastDefined ? (
-    <Sound
-      source={{
-        uri: currentPodcast.uri,
-      }}
-      onError={() => {}}
-      onBuffer={() => console.tron.log('onBuffer')}
-      playInBackground
-      paused={paused}
-      repeat={shouldRepeatCurrent}
-      audioOnly
-      rate={1.0}
-      ignoreSilentSwitch="ignore"
-      onLoad={() => console.tron.log('onLoad')}
-      onProgress={({ currentTime }) => setCurrentTime(currentTime)}
-      onEnd={() => {
-        if (!shouldRepeatCurrent) {
-          playNext();
-        }
-      }}
-    />
-  ) : null;
-};
+    if (shouldSeekProgressSlider) {
+      this._soundRef.seek(seekValue, 50);
+      seekProgressTimerSuccess(seekValue);
+    }
+  }
+
+  /** onError={() => console.tron.log('err')}
+        onLoad={() => console.tron.log('onLoad')}
+        onBuffer={() => console.tron.log('onBuffer')} */
+
+  render() {
+    const { setCurrentTime, playNext, player } = this.props;
+    const { currentPodcast, shouldRepeatCurrent, paused } = player;
+
+    const isPodcastDefined = !!currentPodcast
+      && !!currentPodcast.uri
+      && typeof currentPodcast.uri === 'string';
+
+    return isPodcastDefined ? (
+      <Sound
+        source={{
+          uri: currentPodcast.uri,
+        }}
+        playInBackground
+        ref={(ref) => {
+          this._soundRef = ref;
+        }}
+        paused={paused}
+        repeat={shouldRepeatCurrent}
+        audioOnly
+        rate={1.0}
+        ignoreSilentSwitch="ignore"
+        onProgress={({ currentTime }) => setCurrentTime(currentTime)}
+        onEnd={() => {
+          if (!shouldRepeatCurrent) {
+            playNext();
+          }
+        }}
+      />
+    ) : null;
+  }
+}
 
 const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
 
