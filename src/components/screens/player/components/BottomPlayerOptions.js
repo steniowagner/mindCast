@@ -13,14 +13,19 @@ type PlayerProps = {
 };
 
 type Props = {
+  downloadPodcast: Function,
   shufflePlaylist: Function,
-  downloadFile: Function,
+  downloadPodcast: Function,
   player: PlayerProps,
 };
 
 const BottomPlayerOptions = (x): Object => {
-  const { shouldShufflePlaylist, shouldRepeatCurrent } = x.player;
-  const { shufflePlaylist, setRepeatCurrent } = x;
+  const {
+    shouldShufflePlaylist,
+    shouldRepeatCurrent,
+    currentPodcast,
+  } = x.player;
+  const { downloadPodcast, shufflePlaylist, setRepeatCurrent } = x;
 
   return (
     <View
@@ -59,7 +64,7 @@ const BottomPlayerOptions = (x): Object => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => downloadPodcast(currentPodcast)}
       >
         <Text>DOWN</Text>
       </TouchableOpacity>

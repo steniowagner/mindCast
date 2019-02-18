@@ -1,21 +1,18 @@
 // @flow
 
 import { AsyncStorage } from 'react-native';
-
-const APP_STORAGE_KEY = '@MIND_CAST';
-
-export const KEYS = {
-  PODCAST: 'PODCAST',
-};
+import CONSTANTS from '~/utils/CONSTANTS';
 
 export const getItemFromStorage = async (
   key: string,
   defaultValue: any,
 ): any => {
   try {
-    const value = (await AsyncStorage.getItem(`${APP_STORAGE_KEY}:${key}`)) || defaultValue;
+    const valueFromStorage = await AsyncStorage.getItem(
+      `${CONSTANTS.APP_STORAGE_KEY}:${key}`,
+    );
 
-    return value;
+    return valueFromStorage || defaultValue;
   } catch (error) {
     console.tron.log(error);
   }
@@ -28,7 +25,10 @@ export const persistItemInStorage = async (
   value: any,
 ): Promise<void> => {
   try {
-    await AsyncStorage.setItem(`${APP_STORAGE_KEY}:${key}`, value.toString());
+    await AsyncStorage.setItem(
+      `${CONSTANTS.APP_STORAGE_KEY}:${key}`,
+      JSON.stringify(value),
+    );
   } catch (err) {
     console.tron.log(err);
   }
@@ -36,7 +36,7 @@ export const persistItemInStorage = async (
 
 export const removeItemFromStorage = async (key: string) => {
   try {
-    await AsyncStorage.removeItem(`${APP_STORAGE_KEY}:${key}`);
+    await AsyncStorage.removeItem(`${CONSTANTS.APP_STORAGE_KEY}:${key}`);
   } catch (err) {
     console.tron.log(err);
   }

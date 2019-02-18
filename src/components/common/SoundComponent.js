@@ -9,6 +9,8 @@ import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 type PlayerProps = {
   shouldSeekProgressSlider: boolean,
+  playlistIndex: number,
+  playlist: Array<Object>,
   shouldRepeatCurrent: boolean,
   currentPodcast: Object,
   seekValue: number,
@@ -18,6 +20,7 @@ type PlayerProps = {
 type Props = {
   seekProgressTimerSuccess: Function,
   setCurrentTime: Function,
+  setPodcast: Function,
   player: PlayerProps,
   playNext: Function,
 };
@@ -35,38 +38,55 @@ class SoundComponent extends Component<Props, {}> {
     }
   }
 
-  /** onError={() => console.tron.log('err')}
-        onLoad={() => console.tron.log('onLoad')}
-        onBuffer={() => console.tron.log('onBuffer')} */
+  /*
+    onError={() => console.tron.log('err')}
+    onLoad={() => console.tron.log('onLoad')}
+    onBuffer={() => console.tron.log('onBuffer')}
+  */
+
+  onEnd = (): void => {
+    const { setPodcast, player, playNext } = this.props;
+    const {
+      shouldRepeatCurrent,
+      currentPodcast,
+      playlist,
+      playlistIndex,
+    } = player;
+
+    if (!shouldRepeatCurrent) {
+      playNext();
+      return;
+    }
+
+    const currentPodcastChangedURI = currentPodcast.uri !== playlist[playlistIndex].uri;
+
+    if (currentPodcastChangedURI) {
+      setPodcast();
+    }
+  };
 
   render() {
-    const { setCurrentTime, playNext, player } = this.props;
+    const { setCurrentTime, player } = this.props;
     const { currentPodcast, shouldRepeatCurrent, paused } = player;
 
-    const isPodcastDefined = !!currentPodcast
-      && !!currentPodcast.uri
-      && typeof currentPodcast.uri === 'string';
+    const isPodcastDefined = !!currentPodcast.uri && typeof currentPodcast.uri === 'string';
 
     return isPodcastDefined ? (
       <Sound
+        onProgress={({ currentTime }) => setCurrentTime(currentTime)}
+        onEnd={this.onEnd}
         source={{
           uri: currentPodcast.uri,
         }}
-        playInBackground
         ref={(ref) => {
           this._soundRef = ref;
         }}
-        paused={paused}
         repeat={shouldRepeatCurrent}
-        audioOnly
-        rate={1.0}
         ignoreSilentSwitch="ignore"
-        onProgress={({ currentTime }) => setCurrentTime(currentTime)}
-        onEnd={() => {
-          if (!shouldRepeatCurrent) {
-            playNext();
-          }
-        }}
+        playInBackground
+        paused={paused}
+        rate={1.0}
+        audioOnly
       />
     ) : null;
   }

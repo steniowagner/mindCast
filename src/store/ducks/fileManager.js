@@ -1,25 +1,21 @@
 export const Types = {
-  DOWNLOAD_FILE: 'fileManager/DOWNLOAD_FILE',
+  DOWNLOAD_PODCAST: 'fileManager/DOWNLOAD_PODCAST',
 };
 
-const INITIAL_STATE = {};
-
 export const Creators = {
-  downloadFile: podcast => ({
-    type: Types.DOWNLOAD_FILE,
-    payload: { podcast },
+  downloadPodcast: currentPodcast => ({
+    type: Types.DOWNLOAD_PODCAST,
+    payload: { currentPodcast },
   }),
 };
 
-const player = (state = INITIAL_STATE, { type, payload }) => {
+const player = (_, { type }) => {
   switch (type) {
-    case Types.DOWNLOAD_FILE:
-      return {
-        ...state,
-      };
+    case Types.DOWNLOAD_PODCAST:
+      return null;
 
     default:
-      return state;
+      return null;
   }
 };
 

@@ -1,7 +1,8 @@
 import { call, select, put } from 'redux-saga/effects';
 
-import { getItemFromStorage, KEYS } from '~/utils/AsyncStorageManager';
+import { getItemFromStorage } from '~/utils/AsyncStorageManager';
 import { Creators as PlayerCreators } from '../ducks/player';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const _findIndexInsideOriginalPlaylist = (
   originalPlaylist,
@@ -15,7 +16,10 @@ const _findIndexInsideOriginalPlaylist = (
 };
 
 const _isPodcastAlreadyCached = async (currentPodcast) => {
-  const rawPodcastsSaved = await getItemFromStorage(KEYS.PODCAST, []);
+  const rawPodcastsSaved = await getItemFromStorage(
+    CONSTANTS.PODCASTS_SAVED,
+    [],
+  );
 
   const podcastsSaved = typeof rawPodcastsSaved === 'string'
     ? JSON.parse(rawPodcastsSaved)
