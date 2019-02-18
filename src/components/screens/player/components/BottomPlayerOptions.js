@@ -15,7 +15,7 @@ type PlayerProps = {
 type Props = {
   downloadPodcast: Function,
   shufflePlaylist: Function,
-  downloadPodcast: Function,
+  removePodcast: Function,
   player: PlayerProps,
 };
 
@@ -25,7 +25,12 @@ const BottomPlayerOptions = (x): Object => {
     shouldRepeatCurrent,
     currentPodcast,
   } = x.player;
-  const { downloadPodcast, shufflePlaylist, setRepeatCurrent } = x;
+  const {
+    downloadPodcast,
+    removePodcast,
+    shufflePlaylist,
+    setRepeatCurrent,
+  } = x;
 
   return (
     <View

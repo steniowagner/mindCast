@@ -1,5 +1,5 @@
 export const Types = {
-  UPDATE_PODCAST_WITH_LOCAL_URI: 'player/UPDATE_PODCAST_WITH_LOCAL_URI',
+  UPDATE_PODCAST_URI: 'player/UPDATE_PODCAST_URI',
   SEEK_PROGRESS_TIMER_REQUEST: 'player/SEEK_PROGRESS_TIMER_REQUEST',
   SEEK_PROGRESS_TIMER_SUCCESS: 'player/SEEK_PROGRESS_TIMER_SUCCESS',
   SHUFFLE_PLAYLIST_REQUEST: 'player/SHUFFLE_PLAYLIST_REQUEST',
@@ -69,9 +69,9 @@ const INITIAL_STATE = {
 };
 
 export const Creators = {
-  updatePodcastWithLocalURI: podcastWithLocalURI => ({
-    type: Types.UPDATE_PODCAST_WITH_LOCAL_URI,
-    payload: { podcastWithLocalURI },
+  updatePodcastURI: uri => ({
+    type: Types.UPDATE_PODCAST_URI,
+    payload: { uri },
   }),
 
   seekProgressTimer: seekValue => ({
@@ -181,19 +181,19 @@ const parseCurrentPodcastTime = (rawTime) => {
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case Types.UPDATE_PODCAST_WITH_LOCAL_URI:
+    case Types.UPDATE_PODCAST_URI:
       return {
         ...state,
         originalPlaylist: Object.assign([...state.originalPlaylist], {
           [state.originalPlaylistIndex]: {
-            ...payload.podcastWithLocalURI,
-            uri: payload.podcastWithLocalURI.path,
+            ...state.currentPodcast,
+            uri: payload.uri,
           },
         }),
         playlist: Object.assign([...state.playlist], {
           [state.playlistIndex]: {
-            ...payload.podcastWithLocalURI,
-            uri: payload.podcastWithLocalURI.path,
+            ...state.currentPodcast,
+            uri: payload.uri,
           },
         }),
       };

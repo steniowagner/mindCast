@@ -16,7 +16,7 @@ const _checkPodcastAlreadySaved = (podcastsSaved, podcastSearched) => {
   return isPodcastAlreadySaved;
 };
 
-const _insertPodcastOnSavedPodcastsList = async (podcast) => {
+const _getPodcastsSaved = async () => {
   const rawPodcastsSaved = await getItemFromStorage(
     CONSTANTS.PODCASTS_SAVED,
     [],
@@ -25,6 +25,12 @@ const _insertPodcastOnSavedPodcastsList = async (podcast) => {
   const podcastsSaved = typeof rawPodcastsSaved === 'string'
     ? JSON.parse(rawPodcastsSaved)
     : rawPodcastsSaved;
+
+  return podcastsSaved;
+};
+
+const _insertPodcastOnSavedPodcastsList = async (podcast) => {
+  const podcastsSaved = await _getPodcastsSaved();
 
   const isPodcastAlreadySaved = _checkPodcastAlreadySaved(
     podcastsSaved,
@@ -37,6 +43,14 @@ const _insertPodcastOnSavedPodcastsList = async (podcast) => {
       podcast,
     ]);
   }
+};
+
+const _removePodcastFromSavedPodcastList = async (id) => {
+  const podcastsSaved = await _getPodcastsSaved();
+
+  const podcastsFiltered = podcastsSaved.filter(podcast => podcast.id !== id);
+
+  await persistItemInStorage(CONSTANTS.PODCASTS_SAVED, podcastsFiltered);
 };
 
 export function* downloadPodcast({ payload }) {
@@ -63,8 +77,23 @@ export function* downloadPodcast({ payload }) {
       };
 
       yield _insertPodcastOnSavedPodcastsList(podcastWithLocalURI);
-      yield put(PlayerCreators.updatePodcastWithLocalURI(podcastWithLocalURI));
+      yield put(PlayerCreators.updatePodcastURI(PATH_TO_FILE));
     }
+  } catch (err) {
+    console.tron.log(err);
+  }
+}
+
+export function* removePodcast({ payload }) {
+  try {
+    const { currentPodcast } = payload;
+    const { uri, id } = currentPodcast;
+
+    yield call(RNFS.unlink, uri);
+
+    yield _removePodcastFromSavedPodcastList(id);
+
+    yield put(PlayerCreators.updatePodcastURI(currentPodcast.url));
   } catch (err) {
     console.tron.log(err);
   }

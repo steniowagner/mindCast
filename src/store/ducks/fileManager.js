@@ -1,5 +1,6 @@
 export const Types = {
   DOWNLOAD_PODCAST: 'fileManager/DOWNLOAD_PODCAST',
+  REMOVE_PODCAST: 'fileManager/REMOVE_PODCAST',
 };
 
 export const Creators = {
@@ -7,11 +8,19 @@ export const Creators = {
     type: Types.DOWNLOAD_PODCAST,
     payload: { currentPodcast },
   }),
+
+  removePodcast: currentPodcast => ({
+    type: Types.REMOVE_PODCAST,
+    payload: { currentPodcast },
+  }),
 };
 
-const player = (_, { type }) => {
+const fileManager = (_, { type }) => {
   switch (type) {
     case Types.DOWNLOAD_PODCAST:
+      return null;
+
+    case Types.REMOVE_PODCAST:
       return null;
 
     default:
@@ -19,4 +28,4 @@ const player = (_, { type }) => {
   }
 };
 
-export default player;
+export default fileManager;
