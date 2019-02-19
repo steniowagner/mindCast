@@ -2,13 +2,12 @@ import RNFS from 'react-native-fs';
 import { call, put } from 'redux-saga/effects';
 
 import {
-  removeItemFromStorage,
   persistItemInStorage,
   getItemFromStorage,
 } from '~/utils/AsyncStorageManager';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-import { Creators as PlayerCreators } from '../../ducks/player';
+import { Creators as PlayerCreators } from '../ducks/player';
 
 const _checkPodcastAlreadySaved = (podcastsSaved, podcastSearched) => {
   const isPodcastAlreadySaved = podcastsSaved.findIndex(podcast => podcast.id === podcastSearched.id) >= 0;
@@ -55,8 +54,6 @@ const _removePodcastFromSavedPodcastList = async (id) => {
 
 export function* downloadPodcast({ payload }) {
   try {
-    // yield removeItemFromStorage(CONSTANTS.PODCASTS_SAVED);
-
     const { currentPodcast } = payload;
     const { url, id } = currentPodcast;
 

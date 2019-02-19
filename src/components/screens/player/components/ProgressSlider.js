@@ -84,6 +84,17 @@ class ProgressSlider extends Component<Props, State> {
           backgroundColor: '#000',
         }}
       >
+        <View
+          style={{
+            width: '100%',
+            height: 80,
+            backgroundColor: '#AAA',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text>{currentPodcast.uri}</Text>
+        </View>
         <Slider
           onSlidingComplete={value => this.onSlidingComplete(value)}
           onValueChange={value => this.onValueChange(value)}

@@ -75,9 +75,9 @@ const BottomPlayerOptions = (x): Object => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => removePodcast(currentPodcast)}
       >
-        <Text>ADD PLIST</Text>
+        <Text>REMOVE</Text>
       </TouchableOpacity>
     </View>
   );
