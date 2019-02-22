@@ -47,6 +47,7 @@ const podcasts = [
 ];
 
 const INITIAL_STATE = {
+  isCurrentPodcastDownloaded: false,
   shouldSeekProgressSlider: false,
   shouldShufflePlaylist: false,
   shouldRepeatPlaylist: false,

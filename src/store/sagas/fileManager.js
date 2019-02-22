@@ -7,6 +7,7 @@ import {
 } from '~/utils/AsyncStorageManager';
 import CONSTANTS from '~/utils/CONSTANTS';
 
+import { Creators as FileManagerCreators } from '../ducks/fileManager';
 import { Creators as PlayerCreators } from '../ducks/player';
 
 const _checkPodcastAlreadySaved = (podcastsSaved, podcastSearched) => {
@@ -57,6 +58,8 @@ export function* downloadPodcast({ payload }) {
     const { currentPodcast } = payload;
     const { url, id } = currentPodcast;
 
+    yield put(FileManagerCreators.addToDownloadingList(id));
+
     const PATH_TO_FILE = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
 
     const { promise } = yield call(RNFS.downloadFile, {
@@ -75,6 +78,7 @@ export function* downloadPodcast({ payload }) {
 
       yield _insertPodcastOnSavedPodcastsList(podcastWithLocalURI);
       yield put(PlayerCreators.updatePodcastURI(PATH_TO_FILE));
+      yield put(FileManagerCreators.removeFromDownloadingList(id));
     }
   } catch (err) {
     console.tron.log(err);

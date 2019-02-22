@@ -10,6 +10,7 @@ import { Creators as PlayerCreators } from '~/store/ducks/player';
 import BottomPlayerOptionsComponent from './components';
 
 type PlayerProps = {
+  isCurrentPodcastDownloaded: boolean,
   shouldShufflePlaylist: boolean,
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
@@ -17,6 +18,7 @@ type PlayerProps = {
 };
 
 type Props = {
+  downloadingList: Array<number>,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
@@ -50,6 +52,7 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
       setRepeatCurrent,
       downloadPodcast,
       shufflePlaylist,
+      downloadingList,
       removePodcast,
       player,
     } = this.props;
@@ -65,6 +68,7 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
           setRepeatCurrent={setRepeatCurrent}
           downloadPodcast={downloadPodcast}
           shufflePlaylist={shufflePlaylist}
+          downloadingList={downloadingList}
           removePodcast={removePodcast}
           player={player}
         />
@@ -78,6 +82,7 @@ const Creators = Object.assign({}, FileManagerCreators, PlayerCreators);
 const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 
 const mapStateToProps = state => ({
+  downloadingList: state.fileManager.downloadingList,
   player: state.player,
 });
 

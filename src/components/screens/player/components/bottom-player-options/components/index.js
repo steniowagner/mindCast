@@ -20,6 +20,7 @@ const Wrapper = styled(View)`
 `;
 
 type PlayerProps = {
+  isCurrentPodcastDownloaded: boolean,
   shouldShufflePlaylist: boolean,
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
@@ -28,6 +29,7 @@ type PlayerProps = {
 
 type Props = {
   onToggleAddPodcastToPlaylistModal: Function,
+  downloadingList: Array<number>,
   setRepeatPlaylist: Function,
   disableRepetition: Function,
   setRepeatCurrent: Function,
@@ -45,9 +47,11 @@ const BottomPlayerOptions = ({
   downloadPodcast,
   shufflePlaylist,
   removePodcast,
+  downloadingList,
   player,
 }: Props): Object => {
   const {
+    isCurrentPodcastDownloaded,
     shouldShufflePlaylist,
     shouldRepeatPlaylist,
     shouldRepeatCurrent,
@@ -68,7 +72,9 @@ const BottomPlayerOptions = ({
         setRepeatCurrent={setRepeatCurrent}
       />
       <Download
+        isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
         downloadPodcast={downloadPodcast}
+        downloadingList={downloadingList}
         currentPodcast={currentPodcast}
         removePodcast={removePodcast}
       />
