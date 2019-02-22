@@ -14,6 +14,7 @@ export const Types = {
   SET_REPEAT_CURRENT: 'player/SET_REPEAT_CURRENT',
   SET_CURRENT_TIME: 'player/SET_CURRENT_TIME',
   RESTART_PLAYER: 'player/RESTART_PLAYER',
+  DISABLE_REPETIION: 'player/DISABLE_REPETIION',
   PLAY: 'player/PLAY',
   STOP: 'player/STOP',
 };
@@ -23,7 +24,7 @@ const podcasts = [
     title: 'Valerie',
     author: 'Tomorrows Bad Seeds',
     id: 1,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/eu_vou_cair.mp3',
     duration: '04:11',
     totalDurationInSeconds: 251,
   },
@@ -31,7 +32,7 @@ const podcasts = [
     title: 'Till I Die',
     author: 'Tech N9ne, 2Pac & Eminem',
     id: 2,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/eu_vou_cair_caralho.mp3',
     duration: '04:00',
     totalDurationInSeconds: 240,
   },
@@ -39,17 +40,9 @@ const podcasts = [
     title: 'This Girl',
     author: 'Kungs vs Cookin’ on 3 Burners',
     id: 3,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/borracha.mp3',
     duration: '03:17',
     totalDurationInSeconds: 197,
-  },
-  {
-    title: 'Summit',
-    author: 'Skrillex feat. Ellie Goulding',
-    id: 4,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
-    duration: '06:10',
-    totalDurationInSeconds: 370,
   },
 ];
 
@@ -136,6 +129,10 @@ export const Creators = {
   restartPlayer: (originalPlaylistIndex, currentPodcast) => ({
     type: Types.RESTART_PLAYER,
     payload: { originalPlaylistIndex, currentPodcast },
+  }),
+
+  disableRepetition: () => ({
+    type: Types.DISABLE_REPETIION,
   }),
 
   play: () => ({
@@ -271,13 +268,15 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.SET_REPEAT_PLAYLIST:
       return {
         ...state,
-        shouldRepeatPlaylist: !state.shouldRepeatPlaylist,
+        shouldRepeatPlaylist: true,
+        shouldRepeatCurrent: false,
       };
 
     case Types.SET_REPEAT_CURRENT:
       return {
         ...state,
-        shouldRepeatCurrent: !state.shouldRepeatCurrent,
+        shouldRepeatPlaylist: false,
+        shouldRepeatCurrent: true,
       };
 
     case Types.SET_CURRENT_TIME:
@@ -294,6 +293,13 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         shouldRepeatCurrent: false,
         playlistIndex: 0,
         paused: true,
+      };
+
+    case Types.DISABLE_REPETIION:
+      return {
+        ...state,
+        shouldRepeatPlaylist: false,
+        shouldRepeatCurrent: false,
       };
 
     case Types.PLAY:

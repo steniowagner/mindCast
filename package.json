@@ -7,7 +7,7 @@
     "build-android": "cd android && ./gradlew assembleRelease && cd .. && react-native run-android --variant=release",
     "lint": "eslint '**/*.js'",
     "lint:fix": "prettier-eslint '**/*.js' --write",
-    "test": "jest",
+    "test": "jest --watch",
     "flow": "flow"
   },
   "husky": {
@@ -24,7 +24,9 @@
   "dependencies": {
     "react": "16.6.3",
     "react-native": "0.58.4",
+    "react-native-fast-image": "^5.1.2",
     "react-native-fs": "2.13.2",
+    "react-native-vector-icons": "^6.3.0",
     "react-native-video": "^4.4.0",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",

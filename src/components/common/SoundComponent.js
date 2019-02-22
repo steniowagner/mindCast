@@ -9,10 +9,10 @@ import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 type PlayerProps = {
   shouldSeekProgressSlider: boolean,
-  playlistIndex: number,
-  playlist: Array<Object>,
   shouldRepeatCurrent: boolean,
+  playlist: Array<Object>,
   currentPodcast: Object,
+  playlistIndex: number,
   seekValue: number,
   paused: boolean,
 };
@@ -73,7 +73,7 @@ class SoundComponent extends Component<Props, {}> {
     return isPodcastDefined ? (
       <Sound
         onProgress={({ currentTime }) => setCurrentTime(currentTime)}
-        onError={() => console.tron.log('err')}
+        onError={() => console.tron.log(currentPodcast)}
         onEnd={this.onEnd}
         source={{
           uri: currentPodcast.uri,
@@ -81,6 +81,7 @@ class SoundComponent extends Component<Props, {}> {
         ref={(ref) => {
           this._soundRef = ref;
         }}
+        volume={0}
         repeat={shouldRepeatCurrent}
         ignoreSilentSwitch="ignore"
         playInBackground

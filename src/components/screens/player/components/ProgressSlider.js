@@ -81,7 +81,6 @@ class ProgressSlider extends Component<Props, State> {
           alginItems: 'center',
           paddingHorizontal: 20,
           paddingBottom: 40,
-          backgroundColor: '#000',
         }}
       >
         <View
