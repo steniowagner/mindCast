@@ -6,6 +6,7 @@ import { View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
+import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
 import BottomPlayerOptions from './components/bottom-player-options';
 import BackgroundImage from './components/BackgroundImage';
@@ -13,9 +14,11 @@ import PodcastImage from './components/PodcastImage';
 
 class Player extends Component<{}, {}> {
   componentDidMount() {
-    const { setPodcast } = this.props;
+    const { setPodcastsDownloadedList, setPodcast } = this.props;
 
-    setPodcast();
+    setPodcastsDownloadedList();
+
+    setTimeout(() => setPodcast(), 1000);
   }
 
   render() {
@@ -38,7 +41,13 @@ class Player extends Component<{}, {}> {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
+const Creators = Object.assign(
+  {},
+  LocalPodcastsManagerCreators,
+  PlayerCreators,
+);
+
+const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 
 export default connect(
   null,

@@ -1,10 +1,11 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Creators as FileManagerCreators } from '~/store/ducks/fileManager';
+import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 import BottomPlayerOptionsComponent from './components';
@@ -72,17 +73,41 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
           removePodcast={removePodcast}
           player={player}
         />
+        <View
+          style={{
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <TouchableOpacity
+            onPress={this.props.clearAllLocalPodcastsReferences}
+            style={{
+              width: 80,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#f0f',
+            }}
+          >
+            <Text>CLEAR</Text>
+          </TouchableOpacity>
+        </View>
       </Fragment>
     );
   }
 }
 
-const Creators = Object.assign({}, FileManagerCreators, PlayerCreators);
+const Creators = Object.assign(
+  {},
+  LocalPodcastsManagerCreators,
+  PlayerCreators,
+);
 
 const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 
 const mapStateToProps = state => ({
-  downloadingList: state.fileManager.downloadingList,
+  downloadingList: state.localPodcastsManager.downloadingList,
   player: state.player,
 });
 

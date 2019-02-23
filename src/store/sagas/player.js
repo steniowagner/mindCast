@@ -1,8 +1,6 @@
 import { call, select, put } from 'redux-saga/effects';
 
-import { getItemFromStorage } from '~/utils/AsyncStorageManager';
 import { Creators as PlayerCreators } from '../ducks/player';
-import CONSTANTS from '~/utils/CONSTANTS';
 
 const _findIndexInsideOriginalPlaylist = (
   originalPlaylist,
@@ -15,39 +13,34 @@ const _findIndexInsideOriginalPlaylist = (
   return index;
 };
 
-const _isPodcastAlreadyCached = async (currentPodcast) => {
-  const rawPodcastsSaved = await getItemFromStorage(
-    CONSTANTS.PODCASTS_SAVED,
-    [],
+function* _getPodcastFromStorage(id) {
+  const { podcastsDownloaded } = yield select(
+    state => state.localPodcastsManager,
   );
 
-  const podcastsSaved = typeof rawPodcastsSaved === 'string'
-    ? JSON.parse(rawPodcastsSaved)
-    : rawPodcastsSaved;
-
-  const podcastCached = podcastsSaved.filter(
-    podcast => podcast.id === currentPodcast.id,
+  const podcastStored = podcastsDownloaded.filter(
+    podcast => podcast.id === id,
   )[0];
 
-  return podcastCached;
-};
+  return podcastStored;
+}
 
-const _definePodcastURI = async (currentPodcast) => {
-  const podcastCached = await _isPodcastAlreadyCached(currentPodcast);
+function* _definePodcastURI(podcast) {
+  const podcastStored = yield _getPodcastFromStorage(podcast.id);
 
-  const isPodcastAlreadyCached = !!podcastCached
-    && !!podcastCached.path
-    && typeof podcastCached.path === 'string';
+  const isPodcastStored = !!podcastStored
+    && !!podcastStored.path
+    && typeof podcastStored.path === 'string';
 
-  const uri = isPodcastAlreadyCached ? podcastCached.path : currentPodcast.url;
+  const uri = isPodcastStored ? podcastStored.path : podcast.url;
 
   const podcastWithURI = {
-    ...currentPodcast,
+    ...podcast,
     uri,
   };
 
   return podcastWithURI;
-};
+}
 
 function* _getSecondsPassedSincePodcastStarted() {
   const { currentTime } = yield select(state => state.player);

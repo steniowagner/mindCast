@@ -69,11 +69,11 @@ class SoundComponent extends Component<Props, {}> {
     const { currentPodcast, shouldRepeatCurrent, paused } = player;
 
     const isPodcastDefined = !!currentPodcast.uri && typeof currentPodcast.uri === 'string';
-
+    console.log('uri', currentPodcast.uri);
     return isPodcastDefined ? (
       <Sound
         onProgress={({ currentTime }) => setCurrentTime(currentTime)}
-        onError={() => console.tron.log(currentPodcast)}
+        onError={() => console.tron.log('currentPodcast')}
         onEnd={this.onEnd}
         source={{
           uri: currentPodcast.uri,
@@ -81,7 +81,6 @@ class SoundComponent extends Component<Props, {}> {
         ref={(ref) => {
           this._soundRef = ref;
         }}
-        volume={0}
         repeat={shouldRepeatCurrent}
         ignoreSilentSwitch="ignore"
         playInBackground

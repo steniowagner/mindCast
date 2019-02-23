@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import fileManager from './fileManager';
+import localPodcastsManager from './localPodcastsManager';
 import player from './player';
 
 export default combineReducers({
-  fileManager,
+  localPodcastsManager,
   player,
 });
