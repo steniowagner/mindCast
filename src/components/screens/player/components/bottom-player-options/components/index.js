@@ -27,9 +27,14 @@ type PlayerProps = {
   currentPodcast: Object,
 };
 
+type LocalPodcastsManagerProps = {
+  podcastsDownloaded: Array<Object>,
+  downloadingList: Array<Object>,
+};
+
 type Props = {
+  localPodcastsManager: LocalPodcastsManagerProps,
   onToggleAddPodcastToPlaylistModal: Function,
-  downloadingList: Array<number>,
   setRepeatPlaylist: Function,
   disableRepetition: Function,
   setRepeatCurrent: Function,
@@ -47,7 +52,7 @@ const BottomPlayerOptions = ({
   downloadPodcast,
   shufflePlaylist,
   removePodcast,
-  downloadingList,
+  localPodcastsManager,
   player,
 }: Props): Object => {
   const {
@@ -73,8 +78,8 @@ const BottomPlayerOptions = ({
       />
       <Download
         isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
+        localPodcastsManager={localPodcastsManager}
         downloadPodcast={downloadPodcast}
-        downloadingList={downloadingList}
         currentPodcast={currentPodcast}
         removePodcast={removePodcast}
       />

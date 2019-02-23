@@ -242,6 +242,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.SET_PODCAST_REQUEST:
       return {
         ...state,
+        paused: true,
       };
 
     case Types.SET_PODCAST_SUCCESS:
@@ -256,6 +257,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         currentTime: '00:00',
+        paused: true,
       };
 
     case Types.PLAY_NEXT_SUCCESS:
@@ -263,7 +265,6 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         ...payload,
         shouldRepeatCurrent: false,
-        paused: true,
       };
 
     case Types.SET_REPEAT_PLAYLIST:

@@ -10,6 +10,7 @@ import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPod
 
 import BottomPlayerOptions from './components/bottom-player-options';
 import BackgroundImage from './components/BackgroundImage';
+import PlayerControls from './components/PlayerControls';
 import PodcastImage from './components/PodcastImage';
 
 class Player extends Component<{}, {}> {
@@ -35,6 +36,7 @@ class Player extends Component<{}, {}> {
           thumbnailImageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg"
           imageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg"
         />
+        <PlayerControls />
         <BottomPlayerOptions />
       </View>
     );

@@ -16,15 +16,52 @@ const Wrapper = styled(View)`
   align-items: center;
 `;
 
+const _onPressDownloadPodcastButton = (): void => {};
+
+const _onPressRemoveDownloadPodcastButton = (): void => {};
+
+const _checkCurrentPodcastStored = (
+  currentPodcast: Object,
+  podcastsDownloaded: Array<Object>,
+): boolean => {
+  const isCurrentPodcastStored = podcastsDownloaded.findIndex(
+    podcastDownloaded => podcastDownloaded.id === currentPodcast.id,
+  ) >= 0;
+
+  return isCurrentPodcastStored;
+};
+
+const _getButtonConfig = (
+  currentPodcast: Object,
+  podcastsDownloaded: Array<Object>,
+): Object => {
+  const isCurrentPodcastStored = _checkCurrentPodcastStored(
+    currentPodcast,
+    podcastsDownloaded,
+  );
+
+  const buttonConfig = isCurrentPodcastStored
+    ? {
+      name: 'cloud-check',
+      color: appStyles.colors.primaryColor,
+      action: _onPressRemoveDownloadPodcastButton(),
+    }
+    : {
+      name: 'cloud-download-outline',
+      color: appStyles.colors.white,
+      action: _onPressDownloadPodcastButton(),
+    };
+
+  return buttonConfig;
+};
+
 const renderButton = (
-  isCurrentPodcastDownloaded: boolean,
+  podcastsDownloaded: Array<Object>,
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
 ): Object => {
-  const { name, color } = isCurrentPodcastDownloaded
-    ? { name: 'cloud-check', color: appStyles.colors.primaryColor }
-    : { name: 'cloud-download-outline', color: appStyles.colors.white };
+  const { name, color } = _getButtonConfig(currentPodcast, podcastsDownloaded);
 
   return (
     <Button
@@ -46,9 +83,13 @@ const renderLoading = (): Object => (
   />
 );
 
+type LocalPodcastsManagerProps = {
+  podcastsDownloaded: Array<Object>,
+  downloadingList: Array<Object>,
+};
+
 type Props = {
-  isCurrentPodcastDownloaded: boolean,
-  downloadingList: Array<number>,
+  localPodcastsManager: LocalPodcastsManagerProps,
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
@@ -64,12 +105,13 @@ const isDownloadingCurrentPodcast = (
 };
 
 const Download = ({
-  isCurrentPodcastDownloaded,
+  localPodcastsManager,
   downloadPodcast,
-  downloadingList,
   currentPodcast,
   removePodcast,
 }: Props): Object => {
+  const { podcastsDownloaded, downloadingList } = localPodcastsManager;
+
   const isCurrentPodcastBeenDownloaded = isDownloadingCurrentPodcast(
     currentPodcast,
     downloadingList,
@@ -80,7 +122,7 @@ const Download = ({
       {isCurrentPodcastBeenDownloaded
         ? renderLoading()
         : renderButton(
-          isCurrentPodcastDownloaded,
+          podcastsDownloaded,
           downloadPodcast,
           removePodcast,
           currentPodcast,

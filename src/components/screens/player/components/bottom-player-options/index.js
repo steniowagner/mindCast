@@ -18,8 +18,13 @@ type PlayerProps = {
   currentPodcast: Object,
 };
 
+type LocalPodcastsManagerProps = {
+  podcastsDownloaded: Array<Object>,
+  downloadingList: Array<Object>,
+};
+
 type Props = {
-  downloadingList: Array<number>,
+  localPodcastsManager: LocalPodcastsManagerProps,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
@@ -53,7 +58,7 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
       setRepeatCurrent,
       downloadPodcast,
       shufflePlaylist,
-      downloadingList,
+      localPodcastsManager,
       removePodcast,
       player,
     } = this.props;
@@ -69,30 +74,10 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
           setRepeatCurrent={setRepeatCurrent}
           downloadPodcast={downloadPodcast}
           shufflePlaylist={shufflePlaylist}
-          downloadingList={downloadingList}
+          localPodcastsManager={localPodcastsManager}
           removePodcast={removePodcast}
           player={player}
         />
-        <View
-          style={{
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <TouchableOpacity
-            onPress={this.props.clearAllLocalPodcastsReferences}
-            style={{
-              width: 80,
-              height: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#f0f',
-            }}
-          >
-            <Text>CLEAR</Text>
-          </TouchableOpacity>
-        </View>
       </Fragment>
     );
   }
@@ -107,7 +92,7 @@ const Creators = Object.assign(
 const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 
 const mapStateToProps = state => ({
-  downloadingList: state.localPodcastsManager.downloadingList,
+  localPodcastsManager: state.localPodcastsManager,
   player: state.player,
 });
 

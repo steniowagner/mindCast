@@ -1,4 +1,6 @@
-import { call, select, put } from 'redux-saga/effects';
+import {
+  call, select, delay, put,
+} from 'redux-saga/effects';
 
 import { Creators as PlayerCreators } from '../ducks/player';
 
@@ -146,6 +148,8 @@ export function* setPodcast() {
     const currentPodcast = playlist[playlistIndex];
 
     const podcastWithURI = yield _definePodcastURI(currentPodcast);
+
+    yield delay(300); // Just for visual effects!
 
     yield put(PlayerCreators.setPodcastSuccess(podcastWithURI));
   } catch (err) {
