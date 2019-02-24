@@ -44,7 +44,7 @@ const PlayOutterCircle = styled(View)`
   background-color: ${({ theme }) => theme.colors.primaryColorAlpha};
 `;
 
-const PlayInnerCircle = styled(TouchableOpacity)`
+const PlayInnerCircleButton = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('15%')}px;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('15%')}px;
   padding-top: ${Platform.OS === 'ios' ? 2 : 0}px;
@@ -60,7 +60,6 @@ const renderCenterButton = (
   play: Function,
 ): Object => {
   const { paused } = player;
-  console.log('paused', paused);
 
   const { onPress, iconName } = paused
     ? { onPress: play, iconName: 'play' }
@@ -68,14 +67,14 @@ const renderCenterButton = (
 
   return (
     <PlayOutterCircle>
-      <PlayInnerCircle
+      <PlayInnerCircleButton
         onPress={onPress}
       >
         <Icon
           name={iconName}
           size={28}
         />
-      </PlayInnerCircle>
+      </PlayInnerCircleButton>
     </PlayOutterCircle>
   );
 };

@@ -5,6 +5,7 @@ import { ActivityIndicator, View } from 'react-native';
 import styled from 'styled-components';
 
 import Icon from '~/components/common/Icon';
+import { CustomAlert, TYPES } from '~/components/common/alert';
 import appStyles from '~/styles';
 
 import Button from './Button';
@@ -31,15 +32,7 @@ const _checkCurrentPodcastStored = (
   return isCurrentPodcastStored;
 };
 
-const _getButtonConfig = (
-  currentPodcast: Object,
-  podcastsDownloaded: Array<Object>,
-): Object => {
-  const isCurrentPodcastStored = _checkCurrentPodcastStored(
-    currentPodcast,
-    podcastsDownloaded,
-  );
-
+const _getButtonConfig = (isCurrentPodcastStored: boolean): Object => {
   const buttonConfig = isCurrentPodcastStored
     ? {
       name: 'cloud-check',
@@ -55,17 +48,47 @@ const _getButtonConfig = (
   return buttonConfig;
 };
 
+const renderAlert = (
+  isCurrentPodcastStored: boolean,
+  currentPodcast: Object,
+  removePodcast: Function,
+  downloadPodcast: Function,
+): void => {
+  const { action, type } = isCurrentPodcastStored
+    ? {
+      action: () => removePodcast(currentPodcast),
+      type: TYPES.REMOVE_DOWNLOADED_PODCAST,
+    }
+    : {
+      action: () => downloadPodcast(currentPodcast),
+      type: TYPES.DOWNLOAD_PODCAST,
+    };
+
+  CustomAlert(type, action);
+};
+
 const renderButton = (
   podcastsDownloaded: Array<Object>,
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
 ): Object => {
-  const { name, color } = _getButtonConfig(currentPodcast, podcastsDownloaded);
+  const isCurrentPodcastStored = _checkCurrentPodcastStored(
+    currentPodcast,
+    podcastsDownloaded,
+  );
+
+  const { name, color } = _getButtonConfig(isCurrentPodcastStored);
 
   return (
     <Button
-      onPress={() => downloadPodcast(currentPodcast)}
+      onPress={() => renderAlert(
+        isCurrentPodcastStored,
+        currentPodcast,
+        removePodcast,
+        downloadPodcast,
+      )
+      }
     >
       <Icon
         color={color}
