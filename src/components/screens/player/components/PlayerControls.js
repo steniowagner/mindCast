@@ -4,10 +4,6 @@ import React from 'react';
 import { TouchableOpacity, Platform, View } from 'react-native';
 import styled from 'styled-components';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Creators as PlayerCreators } from '~/store/ducks/player';
-
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
 
@@ -15,24 +11,14 @@ const Container = styled(View)`
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-bottom: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
+  margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const Wrapper = styled(View)`
   flex-direction: row;
   align-items: center;
 `;
-
-type PlayerProps = {
-  paused: boolean,
-};
-
-type Props = {
-  playPrevious: Function,
-  player: PlayerProps,
-  playNext: Function,
-  pause: Function,
-  play: Function,
-};
 
 const PlayOutterCircle = styled(View)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('20%')}px;
@@ -54,13 +40,19 @@ const PlayInnerCircleButton = styled(TouchableOpacity)`
   background-color: ${({ theme }) => theme.colors.primaryColor};
 `;
 
+type Props = {
+  playPrevious: Function,
+  playNext: Function,
+  paused: boolean,
+  pause: Function,
+  play: Function,
+};
+
 const renderCenterButton = (
-  player: PlayerProps,
+  paused: boolean,
   pause: Function,
   play: Function,
 ): Object => {
-  const { paused } = player;
-
   const { onPress, iconName } = paused
     ? { onPress: play, iconName: 'play' }
     : { onPress: pause, iconName: 'pause' };
@@ -99,26 +91,17 @@ const renderSideButton = (iconName: string, action: Function): Object => (
 const PlayerControls = ({
   playPrevious,
   playNext,
-  player,
+  paused,
   pause,
   play,
 }: Props): Object => (
   <Container>
     <Wrapper>
       {renderSideButton('rewind', playPrevious)}
-      {renderCenterButton(player, pause, play)}
+      {renderCenterButton(paused, pause, play)}
       {renderSideButton('fast-forward', playNext)}
     </Wrapper>
   </Container>
 );
 
-const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
-
-const mapStateToProps = state => ({
-  player: state.player,
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PlayerControls);
+export default PlayerControls;

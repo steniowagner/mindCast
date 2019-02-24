@@ -36,13 +36,16 @@ const TitleText = styled(Text).attrs({
   text-align: center;
 `;
 
-const CurrentPodcastPlaying = (): Object => (
+type Props = {
+  author: string,
+  title: string,
+};
+
+const CurrentPodcastPlaying = ({ author, title }: Props): Object => (
   <Container>
     <Wrapper>
-      <AuthorText>George F. R. Ellis</AuthorText>
-      <TitleText>
-        Does the Multiverse Really Exists? Does the Multiverse Really Exists?
-      </TitleText>
+      <AuthorText>{author}</AuthorText>
+      <TitleText>{title}</TitleText>
     </Wrapper>
   </Container>
 );

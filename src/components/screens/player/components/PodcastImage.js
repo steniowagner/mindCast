@@ -8,17 +8,14 @@ import ProgressiveImage from '~/components/common/ProgressiveImage';
 
 const Wrapper = styled(View)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('35%')}px;
-  padding-horizontal: ${({ theme }) => theme.metrics.getWidthFromDP('15%')}px;
   justify-content: center;
   align-content: center;
 `;
 
 const ImageContainer = styled(View)`
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+  width: 60%;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('65%')}px;
+  align-self: center;
 `;
 
 type Props = {

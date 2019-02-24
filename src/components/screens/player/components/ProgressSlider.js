@@ -2,10 +2,15 @@
 
 import React, { Component } from 'react';
 import { View, Text, Slider } from 'react-native';
+import styled from 'styled-components';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Creators as PlayerCreators } from '~/store/ducks/player';
+import appStyles from '~/styles';
+
+const TimerText = styled(Text)`
+  color: ${({ theme }) => theme.colors.white};
+  font-family: CircularStd-Medium;
+  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+`;
 
 type PlayerProps = {
   shouldSeekProgressSlider: boolean,
@@ -80,11 +85,12 @@ class ProgressSlider extends Component<Props, State> {
           justifyContent: 'center',
           alginItems: 'center',
           paddingHorizontal: 20,
-          paddingBottom: 40,
         }}
       >
         <Slider
           onSlidingComplete={value => this.onSlidingComplete(value)}
+          minimumTrackTintColor={appStyles.colors.primaryColor}
+          thumbTintColor={appStyles.colors.primaryColor}
           onValueChange={value => this.onValueChange(value)}
           maximumValue={totalDurationInSeconds}
           value={slideValue}
@@ -98,33 +104,12 @@ class ProgressSlider extends Component<Props, State> {
             flexDirection: 'row',
           }}
         >
-          <Text
-            style={{
-              color: '#fff',
-            }}
-          >
-            {currentTime}
-          </Text>
-          <Text
-            style={{
-              color: '#fff',
-            }}
-          >
-            {duration}
-          </Text>
+          <TimerText>{currentTime}</TimerText>
+          <TimerText>{duration}</TimerText>
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  player: state.player,
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProgressSlider);
+export default ProgressSlider;

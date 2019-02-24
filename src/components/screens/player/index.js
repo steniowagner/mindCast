@@ -1,21 +1,41 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
-import CurrentPodcastPlaying from './components/CurrentPodcastPlaying';
-import BottomPlayerOptions from './components/bottom-player-options';
-import BackgroundImage from './components/BackgroundImage';
-import ProgressSlider from './components/ProgressSlider';
-import PlayerControls from './components/PlayerControls';
-import PodcastImage from './components/PodcastImage';
+import PlayerComponent from './components';
 
-class Player extends Component<{}, {}> {
+type PlayerProps = {
+  currentPodcast: Object,
+};
+
+type LocalPodcastManagerProps = {
+  podcastsDownloaded: Array<Object>,
+  downloadingList: Array<Object>,
+};
+
+type Props = {
+  localPodcastsManager: LocalPodcastManagerProps,
+  seekProgressTimer: Function,
+  disableRepetition: Function,
+  setRepeatPlaylist: Function,
+  setRepeatCurrent: Function,
+  downloadPodcast: Function,
+  shufflePlaylist: Function,
+  removePodcast: Function,
+  playPrevious: Function,
+  setPodcast: Function,
+  player: PlayerProps,
+  playNext: Function,
+  pause: Function,
+  play: Function,
+};
+
+class PlayerContainer extends Component<Props, {}> {
   componentDidMount() {
     const { setPodcastsDownloadedList, setPodcast } = this.props;
 
@@ -25,24 +45,38 @@ class Player extends Component<{}, {}> {
   }
 
   render() {
+    const {
+      localPodcastsManager,
+      disableRepetition,
+      seekProgressTimer,
+      setRepeatPlaylist,
+      setRepeatCurrent,
+      downloadPodcast,
+      shufflePlaylist,
+      removePodcast,
+      playPrevious,
+      playNext,
+      player,
+      pause,
+      play,
+    } = this.props;
+
     return (
-      <View
-        style={{
-          flex: 1,
-        }}
-      >
-        <BackgroundImage
-          imageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg"
-        />
-        <PodcastImage
-          thumbnailImageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg"
-          imageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg"
-        />
-        <CurrentPodcastPlaying />
-        <ProgressSlider />
-        <PlayerControls />
-        <BottomPlayerOptions />
-      </View>
+      <PlayerComponent
+        localPodcastsManager={localPodcastsManager}
+        disableRepetition={disableRepetition}
+        setRepeatPlaylist={setRepeatPlaylist}
+        seekProgressTimer={seekProgressTimer}
+        setRepeatCurrent={setRepeatCurrent}
+        downloadPodcast={downloadPodcast}
+        shufflePlaylist={shufflePlaylist}
+        removePodcast={removePodcast}
+        playPrevious={playPrevious}
+        playNext={playNext}
+        player={player}
+        pause={pause}
+        play={play}
+      />
     );
   }
 }
@@ -55,7 +89,12 @@ const Creators = Object.assign(
 
 const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 
+const mapStateToProps = state => ({
+  localPodcastsManager: state.localPodcastsManager,
+  player: state.player,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
-)(Player);
+)(PlayerContainer);

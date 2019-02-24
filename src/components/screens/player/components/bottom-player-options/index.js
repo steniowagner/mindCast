@@ -1,14 +1,13 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import styled from 'styled-components';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
-import { Creators as PlayerCreators } from '~/store/ducks/player';
-
-import BottomPlayerOptionsComponent from './components';
+import HandlePodcastInPlaylists from './components/HandlePodcastInPlaylists';
+import ShufflePlaylist from './components/ShufflePlaylist';
+import Download from './components/Download';
+import Repeat from './components/Repeat';
 
 type PlayerProps = {
   isCurrentPodcastDownloaded: boolean,
@@ -17,6 +16,16 @@ type PlayerProps = {
   shouldRepeatCurrent: boolean,
   currentPodcast: Object,
 };
+
+const Wrapper = styled(View)`
+  width: 100%;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding-horizontal: ${({ theme }) => theme.metrics.getWidthFromDP('8%')}px;
+  margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
+`;
 
 type LocalPodcastsManagerProps = {
   podcastsDownloaded: Array<Object>,
@@ -53,50 +62,52 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
 
   render() {
     const {
+      localPodcastsManager,
       disableRepetition,
       setRepeatPlaylist,
       setRepeatCurrent,
       downloadPodcast,
       shufflePlaylist,
-      localPodcastsManager,
       removePodcast,
       player,
     } = this.props;
 
+    const {
+      isCurrentPodcastDownloaded,
+      shouldShufflePlaylist,
+      shouldRepeatPlaylist,
+      shouldRepeatCurrent,
+      currentPodcast,
+    } = player;
+
     return (
-      <Fragment>
-        <BottomPlayerOptionsComponent
-          onToggleAddPodcastToPlaylistModal={
-            this.onToggleAddPodcastToPlaylistModal
-          }
+      <Wrapper>
+        <ShufflePlaylist
+          shouldShufflePlaylist={shouldShufflePlaylist}
+          shufflePlaylist={shufflePlaylist}
+        />
+        <Repeat
+          shouldRepeatPlaylist={shouldRepeatPlaylist}
+          shouldRepeatCurrent={shouldRepeatCurrent}
           disableRepetition={disableRepetition}
           setRepeatPlaylist={setRepeatPlaylist}
           setRepeatCurrent={setRepeatCurrent}
-          downloadPodcast={downloadPodcast}
-          shufflePlaylist={shufflePlaylist}
-          localPodcastsManager={localPodcastsManager}
-          removePodcast={removePodcast}
-          player={player}
         />
-      </Fragment>
+        <Download
+          isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
+          localPodcastsManager={localPodcastsManager}
+          downloadPodcast={downloadPodcast}
+          currentPodcast={currentPodcast}
+          removePodcast={removePodcast}
+        />
+        <HandlePodcastInPlaylists
+          onToggleAddPodcastToPlaylistModal={
+            this.onToggleAddPodcastToPlaylistModal
+          }
+        />
+      </Wrapper>
     );
   }
 }
 
-const Creators = Object.assign(
-  {},
-  LocalPodcastsManagerCreators,
-  PlayerCreators,
-);
-
-const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
-
-const mapStateToProps = state => ({
-  localPodcastsManager: state.localPodcastsManager,
-  player: state.player,
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BottomPlayerOptionsContainer);
+export default BottomPlayerOptionsContainer;
