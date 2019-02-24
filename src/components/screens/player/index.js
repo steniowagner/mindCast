@@ -8,8 +8,10 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
+import CurrentPodcastPlaying from './components/CurrentPodcastPlaying';
 import BottomPlayerOptions from './components/bottom-player-options';
 import BackgroundImage from './components/BackgroundImage';
+import ProgressSlider from './components/ProgressSlider';
 import PlayerControls from './components/PlayerControls';
 import PodcastImage from './components/PodcastImage';
 
@@ -36,6 +38,8 @@ class Player extends Component<{}, {}> {
           thumbnailImageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg"
           imageURL="https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg"
         />
+        <CurrentPodcastPlaying />
+        <ProgressSlider />
         <PlayerControls />
         <BottomPlayerOptions />
       </View>

@@ -81,6 +81,7 @@ class SoundComponent extends Component<Props, {}> {
         ref={(ref) => {
           this._soundRef = ref;
         }}
+        volume={0}
         repeat={shouldRepeatCurrent}
         ignoreSilentSwitch="ignore"
         playInBackground

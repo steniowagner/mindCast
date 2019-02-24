@@ -10,6 +10,11 @@
     "test": "jest --watch",
     "flow": "flow"
   },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

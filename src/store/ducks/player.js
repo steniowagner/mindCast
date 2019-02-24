@@ -25,6 +25,10 @@ const podcasts = [
     author: 'Tomorrows Bad Seeds',
     id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
     duration: '04:11',
     totalDurationInSeconds: 251,
   },
@@ -33,6 +37,10 @@ const podcasts = [
     author: 'Tech N9ne, 2Pac & Eminem',
     id: 2,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
     duration: '04:00',
     totalDurationInSeconds: 240,
   },
@@ -41,6 +49,10 @@ const podcasts = [
     author: 'Kungs vs Cookin’ on 3 Burners',
     id: 3,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
     duration: '03:17',
     totalDurationInSeconds: 197,
   },
