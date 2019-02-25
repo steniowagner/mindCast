@@ -9,11 +9,13 @@ import Button from './Button';
 type Props = {
   shouldShufflePlaylist: boolean,
   shufflePlaylist: Function,
+  iconSize: number,
 };
 
 const ShufflePlaylist = ({
   shouldShufflePlaylist,
   shufflePlaylist,
+  iconSize,
 }: Props): Object => (
   <Button
     onPress={shufflePlaylist}
@@ -25,7 +27,7 @@ const ShufflePlaylist = ({
           : appStyles.colors.white
       }
       name="shuffle"
-      size={20}
+      size={iconSize}
     />
   </Button>
 );

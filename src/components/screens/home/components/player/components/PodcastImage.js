@@ -13,8 +13,9 @@ const Wrapper = styled(View)`
 `;
 
 const ImageContainer = styled(View)`
-  width: 60%;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('65%')}px;
+  width: 100%;
+  height: ${({ theme }) => theme.metrics.getHeightFromDP('35%')}px;
+  padding-horizontal: ${({ theme }) => theme.metrics.getWidthFromDP('15%')}px;
   align-self: center;
 `;
 

@@ -4,22 +4,18 @@ import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import styled from 'styled-components';
 
-import Icon from '~/components/common/Icon';
 import { CustomAlert, TYPES } from '~/components/common/alert';
+import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
 
 import Button from './Button';
 
 const Wrapper = styled(View)`
   height: 100%;
-  width: 28px;
+  width: ${({ iconSize }) => iconSize + 8};
   justify-content: center;
   align-items: center;
 `;
-
-const _onPressDownloadPodcastButton = (): void => {};
-
-const _onPressRemoveDownloadPodcastButton = (): void => {};
 
 const _checkCurrentPodcastStored = (
   currentPodcast: Object,
@@ -37,12 +33,10 @@ const _getButtonConfig = (isCurrentPodcastStored: boolean): Object => {
     ? {
       name: 'cloud-check',
       color: appStyles.colors.primaryColor,
-      action: _onPressRemoveDownloadPodcastButton(),
     }
     : {
       name: 'cloud-download-outline',
       color: appStyles.colors.white,
-      action: _onPressDownloadPodcastButton(),
     };
 
   return buttonConfig;
@@ -72,6 +66,7 @@ const renderButton = (
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
+  iconSize: number,
 ): Object => {
   const isCurrentPodcastStored = _checkCurrentPodcastStored(
     currentPodcast,
@@ -93,7 +88,7 @@ const renderButton = (
       <Icon
         color={color}
         name={name}
-        size={22}
+        size={iconSize + 4}
       />
     </Button>
   );
@@ -106,6 +101,15 @@ const renderLoading = (): Object => (
   />
 );
 
+const isDownloadingCurrentPodcast = (
+  currentPodcast: Object,
+  downloading: Array<number>,
+): boolean => {
+  const isCurrentPodcastBeenDownloaded = downloading.findIndex(id => id === currentPodcast.id) >= 0;
+
+  return isCurrentPodcastBeenDownloaded;
+};
+
 type LocalPodcastsManagerProps = {
   podcastsDownloaded: Array<Object>,
   downloadingList: Array<Object>,
@@ -116,15 +120,7 @@ type Props = {
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
-};
-
-const isDownloadingCurrentPodcast = (
-  currentPodcast: Object,
-  downloading: Array<number>,
-): boolean => {
-  const isCurrentPodcastBeenDownloaded = downloading.findIndex(id => id === currentPodcast.id) >= 0;
-
-  return isCurrentPodcastBeenDownloaded;
+  iconSize: number,
 };
 
 const Download = ({
@@ -132,6 +128,7 @@ const Download = ({
   downloadPodcast,
   currentPodcast,
   removePodcast,
+  iconSize,
 }: Props): Object => {
   const { podcastsDownloaded, downloadingList } = localPodcastsManager;
 
@@ -141,7 +138,9 @@ const Download = ({
   );
 
   return (
-    <Wrapper>
+    <Wrapper
+      iconSize={iconSize}
+    >
       {isCurrentPodcastBeenDownloaded
         ? renderLoading()
         : renderButton(
@@ -149,6 +148,7 @@ const Download = ({
           downloadPodcast,
           removePodcast,
           currentPodcast,
+          iconSize,
         )}
     </Wrapper>
   );

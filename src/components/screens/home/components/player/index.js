@@ -7,10 +7,20 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
+import HeaderRightButton from './components/HeaderRightButton';
 import PlayerComponent from './components';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 type PlayerProps = {
+  isCurrentPodcastDownloaded: boolean,
+  shouldSeekProgressSlider: boolean,
+  shouldShufflePlaylist: boolean,
+  shouldRepeatPlaylist: boolean,
+  shouldRepeatCurrent: boolean,
+  currentTimeInSeconds: number,
   currentPodcast: Object,
+  currentTime: string,
+  paused: boolean,
 };
 
 type LocalPodcastManagerProps = {
@@ -30,19 +40,49 @@ type Props = {
   playPrevious: Function,
   setPodcast: Function,
   player: PlayerProps,
+  navigation: Object,
   playNext: Function,
   pause: Function,
   play: Function,
 };
 
 class PlayerContainer extends Component<Props, {}> {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <HeaderRightButton
+        onPress={() => {
+          const { state } = navigation;
+          const isNavigationParamsDefined = !!state && !!state.params;
+
+          if (isNavigationParamsDefined) {
+            const onPressHeaderRightButton = state.params[CONSTANTS.BUTTON_RIGHT_PLAYER_ACTION];
+
+            onPressHeaderRightButton();
+          }
+        }}
+      />
+    ),
+  });
+
   componentDidMount() {
-    const { setPodcastsDownloadedList, setPodcast } = this.props;
+    const { setPodcast } = this.props;
 
-    setPodcastsDownloadedList();
+    setPodcast();
 
-    setTimeout(() => setPodcast(), 1000);
+    this.setHeaderRightButtonPressAction();
   }
+
+  setHeaderRightButtonPressAction = (): void => {
+    const { navigation } = this.props;
+
+    navigation.setParams({
+      [CONSTANTS.BUTTON_RIGHT_PLAYER_ACTION]: this.onPressHeaderRightButton,
+    });
+  };
+
+  onPressHeaderRightButton = (): void => {
+    console.tron.log('onPressHeaderRightButton');
+  };
 
   render() {
     const {

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
+
 import Button from './Button';
 
 const Wrapper = styled(View)`
@@ -21,17 +22,16 @@ type Props = {
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
+  iconSize: number,
 };
 
-const handlePress = (props: Props): void => {
-  const {
-    shouldRepeatPlaylist,
-    shouldRepeatCurrent,
-    setRepeatPlaylist,
-    disableRepetition,
-    setRepeatCurrent,
-  } = props;
-
+const handlePress = (
+  shouldRepeatPlaylist: boolean,
+  shouldRepeatCurrent: boolean,
+  setRepeatPlaylist: Function,
+  disableRepetition: Function,
+  setRepeatCurrent: Function,
+): void => {
   if (!shouldRepeatPlaylist && !shouldRepeatCurrent) {
     setRepeatPlaylist();
   }
@@ -45,50 +45,30 @@ const handlePress = (props: Props): void => {
   }
 };
 
-const handleIconColor = (
+const getIconConfig = (
+  defaultSize: number,
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
-): string => {
-  const shouldShowAsSelected = shouldRepeatPlaylist || shouldRepeatCurrent;
-  const color = shouldShowAsSelected
-    ? appStyles.colors.primaryColor
-    : appStyles.colors.white;
-
-  return color;
-};
-
-const handleIconName = (
-  shouldRepeatPlaylist: boolean,
-  shouldRepeatCurrent: boolean,
-): string => {
-  let iconName = 'repeat-off';
+): Object => {
+  const config = {
+    name: 'repeat-off',
+    color: appStyles.colors.white,
+    size: defaultSize,
+  };
 
   if (shouldRepeatPlaylist) {
-    iconName = 'repeat';
+    config.color = appStyles.colors.primaryColor;
+    config.name = 'repeat';
+    config.size = defaultSize + 2;
   }
 
   if (shouldRepeatCurrent) {
-    iconName = 'repeat-once';
+    config.color = appStyles.colors.primaryColor;
+    config.name = 'repeat-once';
+    config.size = defaultSize + 2;
   }
 
-  return iconName;
-};
-
-const handleIconSize = (
-  shouldRepeatPlaylist: boolean,
-  shouldRepeatCurrent: boolean,
-): number => {
-  let iconSize = 20;
-
-  if (shouldRepeatPlaylist) {
-    iconSize = 22;
-  }
-
-  if (shouldRepeatCurrent) {
-    iconSize = 22;
-  }
-
-  return iconSize;
+  return config;
 };
 
 const Repeat = ({
@@ -97,27 +77,30 @@ const Repeat = ({
   disableRepetition,
   setRepeatPlaylist,
   setRepeatCurrent,
+  iconSize,
 }: Props): Object => {
-  const iconColor = handleIconColor(shouldRepeatPlaylist, shouldRepeatCurrent);
-  const iconName = handleIconName(shouldRepeatPlaylist, shouldRepeatCurrent);
-  const iconSize = handleIconSize(shouldRepeatPlaylist, shouldRepeatCurrent);
+  const { name, color, size } = getIconConfig(
+    iconSize,
+    shouldRepeatPlaylist,
+    shouldRepeatCurrent,
+  );
 
   return (
     <Wrapper>
       <Button
-        onPress={() => handlePress({
+        onPress={() => handlePress(
           shouldRepeatPlaylist,
           shouldRepeatCurrent,
           setRepeatPlaylist,
-          setRepeatCurrent,
           disableRepetition,
-        })
+          setRepeatCurrent,
+        )
         }
       >
         <Icon
-          color={iconColor}
-          name={iconName}
-          size={iconSize}
+          color={color}
+          name={name}
+          size={size}
         />
       </Button>
     </Wrapper>

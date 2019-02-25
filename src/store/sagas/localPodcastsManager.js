@@ -122,7 +122,7 @@ export function* removePodcast({ payload }) {
   try {
     const { currentPodcast } = payload;
     const { uri, id } = currentPodcast;
-
+    console.log(currentPodcast);
     yield call(RNFS.unlink, uri);
 
     yield _removePodcastFromSavedPodcastList(id);

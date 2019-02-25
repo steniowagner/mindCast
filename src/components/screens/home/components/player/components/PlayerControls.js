@@ -11,8 +11,6 @@ const Container = styled(View)`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
-  margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const Wrapper = styled(View)`
@@ -52,6 +50,7 @@ const renderCenterButton = (
   paused: boolean,
   pause: Function,
   play: Function,
+  iconSize: number,
 ): Object => {
   const { onPress, iconName } = paused
     ? { onPress: play, iconName: 'play' }
@@ -64,14 +63,18 @@ const renderCenterButton = (
       >
         <Icon
           name={iconName}
-          size={28}
+          size={iconSize}
         />
       </PlayInnerCircleButton>
     </PlayOutterCircle>
   );
 };
 
-const renderSideButton = (iconName: string, action: Function): Object => (
+const renderSideButton = (
+  iconName: string,
+  action: Function,
+  iconSize: number,
+): Object => (
   <TouchableOpacity
     onPress={action}
     hitSlop={{
@@ -83,7 +86,7 @@ const renderSideButton = (iconName: string, action: Function): Object => (
   >
     <Icon
       name={iconName}
-      size={28}
+      size={iconSize}
     />
   </TouchableOpacity>
 );
@@ -94,14 +97,18 @@ const PlayerControls = ({
   paused,
   pause,
   play,
-}: Props): Object => (
-  <Container>
-    <Wrapper>
-      {renderSideButton('rewind', playPrevious)}
-      {renderCenterButton(paused, pause, play)}
-      {renderSideButton('fast-forward', playNext)}
-    </Wrapper>
-  </Container>
-);
+}: Props): Object => {
+  const iconSize = appStyles.metrics.getWidthFromDP('9%');
+
+  return (
+    <Container>
+      <Wrapper>
+        {renderSideButton('rewind', playPrevious, iconSize)}
+        {renderCenterButton(paused, pause, play, iconSize)}
+        {renderSideButton('fast-forward', playNext, iconSize)}
+      </Wrapper>
+    </Container>
+  );
+};
 
 export default PlayerControls;

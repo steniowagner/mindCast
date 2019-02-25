@@ -9,6 +9,8 @@ import ShufflePlaylist from './components/ShufflePlaylist';
 import Download from './components/Download';
 import Repeat from './components/Repeat';
 
+import appStyles from '~/styles';
+
 type PlayerProps = {
   isCurrentPodcastDownloaded: boolean,
   shouldShufflePlaylist: boolean,
@@ -24,7 +26,6 @@ const Wrapper = styled(View)`
   align-items: center;
   flex-direction: row;
   padding-horizontal: ${({ theme }) => theme.metrics.getWidthFromDP('8%')}px;
-  margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 type LocalPodcastsManagerProps = {
@@ -80,11 +81,14 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
       currentPodcast,
     } = player;
 
+    const iconSize = appStyles.metrics.getWidthFromDP('6%');
+
     return (
       <Wrapper>
         <ShufflePlaylist
           shouldShufflePlaylist={shouldShufflePlaylist}
           shufflePlaylist={shufflePlaylist}
+          iconSize={iconSize}
         />
         <Repeat
           shouldRepeatPlaylist={shouldRepeatPlaylist}
@@ -92,6 +96,7 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
           disableRepetition={disableRepetition}
           setRepeatPlaylist={setRepeatPlaylist}
           setRepeatCurrent={setRepeatCurrent}
+          iconSize={iconSize}
         />
         <Download
           isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
@@ -99,11 +104,13 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
           downloadPodcast={downloadPodcast}
           currentPodcast={currentPodcast}
           removePodcast={removePodcast}
+          iconSize={iconSize}
         />
         <HandlePodcastInPlaylists
           onToggleAddPodcastToPlaylistModal={
             this.onToggleAddPodcastToPlaylistModal
           }
+          iconSize={iconSize}
         />
       </Wrapper>
     );

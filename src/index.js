@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
 
 import SoundComponent from './components/common/SoundComponent';
-import Player from './components/screens/player';
+import ApplicationNavigator from './routes';
 import AppTheme from './styles';
 import store from './store';
 
@@ -20,7 +20,7 @@ const App = (): Object => (
         store={store}
       >
         <Fragment>
-          <Player />
+          <ApplicationNavigator />
           <SoundComponent />
         </Fragment>
       </Provider>
