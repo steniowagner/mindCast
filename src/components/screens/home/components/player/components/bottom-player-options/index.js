@@ -11,14 +11,6 @@ import Repeat from './components/Repeat';
 
 import appStyles from '~/styles';
 
-type PlayerProps = {
-  isCurrentPodcastDownloaded: boolean,
-  shouldShufflePlaylist: boolean,
-  shouldRepeatPlaylist: boolean,
-  shouldRepeatCurrent: boolean,
-  currentPodcast: Object,
-};
-
 const Wrapper = styled(View)`
   width: 100%;
   height: 30px;
@@ -31,6 +23,15 @@ const Wrapper = styled(View)`
 type LocalPodcastsManagerProps = {
   podcastsDownloaded: Array<Object>,
   downloadingList: Array<Object>,
+};
+
+type PlayerProps = {
+  isCurrentPodcastDownloaded: boolean,
+  shouldShufflePlaylist: boolean,
+  shouldRepeatPlaylist: boolean,
+  shouldRepeatCurrent: boolean,
+  playlist: Array<Object>,
+  playlistIndex: number,
 };
 
 type Props = {
@@ -78,7 +79,8 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
       shouldShufflePlaylist,
       shouldRepeatPlaylist,
       shouldRepeatCurrent,
-      currentPodcast,
+      playlistIndex,
+      playlist,
     } = player;
 
     const iconSize = appStyles.metrics.getWidthFromDP('6%');
@@ -101,8 +103,8 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
         <Download
           isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
           localPodcastsManager={localPodcastsManager}
+          currentPodcast={playlist[playlistIndex]}
           downloadPodcast={downloadPodcast}
-          currentPodcast={currentPodcast}
           removePodcast={removePodcast}
           iconSize={iconSize}
         />

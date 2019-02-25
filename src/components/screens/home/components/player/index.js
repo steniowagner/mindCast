@@ -18,6 +18,8 @@ type PlayerProps = {
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
   currentTimeInSeconds: number,
+  playlist: Array<Object>,
+  playlistIndex: number,
   currentPodcast: Object,
   currentTime: string,
   paused: boolean,

@@ -19,7 +19,7 @@ const Wrapper = styled(View)`
 `;
 
 const AuthorText = styled(Text).attrs({
-  numberOfLines: 1,
+  numberOfLines: 2,
 })`
   font-family: CircularStd-Bold;
   color: ${({ theme }) => theme.colors.primaryColor};
