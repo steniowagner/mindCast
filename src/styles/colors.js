@@ -5,4 +5,5 @@ export default {
   primaryColor: '#EF010B',
   primaryColorAlpha: 'rgba(239, 1, 11, 0.2)',
   white: '#FFF',
+  dark: '#111',
 };

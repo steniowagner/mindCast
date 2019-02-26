@@ -1,15 +1,32 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Animated, View } from 'react-native';
+import SideMenu from 'react-native-side-menu';
+import styled from 'styled-components';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
-import HeaderRightButton from './components/HeaderRightButton';
+import NextPodcastsList from './components/next-podcasts-list';
 import PlayerComponent from './components';
 import CONSTANTS from '~/utils/CONSTANTS';
+import appStyles from '~/styles';
+
+const Container = styled(View)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`;
+
+const DarkLayer = styled(Animated.View)`
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('20%')};
+  height: 100%;
+  position: absolute;
+  background-color: ${({ theme }) => theme.colors.darkLayer};
+`;
 
 type PlayerProps = {
   isCurrentPodcastDownloaded: boolean,
@@ -32,6 +49,7 @@ type LocalPodcastManagerProps = {
 
 type Props = {
   localPodcastsManager: LocalPodcastManagerProps,
+  removeFromPlaylist: Function,
   seekProgressTimer: Function,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
@@ -48,47 +66,60 @@ type Props = {
   play: Function,
 };
 
-class PlayerContainer extends Component<Props, {}> {
-  static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <HeaderRightButton
-        onPress={() => {
-          const { state } = navigation;
-          const isNavigationParamsDefined = !!state && !!state.params;
+type State = {
+  isQueueSideMenuOpen: boolean,
+};
 
-          if (isNavigationParamsDefined) {
-            const onPressHeaderRightButton = state.params[CONSTANTS.BUTTON_RIGHT_PLAYER_ACTION];
+class PlayerContainer extends Component<Props, State> {
+  _darkLayerOpacity = new Animated.Value(0);
 
-            onPressHeaderRightButton();
-          }
-        }}
-      />
-    ),
-  });
+  state = {
+    isQueueSideMenuOpen: false,
+  };
 
   componentDidMount() {
     const { setPodcast } = this.props;
 
     setPodcast();
 
-    this.setHeaderRightButtonPressAction();
+    this.setHeaderRightMenuPress();
   }
 
-  setHeaderRightButtonPressAction = (): void => {
+  onToggleQueueSideMenu = (): void => {
+    const { isQueueSideMenuOpen } = this.state;
     const { navigation } = this.props;
 
     navigation.setParams({
-      [CONSTANTS.BUTTON_RIGHT_PLAYER_ACTION]: this.onPressHeaderRightButton,
+      [CONSTANTS.IS_PLAYER_RIGHT_MENU_OPEN]: !isQueueSideMenuOpen,
+    });
+
+    this.setDarkLayerOpacity();
+
+    this.setState({
+      isQueueSideMenuOpen: !isQueueSideMenuOpen,
     });
   };
 
-  onPressHeaderRightButton = (): void => {
-    console.tron.log('onPressHeaderRightButton');
+  setDarkLayerOpacity = (): void => {
+    Animated.timing(this._darkLayerOpacity, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  setHeaderRightMenuPress = (): void => {
+    const { navigation } = this.props;
+
+    navigation.setParams({
+      [CONSTANTS.HEADER_BUTTON_RIGHT_PLAYER_ACTION]: this.onToggleQueueSideMenu,
+    });
   };
 
   render() {
     const {
       localPodcastsManager,
+      removeFromPlaylist,
       disableRepetition,
       seekProgressTimer,
       setRepeatPlaylist,
@@ -103,22 +134,54 @@ class PlayerContainer extends Component<Props, {}> {
       play,
     } = this.props;
 
+    const { isQueueSideMenuOpen } = this.state;
+
     return (
-      <PlayerComponent
-        localPodcastsManager={localPodcastsManager}
-        disableRepetition={disableRepetition}
-        setRepeatPlaylist={setRepeatPlaylist}
-        seekProgressTimer={seekProgressTimer}
-        setRepeatCurrent={setRepeatCurrent}
-        downloadPodcast={downloadPodcast}
-        shufflePlaylist={shufflePlaylist}
-        removePodcast={removePodcast}
-        playPrevious={playPrevious}
-        playNext={playNext}
-        player={player}
-        pause={pause}
-        play={play}
-      />
+      <Container>
+        <SideMenu
+          openMenuOffset={appStyles.metrics.getWidthFromDP('80%')}
+          animationFunction={(prop, value) => Animated.timing(prop, {
+            toValue: value,
+            duration: 250,
+          })
+          }
+          isOpen={isQueueSideMenuOpen}
+          bounceBackOnOverdraw
+          menu={
+            <NextPodcastsList
+              onBackPress={this.onToggleQueueSideMenu}
+              removeFromPlaylist={removeFromPlaylist}
+              playlistIndex={player.playlistIndex}
+              playlist={player.playlist}
+            />
+          }
+          menuPosition="right"
+          disableGestures
+        >
+          <PlayerComponent
+            localPodcastsManager={localPodcastsManager}
+            disableRepetition={disableRepetition}
+            setRepeatPlaylist={setRepeatPlaylist}
+            seekProgressTimer={seekProgressTimer}
+            setRepeatCurrent={setRepeatCurrent}
+            downloadPodcast={downloadPodcast}
+            shufflePlaylist={shufflePlaylist}
+            removePodcast={removePodcast}
+            playPrevious={playPrevious}
+            playNext={playNext}
+            player={player}
+            pause={pause}
+            play={play}
+          />
+        </SideMenu>
+        {isQueueSideMenuOpen && (
+          <DarkLayer
+            style={{
+              opacity: this._darkLayerOpacity,
+            }}
+          />
+        )}
+      </Container>
     );
   }
 }

@@ -12,6 +12,7 @@ export const Types = {
   PLAY_NEXT_SUCCESS: 'player/PLAY_NEXT_SUCCESS',
   SET_REPEAT_PLAYLIST: 'player/SET_REPEAT_PLAYLIST',
   SET_REPEAT_CURRENT: 'player/SET_REPEAT_CURRENT',
+  REMOVE_FROM_PLAYLIST: 'player/REMOVE_FROM_PLAYLIST',
   SET_CURRENT_TIME: 'player/SET_CURRENT_TIME',
   RESTART_PLAYER: 'player/RESTART_PLAYER',
   DISABLE_REPETIION: 'player/DISABLE_REPETIION',
@@ -20,18 +21,6 @@ export const Types = {
 };
 
 const podcasts = [
-  {
-    title: 'Valerie',
-    author: 'Tomorrows Bad Seeds',
-    id: 1,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
-    thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
-    imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
-    duration: '04:11',
-    totalDurationInSeconds: 251,
-  },
   {
     title: 'Till I Die',
     author: 'Tech N9ne, 2Pac & Eminem',
@@ -45,7 +34,7 @@ const podcasts = [
     totalDurationInSeconds: 240,
   },
   {
-    title: 'This Girl',
+    title: 'Kungs vs Cookin’ on 3 Burners',
     author: 'Kungs vs Cookin’ on 3 Burners',
     id: 3,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
@@ -55,6 +44,18 @@ const podcasts = [
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
     duration: '03:17',
     totalDurationInSeconds: 197,
+  },
+  {
+    title: 'Valerie',
+    author: 'Tomorrows Bad Seeds',
+    id: 1,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+    duration: '04:11',
+    totalDurationInSeconds: 251,
   },
 ];
 
@@ -68,6 +69,7 @@ const INITIAL_STATE = {
   originalPlaylist: podcasts,
   originalPlaylistIndex: 0,
   currentTime: '00:00',
+  backupPlaylist: podcasts,
   playlist: podcasts,
   playlistIndex: 0,
   seekValue: 0,
@@ -132,6 +134,11 @@ export const Creators = {
 
   setRepeatCurrent: () => ({
     type: Types.SET_REPEAT_CURRENT,
+  }),
+
+  removeFromPlaylist: id => ({
+    type: Types.REMOVE_FROM_PLAYLIST,
+    payload: { id },
   }),
 
   setCurrentTime: currentTime => ({
@@ -232,6 +239,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         ...payload,
         shouldShufflePlaylist: !state.shouldShufflePlaylist,
+        backupPlaylist: payload.playlist,
       };
 
     case Types.PLAY_PREVIOUS_REQUEST:
@@ -293,6 +301,12 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         shouldRepeatCurrent: true,
       };
 
+    case Types.REMOVE_FROM_PLAYLIST:
+      return {
+        ...state,
+        playlist: state.playlist.filter(podcast => podcast.id !== payload.id),
+      };
+
     case Types.SET_CURRENT_TIME:
       return {
         ...state,
@@ -304,7 +318,9 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         originalPlaylistIndex: payload.originalPlaylistIndex,
         currentPodcast: payload.currentPodcast,
+        playlist: state.backupPlaylist,
         shouldRepeatCurrent: false,
+        currentTime: '00:00',
         playlistIndex: 0,
         paused: true,
       };

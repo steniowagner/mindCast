@@ -32,6 +32,7 @@
     "react-native-fast-image": "^5.1.2",
     "react-native-fs": "2.13.2",
     "react-native-gesture-handler": "^1.0.16",
+    "react-native-side-menu": "^1.1.3",
     "react-native-vector-icons": "^6.3.0",
     "react-native-video": "^4.4.0",
     "react-navigation": "^3.3.0",
