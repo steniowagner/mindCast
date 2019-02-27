@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
 
@@ -24,15 +24,21 @@ type Props = {
   imageURL: string,
 };
 
-const PodcastImage = ({ thumbnailImageURL, imageURL }: Props): Object => (
-  <Wrapper>
-    <ImageContainer>
-      <ProgressiveImage
-        thumbnailImageURL={thumbnailImageURL}
-        imageURL={imageURL}
-      />
-    </ImageContainer>
-  </Wrapper>
-);
+class PodcastImage extends PureComponent<Props, {}> {
+  render() {
+    const { thumbnailImageURL, imageURL } = this.props;
+
+    return (
+      <Wrapper>
+        <ImageContainer>
+          <ProgressiveImage
+            thumbnailImageURL={thumbnailImageURL}
+            imageURL={imageURL}
+          />
+        </ImageContainer>
+      </Wrapper>
+    );
+  }
+}
 
 export default PodcastImage;

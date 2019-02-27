@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
 
@@ -25,31 +25,27 @@ type LocalPodcastsManagerProps = {
   downloadingList: Array<Object>,
 };
 
-type PlayerProps = {
+type Props = {
+  localPodcastsManager: LocalPodcastsManagerProps,
   isCurrentPodcastDownloaded: boolean,
   shouldShufflePlaylist: boolean,
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
-  playlist: Array<Object>,
-  playlistIndex: number,
-};
-
-type Props = {
-  localPodcastsManager: LocalPodcastsManagerProps,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
   downloadPodcast: Function,
   shufflePlaylist: Function,
   removePodcast: Function,
-  player: PlayerProps,
+  playlist: Array<Object>,
+  playlistIndex: number,
 };
 
 type State = {
   isAddPodcastToPlaylistModalOpen: boolean,
 };
 
-class BottomPlayerOptionsContainer extends Component<Props, State> {
+class BottomPlayerOptionsContainer extends PureComponent<Props, State> {
   state = {
     isAddPodcastToPlaylistModalOpen: false,
   };
@@ -64,24 +60,20 @@ class BottomPlayerOptionsContainer extends Component<Props, State> {
 
   render() {
     const {
+      isCurrentPodcastDownloaded,
+      shouldShufflePlaylist,
       localPodcastsManager,
+      shouldRepeatPlaylist,
+      shouldRepeatCurrent,
       disableRepetition,
       setRepeatPlaylist,
       setRepeatCurrent,
       downloadPodcast,
       shufflePlaylist,
       removePodcast,
-      player,
-    } = this.props;
-
-    const {
-      isCurrentPodcastDownloaded,
-      shouldShufflePlaylist,
-      shouldRepeatPlaylist,
-      shouldRepeatCurrent,
       playlistIndex,
       playlist,
-    } = player;
+    } = this.props;
 
     const iconSize = appStyles.metrics.getWidthFromDP('6%');
 

@@ -1,9 +1,7 @@
 // @flow
 
-import React from 'react';
-import { View } from 'react-native';
-
-import FastImage from 'react-native-fast-image';
+import React, { PureComponent } from 'react';
+import { View, Image } from 'react-native';
 import styled from 'styled-components';
 
 const Container = styled(View)`
@@ -13,7 +11,7 @@ const Container = styled(View)`
   background-color: ${({ theme }) => theme.colors.darkLayer};
 `;
 
-const BlurredImage = styled(FastImage).attrs(({ imageURL }) => ({
+const BlurredImage = styled(Image).attrs(({ imageURL }) => ({
   source: { uri: imageURL },
   resize: 'cover',
   blurRadius: 1,
@@ -33,17 +31,20 @@ type Props = {
   imageURL: string,
 };
 
-const BackgroundImage = ({ imageURL }: Props): Object => {
-  const hasImageURLprop = typeof imageURL === 'string' && imageURL.length > 0;
+class BackgroundImage extends PureComponent<Props, {}> {
+  render() {
+    const { imageURL } = this.props;
+    const hasImageURLprop = typeof imageURL === 'string' && imageURL.length > 0;
 
-  return (
-    <Container>
-      {hasImageURLprop && <BlurredImage
-        imageURL={imageURL}
-      />}
-      <BlackLayer />
-    </Container>
-  );
-};
+    return (
+      <Container>
+        {hasImageURLprop && <BlurredImage
+          imageURL={imageURL}
+        />}
+        <BlackLayer />
+      </Container>
+    );
+  }
+}
 
 export default BackgroundImage;

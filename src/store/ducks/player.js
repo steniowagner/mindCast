@@ -27,9 +27,8 @@ const podcasts = [
     id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
     thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
-    imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar-thumbnail.jpeg',
+    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
     duration: '04:00',
     totalDurationInSeconds: 240,
   },
@@ -39,9 +38,8 @@ const podcasts = [
     id: 2,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
     thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
-    imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpeg',
+    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpg',
     duration: '03:17',
     totalDurationInSeconds: 197,
   },
@@ -51,9 +49,9 @@ const podcasts = [
     id: 3,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
     thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds-thumbnail.jpeg',
     imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds.jpg',
     duration: '04:11',
     totalDurationInSeconds: 251,
   },
@@ -63,9 +61,9 @@ const podcasts = [
     id: 4,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
     thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/skrillex-summit-thumbnail.jpg',
     imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/skrillex-summit.jpeg',
     duration: '04:11',
     totalDurationInSeconds: 251,
   },
@@ -75,9 +73,8 @@ const podcasts = [
     id: 5,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/oh_nana.mp3',
     thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
-    imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck-thumbnail.png',
+    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck.jpeg',
     duration: '04:11',
     totalDurationInSeconds: 251,
   },

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { TouchableOpacity, Platform, View } from 'react-native';
 import styled from 'styled-components';
 
@@ -46,69 +46,69 @@ type Props = {
   play: Function,
 };
 
-const renderCenterButton = (
-  paused: boolean,
-  pause: Function,
-  play: Function,
-  iconSize: number,
-): Object => {
-  const { onPress, iconName } = paused
-    ? { onPress: play, iconName: 'play' }
-    : { onPress: pause, iconName: 'pause' };
+class PlayerControls extends PureComponent<Props, {}> {
+  renderCenterButton = (
+    paused: boolean,
+    pause: Function,
+    play: Function,
+    iconSize: number,
+  ): Object => {
+    const { onPress, iconName } = paused
+      ? { onPress: play, iconName: 'play' }
+      : { onPress: pause, iconName: 'pause' };
 
-  return (
-    <PlayOutterCircle>
-      <PlayInnerCircleButton
-        onPress={onPress}
-      >
-        <Icon
-          name={iconName}
-          size={iconSize}
-        />
-      </PlayInnerCircleButton>
-    </PlayOutterCircle>
+    return (
+      <PlayOutterCircle>
+        <PlayInnerCircleButton
+          onPress={onPress}
+        >
+          <Icon
+            name={iconName}
+            size={iconSize}
+          />
+        </PlayInnerCircleButton>
+      </PlayOutterCircle>
+    );
+  };
+
+  renderSideButton = (
+    iconName: string,
+    action: Function,
+    iconSize: number,
+  ): Object => (
+    <TouchableOpacity
+      onPress={action}
+      hitSlop={{
+        bottom: appStyles.metrics.smallSize,
+        right: appStyles.metrics.smallSize,
+        left: appStyles.metrics.smallSize,
+        top: appStyles.metrics.smallSize,
+      }}
+    >
+      <Icon
+        name={iconName}
+        size={iconSize}
+      />
+    </TouchableOpacity>
   );
-};
 
-const renderSideButton = (
-  iconName: string,
-  action: Function,
-  iconSize: number,
-): Object => (
-  <TouchableOpacity
-    onPress={action}
-    hitSlop={{
-      bottom: appStyles.metrics.smallSize,
-      right: appStyles.metrics.smallSize,
-      left: appStyles.metrics.smallSize,
-      top: appStyles.metrics.smallSize,
-    }}
-  >
-    <Icon
-      name={iconName}
-      size={iconSize}
-    />
-  </TouchableOpacity>
-);
+  render() {
+    const {
+      playPrevious, playNext, paused, pause, play,
+    } = this.props;
 
-const PlayerControls = ({
-  playPrevious,
-  playNext,
-  paused,
-  pause,
-  play,
-}: Props): Object => {
-  const iconSize = appStyles.metrics.getWidthFromDP('9%');
+    const iconSize = appStyles.metrics.getWidthFromDP('9%');
 
-  return (
-    <Container>
-      <Wrapper>
-        {renderSideButton('rewind', playPrevious, iconSize)}
-        {renderCenterButton(paused, pause, play, iconSize)}
-        {renderSideButton('fast-forward', playNext, iconSize)}
-      </Wrapper>
-    </Container>
-  );
-};
+    return (
+      <Container>
+        <Wrapper>
+          {this.renderSideButton('rewind', playPrevious, iconSize)}
+          {this.renderCenterButton(paused, pause, play, iconSize)}
+          {this.renderSideButton('fast-forward', playNext, iconSize)}
+        </Wrapper>
+      </Container>
+    );
+  }
+}
 
 export default PlayerControls;

@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import React, { PureComponent } from 'react';
 import {
   TouchableOpacity, Platform, View, Text, FlatList,
 } from 'react-native';
@@ -35,47 +37,6 @@ const Playlist = styled(FlatList)`
   margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
-const renderHeader = (onBackPress: Function, iconName: string): Object => {
-  const iconSize = Platform.OS === 'android' ? '8%' : '12%';
-
-  return (
-    <Header>
-      <TouchableOpacity
-        onPress={onBackPress}
-        hitSlop={{
-          bottom: appStyles.metrics.smallSize,
-          right: appStyles.metrics.smallSize,
-          left: appStyles.metrics.smallSize,
-          top: appStyles.metrics.smallSize,
-        }}
-      >
-        <Icon
-          name={iconName}
-          size={appStyles.metrics.getWidthFromDP(iconSize)}
-        />
-      </TouchableOpacity>
-      <NextText>Next Up</NextText>
-    </Header>
-  );
-};
-
-const renderNextPodcastsList = (
-  nextPodcasts: Array<Object>,
-  removeFromPlaylist: Function,
-): Object => (
-  <Playlist
-    showsHorizontalScrollIndicator={false}
-    keyExtractor={item => `${item.id}`}
-    data={nextPodcasts}
-    renderItem={({ item }) => (
-      <NextPodcastListItem
-        removeFromPlaylist={removeFromPlaylist}
-        podcast={item}
-      />
-    )}
-  />
-);
-
 type Props = {
   shouldRepeatPlaylist: boolean,
   removeFromPlaylist: Function,
@@ -84,31 +45,76 @@ type Props = {
   playlistIndex: number,
 };
 
-const getCircularPlaylist = (playlist, index) => {
-  const podcastsBeforeCurrent = playlist.slice(0, index + 1);
-  const podcastsAfterCurrent = playlist.slice(index + 1, playlist.length);
+class NextPodcastsList extends PureComponent<Props, {}> {
+  getCircularPlaylist = (playlist: Array<Object>, index: number) => {
+    const podcastsBeforeCurrent = playlist.slice(0, index + 1);
+    const podcastsAfterCurrent = playlist.slice(index + 1, playlist.length);
 
-  return [...podcastsAfterCurrent, ...podcastsBeforeCurrent];
-};
+    return [...podcastsAfterCurrent, ...podcastsBeforeCurrent];
+  };
 
-const ContentView = ({
-  shouldRepeatPlaylist,
-  removeFromPlaylist,
-  playlistIndex,
-  onBackPress,
-  playlist,
-}: Props): Object => {
-  const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
-  const nextPodcasts = shouldRepeatPlaylist
-    ? getCircularPlaylist(playlist, playlistIndex)
-    : playlist.slice(playlistIndex + 1, playlist.length);
+  renderHeader = (onBackPress: Function, iconName: string): Object => {
+    const iconSize = Platform.OS === 'android' ? '8%' : '12%';
 
-  return (
-    <Container>
-      {renderHeader(onBackPress, iconName)}
-      {renderNextPodcastsList(nextPodcasts, removeFromPlaylist)}
-    </Container>
+    return (
+      <Header>
+        <TouchableOpacity
+          onPress={onBackPress}
+          hitSlop={{
+            bottom: appStyles.metrics.smallSize,
+            right: appStyles.metrics.smallSize,
+            left: appStyles.metrics.smallSize,
+            top: appStyles.metrics.smallSize,
+          }}
+        >
+          <Icon
+            name={iconName}
+            size={appStyles.metrics.getWidthFromDP(iconSize)}
+          />
+        </TouchableOpacity>
+        <NextText>Next Up</NextText>
+      </Header>
+    );
+  };
+
+  renderNextPodcastsList = (
+    nextPodcasts: Array<Object>,
+    removeFromPlaylist: Function,
+  ): Object => (
+    <Playlist
+      showsHorizontalScrollIndicator={false}
+      keyExtractor={item => `${item.id}`}
+      data={nextPodcasts}
+      renderItem={({ item }) => (
+        <NextPodcastListItem
+          removeFromPlaylist={removeFromPlaylist}
+          podcast={item}
+        />
+      )}
+    />
   );
-};
 
-export default ContentView;
+  render() {
+    const {
+      shouldRepeatPlaylist,
+      removeFromPlaylist,
+      playlistIndex,
+      onBackPress,
+      playlist,
+    } = this.props;
+
+    const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
+    const nextPodcasts = shouldRepeatPlaylist
+      ? this.getCircularPlaylist(playlist, playlistIndex)
+      : playlist.slice(playlistIndex + 1, playlist.length);
+
+    return (
+      <Container>
+        {this.renderHeader(onBackPress, iconName)}
+        {this.renderNextPodcastsList(nextPodcasts, removeFromPlaylist)}
+      </Container>
+    );
+  }
+}
+
+export default NextPodcastsList;

@@ -109,14 +109,19 @@ const PlayerComponent = ({
       </UpperSection>
       <BottomSection>
         <BottomPlayerOptions
+          isCurrentPodcastDownloaded={player.isCurrentPodcastDownloaded}
+          shouldShufflePlaylist={player.shouldShufflePlaylist}
+          shouldRepeatPlaylist={player.shouldRepeatPlaylist}
+          shouldRepeatCurrent={player.shouldRepeatCurrent}
           localPodcastsManager={localPodcastsManager}
           disableRepetition={disableRepetition}
           setRepeatPlaylist={setRepeatPlaylist}
+          playlistIndex={player.playlistIndex}
           setRepeatCurrent={setRepeatCurrent}
           downloadPodcast={downloadPodcast}
           shufflePlaylist={shufflePlaylist}
           removePodcast={removePodcast}
-          player={player}
+          playlist={player.playlist}
         />
       </BottomSection>
     </Wrapper>
