@@ -214,17 +214,12 @@ export function* playNext() {
       playlist,
     } = yield select(state => state.player);
 
-    // first podcast and playlist is empty
-
     const isLastPodcastOfPlaylist = playlistIndex === playlist.length - 1;
     const isLastPodcastShouldRepeatPlaylist = isLastPodcastOfPlaylist && shouldRepeatPlaylist;
     const isLastPodcastNotRepeatPlaylist = isLastPodcastOfPlaylist && !shouldRepeatPlaylist;
+    const isPlaylistEmpty = playlist.length === 0;
 
-    if (isLastPodcastNotRepeatPlaylist) {
-      return yield _handleRestartPlayer(playlist[0]);
-    }
-
-    if (playlist.length === 0) {
+    if (isLastPodcastNotRepeatPlaylist || isPlaylistEmpty) {
       return yield _handleRestartPlayer(backupPlaylist[0]);
     }
 
