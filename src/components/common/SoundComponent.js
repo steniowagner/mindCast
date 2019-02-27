@@ -69,10 +69,14 @@ class SoundComponent extends Component<Props, {}> {
     const { currentPodcast, shouldRepeatCurrent, paused } = player;
 
     const isPodcastDefined = !!currentPodcast.uri && typeof currentPodcast.uri === 'string';
-    console.tron.log(currentPodcast.uri);
+
     return isPodcastDefined ? (
       <Sound
-        onProgress={({ currentTime }) => setCurrentTime(currentTime)}
+        onProgress={({ currentTime }) => {
+          if (!paused) {
+            setCurrentTime(currentTime);
+          }
+        }}
         onError={() => console.tron.log('currentPodcast')}
         onEnd={this.onEnd}
         source={{

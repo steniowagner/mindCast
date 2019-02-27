@@ -157,10 +157,7 @@ export function* setPodcast() {
   }
 }
 
-function* _defineNextPodcastWhenShouldRepeatPlaylist(
-  nextPodcast,
-  playlistIndex,
-) {
+function* _defineNextPodcast(nextPodcast, playlistIndex) {
   const {
     shouldShufflePlaylist,
     originalPlaylistIndex,
@@ -187,50 +184,58 @@ function* _defineNextPodcastWhenShouldRepeatPlaylist(
   yield call(setPodcast);
 }
 
+function* _handleRestartPlayer(firstPodcast) {
+  const { originalPlaylist } = yield select(state => state.player);
+
+  let firstPodcastPlaylist = firstPodcast;
+
+  const hasURIDefined = !!firstPodcastPlaylist.uri && typeof firstPodcastPlaylist.uri === 'string';
+
+  if (!hasURIDefined) {
+    firstPodcastPlaylist = yield _definePodcastURI(firstPodcastPlaylist);
+  }
+
+  const originalPlaylistIndex = _findIndexInsideOriginalPlaylist(
+    originalPlaylist,
+    firstPodcastPlaylist,
+  );
+
+  return yield put(
+    PlayerCreators.restartPlayer(originalPlaylistIndex, firstPodcastPlaylist),
+  );
+}
+
 export function* playNext() {
   try {
     const {
       shouldRepeatPlaylist,
-      originalPlaylist,
+      backupPlaylist,
       playlistIndex,
       playlist,
     } = yield select(state => state.player);
+
+    // first podcast and playlist is empty
 
     const isLastPodcastOfPlaylist = playlistIndex === playlist.length - 1;
     const isLastPodcastShouldRepeatPlaylist = isLastPodcastOfPlaylist && shouldRepeatPlaylist;
     const isLastPodcastNotRepeatPlaylist = isLastPodcastOfPlaylist && !shouldRepeatPlaylist;
 
+    if (isLastPodcastNotRepeatPlaylist) {
+      return yield _handleRestartPlayer(playlist[0]);
+    }
+
+    if (playlist.length === 0) {
+      return yield _handleRestartPlayer(backupPlaylist[0]);
+    }
+
     if (isLastPodcastShouldRepeatPlaylist) {
-      yield _defineNextPodcastWhenShouldRepeatPlaylist(playlist[0], 0);
+      return yield _defineNextPodcast(playlist[0], 0);
     }
 
     if (!isLastPodcastOfPlaylist) {
-      yield _defineNextPodcastWhenShouldRepeatPlaylist(
+      return yield _defineNextPodcast(
         playlist[playlistIndex + 1],
         playlistIndex + 1,
-      );
-    }
-
-    if (isLastPodcastNotRepeatPlaylist) {
-      let firstPodcastPlaylist = playlist[0];
-
-      const hasURIDefined = !!firstPodcastPlaylist.uri
-        && typeof firstPodcastPlaylist.uri === 'string';
-
-      if (!hasURIDefined) {
-        firstPodcastPlaylist = yield _definePodcastURI(firstPodcastPlaylist);
-      }
-
-      const originalPlaylistIndex = _findIndexInsideOriginalPlaylist(
-        originalPlaylist,
-        firstPodcastPlaylist,
-      );
-
-      yield put(
-        PlayerCreators.restartPlayer(
-          originalPlaylistIndex,
-          firstPodcastPlaylist,
-        ),
       );
     }
   } catch (err) {

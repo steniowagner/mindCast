@@ -77,20 +77,31 @@ const renderNextPodcastsList = (
 );
 
 type Props = {
+  shouldRepeatPlaylist: boolean,
   removeFromPlaylist: Function,
   playlist: Array<Object>,
   onBackPress: Function,
   playlistIndex: number,
 };
 
+const getCircularPlaylist = (playlist, index) => {
+  const podcastsBeforeCurrent = playlist.slice(0, index + 1);
+  const podcastsAfterCurrent = playlist.slice(index + 1, playlist.length);
+
+  return [...podcastsAfterCurrent, ...podcastsBeforeCurrent];
+};
+
 const ContentView = ({
+  shouldRepeatPlaylist,
   removeFromPlaylist,
   playlistIndex,
   onBackPress,
   playlist,
 }: Props): Object => {
   const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
-  const nextPodcasts = playlist.slice(playlistIndex + 1, playlist.length);
+  const nextPodcasts = shouldRepeatPlaylist
+    ? getCircularPlaylist(playlist, playlistIndex)
+    : playlist.slice(playlistIndex + 1, playlist.length);
 
   return (
     <Container>

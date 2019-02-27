@@ -149,6 +149,7 @@ class PlayerContainer extends Component<Props, State> {
           bounceBackOnOverdraw
           menu={
             <NextPodcastsList
+              shouldRepeatPlaylist={player.shouldRepeatPlaylist}
               onBackPress={this.onToggleQueueSideMenu}
               removeFromPlaylist={removeFromPlaylist}
               playlistIndex={player.playlistIndex}

@@ -24,7 +24,7 @@ const podcasts = [
   {
     title: 'Till I Die',
     author: 'Tech N9ne, 2Pac & Eminem',
-    id: 2,
+    id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
     thumbnailImageURL:
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
@@ -34,10 +34,10 @@ const podcasts = [
     totalDurationInSeconds: 240,
   },
   {
-    title: 'Kungs vs Cookin’ on 3 Burners',
+    title: 'This Girl',
     author: 'Kungs vs Cookin’ on 3 Burners',
-    id: 3,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
+    id: 2,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
     thumbnailImageURL:
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
     imageURL:
@@ -48,8 +48,32 @@ const podcasts = [
   {
     title: 'Valerie',
     author: 'Tomorrows Bad Seeds',
-    id: 1,
+    id: 3,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+    duration: '04:11',
+    totalDurationInSeconds: 251,
+  },
+  {
+    title: 'Summit',
+    author: 'Skrillex - Summit (feat. Ellie Goulding)',
+    id: 4,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe.jpeg',
+    duration: '04:11',
+    totalDurationInSeconds: 251,
+  },
+  {
+    title: 'Oh Nana',
+    author: 'Dj 6RB REMiX',
+    id: 5,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/oh_nana.mp3',
     thumbnailImageURL:
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/universe-thumbnail.jpeg',
     imageURL:
@@ -297,6 +321,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.SET_REPEAT_CURRENT:
       return {
         ...state,
+        playlist: state.backupPlaylist,
         shouldRepeatPlaylist: false,
         shouldRepeatCurrent: true,
       };
@@ -304,7 +329,12 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.REMOVE_FROM_PLAYLIST:
       return {
         ...state,
-        playlist: state.playlist.filter(podcast => podcast.id !== payload.id),
+        playlist: state.playlist.filter((podcast) => {
+          const isRemovingCurrentPodcast = podcast.id === state.currentPodcast.id;
+          const isLookingToOtherPodcast = podcast.id !== payload.id;
+
+          return isLookingToOtherPodcast && !isRemovingCurrentPodcast;
+        }),
       };
 
     case Types.SET_CURRENT_TIME:
