@@ -39,13 +39,14 @@ export const HeaderButton = ({
         top: appStyles.metrics.smallSize,
       }}
       style={{
+        paddingTop: appStyles.metrics.extraSmallSize,
         marginRight,
         marginLeft,
       }}
     >
       <Icon
         name={iconName}
-        size={24}
+        size={26}
       />
     </TouchableOpacity>
   );

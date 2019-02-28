@@ -19,6 +19,7 @@ const Container = styled(View)`
   width: 100%;
   height: 100%;
   position: absolute;
+  background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 const DarkLayer = styled(Animated.View)`
@@ -148,13 +149,15 @@ class PlayerContainer extends Component<Props, State> {
           isOpen={isQueueSideMenuOpen}
           bounceBackOnOverdraw
           menu={
-            <NextPodcastsList
-              shouldRepeatPlaylist={player.shouldRepeatPlaylist}
-              onBackPress={this.onToggleQueueSideMenu}
-              removeFromPlaylist={removeFromPlaylist}
-              playlistIndex={player.playlistIndex}
-              playlist={player.playlist}
-            />
+            isQueueSideMenuOpen ? (
+              <NextPodcastsList
+                shouldRepeatPlaylist={player.shouldRepeatPlaylist}
+                onBackPress={this.onToggleQueueSideMenu}
+                removeFromPlaylist={removeFromPlaylist}
+                playlistIndex={player.playlistIndex}
+                playlist={player.playlist}
+              />
+            ) : null
           }
           menuPosition="right"
           disableGestures

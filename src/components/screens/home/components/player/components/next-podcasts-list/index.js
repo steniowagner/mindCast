@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
   TouchableOpacity, Platform, View, Text, FlatList,
 } from 'react-native';
@@ -21,6 +21,7 @@ const Header = styled(View)`
   width: 100%;
   flex-direction: row;
   align-items: center;
+  padding-left: ${({ theme }) => (Platform.OS === 'android' ? theme.metrics.smallSize : 0)}px;
 `;
 
 const NextText = styled(Text)`
@@ -28,7 +29,7 @@ const NextText = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('7%')}px;
   font-family: CircularStd-Bold;
   padding-left: ${({ theme }) => theme.metrics.largeSize}px;
-  padding-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
+  padding-bottom: ${({ theme }) => (Platform.OS === 'ios' ? theme.metrics.extraSmallSize : 0)}px;
 `;
 
 const Playlist = styled(FlatList)`
@@ -45,76 +46,72 @@ type Props = {
   playlistIndex: number,
 };
 
-class NextPodcastsList extends PureComponent<Props, {}> {
-  getCircularPlaylist = (playlist: Array<Object>, index: number) => {
-    const podcastsBeforeCurrent = playlist.slice(0, index + 1);
-    const podcastsAfterCurrent = playlist.slice(index + 1, playlist.length);
+const getCircularPlaylist = (playlist: Array<Object>, index: number) => {
+  const podcastsBeforeCurrent = playlist.slice(0, index + 1);
+  const podcastsAfterCurrent = playlist.slice(index + 1, playlist.length);
 
-    return [...podcastsAfterCurrent, ...podcastsBeforeCurrent];
-  };
+  return [...podcastsAfterCurrent, ...podcastsBeforeCurrent];
+};
 
-  renderHeader = (onBackPress: Function, iconName: string): Object => {
-    const iconSize = Platform.OS === 'android' ? '8%' : '12%';
+const renderHeader = (onBackPress: Function, iconName: string): Object => {
+  const iconSize = Platform.OS === 'android' ? '8%' : '12%';
 
-    return (
-      <Header>
-        <TouchableOpacity
-          onPress={onBackPress}
-          hitSlop={{
-            bottom: appStyles.metrics.smallSize,
-            right: appStyles.metrics.smallSize,
-            left: appStyles.metrics.smallSize,
-            top: appStyles.metrics.smallSize,
-          }}
-        >
-          <Icon
-            name={iconName}
-            size={appStyles.metrics.getWidthFromDP(iconSize)}
-          />
-        </TouchableOpacity>
-        <NextText>Next Up</NextText>
-      </Header>
-    );
-  };
-
-  renderNextPodcastsList = (
-    nextPodcasts: Array<Object>,
-    removeFromPlaylist: Function,
-  ): Object => (
-    <Playlist
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={item => `${item.id}`}
-      data={nextPodcasts}
-      renderItem={({ item }) => (
-        <NextPodcastListItem
-          removeFromPlaylist={removeFromPlaylist}
-          podcast={item}
+  return (
+    <Header>
+      <TouchableOpacity
+        onPress={onBackPress}
+        hitSlop={{
+          bottom: appStyles.metrics.smallSize,
+          right: appStyles.metrics.smallSize,
+          left: appStyles.metrics.smallSize,
+          top: appStyles.metrics.smallSize,
+        }}
+      >
+        <Icon
+          name={iconName}
+          size={appStyles.metrics.getWidthFromDP(iconSize)}
         />
-      )}
-    />
+      </TouchableOpacity>
+      <NextText>Next Up</NextText>
+    </Header>
   );
+};
 
-  render() {
-    const {
-      shouldRepeatPlaylist,
-      removeFromPlaylist,
-      playlistIndex,
-      onBackPress,
-      playlist,
-    } = this.props;
+const renderNextPodcastsList = (
+  nextPodcasts: Array<Object>,
+  removeFromPlaylist: Function,
+): Object => (
+  <Playlist
+    showsHorizontalScrollIndicator={false}
+    keyExtractor={item => `${item.id}`}
+    data={nextPodcasts}
+    renderItem={({ item }) => (
+      <NextPodcastListItem
+        removeFromPlaylist={removeFromPlaylist}
+        podcast={item}
+      />
+    )}
+  />
+);
 
-    const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
-    const nextPodcasts = shouldRepeatPlaylist
-      ? this.getCircularPlaylist(playlist, playlistIndex)
-      : playlist.slice(playlistIndex + 1, playlist.length);
+const NextPodcastsList = ({
+  shouldRepeatPlaylist,
+  removeFromPlaylist,
+  playlistIndex,
+  onBackPress,
+  playlist,
+}: Props): Object => {
+  const iconName = Platform.OS === 'android' ? 'arrow-left' : 'chevron-left';
+  const nextPodcasts = shouldRepeatPlaylist
+    ? getCircularPlaylist(playlist, playlistIndex)
+    : playlist.slice(playlistIndex + 1, playlist.length);
 
-    return (
-      <Container>
-        {this.renderHeader(onBackPress, iconName)}
-        {this.renderNextPodcastsList(nextPodcasts, removeFromPlaylist)}
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      {renderHeader(onBackPress, iconName)}
+      {renderNextPodcastsList(nextPodcasts, removeFromPlaylist)}
+    </Container>
+  );
+};
 
 export default NextPodcastsList;

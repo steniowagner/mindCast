@@ -330,7 +330,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
           const isRemovingCurrentPodcast = podcast.id === state.currentPodcast.id;
           const isLookingToOtherPodcast = podcast.id !== payload.id;
 
-          return isLookingToOtherPodcast && !isRemovingCurrentPodcast;
+          return isLookingToOtherPodcast;
         }),
       };
 
