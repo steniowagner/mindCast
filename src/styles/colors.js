@@ -4,6 +4,7 @@ export default {
   progressiveImageForeground: 'rgba(242, 242, 242, 0.5)',
   primaryColor: '#EF010B',
   primaryColorAlpha: 'rgba(239, 1, 11, 0.2)',
+  yellow: '#F8C330',
   white: '#FFF',
   dark: '#111',
 };
