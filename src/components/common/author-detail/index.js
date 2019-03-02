@@ -85,7 +85,7 @@ class AuthorDetail extends Component {
           scrollEventThrottle={16}
           style={[
             {
-              paddingTop: appStyles.metrics.getHeightFromDP('6%'),
+              paddingBottom: appStyles.metrics.getHeightFromDP('6%'),
               transform: [
                 {
                   translateY: this._scrollViewInitialPosition.y,
@@ -102,9 +102,11 @@ class AuthorDetail extends Component {
           ])}
           showsVerticalScrollIndicator={false}
         >
-          <AuthorName
-            name="Alan Turing"
-          />
+          <SectionWrapper>
+            <AuthorName
+              name="Alan Turing"
+            />
+          </SectionWrapper>
           <SectionWrapper>
             <AboutSection
               about="English mathematician, computer scientist, logician, cryptanalyst, philosopher and theorical biologist."
@@ -116,12 +118,8 @@ class AuthorDetail extends Component {
             />
           </SectionWrapper>
           <NewReleasesSection />
-          <SectionWrapper>
-            <Featured />
-          </SectionWrapper>
-          <SectionWrapper>
-            <RelatedAuthors />
-          </SectionWrapper>
+          <Featured />
+          <RelatedAuthors />
         </Animated.ScrollView>
       </Container>
     );

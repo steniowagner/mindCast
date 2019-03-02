@@ -1,24 +1,25 @@
 // @flow
 
-import React, { Fragment } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import React from 'react';
+import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
 import NewReleasesSectionItemList from './NewReleasesSectionItemList';
-import SectionTitle from '../SectionTitle';
-import appStyles from '~/styles';
+import SectionWithButton from '../SectionWithButton';
 
-const UpperContent = styled(View)`
+const Wrapper = styled(View)`
   width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-  padding-horizontal: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-vertical: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
 const NewReleasesList = styled(FlatList)`
   width: 100%;
   padding-left: ${({ theme }) => theme.metrics.extraLargeSize}px;
+`;
+
+const ListFooterComponent = styled(View)`
+  width: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
+  height: 1px;
 `;
 
 const releases = Array(5).fill({
@@ -30,47 +31,26 @@ const releases = Array(5).fill({
 });
 
 const NewReleasesSection = (): Object => (
-  <Fragment>
-    <UpperContent>
-      <SectionTitle
-        title="New Releases"
-      />
-      <View
-        style={{
-          marginBottom: appStyles.metrics.extraLargeSize,
-          paddingTop: appStyles.metrics.mediumSize,
-          paddingBottom: appStyles.metrics.mediumSize,
-          paddingLeft: appStyles.metrics.largeSize,
-          paddingRight: appStyles.metrics.largeSize,
-          backgroundColor: appStyles.colors.primaryColor,
-          borderRadius: 3,
-        }}
-      >
-        <Text
-          style={{
-            color: '#fff',
-            fontFamily: 'CircularStd-Black',
-          }}
-        >
-          LISTEN NOW
-        </Text>
-      </View>
-    </UpperContent>
+  <Wrapper>
+    <SectionWithButton
+      sectionTitle="New Releases"
+    />
     <NewReleasesList
+      ListFooterComponent={ListFooterComponent}
       showsHorizontalScrollIndicator={false}
       horizontal
       keyExtractor={item => `${item.title}`}
       data={releases}
       renderItem={({ item }) => (
         <NewReleasesSectionItemList
-          subject={`#${item.subject}`}
           imageURL={item.imageURL}
+          subject={item.subject}
           title={item.title}
           stars={item.stars}
         />
       )}
     />
-  </Fragment>
+  </Wrapper>
 );
 
 export default NewReleasesSection;

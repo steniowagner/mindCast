@@ -8,7 +8,6 @@ import SectionTitle from './SectionTitle';
 
 const Wrapper = styled(View)`
   width: 100%;
-  padding-right: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
 const SubjectItemWrapper = styled(View)`
@@ -19,7 +18,7 @@ const SubjectItemWrapper = styled(View)`
   padding-vertical: ${({ theme }) => theme.metrics.smallSize * 1.2}px;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
   border-radius: 3px;
-  background-color: #f0f;
+  background-color: ${({ theme }) => theme.colors.black};
 `;
 
 const SubjectItemText = styled(Text)`
