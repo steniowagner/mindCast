@@ -7,6 +7,7 @@ import styled from 'styled-components';
 const Wrapper = styled(View)`
   width: 100%;
   margin-vertical: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-left: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 type Props = {

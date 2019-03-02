@@ -17,15 +17,16 @@ const About = styled(Text)`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-const AboutSection = (): Object => (
+type Props = {
+  about: string,
+};
+
+const AboutSection = ({ about }: Props): Object => (
   <Wrapper>
     <SectionTitle
       title="About"
     />
-    <About>
-      English mathematician, computer scientist, logician, cryptanalyst,
-      philosopher and theorical biologist.
-    </About>
+    <About>{about}</About>
   </Wrapper>
 );
 

@@ -8,6 +8,7 @@ import styled from 'styled-components';
 const Wrapper = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('35%')}px;
   height: ${({ theme }) => theme.metrics.getHeightFromDP('30%')}px;
+  margin-right: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const Image = styled(FastImage).attrs(({ uri }) => ({
@@ -19,7 +20,6 @@ const Image = styled(FastImage).attrs(({ uri }) => ({
   width: 100%;
   height: 90%;
   border-radius: 5px;
-  background-color: #f0f;
 `;
 
 const Name = styled(Text).attrs({

@@ -37,12 +37,14 @@ class ProgressiveImage extends Component<Props, {}> {
   onThumbnailLoaded = (): void => {
     Animated.timing(this._thumbnailOpacity, {
       toValue: 1,
+      useNativeDriver: true,
     }).start();
   };
 
   onImageLoaded = (): void => {
     Animated.timing(this._imageOpacity, {
       toValue: 1,
+      useNativeDriver: true,
     }).start();
   };
 

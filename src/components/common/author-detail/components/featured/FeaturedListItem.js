@@ -10,6 +10,7 @@ import appStyles from '~/styles';
 
 const Content = styled(View)`
   width: 100%;
+  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const Container = styled(View)`

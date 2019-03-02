@@ -34,27 +34,23 @@ const SubjectsWrapper = styled(View)`
   flex-direction: row;
 `;
 
-const SubjectsSection = (): Object => (
+type Props = {
+  subjects: Array<string>,
+};
+
+const SubjectsSection = ({ subjects }: Props): Object => (
   <Wrapper>
     <SectionTitle
       title="Subjects"
     />
     <SubjectsWrapper>
-      <SubjectItemWrapper>
-        <SubjectItemText>#math</SubjectItemText>
-      </SubjectItemWrapper>
-      <SubjectItemWrapper>
-        <SubjectItemText>#math</SubjectItemText>
-      </SubjectItemWrapper>
-      <SubjectItemWrapper>
-        <SubjectItemText>#science</SubjectItemText>
-      </SubjectItemWrapper>
-      <SubjectItemWrapper>
-        <SubjectItemText>#philosofy</SubjectItemText>
-      </SubjectItemWrapper>
-      <SubjectItemWrapper>
-        <SubjectItemText>#technology</SubjectItemText>
-      </SubjectItemWrapper>
+      {subjects.map(subject => (
+        <SubjectItemWrapper
+          key={subject}
+        >
+          <SubjectItemText>{`#${subject}`}</SubjectItemText>
+        </SubjectItemWrapper>
+      ))}
     </SubjectsWrapper>
   </Wrapper>
 );

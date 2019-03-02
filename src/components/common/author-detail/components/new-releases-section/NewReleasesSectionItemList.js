@@ -11,6 +11,7 @@ const Container = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('55%')};
   height: ${({ theme }) => theme.metrics.getWidthFromDP('55%')};
   border-radius: 3px;
+  margin-right: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const DarkLayer = styled(View)`

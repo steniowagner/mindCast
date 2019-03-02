@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
 import RelatedAuthorsListItem from './RelatedAuthorsListItem';
@@ -9,15 +9,22 @@ import SectionTitle from '../SectionTitle';
 
 const Wrapper = styled(View)`
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize * 2}px;
+  margin-bottom: ${({ theme }) => theme.metrics.getHeightFromDP('10%')}px;
 `;
+
+const items = Array(5).fill(<RelatedAuthorsListItem />);
 
 const RelatedAuthors = (): Object => (
   <Wrapper>
     <SectionTitle
       title="Related Authors"
     />
-    <RelatedAuthorsListItem />
+    <FlatList
+      showsHorizontalScrollIndicator={false}
+      horizontal
+      data={items}
+      renderItem={({ item }) => item}
+    />
   </Wrapper>
 );
 
