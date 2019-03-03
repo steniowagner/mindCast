@@ -4,7 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
 
-import ListenNowButton from './ListenNowButton';
+import DefaultButton from '../../DefaultButton';
 import SectionTitle from './SectionTitle';
 
 const UpperContent = styled(View)`
@@ -25,7 +25,10 @@ const SectionWithButton = ({ sectionTitle }: Props): Object => (
     <SectionTitle
       title={sectionTitle}
     />
-    <ListenNowButton />
+    <DefaultButton
+      size="large"
+      text="LISTEN NOW"
+    />
   </UpperContent>
 );
 

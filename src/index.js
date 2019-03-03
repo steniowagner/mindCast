@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
 
 import SoundComponent from './components/common/SoundComponent';
-import AuthorDetail from './components/common/author-detail';
+import SubjectDetail from './components/common/subject-detail';
 import ApplicationNavigator from './routes';
 import AppTheme from './styles';
 import store from './store';
@@ -21,7 +21,7 @@ const App = (): Object => (
         store={store}
       >
         <Fragment>
-          <AuthorDetail />
+          <SubjectDetail />
           <SoundComponent />
         </Fragment>
       </Provider>
