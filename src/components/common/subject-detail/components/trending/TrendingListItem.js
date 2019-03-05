@@ -4,21 +4,34 @@ import React from 'react';
 import {
   TouchableOpacity, Platform, View, Text,
 } from 'react-native';
-import styled from 'styled-components';
 import FastImage from 'react-native-fast-image';
+import styled from 'styled-components';
 
-import ViewWithShadow from '~/components/common/ViewWithShadow';
-import AuthorInfo from './AuthorInfo';
+import AuthorInfo from '../AuthorInfo';
 
 const ButtonWrapper = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('45%')}px;
+  margin-top: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('33%')}px;
+  height: ${({ theme, index, side }) => {
+    const isEven = index % 2 === 0;
+    let percentage;
+
+    if (side === 'left') {
+      percentage = isEven ? '25%' : '33%';
+    }
+
+    if (side === 'right') {
+      percentage = isEven ? '33%' : '25%';
+    }
+
+    return theme.metrics.getHeightFromDP(percentage);
+  }}px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 `;
@@ -42,10 +55,31 @@ const AuthorInfoWrapper = styled(View)`
   margin-top: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
-const TrendingListItem = (): Object => (
+type AuthorProps = {
+  thumbnailImageURL: string,
+  name: string,
+};
+
+type Props = {
+  podcastImage: string,
+  author: AuthorProps,
+  index: number,
+  title: string,
+  side: string,
+};
+
+const TrendingListItem = ({
+  podcastImage,
+  author,
+  index,
+  title,
+  side,
+}: Props): Object => (
   <ButtonWrapper>
     <PodcastImage
-      uri="https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg"
+      uri={podcastImage}
+      index={index}
+      side={side}
     />
     <BottomContent
       style={{
@@ -71,13 +105,11 @@ const TrendingListItem = (): Object => (
         }),
       }}
     >
-      <PodcastTitle>
-        How solve puzzles can make you a better cryptographer
-      </PodcastTitle>
+      <PodcastTitle>{title}</PodcastTitle>
       <AuthorInfoWrapper>
         <AuthorInfo
-          imageURL="https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg"
-          name="Ada Lovelace"
+          imageURL={author.thumbnailImageURL}
+          name={author.name}
           textColor="dark"
         />
       </AuthorInfoWrapper>

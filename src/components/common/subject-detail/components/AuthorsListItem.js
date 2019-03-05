@@ -11,7 +11,8 @@ const Wrapper = styled(View)`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
-  margin-vertical: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-top: ${({ theme, isFirst }) => (isFirst ? theme.metrics.largeSize : 0)}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.white};
@@ -58,8 +59,22 @@ const BottomContent = styled(View)`
   align-items: center;
 `;
 
-const AuthorsListItem = (): Object => (
+type AuthorProps = {
+  numberPodcasts: number,
+  imageURL: string,
+  about: string,
+  name: string,
+};
+
+type Props = {
+  podcastImage: string,
+  author: AuthorProps,
+  isFirst: boolean,
+};
+
+const AuthorsListItem = ({ podcastImage, author, isFirst }: Props): Object => (
   <Wrapper
+    isFirst={isFirst}
     style={{
       ...Platform.select({
         ios: {
@@ -84,16 +99,17 @@ const AuthorsListItem = (): Object => (
     }}
   >
     <AuthorImage
-      uri="https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg"
+      uri={podcastImage}
     />
     <TextContent>
-      <AuthorName>Alan Turing</AuthorName>
-      <AuthorAbout>
-        English mathematician, computer scientist, logician, cryptanalyst,
-        philosopher and theoretical biologist.
-      </AuthorAbout>
+      <AuthorName>{author.name}</AuthorName>
+      <AuthorAbout>{author.about}</AuthorAbout>
       <BottomContent>
-        <NumberPodcasts>12 Podcasts</NumberPodcasts>
+        <NumberPodcasts>
+          {`${author.numberPodcasts} ${
+            author.numberPodcasts === 1 ? 'Podcast' : 'Podcasts'
+          }`}
+        </NumberPodcasts>
         <DefaultButton
           size="small"
           text="LEARN MORE"

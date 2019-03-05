@@ -11,7 +11,8 @@ import AuthorInfo from './AuthorInfo';
 const Wrapper = styled(View)`
   width: 100%;
   height: ${({ theme }) => theme.metrics.getHeightFromDP('20%')}px;
-  padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-top: ${({ theme, isFirst }) => (isFirst ? theme.metrics.largeSize : 0)}px;
+  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
@@ -55,28 +56,47 @@ const PodcastTitle = styled(Text).attrs({
   font-family: CircularStd-Black;
 `;
 
-const FeaturedListitem = (): Object => (
-  <Wrapper>
+type AuthorProps = {
+  thumbnailImageURL: string,
+  name: string,
+};
+
+type Props = {
+  podcastImage: string,
+  author: AuthorProps,
+  isFirst: boolean,
+  stars: number,
+  title: string,
+};
+
+const FeaturedListitem = ({
+  podcastImage,
+  author,
+  stars,
+  title,
+  isFirst,
+}: Props): Object => (
+  <Wrapper
+    isFirst={isFirst}
+  >
     <Button>
       <PodcastImage
-        uri="https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/events/large/thursday-seafood.jpeg"
+        uri={podcastImage}
       />
       <DarkLayer>
         <UpperContent>
           <ReviewStars
             shouldShowReviewsText={false}
             isSmall={false}
-            stars={4.5}
+            stars={stars}
           />
           <AuthorInfo
-            imageURL="https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg"
-            name="Stenio Wagner"
+            imageURL={author.thumbnailImageURL}
+            name={author.name}
             textColor="white"
           />
         </UpperContent>
-        <PodcastTitle>
-          How solve puzzles can make you a better cryptographer
-        </PodcastTitle>
+        <PodcastTitle>{title}</PodcastTitle>
       </DarkLayer>
     </Button>
   </Wrapper>
