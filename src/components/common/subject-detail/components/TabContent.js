@@ -16,13 +16,18 @@ type Props = {
 };
 
 class TabContent extends Component<Props, {}> {
+  handleRef = (ref: Object): void => {
+    const { setListRef } = this.props;
+
+    ref.getScrollResponder().setNativeProps({
+      scrollEnabled: false,
+    });
+
+    setListRef(ref);
+  };
+
   render() {
-    const {
-      trendingPodcasts,
-      featuredPodcasts,
-      setListRef,
-      authors,
-    } = this.props;
+    const { trendingPodcasts, featuredPodcasts, authors } = this.props;
 
     const items = [
       {
@@ -69,10 +74,7 @@ class TabContent extends Component<Props, {}> {
 
     return (
       <FlatList
-        style={{
-          flex: 1,
-        }}
-        ref={ref => setListRef(ref)}
+        ref={ref => this.handleRef(ref)}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => item.UI}
         keyExtractor={item => item.id}
