@@ -2,12 +2,12 @@ import { createStackNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
 
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
-import SubjectDetail from '~/components/common/subject-detail';
+import SubjectDetail from '~/components/common/subject-detail/SubjectDetailContainer';
 import AuthorDetails from '~/components/common/author-detail';
 import SearchAuthorsList from './components/search-author';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
-import Search from './index';
+import Search from './SearchContainer';
 
 export const ROUTE_NAMES = {
   SEARCH: 'SEARCH',
@@ -54,7 +54,7 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [ROUTE_NAMES.AUTHOR_DETAILS]: {
+    [CONSTANTS.NAVIGATE_AUTHOR_DETAIL]: {
       screen: AuthorDetails,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,

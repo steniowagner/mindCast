@@ -20,12 +20,15 @@ const Title = styled(Text)`
 `;
 
 type Props = {
+  onPress: Function,
   size: string,
   text: string,
 };
 
-const ListenNowButton = ({ size, text }: Props): Object => (
-  <ButtonWrapper>
+const ListenNowButton = ({ onPress, size, text }: Props): Object => (
+  <ButtonWrapper
+    onPress={onPress}
+  >
     <Title
       size={size}
     >

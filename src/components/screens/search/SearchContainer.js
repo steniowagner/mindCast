@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as AuthorCreators } from '~/store/ducks/author';
 
-import SearchComponent from './components';
+import SearchComponent from './components/SearchComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 import { ROUTE_NAMES } from './routes';
 
@@ -27,12 +27,8 @@ type State = {
 class SearchContainer extends Component<Props, State> {
   state = {
     isTextInputFocused: false,
-    authorName: 'stenio',
+    authorName: '',
   };
-
-  componentDidMount() {
-    this.onSearchForAuthor();
-  }
 
   onTypeAuthorName = (authorName: string): void => {
     this.setState({

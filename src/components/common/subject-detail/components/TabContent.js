@@ -2,15 +2,19 @@
 
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import FeaturedListItem from './FeaturedListItem';
-import AuthorsListItem from '../../AuthorsListItem';
+import AuthorsListItem from './AuthorsListItem';
 import TrendingListItem from './trending';
 import List from './List';
+
+import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {
   trendingPodcasts: Array<Object>,
   featuredPodcasts: Array<Object>,
+  navigation: Object,
   authors: Array<Object>,
   setListRef: Function,
 };
@@ -29,7 +33,12 @@ class TabContent extends Component<Props, {}> {
   };
 
   render() {
-    const { trendingPodcasts, featuredPodcasts, authors } = this.props;
+    const {
+      trendingPodcasts,
+      featuredPodcasts,
+      navigation,
+      authors,
+    } = this.props;
 
     const items = [
       {
@@ -62,6 +71,12 @@ class TabContent extends Component<Props, {}> {
             dataset={authors}
             render={(item, index) => (
               <AuthorsListItem
+                onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_AUTHOR_DETAIL, {
+                  [CONSTANTS.AUTHOR_DETAIL_PARAMS]: {
+                    id: item.id,
+                  },
+                })
+                }
                 podcastImage={item.imageURL}
                 isFirst={index === 0}
                 author={item.author}
@@ -88,4 +103,4 @@ class TabContent extends Component<Props, {}> {
   }
 }
 
-export default TabContent;
+export default withNavigation(TabContent);

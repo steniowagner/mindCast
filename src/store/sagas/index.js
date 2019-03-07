@@ -1,6 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects';
 
 import { Types as LocalPodcastsManagerCreators } from '../ducks/localPodcastsManager';
+import { Types as SubjectTypes } from '../ducks/subject';
 import { Types as PlayerTypes } from '../ducks/player';
 import { Types as AuthorTypes } from '../ducks/author';
 
@@ -14,6 +15,7 @@ import {
   shufflePlaylist, setPodcast, playNext, playPrevious,
 } from './player';
 import { searchAuthorByName } from './author';
+import { getSubjectDetail } from './subject';
 
 export default function* rootSaga() {
   return yield all([
@@ -32,5 +34,6 @@ export default function* rootSaga() {
     takeLatest(PlayerTypes.PLAY_PREVIOUS_REQUEST, playPrevious),
     takeLatest(PlayerTypes.SHUFFLE_PLAYLIST_REQUEST, shufflePlaylist),
     takeLatest(AuthorTypes.SEARCH_AUTHOR_BY_NAME_REQUEST, searchAuthorByName),
+    takeLatest(SubjectTypes.GET_SUBJECT_DETAIL_REQUEST, getSubjectDetail),
   ]);
 }

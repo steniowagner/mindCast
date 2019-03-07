@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
 import DefaultButton from '~/components/common/DefaultButton';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -69,10 +70,16 @@ type AuthorProps = {
 type Props = {
   podcastImage: string,
   author: AuthorProps,
+  onPress: Function,
   isFirst: boolean,
 };
 
-const AuthorsListItem = ({ podcastImage, author, isFirst }: Props): Object => (
+const AuthorsListItem = ({
+  podcastImage,
+  onPress,
+  isFirst,
+  author,
+}: Props): Object => (
   <Wrapper
     isFirst={isFirst}
     style={{
@@ -111,8 +118,9 @@ const AuthorsListItem = ({ podcastImage, author, isFirst }: Props): Object => (
           }`}
         </NumberPodcasts>
         <DefaultButton
-          size="small"
+          onPress={onPress}
           text="LEARN MORE"
+          size="small"
         />
       </BottomContent>
     </TextContent>

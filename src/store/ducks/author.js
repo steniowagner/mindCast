@@ -26,7 +26,7 @@ export const Creators = {
   }),
 };
 
-const player = (state = INITIAL_STATE, { type, payload }) => {
+const author = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case Types.SEARCH_AUTHOR_BY_NAME_REQUEST:
       return {
@@ -55,4 +55,4 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
   }
 };
 
-export default player;
+export default author;
