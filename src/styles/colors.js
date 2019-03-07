@@ -11,4 +11,5 @@ export default {
   white: '#FFF',
   dark: '#111',
   black: '#000',
+  lightDark: 'rgba(1, 1, 1, 0.5)',
 };

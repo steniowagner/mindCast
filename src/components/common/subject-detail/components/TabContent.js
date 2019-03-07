@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 
 import FeaturedListItem from './FeaturedListItem';
-import AuthorsListItem from './AuthorsListItem';
+import AuthorsListItem from '../../AuthorsListItem';
 import TrendingListItem from './trending';
 import List from './List';
 
@@ -19,11 +19,13 @@ class TabContent extends Component<Props, {}> {
   handleRef = (ref: Object): void => {
     const { setListRef } = this.props;
 
-    ref.getScrollResponder().setNativeProps({
-      scrollEnabled: false,
-    });
+    if (ref) {
+      ref.getScrollResponder().setNativeProps({
+        scrollEnabled: false,
+      });
 
-    setListRef(ref);
+      setListRef(ref);
+    }
   };
 
   render() {

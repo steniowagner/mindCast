@@ -3,7 +3,7 @@
 import React from 'react';
 
 import FeaturedListItem from './FeaturedListItem';
-import AuthorsListItem from './AuthorsListItem';
+import AuthorsListItem from '../../AuthorsListItem';
 import TrendingListItem from './trending';
 import List from './List';
 

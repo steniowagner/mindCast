@@ -9,13 +9,14 @@ import {
 } from 'react-navigation';
 
 import HomeRoutes from '~/components/screens/home/routes';
+import SearchRoutes from '~/components/screens/search/routes';
 
 import isEqualsOrLargestThanIphoneX from '~/utils/isEqualsOrLargestThanIphoneX';
 import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
   HOME: 'HOME',
-  SEARCH_PODCASTS: 'SEARCH',
+  SEARCH: 'SEARCH',
   LIBRARY: 'LIBRARY',
   PROFILE: 'PROFILE',
   SETTINGS: 'SETTINGS',
@@ -42,11 +43,18 @@ const ApplicationTabs = createMaterialTopTabNavigator(
         tabBarIcon: getTabIcon('compass-outline'),
       },
     },
+
+    [ROUTE_NAMES.SEARCH]: {
+      screen: SearchRoutes,
+      header: null,
+      navigationOptions: {
+        tabBarIcon: getTabIcon('magnify'),
+      },
+    },
   },
   {
-    initialRouteName: ROUTE_NAMES.HOME,
+    initialRouteName: ROUTE_NAMES.SEARCH,
     tabBarPosition: 'bottom',
-    optimizationsEnabled: true,
     animationEnabled: true,
     swipeEnabled: false,
     lazy: true,
@@ -63,7 +71,7 @@ const ApplicationTabs = createMaterialTopTabNavigator(
       indicatorStyle: {
         backgroundColor: 'transparent',
       },
-      inactiveTintColor: appStyles.colors.gray,
+      inactiveTintColor: appStyles.colors.subText,
       activeTintColor: appStyles.colors.primaryColor,
     },
   },
