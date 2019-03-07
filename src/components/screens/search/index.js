@@ -27,8 +27,12 @@ type State = {
 class SearchContainer extends Component<Props, State> {
   state = {
     isTextInputFocused: false,
-    authorName: '',
+    authorName: 'stenio',
   };
+
+  componentDidMount() {
+    this.onSearchForAuthor();
+  }
 
   onTypeAuthorName = (authorName: string): void => {
     this.setState({

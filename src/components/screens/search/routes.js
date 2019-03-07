@@ -3,7 +3,8 @@ import { Platform } from 'react-native';
 
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
 import SubjectDetail from '~/components/common/subject-detail';
-import SearchAuthorsList from './components/SearchAuthorList';
+import AuthorDetails from '~/components/common/author-detail';
+import SearchAuthorsList from './components/search-author';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 import Search from './index';
@@ -12,6 +13,7 @@ export const ROUTE_NAMES = {
   SEARCH: 'SEARCH',
   SUBJECT_DETAIL: 'SUBJECT_DETAIL',
   SEARCH_AUTHORS_RESULT: 'SEARCH_AUTHORS_RESULT',
+  AUTHOR_DETAILS: 'AUTHOR_DETAILS',
 };
 
 const RootStack = createStackNavigator(
@@ -43,10 +45,19 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         title: 'Search Authors',
         ...DEFAULT_HEADER_STYLE,
+        headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,
           borderBottomWidth: 0,
+          elevation: 0,
         },
+      }),
+    },
+
+    [ROUTE_NAMES.AUTHOR_DETAILS]: {
+      screen: AuthorDetails,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
       }),
     },
   },

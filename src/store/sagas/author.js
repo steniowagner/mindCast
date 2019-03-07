@@ -6,20 +6,13 @@ import { Creators as AuthorCreators } from '../ducks/author';
 
 const AUTHORS = Array(3)
   .fill({
-    imageURL:
+    profileImage:
       'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
-    title: 'How solve puzzles can make you a better cryptographer',
-    author: {
-      thumbnailImageURL:
-        'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
-      name: 'Ada Lovelace',
-      about:
-        'English mathematician, computer scientist, logician, cryptanalyst, philosopher and theoretical biologist.',
-      numberPodcasts: 7,
-    },
-    stars: 4.5,
+    name: 'Alan Turing',
+    subjects: ['math', 'science', 'philosofy', 'technology'],
+    numberPodcasts: 17,
   })
-  .map((item, index) => ({ ...item, id: index }));
+  .map((item, index) => ({ ...item, id: index.toString() }));
 
 export function* searchAuthorByName({ payload }) {
   try {
