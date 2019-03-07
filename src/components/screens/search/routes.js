@@ -1,10 +1,10 @@
 import { createStackNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
 
+import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
+import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
-import SubjectDetail from '~/components/common/subject-detail/SubjectDetailContainer';
 import AuthorDetails from '~/components/common/author-detail';
-import SearchAuthorsList from './components/search-author';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 import Search from './SearchContainer';
@@ -27,7 +27,7 @@ const RootStack = createStackNavigator(
     },
 
     [ROUTE_NAMES.SUBJECT_DETAIL]: {
-      screen: SubjectDetail,
+      screen: SubjectDetailContainer,
       navigationOptions: ({ navigation }) => {
         const { params } = navigation.state;
         const subject = params[CONSTANTS.SUBJECT_DETAIL_PARAMS];
@@ -41,7 +41,7 @@ const RootStack = createStackNavigator(
     },
 
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
-      screen: SearchAuthorsList,
+      screen: SearchAuthorListContainer,
       navigationOptions: () => ({
         title: 'Search Authors',
         ...DEFAULT_HEADER_STYLE,

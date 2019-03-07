@@ -1,12 +1,12 @@
 // @flow
 
-import React, { Animated, Component } from 'react';
+import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as AuthorCreators } from '~/store/ducks/author';
 
-import SearchAuthorListComponent from './components';
+import SearchAuthorListComponent from './components/SearchAuthorListComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 

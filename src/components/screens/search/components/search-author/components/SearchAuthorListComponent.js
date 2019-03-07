@@ -78,8 +78,10 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
         renderItem={({ item }) => (
           <SearchAuthorListItem
             numberPodcasts={item.numberPodcasts}
-            onPress={() => navigation.navigate(ROUTE_NAMES.AUTHOR_DETAILS, {
-              [CONSTANTS.AUTHOR_DETAIL_PARAMS]: item.id,
+            onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_AUTHOR_DETAIL, {
+              [CONSTANTS.AUTHOR_DETAIL_PARAMS]: {
+                id: item.id,
+              },
             })
             }
             profileImage={item.profileImage}
