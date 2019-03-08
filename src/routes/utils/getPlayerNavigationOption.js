@@ -8,21 +8,19 @@ import DEFAULT_HEADER_STYLE from './DEFAULT_HEADER_STYLE';
 
 const getPlayerNavigationOption = (navigation: Object) => {
   const { state } = navigation;
+  const { params } = navigation.state;
 
-  const isRightMenuOpen = state.params[CONSTANTS.IS_PLAYER_RIGHT_MENU_OPEN];
-  const { subject } = state.params[CONSTANTS.PLAYER_PARAMS];
+  const isRightMenuOpen = params[CONSTANTS.IS_PLAYER_RIGHT_MENU_OPEN];
+  const title = params[CONSTANTS.PLAYER_TITLE_PARAM];
 
   return {
     header: isRightMenuOpen ? null : undefined,
-    title: `#${subject}`,
+    title: title ? `#${title}` : '',
     headerRight: (
       <HeaderButton
         onPress={() => {
-          if (isNavigationParamsDefined) {
-            const onPressHeaderRightButton = state.params[CONSTANTS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
-
-            onPressHeaderRightButton();
-          }
+          const onPressHeaderRightButton = state.params[CONSTANTS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
+          onPressHeaderRightButton();
         }}
         iconName="format-list-bulleted"
         position={POSITIONS.RIGHT}

@@ -122,7 +122,7 @@ export function* removePodcast({ payload }) {
   try {
     const { currentPodcast } = payload;
     const { uri, id } = currentPodcast;
-    console.log(currentPodcast);
+
     yield call(RNFS.unlink, uri);
 
     yield _removePodcastFromSavedPodcastList(id);
@@ -130,7 +130,7 @@ export function* removePodcast({ payload }) {
     yield put(LocalPodcastsManagerCreators.removeFromDownloadedList(id));
     yield put(PlayerCreators.updatePodcastURI(currentPodcast.url));
   } catch (err) {
-    console.tron.log(err);
+    console.tron.log('removePodcast - err');
   }
 }
 

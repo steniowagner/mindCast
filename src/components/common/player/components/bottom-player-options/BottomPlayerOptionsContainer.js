@@ -38,6 +38,7 @@ type Props = {
   shufflePlaylist: Function,
   removePodcast: Function,
   playlist: Array<Object>,
+  currentPodcast: Object,
   playlistIndex: number,
 };
 
@@ -73,6 +74,7 @@ class BottomPlayerOptionsContainer extends PureComponent<Props, State> {
       removePodcast,
       playlistIndex,
       playlist,
+      currentPodcast,
     } = this.props;
 
     const iconSize = appStyles.metrics.getWidthFromDP('6%');
@@ -95,7 +97,7 @@ class BottomPlayerOptionsContainer extends PureComponent<Props, State> {
         <Download
           isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
           localPodcastsManager={localPodcastsManager}
-          currentPodcast={playlist[playlistIndex]}
+          currentPodcast={currentPodcast}
           downloadPodcast={downloadPodcast}
           removePodcast={removePodcast}
           iconSize={iconSize}

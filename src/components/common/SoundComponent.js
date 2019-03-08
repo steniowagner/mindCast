@@ -13,6 +13,7 @@ type PlayerProps = {
   playlist: Array<Object>,
   currentPodcast: Object,
   playlistIndex: number,
+  stopPlayer: boolean,
   seekValue: number,
   paused: boolean,
 };
@@ -38,11 +39,6 @@ class SoundComponent extends Component<Props, {}> {
     }
   }
 
-  /*
-    onLoad={() => console.tron.log('onLoad')}
-    onBuffer={() => console.tron.log('onBuffer')}
-  */
-
   onEnd = (): void => {
     const { setPodcast, player, playNext } = this.props;
     const {
@@ -66,11 +62,15 @@ class SoundComponent extends Component<Props, {}> {
 
   render() {
     const { setCurrentTime, player } = this.props;
-    const { currentPodcast, shouldRepeatCurrent, paused } = player;
+    const {
+      shouldRepeatCurrent, currentPodcast, stopPlayer, paused,
+    } = player;
 
-    const isPodcastDefined = !!currentPodcast.uri && typeof currentPodcast.uri === 'string';
+    const isPodcastDefined = !!currentPodcast
+      && !!currentPodcast.uri
+      && typeof currentPodcast.uri === 'string';
 
-    return isPodcastDefined ? (
+    return isPodcastDefined && !stopPlayer ? (
       <Sound
         onProgress={({ currentTime }) => {
           if (!paused) {
@@ -85,7 +85,6 @@ class SoundComponent extends Component<Props, {}> {
           this._soundRef = ref;
         }}
         repeat={shouldRepeatCurrent}
-        ignoreSilentSwitch="ignore"
         playInBackground
         paused={paused}
         rate={1.0}

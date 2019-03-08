@@ -27,12 +27,6 @@ const HomeComponent = ({ navigation }: Props): Object => (
       animated
     />
     <TouchableOpacity
-      onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-        [CONSTANTS.PLAYER_PARAMS]: {
-          subject: 'reggaeton',
-        },
-      })
-      }
       style={{
         paddingHorizontal: 20,
         paddingVertical: 10,

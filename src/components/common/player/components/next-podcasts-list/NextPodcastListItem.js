@@ -82,16 +82,20 @@ const renderCloseIcon = (removeFromPlaylist: Function, id: string): Object => (
   </CloseIconWrapper>
 );
 
-type Podcast = {
+type AuthorProps = {
+  name: string,
+};
+
+type PodcastProps = {
   thumbnailImageURL: string,
-  author: string,
+  author: AuthorProps,
   title: string,
   id: string,
 };
 
 type Props = {
   removeFromPlaylist: Function,
-  podcast: Podcast,
+  podcast: PodcastProps,
 };
 
 const NextPodcastListItem = ({
@@ -107,7 +111,7 @@ const NextPodcastListItem = ({
       <ThumbanailImage
         uri={thumbnailImageURL}
       />
-      {renderTextContent(author, title)}
+      {renderTextContent(author.name, title)}
       {renderCloseIcon(removeFromPlaylist, id)}
     </Wrapper>
   );

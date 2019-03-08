@@ -59,7 +59,7 @@ type Props = {
   shufflePlaylist: Function,
   removePodcast: Function,
   playPrevious: Function,
-  setPodcast: Function,
+  setupPlayer: Function,
   player: PlayerProps,
   navigation: Object,
   playNext: Function,
@@ -79,12 +79,44 @@ class PlayerContainer extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const { setPodcast } = this.props;
+    const { player, setupPlayer, navigation } = this.props;
 
-    setPodcast();
+    const { params } = navigation.state;
+    const { currentPodcast, paused } = player;
+
+    const playerParams = params[CONSTANTS.PLAYER_PARAMS];
+    const playlist = playerParams[CONSTANTS.PLAYLIST_KEY];
+
+    const isCurrentPodcastDefined = !!currentPodcast;
+    const isPodcastChanged = isCurrentPodcastDefined && currentPodcast.id !== playlist[0].id;
 
     this.setHeaderRightMenuPress();
+
+    if (!isCurrentPodcastDefined || isPodcastChanged) {
+      setupPlayer(playlist);
+    }
+
+    this.setHeaderTitle(navigation, playlist[0].subject);
   }
+
+  componentWillUpdate(nextProps: Props) {
+    const { navigation } = nextProps;
+    const { player } = nextProps;
+    const { currentPodcast } = player;
+
+    const { currentPodcast: nextPodcast } = nextProps.player;
+    const { currentPodcast: pastPodcast } = this.props.player;
+
+    if (pastPodcast && nextPodcast && pastPodcast.id !== nextPodcast.id) {
+      this.setHeaderTitle(navigation, nextPodcast.subject);
+    }
+  }
+
+  setHeaderTitle = (navigation: Object, subject: string): void => {
+    navigation.setParams({
+      [CONSTANTS.PLAYER_TITLE_PARAM]: subject,
+    });
+  };
 
   onToggleQueueSideMenu = (): void => {
     const { isQueueSideMenuOpen } = this.state;
@@ -136,48 +168,52 @@ class PlayerContainer extends Component<Props, State> {
     } = this.props;
 
     const { isQueueSideMenuOpen } = this.state;
+    const { currentPodcast } = player;
+    const isPodcastDefined = !!currentPodcast;
 
     return (
       <Container>
-        <SideMenu
-          openMenuOffset={appStyles.metrics.getWidthFromDP('80%')}
-          animationFunction={(prop, value) => Animated.timing(prop, {
-            toValue: value,
-            duration: 250,
-          })
-          }
-          isOpen={isQueueSideMenuOpen}
-          bounceBackOnOverdraw
-          menu={
-            isQueueSideMenuOpen ? (
-              <NextPodcastsList
-                shouldRepeatPlaylist={player.shouldRepeatPlaylist}
-                onBackPress={this.onToggleQueueSideMenu}
-                removeFromPlaylist={removeFromPlaylist}
-                playlistIndex={player.playlistIndex}
-                playlist={player.playlist}
-              />
-            ) : null
-          }
-          menuPosition="right"
-          disableGestures
-        >
-          <PlayerComponent
-            localPodcastsManager={localPodcastsManager}
-            disableRepetition={disableRepetition}
-            setRepeatPlaylist={setRepeatPlaylist}
-            seekProgressTimer={seekProgressTimer}
-            setRepeatCurrent={setRepeatCurrent}
-            downloadPodcast={downloadPodcast}
-            shufflePlaylist={shufflePlaylist}
-            removePodcast={removePodcast}
-            playPrevious={playPrevious}
-            playNext={playNext}
-            player={player}
-            pause={pause}
-            play={play}
-          />
-        </SideMenu>
+        {isPodcastDefined && (
+          <SideMenu
+            openMenuOffset={appStyles.metrics.getWidthFromDP('80%')}
+            animationFunction={(prop, value) => Animated.timing(prop, {
+              toValue: value,
+              duration: 250,
+            })
+            }
+            isOpen={isQueueSideMenuOpen}
+            bounceBackOnOverdraw
+            menu={
+              isQueueSideMenuOpen ? (
+                <NextPodcastsList
+                  shouldRepeatPlaylist={player.shouldRepeatPlaylist}
+                  onBackPress={this.onToggleQueueSideMenu}
+                  removeFromPlaylist={removeFromPlaylist}
+                  playlistIndex={player.playlistIndex}
+                  playlist={player.playlist}
+                />
+              ) : null
+            }
+            menuPosition="right"
+            disableGestures
+          >
+            <PlayerComponent
+              localPodcastsManager={localPodcastsManager}
+              disableRepetition={disableRepetition}
+              setRepeatPlaylist={setRepeatPlaylist}
+              seekProgressTimer={seekProgressTimer}
+              setRepeatCurrent={setRepeatCurrent}
+              downloadPodcast={downloadPodcast}
+              shufflePlaylist={shufflePlaylist}
+              removePodcast={removePodcast}
+              playPrevious={playPrevious}
+              playNext={playNext}
+              player={player}
+              pause={pause}
+              play={play}
+            />
+          </SideMenu>
+        )}
         {isQueueSideMenuOpen && (
           <DarkLayer
             style={{

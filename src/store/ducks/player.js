@@ -16,69 +16,10 @@ export const Types = {
   SET_CURRENT_TIME: 'player/SET_CURRENT_TIME',
   RESTART_PLAYER: 'player/RESTART_PLAYER',
   DISABLE_REPETIION: 'player/DISABLE_REPETIION',
+  SETUP_PLAYER: 'player/SETUP_PLAYER',
   PLAY: 'player/PLAY',
   STOP: 'player/STOP',
 };
-
-const podcasts = [
-  {
-    title: 'Till I Die',
-    author: 'Tech N9ne, 2Pac & Eminem',
-    id: 1,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
-    thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar-thumbnail.jpeg',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
-    duration: '04:00',
-    totalDurationInSeconds: 240,
-  },
-  {
-    title: 'This Girl',
-    author: 'Kungs vs Cookin’ on 3 Burners',
-    id: 2,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
-    thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpeg',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpg',
-    duration: '03:17',
-    totalDurationInSeconds: 197,
-  },
-  {
-    title: 'Valerie',
-    author: 'Tomorrows Bad Seeds',
-    id: 3,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
-    thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds-thumbnail.jpeg',
-    imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds.jpg',
-    duration: '04:11',
-    totalDurationInSeconds: 251,
-  },
-  {
-    title: 'Summit',
-    author: 'Skrillex - Summit (feat. Ellie Goulding)',
-    id: 4,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
-    thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/skrillex-summit-thumbnail.jpg',
-    imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/skrillex-summit.jpeg',
-    duration: '04:11',
-    totalDurationInSeconds: 251,
-  },
-  {
-    title: 'Oh Nana',
-    author: 'Dj 6RB REMiX',
-    id: 5,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/oh_nana.mp3',
-    thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck-thumbnail.png',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck.jpeg',
-    duration: '04:11',
-    totalDurationInSeconds: 251,
-  },
-];
 
 const INITIAL_STATE = {
   isCurrentPodcastDownloaded: false,
@@ -86,15 +27,16 @@ const INITIAL_STATE = {
   shouldShufflePlaylist: false,
   shouldRepeatPlaylist: false,
   shouldRepeatCurrent: false,
-  currentPodcast: podcasts[0],
-  originalPlaylist: podcasts,
   originalPlaylistIndex: 0,
+  currentPodcast: null,
+  originalPlaylist: [],
   currentTime: '00:00',
-  backupPlaylist: podcasts,
-  playlist: podcasts,
+  backupPlaylist: [],
   playlistIndex: 0,
+  playlist: [],
   seekValue: 0,
   paused: true,
+  stopPlayer: false,
 };
 
 export const Creators = {
@@ -174,6 +116,11 @@ export const Creators = {
 
   disableRepetition: () => ({
     type: Types.DISABLE_REPETIION,
+  }),
+
+  setupPlayer: playlist => ({
+    type: Types.SETUP_PLAYER,
+    payload: { playlist },
   }),
 
   play: () => ({
@@ -283,14 +230,12 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     case Types.SET_PODCAST_REQUEST:
       return {
         ...state,
-        paused: true,
       };
 
     case Types.SET_PODCAST_SUCCESS:
       return {
         ...state,
         currentPodcast: payload.currentPodcast,
-        currentTime: '00:00',
         paused: false,
       };
 
@@ -346,10 +291,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         originalPlaylistIndex: payload.originalPlaylistIndex,
         currentPodcast: payload.currentPodcast,
         playlist: state.backupPlaylist,
-        shouldRepeatCurrent: false,
-        currentTime: '00:00',
-        playlistIndex: 0,
-        paused: true,
+        stopPlayer: true,
       };
 
     case Types.DISABLE_REPETIION:
@@ -359,9 +301,18 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         shouldRepeatCurrent: false,
       };
 
+    case Types.SETUP_PLAYER:
+      return {
+        ...INITIAL_STATE,
+        originalPlaylist: payload.playlist,
+        backupPlaylist: payload.playlist,
+        playlist: payload.playlist,
+      };
+
     case Types.PLAY:
       return {
         ...state,
+        stopPlayer: false,
         paused: false,
       };
 

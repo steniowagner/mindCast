@@ -48,7 +48,7 @@ class TabContent extends Component<Props, {}> {
             podcasts={trendingPodcasts}
             onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
               [CONSTANTS.PLAYER_PARAMS]: {
-                ...podcast,
+                [CONSTANTS.PLAYLIST_KEY]: [podcast],
               },
             })
             }
@@ -60,19 +60,19 @@ class TabContent extends Component<Props, {}> {
         UI: (
           <List
             dataset={featuredPodcasts}
-            render={(item, index) => (
+            render={(podcast, index) => (
               <FeaturedListItem
                 onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
                   [CONSTANTS.PLAYER_PARAMS]: {
-                    ...item,
+                    [CONSTANTS.PLAYLIST_KEY]: [podcast],
                   },
                 })
                 }
-                podcastImage={item.imageURL}
+                podcastImage={podcast.imageURL}
                 isFirst={index === 0}
-                author={item.author}
-                title={item.title}
-                stars={item.stars}
+                author={podcast.author}
+                title={podcast.title}
+                stars={podcast.stars}
               />
             )}
           />

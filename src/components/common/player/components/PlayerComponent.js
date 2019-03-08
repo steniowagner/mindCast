@@ -92,7 +92,7 @@ const PlayerComponent = ({
           imageURL={imageURL}
         />
         <CurrentPodcastPlaying
-          author={author}
+          author={author.name}
           title={title}
         />
         <ProgressSlider
@@ -114,6 +114,7 @@ const PlayerComponent = ({
           shouldRepeatPlaylist={player.shouldRepeatPlaylist}
           shouldRepeatCurrent={player.shouldRepeatCurrent}
           localPodcastsManager={localPodcastsManager}
+          currentPodcast={player.currentPodcast}
           disableRepetition={disableRepetition}
           setRepeatPlaylist={setRepeatPlaylist}
           playlistIndex={player.playlistIndex}

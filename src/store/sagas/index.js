@@ -12,7 +12,11 @@ import {
   removePodcast,
 } from './localPodcastsManager';
 import {
-  shufflePlaylist, setPodcast, playNext, playPrevious,
+  shufflePlaylist,
+  setPodcast,
+  playNext,
+  playPrevious,
+  setupPlayer,
 } from './player';
 import { searchAuthorByName, getAuthorById } from './author';
 import { getSubjectDetail } from './subject';
@@ -30,6 +34,7 @@ export default function* rootSaga() {
     ),
     takeLatest(LocalPodcastsManagerCreators.REMOVE_PODCAST, removePodcast),
     takeLatest(PlayerTypes.SET_PODCAST_REQUEST, setPodcast),
+    takeLatest(PlayerTypes.SETUP_PLAYER, setupPlayer),
     takeLatest(PlayerTypes.PLAY_NEXT_REQUEST, playNext),
     takeLatest(PlayerTypes.PLAY_PREVIOUS_REQUEST, playPrevious),
     takeLatest(PlayerTypes.SHUFFLE_PLAYLIST_REQUEST, shufflePlaylist),
