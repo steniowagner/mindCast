@@ -82,28 +82,6 @@ const AuthorsListItem = ({
 }: Props): Object => (
   <Wrapper
     isFirst={isFirst}
-    style={{
-      ...Platform.select({
-        ios: {
-          elevation: 1,
-          shadowOffset: {
-            width: 0,
-            height: 0,
-          },
-          shadowRadius: 3,
-          shadowOpacity: 0.35,
-        },
-        android: {
-          elevation: 4,
-          shadowOffset: {
-            width: 1,
-            height: -3,
-          },
-          shadowRadius: 2,
-          shadowOpacity: 5.0,
-        },
-      }),
-    }}
   >
     <AuthorImage
       uri={podcastImage}

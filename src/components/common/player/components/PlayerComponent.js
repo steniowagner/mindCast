@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import styled from 'styled-components';
 
 import CurrentPodcastPlaying from './CurrentPodcastPlaying';
-import BottomPlayerOptions from './bottom-player-options';
+import BottomPlayerOptions from './bottom-player-options/BottomPlayerOptionsContainer';
 import BackgroundImage from './BackgroundImage';
 import ProgressSlider from './ProgressSlider';
 import PlayerControls from './PlayerControls';

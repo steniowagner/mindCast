@@ -10,7 +10,7 @@ const DEFAULT_HEADER_STYLE = {
     borderBottomWidth: 0,
   },
   titleStyle: {
-    color: appStyles.colors.defaultWhite,
+    color: appStyles.colors.white,
   },
   headerTitleStyle: {
     fontFamily: 'CircularStd-Bold',

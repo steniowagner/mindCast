@@ -5,7 +5,7 @@ import {
   View, StatusBar, TouchableOpacity, Text,
 } from 'react-native';
 
-import { ROUTE_NAMES } from '../routes';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {
   navigation: Object,
@@ -27,7 +27,12 @@ const HomeComponent = ({ navigation }: Props): Object => (
       animated
     />
     <TouchableOpacity
-      onPress={() => navigation.navigate(ROUTE_NAMES.PLAYER)}
+      onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
+        [CONSTANTS.PLAYER_PARAMS]: {
+          subject: 'reggaeton',
+        },
+      })
+      }
       style={{
         paddingHorizontal: 20,
         paddingVertical: 10,

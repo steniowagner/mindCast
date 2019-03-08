@@ -22,18 +22,90 @@ export function* searchAuthorByName({ payload }) {
     yield put(AuthorCreators.searchAuthorByNameFailure());
   }
 }
-
-const PODCASTS = Array(5)
-  .fill({
-    stars: 3.5,
-    title: 'How solve puzzles can make you a better cryptographer',
+const PODCASTS = [
+  {
+    title: 'Till I Die',
+    author: 'Tech N9ne, 2Pac & Eminem',
+    id: 1,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar-thumbnail.jpeg',
     imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
     smallImageURL:
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    subject: 'literature',
+    fileName: 'file_name',
+    duration: '04:00',
+    totalDurationInSeconds: 240,
+    stars: 3.5,
+  },
+  {
+    title: 'This Girl',
+    author: 'Kungs vs Cookin’ on 3 Burners',
+    id: 2,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpeg',
+    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpg',
+    smallImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/girl.jpg',
+    subject: 'pop-culture',
+    fileName: 'file_name',
+    duration: '03:17',
+    totalDurationInSeconds: 197,
+    stars: 3.5,
+  },
+  {
+    title: 'Valerie',
+    author: 'Tomorrows Bad Seeds',
+    id: 3,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds-thumbnail.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds.jpg',
+    smallImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds.jpg',
+    subject: 'science',
+    fileName: 'file_name',
+    duration: '04:11',
+    totalDurationInSeconds: 251,
+    stars: 3.5,
+  },
+  {
+    title: 'Summit',
+    author: 'Skrillex - Summit (feat. Ellie Goulding)',
+    id: 4,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/skrillex-summit-thumbnail.jpg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/skrillex-summit.jpeg',
+    smallImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck.jpeg',
+    subject: 'philosofy',
+    fileName: 'file_name',
+    duration: '04:11',
+    totalDurationInSeconds: 251,
+    stars: 3.5,
+  },
+  {
+    title: 'Oh Nana',
+    author: 'Dj 6RB REMiX',
+    id: 5,
+    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/oh_nana.mp3',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck-thumbnail.png',
+    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck.jpeg',
+    smallImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/djck.jpeg',
     subject: 'technology',
     fileName: 'file_name',
-  })
-  .map((item, index) => ({ ...item, id: index.toString() }));
+    duration: '04:11',
+    totalDurationInSeconds: 251,
+    stars: 3.5,
+  },
+];
 
 export function* getAuthorById({ payload }) {
   try {

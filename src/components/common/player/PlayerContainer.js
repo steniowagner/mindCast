@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
-import NextPodcastsList from './components/next-podcasts-list';
-import PlayerComponent from './components';
+import NextPodcastsList from './components/next-podcasts-list/NextPodcastsList';
+import PlayerComponent from './components/PlayerComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 

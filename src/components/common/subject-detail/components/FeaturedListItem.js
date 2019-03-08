@@ -10,7 +10,7 @@ import AuthorInfo from './AuthorInfo';
 
 const Wrapper = styled(View)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('20%')}px;
+  height: ${({ theme }) => theme.metrics.getHeightFromDP('25%')}px;
   margin-top: ${({ theme, isFirst }) => (isFirst ? theme.metrics.largeSize : 0)}px;
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
@@ -42,10 +42,9 @@ const DarkLayer = styled(View)`
   border-radius: 4px;
 `;
 
-const UpperContent = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+const StarsWrapper = styled(View)`
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 const PodcastTitle = styled(Text).attrs({
@@ -53,7 +52,7 @@ const PodcastTitle = styled(Text).attrs({
 })`
   color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.35}px;
-  font-family: CircularStd-Black;
+  font-family: CircularStd-Bold;
 `;
 
 type AuthorProps = {
@@ -64,6 +63,7 @@ type AuthorProps = {
 type Props = {
   podcastImage: string,
   author: AuthorProps,
+  onPress: Function,
   isFirst: boolean,
   stars: number,
   title: string,
@@ -71,6 +71,7 @@ type Props = {
 
 const FeaturedListitem = ({
   podcastImage,
+  onPress,
   author,
   stars,
   title,
@@ -79,24 +80,25 @@ const FeaturedListitem = ({
   <Wrapper
     isFirst={isFirst}
   >
-    <Button>
+    <Button
+      onPress={onPress}
+    >
       <PodcastImage
         uri={podcastImage}
       />
       <DarkLayer>
-        <UpperContent>
-          <ReviewStars
-            shouldShowReviewsText={false}
-            isSmall={false}
-            stars={stars}
-          />
-          <AuthorInfo
-            imageURL={author.thumbnailImageURL}
-            name={author.name}
-            textColor="white"
-          />
-        </UpperContent>
+        <ReviewStars
+          shouldShowReviewsText={false}
+          isSmall={false}
+          stars={stars}
+        />
         <PodcastTitle>{title}</PodcastTitle>
+        <AuthorInfo
+          numberOfLines={1}
+          imageURL={author.thumbnailImageURL}
+          name={author.name}
+          textColor="white"
+        />
       </DarkLayer>
     </Button>
   </Wrapper>

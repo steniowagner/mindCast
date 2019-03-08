@@ -4,7 +4,9 @@ import { Platform } from 'react-native';
 import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
 import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
+import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
+import Player from '~/components/common/player/PlayerContainer';
 import CONSTANTS from '~/utils/CONSTANTS';
 import Search from './SearchContainer';
 import appStyles from '~/styles';
@@ -66,6 +68,11 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
       }),
+    },
+
+    [CONSTANTS.NAVIGATE_PLAYER]: {
+      screen: Player,
+      navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
     },
   },
   {

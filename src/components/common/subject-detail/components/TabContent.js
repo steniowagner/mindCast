@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 
 import FeaturedListItem from './FeaturedListItem';
 import AuthorsListItem from './AuthorsListItem';
-import TrendingListItem from './trending';
+import TrendingListItem from './trending/Trending';
 import List from './List';
 
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -43,9 +43,17 @@ class TabContent extends Component<Props, {}> {
     const items = [
       {
         id: 'trending',
-        UI: <TrendingListItem
-          podcasts={trendingPodcasts}
-        />,
+        UI: (
+          <TrendingListItem
+            podcasts={trendingPodcasts}
+            onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
+              [CONSTANTS.PLAYER_PARAMS]: {
+                ...podcast,
+              },
+            })
+            }
+          />
+        ),
       },
       {
         id: 'featured',
@@ -54,6 +62,12 @@ class TabContent extends Component<Props, {}> {
             dataset={featuredPodcasts}
             render={(item, index) => (
               <FeaturedListItem
+                onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
+                  [CONSTANTS.PLAYER_PARAMS]: {
+                    ...item,
+                  },
+                })
+                }
                 podcastImage={item.imageURL}
                 isFirst={index === 0}
                 author={item.author}

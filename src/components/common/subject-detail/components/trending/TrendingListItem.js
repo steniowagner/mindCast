@@ -51,7 +51,7 @@ const PodcastTitle = styled(Text)`
 `;
 
 const AuthorInfoWrapper = styled(View)`
-  width: 100%;
+  width: 70%;
   margin-top: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
@@ -63,6 +63,7 @@ type AuthorProps = {
 type Props = {
   podcastImage: string,
   author: AuthorProps,
+  onPress: Function,
   index: number,
   title: string,
   side: string,
@@ -70,45 +71,26 @@ type Props = {
 
 const TrendingListItem = ({
   podcastImage,
+  onPress,
   author,
   index,
   title,
   side,
 }: Props): Object => (
-  <ButtonWrapper>
+  <ButtonWrapper
+    onPress={onPress}
+  >
     <PodcastImage
       uri={podcastImage}
       index={index}
       side={side}
     />
-    <BottomContent
-      style={{
-        ...Platform.select({
-          ios: {
-            elevation: 1,
-            shadowOffset: {
-              width: 0,
-              height: 0,
-            },
-            shadowRadius: 3,
-            shadowOpacity: 0.35,
-          },
-          android: {
-            elevation: 4,
-            shadowOffset: {
-              width: 1,
-              height: -3,
-            },
-            shadowRadius: 2,
-            shadowOpacity: 5.0,
-          },
-        }),
-      }}
-    >
+    <BottomContent>
       <PodcastTitle>{title}</PodcastTitle>
       <AuthorInfoWrapper>
         <AuthorInfo
           imageURL={author.thumbnailImageURL}
+          numberOfLines={2}
           name={author.name}
           textColor="dark"
         />

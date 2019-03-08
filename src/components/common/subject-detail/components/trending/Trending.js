@@ -7,10 +7,6 @@ import styled from 'styled-components';
 import TrendingListItem from './TrendingListItem';
 import appStyles from '~/styles';
 
-type Props = {
-  podcasts: Array<Object>,
-};
-
 const ListsWrapper = styled(View)`
   height: 100%;
   flex-direction: row;
@@ -18,7 +14,16 @@ const ListsWrapper = styled(View)`
   padding-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
-const renderList = (podcasts: Array<Object>, side: string): Object => (
+type Props = {
+  podcasts: Array<Object>,
+  onPress: Function,
+};
+
+const renderList = (
+  podcasts: Array<Object>,
+  onPress: Function,
+  side: string,
+): Object => (
   <FlatList
     showsVerticalScrollIndicator={false}
     keyExtractor={item => `${item.id}`}
@@ -30,6 +35,7 @@ const renderList = (podcasts: Array<Object>, side: string): Object => (
     }}
     renderItem={({ item, index }) => (
       <TrendingListItem
+        onPress={() => onPress(item)}
         datasetLength={podcasts.length}
         podcastImage={item.imageURL}
         author={item.author}
@@ -41,7 +47,7 @@ const renderList = (podcasts: Array<Object>, side: string): Object => (
   />
 );
 
-const TrendingPodcastsList = ({ podcasts }: Props): Object => {
+const TrendingPodcastsList = ({ podcasts, onPress }: Props): Object => {
   const middleIndex = Math.floor(podcasts.length / 2);
   const rightDataset = podcasts.slice(0, middleIndex);
   const leftDataset = podcasts.slice(middleIndex, podcasts.length);
@@ -52,13 +58,10 @@ const TrendingPodcastsList = ({ podcasts }: Props): Object => {
         marginHorizontal: appStyles.metrics.mediumSize,
       }}
       showsVerticalScrollIndicator={false}
-      style={{
-        height: '100%',
-      }}
     >
       <ListsWrapper>
-        {renderList(leftDataset, 'left')}
-        {renderList(rightDataset, 'right')}
+        {renderList(leftDataset, onPress, 'left')}
+        {renderList(rightDataset, onPress, 'right')}
       </ListsWrapper>
     </ScrollView>
   );

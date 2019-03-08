@@ -19,26 +19,34 @@ const AuthorImage = styled(FastImage).attrs(({ uri }) => ({
   margin-right: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
-const AuthorName = styled(Text).attrs({
-  numberOfLines: 2,
-})`
+const AuthorName = styled(Text).attrs(({ numberOfLines }) => ({
+  ellipsizeMode: 'tail',
+  numberOfLines,
+}))`
   color: ${({ theme, textColor }) => theme.colors[textColor]};
   font-size: ${({ theme }) => theme.metrics.largeSize};
   font-family: CircularStd-Bold;
 `;
 
 type Props = {
+  numberOfLines: number,
   textColor: string,
   imageURL: string,
   name: string,
 };
 
-const AuthorInfoWrapper = ({ imageURL, textColor, name }: Props): Object => (
+const AuthorInfoWrapper = ({
+  numberOfLines,
+  imageURL,
+  textColor,
+  name,
+}: Props): Object => (
   <Wrapper>
     <AuthorImage
       uri={imageURL}
     />
     <AuthorName
+      numberOfLines={numberOfLines}
       textColor={textColor}
     >
       {name}
