@@ -28,9 +28,17 @@ const ListFooterComponent = styled(View)`
   height: 1px;
 `;
 
-const items = Array(5).fill(<RelatedAuthorsListItem />);
+type RelatedAuthorProps = {
+  profileImage: string,
+  name: string,
+  id: string,
+};
 
-const RelatedAuthors = (): Object => (
+type Props = {
+  relatedAuthors: Array<RelatedAuthorProps>,
+};
+
+const RelatedAuthors = ({ relatedAuthors }: Props): Object => (
   <Wrapper>
     <UpperContent>
       <SectionTitle
@@ -41,8 +49,15 @@ const RelatedAuthors = (): Object => (
       ListFooterComponent={ListFooterComponent}
       showsHorizontalScrollIndicator={false}
       horizontal
-      data={items}
-      renderItem={({ item }) => item}
+      data={relatedAuthors}
+      keyExtractor={podcast => `${podcast.id}`}
+      renderItem={({ item }) => (
+        <RelatedAuthorsListItem
+          profileImage={item.profileImage}
+          name={item.name}
+          id={item.id}
+        />
+      )}
     />
   </Wrapper>
 );

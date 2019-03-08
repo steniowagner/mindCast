@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import SearchAuthorListItem from './SearchAuthorListItem';
 import Loading from '~/components/common/Loading';
-import { ROUTE_NAMES } from '../../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -102,9 +101,11 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
       authorName, navigation, authors, loading,
     } = this.props;
 
+    const shouldRenderLoading = loading && authors.length === 0;
+
     return (
       <Container>
-        {loading ? (
+        {shouldRenderLoading ? (
           <Loading />
         ) : (
           this.renderSearchAuthorsList(authors, authorName, navigation)

@@ -1,20 +1,21 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Animated, View } from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 
 import ProgressiveImage from '~/components/common/ProgressiveImage';
-import NewReleasesSection from './components/new-releases-section';
-import SubjectsSection from './components/SubjectsSection';
-import RelatedAuthors from './components/related-authors';
-import SectionWrapper from './components/SectionWrapper';
-import AboutSection from './components/AboutSection';
-import AuthorName from './components/AuthorName';
-import Featured from './components/featured';
-
+import Loading from '~/components/common/Loading';
 import appStyles from '~/styles';
+
+import FeaturedSection from './featured-section/FeaturedSection';
+import NewReleasesSection from './new-releases-section/NewReleasesSection';
+import SubjectsSection from './SubjectsSection';
+import RelatedAuthors from './related-authors/RelatedAuthors';
+import SectionWrapper from './SectionWrapper';
+import AboutSection from './AboutSection';
+import AuthorName from './AuthorName';
 
 const Container = styled(View)`
   width: 100%;
@@ -42,22 +43,50 @@ const SmokeShadow = styled(LinearGradient).attrs({
   position: absolute;
 `;
 
-class AuthorDetail extends Component {
+type AuthorProps = {
+  profileImageThumbnail: string,
+  relatedAuthors: Array<Object>,
+  newReleases: Array<Object>,
+  featured: Array<Object>,
+  subjects: Array<string>,
+  profileImage: string,
+  about: string,
+  name: string,
+  id: string,
+};
+
+type Props = {
+  loading: boolean,
+  error: boolean,
+  author: AuthorProps,
+};
+
+class AuthorDetailComponent extends PureComponent<Props, {}> {
   _scrollViewOffset = new Animated.Value(0);
   _scrollViewInitialPosition = new Animated.ValueXY({
     x: 0,
     y: appStyles.metrics.getHeightFromDP('40%'),
   });
 
-  componentDidMount() {
-    Animated.spring(this._scrollViewInitialPosition.y, {
-      toValue: 0,
-      speed: 3.5,
-      useNativeDriver: true,
-    }).start();
+  componentWillReceiveProps(nextProps: Props) {
+    const { loading, error, author } = nextProps;
+    const shouldShowContent = !loading && !error && !!author;
+
+    if (shouldShowContent) {
+      this._scrollViewOffset.setValue(0);
+
+      Animated.spring(this._scrollViewInitialPosition.y, {
+        toValue: 0,
+        speed: 3.5,
+        useNativeDriver: true,
+      }).start();
+    }
   }
 
-  renderAuthorImage = (): Object => (
+  renderAuthorImage = (
+    profileImageThumbnail: string,
+    profileImage: string,
+  ): Object => (
     <Header
       style={{
         opacity: this._scrollViewOffset.interpolate({
@@ -69,17 +98,28 @@ class AuthorDetail extends Component {
     >
       <ImageWrapper>
         <ProgressiveImage
-          thumbnailImageURL="https://s2.glbimg.com/3auOxS3cG2mc_H5jFXDpxC7ol-w=/e.glbimg.com/og/ed/f/original/2016/09/12/dr-alan-turing-2956483.jpg"
-          imageURL="https://s2.glbimg.com/3auOxS3cG2mc_H5jFXDpxC7ol-w=/e.glbimg.com/og/ed/f/original/2016/09/12/dr-alan-turing-2956483.jpg"
+          thumbnailImageURL={profileImageThumbnail}
+          imageURL={profileImage}
         />
       </ImageWrapper>
     </Header>
   );
 
-  render() {
+  renderContent = (author: AuthorProps): Object => {
+    const {
+      profileImageThumbnail,
+      relatedAuthors,
+      profileImage,
+      newReleases,
+      featured,
+      subjects,
+      about,
+      name,
+    } = author;
+
     return (
-      <Container>
-        {this.renderAuthorImage()}
+      <Fragment>
+        {this.renderAuthorImage(profileImageThumbnail, profileImage)}
         <SmokeShadow />
         <Animated.ScrollView
           scrollEventThrottle={16}
@@ -104,26 +144,42 @@ class AuthorDetail extends Component {
         >
           <SectionWrapper>
             <AuthorName
-              name="Alan Turing"
+              name={name}
             />
           </SectionWrapper>
           <SectionWrapper>
             <AboutSection
-              about="English mathematician, computer scientist, logician, cryptanalyst, philosopher and theorical biologist."
+              about={about}
             />
           </SectionWrapper>
           <SectionWrapper>
             <SubjectsSection
-              subjects={['math', 'science', 'philosofy', 'technology']}
+              subjects={subjects}
             />
           </SectionWrapper>
-          <NewReleasesSection />
-          <Featured />
-          <RelatedAuthors />
+          <NewReleasesSection
+            newReleases={newReleases}
+          />
+          <FeaturedSection
+            featured={featured}
+          />
+          <RelatedAuthors
+            relatedAuthors={relatedAuthors}
+          />
         </Animated.ScrollView>
+      </Fragment>
+    );
+  };
+
+  render() {
+    const { loading, error, author } = this.props;
+
+    return (
+      <Container>
+        {loading ? <Loading /> : this.renderContent(author)}
       </Container>
     );
   }
 }
 
-export default AuthorDetail;
+export default AuthorDetailComponent;

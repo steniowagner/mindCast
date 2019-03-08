@@ -9,7 +9,6 @@ const Wrapper = styled(View)`
   height: ${({ theme }) => theme.metrics.getHeightFromDP('30%')};
   justify-content: flex-end;
   padding-right: ${({ theme }) => theme.metrics.getWidthFromDP('50%')}px;
-  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const Name = styled(Text)`

@@ -14,7 +14,7 @@ import {
 import {
   shufflePlaylist, setPodcast, playNext, playPrevious,
 } from './player';
-import { searchAuthorByName } from './author';
+import { searchAuthorByName, getAuthorById } from './author';
 import { getSubjectDetail } from './subject';
 
 export default function* rootSaga() {
@@ -35,5 +35,6 @@ export default function* rootSaga() {
     takeLatest(PlayerTypes.SHUFFLE_PLAYLIST_REQUEST, shufflePlaylist),
     takeLatest(AuthorTypes.SEARCH_AUTHOR_BY_NAME_REQUEST, searchAuthorByName),
     takeLatest(SubjectTypes.GET_SUBJECT_DETAIL_REQUEST, getSubjectDetail),
+    takeLatest(AuthorTypes.GET_AUTHOR_BY_ID_REQUEST, getAuthorById),
   ]);
 }

@@ -3,11 +3,11 @@ import { Platform } from 'react-native';
 
 import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
 import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
+import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
-import AuthorDetails from '~/components/common/author-detail';
 import CONSTANTS from '~/utils/CONSTANTS';
-import appStyles from '~/styles';
 import Search from './SearchContainer';
+import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
   SEARCH: 'SEARCH',
@@ -36,6 +36,13 @@ const RootStack = createStackNavigator(
         return {
           title,
           ...DEFAULT_HEADER_STYLE,
+          ...Platform.select({
+            android: {
+              headerStyle: {
+                marginTop: 0,
+              },
+            },
+          }),
         };
       },
     },
@@ -55,7 +62,7 @@ const RootStack = createStackNavigator(
     },
 
     [CONSTANTS.NAVIGATE_AUTHOR_DETAIL]: {
-      screen: AuthorDetails,
+      screen: AuthorDetailContainer,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
       }),

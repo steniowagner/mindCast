@@ -1,13 +1,17 @@
 export const Types = {
-  SEARCH_AUTHOR_BY_NAME_REQUEST: 'authors/SEARCH_AUTHOR_BY_NAME_REQUEST',
-  SEARCH_AUTHOR_BY_NAME_SUCCESS: 'authors/SEARCH_AUTHOR_BY_NAME_SUCCESS',
-  SEARCH_AUTHOR_BY_NAME_ERROR: 'authors/SEARCH_AUTHOR_BY_NAME_ERROR',
+  SEARCH_AUTHOR_BY_NAME_REQUEST: 'author/SEARCH_AUTHOR_BY_NAME_REQUEST',
+  SEARCH_AUTHOR_BY_NAME_SUCCESS: 'author/SEARCH_AUTHOR_BY_NAME_SUCCESS',
+  SEARCH_AUTHOR_BY_NAME_ERROR: 'author/SEARCH_AUTHOR_BY_NAME_ERROR',
+  GET_AUTHOR_BY_ID_REQUEST: 'author/GET_AUTHOR_BY_ID_REQUEST',
+  GET_AUTHOR_BY_ID_SUCCESS: 'author/GET_AUTHOR_BY_ID_SUCCESS',
+  GET_AUTHOR_BY_ID_ERROR: 'author/GET_AUTHOR_ERROR',
 };
 
 const INITIAL_STATE = {
-  authors: [],
-  loading: false,
+  loading: true,
   error: false,
+  authors: [],
+  data: null,
 };
 
 export const Creators = {
@@ -23,6 +27,20 @@ export const Creators = {
 
   searchAuthorByNameFailure: () => ({
     type: Types.SEARCH_AUTHOR_BY_NAME_ERROR,
+  }),
+
+  getAuthorById: id => ({
+    type: Types.GET_AUTHOR_BY_ID_REQUEST,
+    payload: { id },
+  }),
+
+  getAuthorByIdSuccess: data => ({
+    type: Types.GET_AUTHOR_BY_ID_SUCCESS,
+    payload: { data },
+  }),
+
+  getAuthorByIdFailure: () => ({
+    type: Types.GET_AUTHOR_BY_ID_ERROR,
   }),
 };
 
@@ -44,6 +62,28 @@ const author = (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case Types.SEARCH_AUTHOR_BY_NAME_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+
+    case Types.GET_AUTHOR_BY_ID_REQUEST:
+      return {
+        ...state,
+        data: null,
+        loading: true,
+        error: false,
+      };
+
+    case Types.GET_AUTHOR_BY_ID_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload.data,
+      };
+
+    case Types.GET_AUTHOR_BY_ID_ERROR:
       return {
         ...state,
         loading: false,

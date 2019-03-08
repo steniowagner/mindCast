@@ -59,7 +59,7 @@ const Title = styled(Text).attrs({
   color: ${({ theme }) => theme.colors.white};
 `;
 
-const Category = styled(Text)`
+const Subject = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.1}px;
   font-family: CircularStd-Medium;
   color: ${({ theme }) => theme.colors.progressiveImageForeground};
@@ -76,18 +76,30 @@ const BottomLine = styled(View)`
   background-color: ${({ theme }) => theme.colors.progressiveImageForeground};
 `;
 
-const FeaturedListItem = (): Object => (
+type Props = {
+  imageURL: string,
+  fileName: string,
+  subject: string,
+  title: string,
+  index: number,
+};
+
+const FeaturedListItem = ({
+  imageURL,
+  fileName,
+  subject,
+  title,
+  index,
+}: Props): Object => (
   <Content>
     <Container>
-      <Index>1</Index>
+      <Index>{index}</Index>
       <Wrapper>
         <MainContent>
           <Image />
           <TextContent>
-            <Title>
-              How to solve puzzles can make you a better cryptographer
-            </Title>
-            <Category>#technology</Category>
+            <Title>{title}</Title>
+            <Subject>{`#${subject}`}</Subject>
           </TextContent>
         </MainContent>
         <IconContent>

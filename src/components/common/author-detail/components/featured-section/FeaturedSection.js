@@ -14,16 +14,30 @@ const Wrapper = styled(View)`
 
 const ItemsWrapper = styled(View)`
   margin-left: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const featured = Array(5).fill(<FeaturedListItem />);
+type Props = {
+  featured: Array<Object>,
+};
 
-const Featured = (): Object => (
+const Featured = ({ featured }: Props): Object => (
   <Wrapper>
     <SectionWithButton
       sectionTitle="Featured"
     />
-    <ItemsWrapper>{featured.map(Item => Item)}</ItemsWrapper>
+    <ItemsWrapper>
+      {featured.map((podcast, index) => (
+        <FeaturedListItem
+          imageURL={podcast.smallImageURL}
+          fileName={podcast.fileName}
+          subject={podcast.subject}
+          title={podcast.title}
+          index={index + 1}
+          key={podcast.id}
+        />
+      ))}
+    </ItemsWrapper>
   </Wrapper>
 );
 
