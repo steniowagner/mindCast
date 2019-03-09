@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import NewReleasesSectionItemList from './NewReleasesSectionItemList';
 import SectionWithButton from '../SectionWithButton';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -24,12 +25,19 @@ const ListFooterComponent = styled(View)`
 
 type Props = {
   newReleases: Array<Object>,
+  navigation: Object,
 };
 
-const NewReleasesSection = ({ newReleases }: Props): Object => (
+const NewReleasesSection = ({ newReleases, navigation }: Props): Object => (
   <Wrapper>
     <SectionWithButton
       sectionTitle="New Releases"
+      onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
+        [CONSTANTS.PLAYER_PARAMS]: {
+          [CONSTANTS.PLAYLIST_KEY]: newReleases,
+        },
+      })
+      }
     />
     <NewReleasesList
       ListFooterComponent={ListFooterComponent}
@@ -39,6 +47,12 @@ const NewReleasesSection = ({ newReleases }: Props): Object => (
       data={newReleases}
       renderItem={({ item }) => (
         <NewReleasesSectionItemList
+          onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
+            [CONSTANTS.PLAYER_PARAMS]: {
+              [CONSTANTS.PLAYLIST_KEY]: [item],
+            },
+          })
+          }
           imageURL={item.imageURL}
           subject={item.subject}
           title={item.title}

@@ -31,11 +31,12 @@ class AuthorDetailContainer extends Component<Props, {}> {
   }
 
   render() {
-    const { author } = this.props;
+    const { navigation, author } = this.props;
     const { loading, data, error } = author;
 
     return (
       <AuthorDetailComponent
+        navigation={navigation}
         loading={loading}
         error={error}
         author={data}

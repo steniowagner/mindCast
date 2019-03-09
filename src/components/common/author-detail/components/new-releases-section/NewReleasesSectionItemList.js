@@ -59,6 +59,7 @@ const Category = styled(Text)`
 `;
 
 type Props = {
+  onPress: Function,
   imageURL: string,
   subject: string,
   title: string,
@@ -67,11 +68,14 @@ type Props = {
 
 const NewReleasesSectionItemList = ({
   imageURL,
+  onPress,
   subject,
   title,
   stars,
 }: Props): Object => (
-  <Container>
+  <Container
+    onPress={onPress}
+  >
     <BackgroundImage>
       <PodcastImage
         uri={imageURL}

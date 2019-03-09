@@ -24,8 +24,16 @@ export function* searchAuthorByName({ payload }) {
 }
 const PODCASTS = [
   {
-    title: 'Till I Die',
-    author: 'Tech N9ne, 2Pac & Eminem',
+    author: {
+      thumbnailImageURL:
+        'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
+      name: 'Tech N9ne, 2Pac & Eminem',
+      about:
+        'English mathematician, computer scientist, logician, cryptanalyst, philosopher and theoretical biologist.',
+      numberPodcasts: 7,
+    },
+    title:
+      'The line is displayed so that the beginning fits in the container and the missing text at the end of the line is indicated by an ellipsis glyph. e.g., "abcd..."',
     id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
     thumbnailImageURL:
@@ -40,8 +48,15 @@ const PODCASTS = [
     stars: 3.5,
   },
   {
+    author: {
+      thumbnailImageURL:
+        'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
+      name: 'Kungs vs Cookin’ on 3 Burners',
+      about:
+        'English mathematician, computer scientist, logician, cryptanalyst, philosopher and theoretical biologist.',
+      numberPodcasts: 7,
+    },
     title: 'This Girl',
-    author: 'Kungs vs Cookin’ on 3 Burners',
     id: 2,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
     thumbnailImageURL:
@@ -56,8 +71,15 @@ const PODCASTS = [
     stars: 3.5,
   },
   {
+    author: {
+      thumbnailImageURL:
+        'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
+      name: 'Tomorrows Bad Seeds',
+      about:
+        'English mathematician, computer scientist, logician, cryptanalyst, philosopher and theoretical biologist.',
+      numberPodcasts: 7,
+    },
     title: 'Valerie',
-    author: 'Tomorrows Bad Seeds',
     id: 3,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
     thumbnailImageURL:
@@ -73,8 +95,15 @@ const PODCASTS = [
     stars: 3.5,
   },
   {
+    author: {
+      thumbnailImageURL:
+        'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
+      name: 'Skrillex - Summit (feat. Ellie Goulding)',
+      about:
+        'English mathematician, computer scientist, logician, cryptanalyst, philosopher and theoretical biologist.',
+      numberPodcasts: 7,
+    },
     title: 'Summit',
-    author: 'Skrillex - Summit (feat. Ellie Goulding)',
     id: 4,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
     thumbnailImageURL:
@@ -90,8 +119,15 @@ const PODCASTS = [
     stars: 3.5,
   },
   {
+    author: {
+      thumbnailImageURL:
+        'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
+      name: 'Dj 6RB REMiX',
+      about:
+        'English mathematician, computer scientist, logician, cryptanalyst, philosopher and theoretical biologist.',
+      numberPodcasts: 7,
+    },
     title: 'Oh Nana',
-    author: 'Dj 6RB REMiX',
     id: 5,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/oh_nana.mp3',
     thumbnailImageURL:
@@ -105,6 +141,14 @@ const PODCASTS = [
     totalDurationInSeconds: 251,
     stars: 3.5,
   },
+];
+
+const PODCASTS_REVERSE = [
+  PODCASTS[4],
+  PODCASTS[3],
+  PODCASTS[2],
+  PODCASTS[1],
+  PODCASTS[0],
 ];
 
 export function* getAuthorById({ payload }) {
@@ -121,7 +165,7 @@ export function* getAuthorById({ payload }) {
         about:
           'Brazilian mathematician, computer scientist, logician, cryptanalyst, philosopher and theorical biologist.',
         subjects: ['math', 'science', 'philosofy', 'technology'],
-        newReleases: PODCASTS,
+        newReleases: PODCASTS_REVERSE,
         featured: PODCASTS,
         relatedAuthors: Array(5)
           .fill({

@@ -56,9 +56,10 @@ type AuthorProps = {
 };
 
 type Props = {
+  author: AuthorProps,
+  navigation: Object,
   loading: boolean,
   error: boolean,
-  author: AuthorProps,
 };
 
 class AuthorDetailComponent extends PureComponent<Props, {}> {
@@ -105,7 +106,7 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     </Header>
   );
 
-  renderContent = (author: AuthorProps): Object => {
+  renderContent = (author: AuthorProps, navigation: Object): Object => {
     const {
       profileImageThumbnail,
       relatedAuthors,
@@ -159,8 +160,10 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
           </SectionWrapper>
           <NewReleasesSection
             newReleases={newReleases}
+            navigation={navigation}
           />
           <FeaturedSection
+            navigation={navigation}
             featured={featured}
           />
           <RelatedAuthors
@@ -172,11 +175,13 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   };
 
   render() {
-    const { loading, error, author } = this.props;
+    const {
+      navigation, loading, author, error,
+    } = this.props;
 
     return (
       <Container>
-        {loading ? <Loading /> : this.renderContent(author)}
+        {loading ? <Loading /> : this.renderContent(author, navigation)}
       </Container>
     );
   }

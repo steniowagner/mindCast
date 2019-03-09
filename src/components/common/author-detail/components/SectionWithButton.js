@@ -18,16 +18,18 @@ const UpperContent = styled(View)`
 
 type Props = {
   sectionTitle: string,
+  onPress: Function,
 };
 
-const SectionWithButton = ({ sectionTitle }: Props): Object => (
+const SectionWithButton = ({ sectionTitle, onPress }: Props): Object => (
   <UpperContent>
     <SectionTitle
       title={sectionTitle}
     />
     <DefaultButton
-      size="large"
+      onPress={onPress}
       text="LISTEN NOW"
+      size="large"
     />
   </UpperContent>
 );
