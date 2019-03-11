@@ -23,20 +23,24 @@ type Props = {
   navigation: Object,
 };
 
+const onPressItem = (navigation: Object, content: Object): void => {
+  navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
+    [CONSTANTS.PLAYER_PARAMS]: {
+      [CONSTANTS.PLAYLIST_KEY]: content,
+    },
+  });
+};
+
 const Featured = ({ navigation, featured }: Props): Object => (
   <Wrapper>
     <SectionWithButton
-      onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-        [CONSTANTS.PLAYER_PARAMS]: {
-          [CONSTANTS.PLAYLIST_KEY]: featured,
-        },
-      })
-      }
+      onPress={() => onPressItem(navigation, featured)}
       sectionTitle="Featured"
     />
     <ItemsWrapper>
       {featured.map((podcast, index) => (
         <FeaturedListItem
+          onPress={() => onPressItem(navigation, [podcast])}
           imageURL={podcast.smallImageURL}
           fileName={podcast.fileName}
           subject={podcast.subject}

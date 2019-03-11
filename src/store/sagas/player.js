@@ -153,7 +153,7 @@ export function* setupPlayer() {
 export function* setPodcast() {
   try {
     const { playlistIndex, playlist } = yield select(state => state.player);
-    console.tron.log(playlistIndex, playlist);
+
     const currentPodcast = playlist[playlistIndex];
 
     const podcastWithURI = yield _definePodcastURI(currentPodcast);

@@ -179,9 +179,15 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
       navigation, loading, author, error,
     } = this.props;
 
+    const hasAuthorDefined = !!author;
+
     return (
       <Container>
-        {loading ? <Loading /> : this.renderContent(author, navigation)}
+        {loading || !hasAuthorDefined ? (
+          <Loading />
+        ) : (
+          this.renderContent(author, navigation)
+        )}
       </Container>
     );
   }

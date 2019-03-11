@@ -45,7 +45,9 @@ const ContentWrapper = styled(View)`
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
-const Title = styled(Text)`
+const Title = styled(Text).attrs({
+  numberOfLines: 3,
+})`
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.2}px;
   font-family: CircularStd-Black;
   color: ${({ theme }) => theme.colors.white};

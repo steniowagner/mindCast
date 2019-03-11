@@ -16,6 +16,7 @@ const Wrapper = styled(View)`
 const NewReleasesList = styled(FlatList)`
   width: 100%;
   padding-left: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
 const ListFooterComponent = styled(View)`
