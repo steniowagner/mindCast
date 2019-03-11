@@ -82,17 +82,25 @@ class PlayerContainer extends Component<Props, State> {
     const { player, setupPlayer, navigation } = this.props;
 
     const { params } = navigation.state;
-    const { currentPodcast, paused } = player;
+    const { playlist: pastPlaylist, currentPodcast, paused } = player;
 
     const playerParams = params[CONSTANTS.PLAYER_PARAMS];
     const playlist = playerParams[CONSTANTS.PLAYLIST_KEY];
 
     const isCurrentPodcastDefined = !!currentPodcast;
     const isPodcastChanged = isCurrentPodcastDefined && currentPodcast.id !== playlist[0].id;
+    const isPlayingSamePlaylist = this.checkIsPlayingSamePlaylist(
+      playlist,
+      pastPlaylist,
+    );
 
     this.setHeaderRightMenuPress();
 
-    if (!isCurrentPodcastDefined || isPodcastChanged) {
+    if (
+      !isCurrentPodcastDefined
+      || isPodcastChanged
+      || !isPlayingSamePlaylist
+    ) {
       setupPlayer(playlist);
     }
 
@@ -100,8 +108,7 @@ class PlayerContainer extends Component<Props, State> {
   }
 
   componentWillUpdate(nextProps: Props) {
-    const { navigation } = nextProps;
-    const { player } = nextProps;
+    const { navigation, player } = nextProps;
     const { currentPodcast } = player;
 
     const { currentPodcast: nextPodcast } = nextProps.player;
@@ -111,12 +118,6 @@ class PlayerContainer extends Component<Props, State> {
       this.setHeaderTitle(navigation, nextPodcast.subject);
     }
   }
-
-  setHeaderTitle = (navigation: Object, subject: string): void => {
-    navigation.setParams({
-      [CONSTANTS.PLAYER_TITLE_PARAM]: subject,
-    });
-  };
 
   onToggleQueueSideMenu = (): void => {
     const { isQueueSideMenuOpen } = this.state;
@@ -130,6 +131,12 @@ class PlayerContainer extends Component<Props, State> {
 
     this.setState({
       isQueueSideMenuOpen: !isQueueSideMenuOpen,
+    });
+  };
+
+  setHeaderTitle = (navigation: Object, subject: string): void => {
+    navigation.setParams({
+      [CONSTANTS.PLAYER_TITLE_PARAM]: subject,
     });
   };
 
@@ -147,6 +154,23 @@ class PlayerContainer extends Component<Props, State> {
     navigation.setParams({
       [CONSTANTS.HEADER_BUTTON_RIGHT_PLAYER_ACTION]: this.onToggleQueueSideMenu,
     });
+  };
+
+  checkIsPlayingSamePlaylist = (
+    currentPlaylist: Array<Object>,
+    pastPlaylist: Array<Object>,
+  ): boolean => {
+    if (currentPlaylist.length !== pastPlaylist.length) {
+      return false;
+    }
+
+    for (let i = 0; i < currentPlaylist.length; i++) {
+      if (currentPlaylist[i].id !== pastPlaylist[i].id) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   render() {
