@@ -7,9 +7,11 @@ import styled from 'styled-components';
 const ButtonWrapper = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
-  padding-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
-  padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.primaryColor};
+  padding-vertical: ${({ translucent, theme }) => (translucent ? theme.metrics.mediumSize - 1.5 : theme.metrics.mediumSize)}px;
+  padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
+  background-color: ${({ translucent, theme }) => (translucent ? 'transparent' : theme.colors.primaryColor)};
+  border: ${({ translucent, theme }) => (translucent ? theme.colors.white : 'transparent')}
+    solid 1.5px;
   border-radius: 3px;
 `;
 
@@ -20,13 +22,20 @@ const Title = styled(Text)`
 `;
 
 type Props = {
+  translucent: ?boolean,
   onPress: Function,
   size: string,
   text: string,
 };
 
-const ListenNowButton = ({ onPress, size, text }: Props): Object => (
+const ListenNowButton = ({
+  translucent,
+  onPress,
+  size,
+  text,
+}: Props): Object => (
   <ButtonWrapper
+    translucent={translucent}
     onPress={onPress}
   >
     <Title

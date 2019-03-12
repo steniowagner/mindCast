@@ -9,6 +9,7 @@ export default {
   primaryColorAlpha: 'rgba(239, 1, 11, 0.2)',
   yellow: '#F8C330',
   white: '#FFF',
+  lightSecondaryColor: '#222',
   dark: '#111',
   black: '#000',
   lightDark: 'rgba(1, 1, 1, 0.5)',

@@ -16,7 +16,7 @@ const Wrapper = styled(View)`
   margin-top: ${({ theme, isFirst }) => (isFirst ? theme.metrics.largeSize : 0)}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
 `;
 
 const AuthorImage = styled(FastImage).attrs(({ uri }) => ({
@@ -34,21 +34,21 @@ const TextContent = styled(View)`
 `;
 
 const AuthorName = styled(Text)`
-  color: ${({ theme }) => theme.colors.darkText};
+  color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
   font-family: CircularStd-Bold;
   margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
 `;
 
 const AuthorAbout = styled(Text)`
-  color: ${({ theme }) => theme.colors.subText};
+  color: ${({ theme }) => theme.colors.subTextWhite};
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Medium;
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const NumberPodcasts = styled(Text)`
-  color: ${({ theme }) => theme.colors.darkText};
+  color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.2}px;
   font-family: CircularStd-Bold;
 `;

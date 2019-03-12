@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
 import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
+import PodcastDetail from '~/components/common/podcast-detail/PodcastDetail';
 import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
 import Player from '~/components/common/player/PlayerContainer';
@@ -52,8 +53,8 @@ const RootStack = createStackNavigator(
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
       navigationOptions: () => ({
-        title: 'Search Authors',
         ...DEFAULT_HEADER_STYLE,
+        title: 'Search Authors',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,
@@ -67,6 +68,20 @@ const RootStack = createStackNavigator(
       screen: AuthorDetailContainer,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
+      }),
+    },
+
+    [CONSTANTS.NAVIGATE_PODCAST_DETAIL]: {
+      screen: PodcastDetail,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'Podcast Detail',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
       }),
     },
 
