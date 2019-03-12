@@ -27,12 +27,12 @@ const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   border-radius: 2px;
 `;
 
-const PodcastDescriptionText = styled(Text).attrs({
+const PodcastTitleText = styled(Text).attrs({
   numberOfLines: 4,
 })`
-  margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
+  font-size: ${({ theme }) => theme.metrics.largeSize * 1.15}px;
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Bold;
 `;
 
@@ -55,24 +55,21 @@ const SubjectTextWrapper = styled(View)`
 `;
 
 type Props = {
-  description: string,
   imageURL: string,
   subject: string,
+  title: string,
   stars: number,
 };
 
 const PodcastInfo = ({
-  description,
-  imageURL,
-  subject,
-  stars,
+  imageURL, subject, title, stars,
 }: Props): Object => (
   <Wrapper>
     <PodcastImage
       uri={imageURL}
     />
     <TextContentWrapper>
-      <PodcastDescriptionText>{description}</PodcastDescriptionText>
+      <PodcastTitleText>{title}</PodcastTitleText>
       <ReviewStars
         stars={stars}
       />

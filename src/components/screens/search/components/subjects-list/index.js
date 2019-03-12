@@ -4,7 +4,6 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import SubjectsListItem from './SubjectListItem';
-import { ROUTE_NAMES } from '../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 const items = [
@@ -43,7 +42,7 @@ const SubjectsList = ({ navigate }: Props): Object => (
     renderItem={({ item, index }) => (
       <SubjectsListItem
         title={item.title}
-        onPress={() => navigate(ROUTE_NAMES.SUBJECT_DETAIL, {
+        onPress={() => navigate(CONSTANTS.NAVIGATE_SUBJECT_DETAIL, {
           [CONSTANTS.SUBJECT_DETAIL_PARAMS]: item,
         })
         }

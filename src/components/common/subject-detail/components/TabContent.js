@@ -11,33 +11,12 @@ import List from './List';
 
 import CONSTANTS from '~/utils/CONSTANTS';
 
-/*
-// trending
-
-onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-  [CONSTANTS.PLAYER_PARAMS]: {
-    [CONSTANTS.PLAYLIST_KEY]: [podcast],
-  },
-})
-}
-
-// featured
-
-<FeaturedListItem
-                onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-                  [CONSTANTS.PLAYER_PARAMS]: {
-                    [CONSTANTS.PLAYLIST_KEY]: [podcast],
-                  },
-                })
-                }
-*/
-
 type Props = {
   trendingPodcasts: Array<Object>,
   featuredPodcasts: Array<Object>,
-  navigation: Object,
   authors: Array<Object>,
   setListRef: Function,
+  navigation: Object,
 };
 
 class TabContent extends Component<Props, {}> {
@@ -67,7 +46,9 @@ class TabContent extends Component<Props, {}> {
         UI: (
           <TrendingListItem
             podcasts={trendingPodcasts}
-            onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL)
+            onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
+              [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
+            })
             }
           />
         ),
@@ -79,7 +60,9 @@ class TabContent extends Component<Props, {}> {
             dataset={featuredPodcasts}
             render={(podcast, index) => (
               <FeaturedListItem
-                onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL)
+                onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
+                  [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
+                })
                 }
                 podcastImage={podcast.imageURL}
                 isFirst={index === 0}

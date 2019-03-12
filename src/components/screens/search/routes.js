@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
 import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
-import PodcastDetail from '~/components/common/podcast-detail/PodcastDetail';
+import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
 import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
 import Player from '~/components/common/player/PlayerContainer';
@@ -14,9 +14,7 @@ import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
   SEARCH: 'SEARCH',
-  SUBJECT_DETAIL: 'SUBJECT_DETAIL',
   SEARCH_AUTHORS_RESULT: 'SEARCH_AUTHORS_RESULT',
-  AUTHOR_DETAILS: 'AUTHOR_DETAILS',
 };
 
 const RootStack = createStackNavigator(
@@ -29,7 +27,7 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [ROUTE_NAMES.SUBJECT_DETAIL]: {
+    [CONSTANTS.NAVIGATE_SUBJECT_DETAIL]: {
       screen: SubjectDetailContainer,
       navigationOptions: ({ navigation }) => {
         const { params } = navigation.state;
@@ -72,7 +70,7 @@ const RootStack = createStackNavigator(
     },
 
     [CONSTANTS.NAVIGATE_PODCAST_DETAIL]: {
-      screen: PodcastDetail,
+      screen: PodcastDetailContainer,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
         title: 'Podcast Detail',

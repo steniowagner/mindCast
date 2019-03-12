@@ -33,7 +33,7 @@ const PODCASTS = [
       numberPodcasts: 7,
     },
     title:
-      'The line is displayed so that the beginning fits in the container and the missing text at the end of the line is indicated by an ellipsis glyph. e.g., "abcd..."',
+      'The line is displayed so that the beginning fits in the container and.',
     id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
     thumbnailImageURL:

@@ -9,7 +9,7 @@ import SectionTitle from '~/components/common/SectionTitle';
 import DefaultButton from '~/components/common/DefaultButton';
 
 const Wrapper = styled(View)`
-  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 const Section = styled(View)`
@@ -29,6 +29,7 @@ const PodcastDescriptionText = styled(Text)`
 `;
 
 const UploadTimestampText = styled(Text)`
+  margin-top: ${({ theme }) => theme.metrics.extraSmallSize}px;
   color: ${({ theme }) => theme.colors.subTextWhite};
   font-family: CircularStd-Book;
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.5}px;
@@ -49,7 +50,8 @@ const AuthorDetailWrapper = styled(View)`
 `;
 
 const AuthorName = styled(Text).attrs({
-  numberOfLines: 1,
+  numberOfLines: 2,
+  ellipsizeMode: 'tail',
 })`
   color: ${({ theme }) => theme.colors.white};
   font-family: CircularStd-Bold;
@@ -57,6 +59,7 @@ const AuthorName = styled(Text).attrs({
 `;
 
 const TextContentWrapper = styled(View)`
+  width: 75%;
   margin-left: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
