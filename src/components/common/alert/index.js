@@ -15,7 +15,7 @@ const configs = {
 
   [TYPES.DOWNLOAD_PODCAST]: {
     title: 'Download Podcast',
-    description: 'Download the current podcast?',
+    description: 'Download this podcast?',
   },
 };
 

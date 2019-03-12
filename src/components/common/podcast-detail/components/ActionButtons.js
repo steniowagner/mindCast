@@ -1,10 +1,13 @@
 // @flow
 
 import React from 'react';
-import { Switch, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import styled from 'styled-components';
 
 import DefaultButton from '~/components/common/DefaultButton';
+import Loading from '~/components/common/Loading';
+import Icon from '~/components/common/Icon';
+import appStyles from '~/styles';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -14,16 +17,14 @@ const Wrapper = styled(View)`
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
-const DownloadText = styled(Text)`
-  margin-right: ${({ theme }) => theme.metrics.mediumSize}px;
-  color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
-  font-family: CircularStd-Bold;
-`;
-
-const DownloadWrapper = styled(View)`
+const DownloadButton = styled(TouchableOpacity)`
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('8%')}px;
+  background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const ButtonsWrapper = styled(View)`
@@ -36,15 +37,44 @@ const ButtonsSeparator = styled(View)`
 `;
 
 type Props = {
-  onMoveDownloadSwitch: Function,
+  onPressDownloadButton: Function,
   onPressAddToPlaylist: Function,
+  isDownloadingPodcast: boolean,
   isPodcastDownloaded: boolean,
   onPressPlay: Function,
 };
 
+const renderProperIcon = (
+  isDownloadingPodcast,
+  isPodcastDownloaded,
+): Object => {
+  if (isDownloadingPodcast) {
+    return <Loading />;
+  }
+
+  if (isPodcastDownloaded) {
+    return (
+      <Icon
+        color={appStyles.colors.primaryColor}
+        name="cloud-check"
+        size={24}
+      />
+    );
+  }
+
+  return (
+    <Icon
+      color={appStyles.colors.subTextWhite}
+      name="download"
+      size={25}
+    />
+  );
+};
+
 const ActionButtons = ({
-  onMoveDownloadSwitch,
+  onPressDownloadButton,
   onPressAddToPlaylist,
+  isDownloadingPodcast,
   isPodcastDownloaded,
   onPressPlay,
 }: Props): Object => (
@@ -58,18 +88,17 @@ const ActionButtons = ({
       <ButtonsSeparator />
       <DefaultButton
         onPress={onPressAddToPlaylist}
+        text="ADD TO PLAYLIST"
         translucent
         size="large"
-        text="+ PLAYLIST"
       />
     </ButtonsWrapper>
-    <DownloadWrapper>
-      <DownloadText>Download</DownloadText>
-      <Switch
-        onValueChange={onMoveDownloadSwitch}
-        value
-      />
-    </DownloadWrapper>
+    <DownloadButton
+      disabled={isDownloadingPodcast}
+      onPress={onPressDownloadButton}
+    >
+      {renderProperIcon(isDownloadingPodcast, isPodcastDownloaded)}
+    </DownloadButton>
   </Wrapper>
 );
 

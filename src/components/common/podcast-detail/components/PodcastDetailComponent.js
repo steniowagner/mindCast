@@ -25,7 +25,8 @@ type AuthorProps = {
 
 type Props = {
   onNavigateAuthorDetail: Function,
-  onMoveDownloadSwitch: Function,
+  onPressDownloadButton: Function,
+  isDownloadingPodcast: boolean,
   isPodcastDownloaded: boolean,
   onPressPlay: Function,
   author: AuthorProps,
@@ -39,7 +40,8 @@ type Props = {
 
 const PodcastDetailComponent = ({
   onNavigateAuthorDetail,
-  onMoveDownloadSwitch,
+  onPressDownloadButton,
+  isDownloadingPodcast,
   isPodcastDownloaded,
   onPressPlay,
   description,
@@ -62,7 +64,8 @@ const PodcastDetailComponent = ({
     />
     <ActionButtons
       onPressAddToPlaylist={this.onToggleAddPlaylistModal}
-      onMoveDownloadSwitch={onMoveDownloadSwitch}
+      isDownloadingPodcast={isDownloadingPodcast}
+      onPressDownloadButton={onPressDownloadButton}
       isPodcastDownloaded={isPodcastDownloaded}
       onPressPlay={onPressPlay}
     />

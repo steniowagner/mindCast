@@ -60,14 +60,14 @@ export const Creators = {
     payload: { id },
   }),
 
-  downloadPodcast: currentPodcast => ({
+  downloadPodcast: podcast => ({
     type: Types.DOWNLOAD_PODCAST,
-    payload: { currentPodcast },
+    payload: { podcast },
   }),
 
-  removePodcast: currentPodcast => ({
+  removePodcast: podcast => ({
     type: Types.REMOVE_PODCAST,
-    payload: { currentPodcast },
+    payload: { podcast },
   }),
 };
 

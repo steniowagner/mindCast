@@ -84,8 +84,8 @@ export function* setPodcastsDownloadedList() {
 
 export function* downloadPodcast({ payload }) {
   try {
-    const { currentPodcast } = payload;
-    const { url, id } = currentPodcast;
+    const { podcast } = payload;
+    const { url, id } = podcast;
 
     const PATH_TO_FILE = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
 
@@ -101,7 +101,7 @@ export function* downloadPodcast({ payload }) {
 
     if (statusCode === 200) {
       const podcastWithLocalURI = {
-        ...currentPodcast,
+        ...podcast,
         path: PATH_TO_FILE,
       };
 
@@ -120,15 +120,21 @@ export function* downloadPodcast({ payload }) {
 
 export function* removePodcast({ payload }) {
   try {
-    const { currentPodcast } = payload;
-    const { uri, id } = currentPodcast;
+    const { podcast } = payload;
+    const { uri, id } = podcast;
 
-    yield call(RNFS.unlink, uri);
+    let uriToRemove = uri;
+
+    if (!uri) {
+      uriToRemove = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
+    }
+
+    yield call(RNFS.unlink, uriToRemove);
 
     yield _removePodcastFromSavedPodcastList(id);
 
     yield put(LocalPodcastsManagerCreators.removeFromDownloadedList(id));
-    yield put(PlayerCreators.updatePodcastURI(currentPodcast.url));
+    yield put(PlayerCreators.updatePodcastURI(podcast.url));
   } catch (err) {
     console.tron.log('removePodcast - err');
   }

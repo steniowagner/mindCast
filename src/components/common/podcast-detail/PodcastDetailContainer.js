@@ -2,10 +2,18 @@
 
 import React, { Component } from 'react';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
+
 import PodcastDetailComponent from './components/PodcastDetailComponent';
+import { CustomAlert, TYPES } from '~/components/common/alert';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {
+  podcastsDownloaded: Array<Object>,
+  downloadPodcast: Function,
+  removePodcast: Function,
   navigation: Object,
 };
 
@@ -25,8 +33,6 @@ class PodcastDetail extends Component<Props, State> {
       isAddPlaylistModalOpen: !isAddPlaylistModalOpen,
     });
   };
-
-  onMoveDownloadSwitch = (): void => {};
 
   getProps = (): void => {
     const { navigation } = this.props;
@@ -58,7 +64,39 @@ class PodcastDetail extends Component<Props, State> {
     });
   };
 
-  onMoveDownloadSwitch = (): void => {};
+  onPressDownloadButton = (
+    isPodcastDownloaded: boolean,
+    id: string,
+    url: string,
+  ): void => {
+    const { downloadPodcast, removePodcast } = this.props;
+
+    const { action, type } = isPodcastDownloaded
+      ? {
+        action: () => removePodcast({ id }),
+        type: TYPES.REMOVE_DOWNLOADED_PODCAST,
+      }
+      : {
+        action: () => downloadPodcast({ id, url }),
+        type: TYPES.DOWNLOAD_PODCAST,
+      };
+
+    CustomAlert(type, action);
+  };
+
+  checkPodcastDownloadStatus = (listKey: string, podcastId: string) => {
+    const { localPodcastsManager } = this.props;
+
+    const isPodcastOnTheList = localPodcastsManager[listKey].some((podcast) => {
+      if (typeof podcast === 'object') {
+        return podcast.id === podcastId;
+      }
+
+      return podcast === podcastId;
+    });
+
+    return isPodcastOnTheList;
+  };
 
   render() {
     const { isAddPlaylistModalOpen } = this.state;
@@ -71,18 +109,30 @@ class PodcastDetail extends Component<Props, State> {
       author,
       title,
       stars,
+      url,
       id,
     } = this.getProps();
 
+    const isPodcastDownloaded = this.checkPodcastDownloadStatus(
+      'podcastsDownloaded',
+      id,
+    );
+
+    const isDownloadingPodcast = this.checkPodcastDownloadStatus(
+      'downloadingList',
+      id,
+    );
+
     return (
       <PodcastDetailComponent
+        onPressDownloadButton={() => this.onPressDownloadButton(isPodcastDownloaded, id, url)
+        }
         onNavigateAuthorDetail={() => this.onNavigateAuthorDetail(id)}
         onToggleAddPlaylistModal={this.onToggleAddPlaylistModal}
-        onMoveDownloadSwitch={this.onMoveDownloadSwitch}
-        onMoveDownloadSwitch={this.onMoveDownloadSwitch}
         isAddPlaylistModalOpen={isAddPlaylistModalOpen}
+        isDownloadingPodcast={isDownloadingPodcast}
+        isPodcastDownloaded={isPodcastDownloaded}
         onPressPlay={this.onPressPlay}
-        isPodcastDownloaded={false}
         description={description}
         uploadedAt={uploadedAt}
         imageURL={imageURL}
@@ -95,4 +145,13 @@ class PodcastDetail extends Component<Props, State> {
   }
 }
 
-export default PodcastDetail;
+const mapStateToProps = state => ({
+  localPodcastsManager: state.localPodcastsManager,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(LocalPodcastsManagerCreators, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PodcastDetail);
