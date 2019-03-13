@@ -103,21 +103,9 @@ class PodcastDetail extends Component<Props, State> {
   };
 
   render() {
-    const { isAddPlaylistModalOpen } = this.state;
-
     const { shouldShowAuthorSection, podcastInfo } = this.getProps();
-
-    const {
-      description,
-      uploadedAt,
-      imageURL,
-      subject,
-      author,
-      title,
-      stars,
-      url,
-      id,
-    } = podcastInfo;
+    const { isAddPlaylistModalOpen } = this.state;
+    const { id, url } = podcastInfo;
 
     const isPodcastDownloaded = this.checkPodcastDownloadStatus(
       'podcastsDownloaded',
@@ -140,13 +128,7 @@ class PodcastDetail extends Component<Props, State> {
         isDownloadingPodcast={isDownloadingPodcast}
         isPodcastDownloaded={isPodcastDownloaded}
         onPressPlay={this.onPressPlay}
-        description={description}
-        uploadedAt={uploadedAt}
-        imageURL={imageURL}
-        subject={subject}
-        author={author}
-        title={title}
-        stars={stars}
+        podcast={podcastInfo}
       />
     );
   }

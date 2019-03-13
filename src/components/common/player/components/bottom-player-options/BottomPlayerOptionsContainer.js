@@ -4,6 +4,7 @@ import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
 
+import PlaylistList from '~/components/common/playlists-list/PlaylistsListContainer';
 import HandlePodcastInPlaylists from './components/HandlePodcastInPlaylists';
 import ShufflePlaylist from './components/ShufflePlaylist';
 import Download from './components/Download';
@@ -43,23 +44,25 @@ type Props = {
 };
 
 type State = {
-  isAddPodcastToPlaylistModalOpen: boolean,
+  isAddPlaylistModalOpen: boolean,
 };
 
 class BottomPlayerOptionsContainer extends PureComponent<Props, State> {
   state = {
-    isAddPodcastToPlaylistModalOpen: false,
+    isAddPlaylistModalOpen: false,
   };
 
-  onToggleAddPodcastToPlaylistModal = (): void => {
-    const { isAddPodcastToPlaylistModalOpen } = this.state;
+  onToggleAddPlaylistModal = (): void => {
+    const { isAddPlaylistModalOpen } = this.state;
 
     this.setState({
-      isAddPodcastToPlaylistModalOpen: !isAddPodcastToPlaylistModalOpen,
+      isAddPlaylistModalOpen: !isAddPlaylistModalOpen,
     });
   };
 
   render() {
+    const { isAddPlaylistModalOpen } = this.state;
+
     const {
       isCurrentPodcastDownloaded,
       shouldShufflePlaylist,
@@ -103,11 +106,15 @@ class BottomPlayerOptionsContainer extends PureComponent<Props, State> {
           iconSize={iconSize}
         />
         <HandlePodcastInPlaylists
-          onToggleAddPodcastToPlaylistModal={
-            this.onToggleAddPodcastToPlaylistModal
-          }
+          onToggleAddPlaylistModal={this.onToggleAddPlaylistModal}
           iconSize={iconSize}
         />
+        {isAddPlaylistModalOpen && (
+          <PlaylistList
+            onToggleModal={this.onToggleAddPlaylistModal}
+            podcast={currentPodcast}
+          />
+        )}
       </Wrapper>
     );
   }

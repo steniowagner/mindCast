@@ -5,6 +5,8 @@ import { ScrollView, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
+import PlaylistList from '~/components/common/playlists-list/PlaylistsListContainer';
+
 import ActionButtons from './ActionButtons';
 import BottomContent from './BottomContent';
 import PodcastInfo from './PodcastInfo';
@@ -23,49 +25,53 @@ type AuthorProps = {
   id: string,
 };
 
-type Props = {
-  onNavigateAuthorDetail: Function,
-  shouldShowAuthorSection: boolean,
-  onPressDownloadButton: Function,
-  isDownloadingPodcast: boolean,
-  isPodcastDownloaded: boolean,
-  onPressPlay: Function,
-  author: AuthorProps,
+type PodcastProps = {
   description: string,
   uploadedAt: string,
   imageURL: string,
   subject: string,
+  author: AuthorProps,
   title: string,
   stars: number,
+  url: string,
+  id: string,
+};
+
+type Props = {
+  onToggleAddPlaylistModal: Function,
+  onNavigateAuthorDetail: Function,
+  shouldShowAuthorSection: boolean,
+  isAddPlaylistModalOpen: boolean,
+  onPressDownloadButton: Function,
+  isDownloadingPodcast: boolean,
+  isPodcastDownloaded: boolean,
+  onPressPlay: Function,
+  podcast: Props,
 };
 
 const PodcastDetailComponent = ({
+  onToggleAddPlaylistModal,
   shouldShowAuthorSection,
   onNavigateAuthorDetail,
+  isAddPlaylistModalOpen,
   onPressDownloadButton,
   isDownloadingPodcast,
   isPodcastDownloaded,
   onPressPlay,
-  description,
-  uploadedAt,
-  imageURL,
-  subject,
-  author,
-  stars,
-  title,
+  podcast,
 }: Props): Object => (
   <Wrapper
     showsVerticalScrollIndicator={false}
     alwaysBounceVertical={false}
   >
     <PodcastInfo
-      imageURL={imageURL}
-      subject={subject}
-      title={title}
-      stars={stars}
+      imageURL={podcast.imageURL}
+      subject={podcast.subject}
+      title={podcast.title}
+      stars={podcast.stars}
     />
     <ActionButtons
-      onPressAddToPlaylist={this.onToggleAddPlaylistModal}
+      onPressAddToPlaylist={onToggleAddPlaylistModal}
       isDownloadingPodcast={isDownloadingPodcast}
       onPressDownloadButton={onPressDownloadButton}
       isPodcastDownloaded={isPodcastDownloaded}
@@ -74,11 +80,17 @@ const PodcastDetailComponent = ({
     <BottomContent
       shouldShowAuthorSection={shouldShowAuthorSection}
       onPressLearnMore={onNavigateAuthorDetail}
-      authorImageURL={author.smallImageURL}
-      description={description}
-      authorName={author.name}
-      uploadedAt={uploadedAt}
+      authorImageURL={podcast.author.smallImageURL}
+      description={podcast.description}
+      authorName={podcast.author.name}
+      uploadedAt={podcast.uploadedAt}
     />
+    {isAddPlaylistModalOpen && (
+      <PlaylistList
+        onToggleModal={onToggleAddPlaylistModal}
+        podcast={podcast}
+      />
+    )}
   </Wrapper>
 );
 

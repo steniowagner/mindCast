@@ -6,16 +6,16 @@ import Icon from '~/components/common/Icon';
 import Button from './Button';
 
 type Props = {
-  onToggleAddPodcastToPlaylistModal: Function,
+  onToggleAddPlaylistModal: Function,
   iconSize: number,
 };
 
 const HandlePodcastInPlaylists = ({
-  onToggleAddPodcastToPlaylistModal,
+  onToggleAddPlaylistModal,
   iconSize,
 }: Props): Object => (
   <Button
-    onPress={onToggleAddPodcastToPlaylistModal}
+    onPress={onToggleAddPlaylistModal}
   >
     <Icon
       name="playlist-plus"

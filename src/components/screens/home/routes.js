@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
 import Player from '~/components/common/player/PlayerContainer';
+// import Home from '~/components/common/playlists-list/PlaylistsListContainer';
 import Home from './index';
 
 import CONSTANTS from '~/utils/CONSTANTS';
