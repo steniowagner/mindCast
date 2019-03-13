@@ -10,8 +10,8 @@ const getPlayerNavigationOption = (navigation: Object) => {
   const { state } = navigation;
   const { params } = navigation.state;
 
-  const isRightMenuOpen = params[CONSTANTS.IS_PLAYER_RIGHT_MENU_OPEN];
-  const title = params[CONSTANTS.PLAYER_TITLE_PARAM];
+  const isRightMenuOpen = params[CONSTANTS.KEYS.IS_PLAYER_RIGHT_MENU_OPEN];
+  const title = params[CONSTANTS.PARAMS.PLAYER_TITLE];
 
   return {
     header: isRightMenuOpen ? null : undefined,
@@ -19,7 +19,7 @@ const getPlayerNavigationOption = (navigation: Object) => {
     headerRight: (
       <HeaderButton
         onPress={() => {
-          const onPressHeaderRightButton = state.params[CONSTANTS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
+          const onPressHeaderRightButton = state.params[CONSTANTS.KEYS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
           onPressHeaderRightButton();
         }}
         iconName="format-list-bulleted"

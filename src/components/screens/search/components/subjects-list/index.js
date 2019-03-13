@@ -42,8 +42,8 @@ const SubjectsList = ({ navigate }: Props): Object => (
     renderItem={({ item, index }) => (
       <SubjectsListItem
         title={item.title}
-        onPress={() => navigate(CONSTANTS.NAVIGATE_SUBJECT_DETAIL, {
-          [CONSTANTS.SUBJECT_DETAIL_PARAMS]: item,
+        onPress={() => navigate(CONSTANTS.ROUTES.SUBJECT_DETAIL, {
+          [CONSTANTS.PARAMS.SUBJECT_DETAIL]: item,
         })
         }
         index={index}

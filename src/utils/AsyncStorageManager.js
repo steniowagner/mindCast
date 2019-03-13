@@ -9,7 +9,7 @@ export const getItemFromStorage = async (
 ): any => {
   try {
     const valueFromStorage = await AsyncStorage.getItem(
-      `${CONSTANTS.APP_STORAGE_KEY}:${key}`,
+      `${CONSTANTS.KEYS.APP_STORAGE_KEY}:${key}`,
     );
 
     return valueFromStorage || defaultValue;
@@ -26,7 +26,7 @@ export const persistItemInStorage = async (
 ): Promise<void> => {
   try {
     await AsyncStorage.setItem(
-      `${CONSTANTS.APP_STORAGE_KEY}:${key}`,
+      `${CONSTANTS.KEYS.APP_STORAGE_KEY}:${key}`,
       JSON.stringify(value),
     );
   } catch (err) {
@@ -36,7 +36,7 @@ export const persistItemInStorage = async (
 
 export const removeItemFromStorage = async (key: string) => {
   try {
-    await AsyncStorage.removeItem(`${CONSTANTS.APP_STORAGE_KEY}:${key}`);
+    await AsyncStorage.removeItem(`${CONSTANTS.KEYS.APP_STORAGE_KEY}:${key}`);
   } catch (err) {
     console.tron.log(err);
   }

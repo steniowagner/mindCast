@@ -30,7 +30,7 @@ class SubjectDetailContainer extends Component<Props, {}> {
     const { getSubjectDetail, navigation } = this.props;
 
     const { params } = navigation.state;
-    const { id } = params[CONSTANTS.SUBJECT_DETAIL_PARAMS];
+    const { id } = params[CONSTANTS.PARAMS.SUBJECT_DETAIL];
 
     getSubjectDetail(id);
   }

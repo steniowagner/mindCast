@@ -33,9 +33,9 @@ const NewReleasesSection = ({ newReleases, navigation }: Props): Object => (
   <Wrapper>
     <SectionWithButton
       sectionTitle="New Releases"
-      onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-        [CONSTANTS.PLAYER_PARAMS]: {
-          [CONSTANTS.PLAYLIST_KEY]: newReleases,
+      onPress={() => navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+        [CONSTANTS.PARAMS.PLAYER]: {
+          [CONSTANTS.KEYS.PLAYLIST]: newReleases,
         },
       })
       }
@@ -48,9 +48,9 @@ const NewReleasesSection = ({ newReleases, navigation }: Props): Object => (
       data={newReleases}
       renderItem={({ item }) => (
         <NewReleasesSectionItemList
-          onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
-            [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
-            [CONSTANTS.PODCAST_DETAIL_PARAMS]: item,
+          onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+            [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
+            [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
           })
           }
           imageURL={item.imageURL}

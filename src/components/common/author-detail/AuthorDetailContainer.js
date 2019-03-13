@@ -25,7 +25,7 @@ class AuthorDetailContainer extends Component<Props, {}> {
   componentDidMount() {
     const { getAuthorById, navigation } = this.props;
     const { params } = navigation.state;
-    const { id } = params[CONSTANTS.AUTHOR_DETAIL_PARAMS];
+    const { id } = params[CONSTANTS.PARAMS.AUTHOR_DETAIL];
 
     getAuthorById(id);
   }

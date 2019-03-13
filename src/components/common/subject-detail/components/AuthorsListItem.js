@@ -6,7 +6,6 @@ import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
 import DefaultButton from '~/components/common/DefaultButton';
-import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;

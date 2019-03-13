@@ -84,8 +84,8 @@ class PlayerContainer extends Component<Props, State> {
     const { params } = navigation.state;
     const { playlist: pastPlaylist, currentPodcast, paused } = player;
 
-    const playerParams = params[CONSTANTS.PLAYER_PARAMS];
-    const playlist = playerParams[CONSTANTS.PLAYLIST_KEY];
+    const playerParams = params[CONSTANTS.PARAMS.PLAYER];
+    const playlist = playerParams[CONSTANTS.KEYS.PLAYLIST];
 
     const isCurrentPodcastDefined = !!currentPodcast;
     const isPodcastChanged = isCurrentPodcastDefined && currentPodcast.id !== playlist[0].id;
@@ -124,7 +124,7 @@ class PlayerContainer extends Component<Props, State> {
     const { navigation } = this.props;
 
     navigation.setParams({
-      [CONSTANTS.IS_PLAYER_RIGHT_MENU_OPEN]: !isQueueSideMenuOpen,
+      [CONSTANTS.KEYS.IS_PLAYER_RIGHT_MENU_OPEN]: !isQueueSideMenuOpen,
     });
 
     this.setDarkLayerOpacity();
@@ -136,7 +136,7 @@ class PlayerContainer extends Component<Props, State> {
 
   setHeaderTitle = (navigation: Object, subject: string): void => {
     navigation.setParams({
-      [CONSTANTS.PLAYER_TITLE_PARAM]: subject,
+      [CONSTANTS.PARAMS.PLAYER_TITLE]: subject,
     });
   };
 
@@ -152,7 +152,8 @@ class PlayerContainer extends Component<Props, State> {
     const { navigation } = this.props;
 
     navigation.setParams({
-      [CONSTANTS.HEADER_BUTTON_RIGHT_PLAYER_ACTION]: this.onToggleQueueSideMenu,
+      [CONSTANTS.KEYS.HEADER_BUTTON_RIGHT_PLAYER_ACTION]: this
+        .onToggleQueueSideMenu,
     });
   };
 

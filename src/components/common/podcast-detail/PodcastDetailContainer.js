@@ -38,8 +38,8 @@ class PodcastDetail extends Component<Props, State> {
     const { navigation } = this.props;
     const { params } = navigation.state;
 
-    const shouldShowAuthorSection = params[CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION];
-    const podcastInfo = params[CONSTANTS.PODCAST_DETAIL_PARAMS];
+    const shouldShowAuthorSection = params[CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION];
+    const podcastInfo = params[CONSTANTS.PARAMS.PODCAST_DETAIL];
 
     return {
       shouldShowAuthorSection,
@@ -50,8 +50,8 @@ class PodcastDetail extends Component<Props, State> {
   onNavigateAuthorDetail = (id: string): void => {
     const { navigation } = this.props;
 
-    navigation.navigate(CONSTANTS.NAVIGATE_AUTHOR_DETAIL, {
-      [CONSTANTS.AUTHOR_DETAIL_PARAMS]: {
+    navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+      [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
         id,
       },
     });
@@ -61,9 +61,9 @@ class PodcastDetail extends Component<Props, State> {
     const { podcastInfo } = this.getProps();
     const { navigation } = this.props;
 
-    navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-      [CONSTANTS.PLAYER_PARAMS]: {
-        [CONSTANTS.PLAYLIST_KEY]: [podcastInfo],
+    navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+      [CONSTANTS.PARAMS.PLAYER]: {
+        [CONSTANTS.KEYS.PLAYLIST]: [podcastInfo],
       },
     });
   };

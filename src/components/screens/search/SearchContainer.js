@@ -42,7 +42,7 @@ class SearchContainer extends Component<Props, State> {
 
     if (authorName.length) {
       navigation.navigate(ROUTE_NAMES.SEARCH_AUTHORS_RESULT, {
-        [CONSTANTS.SEARCH_AUTHOR_BY_NAME_PARAM]: authorName,
+        [CONSTANTS.PARAMS.SEARCH_AUTHOR_BY_NAME]: authorName,
       });
     }
   };

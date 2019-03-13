@@ -34,7 +34,7 @@ class SearchAuthorListContainer extends Component<Props, {}> {
     const { navigation } = this.props;
     const { params } = navigation.state;
 
-    const authorName = params[CONSTANTS.SEARCH_AUTHOR_BY_NAME_PARAM];
+    const authorName = params[CONSTANTS.PARAMS.SEARCH_AUTHOR_BY_NAME];
 
     return authorName;
   };

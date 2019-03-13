@@ -13,7 +13,7 @@ import { Creators as PlayerCreators } from '../ducks/player';
 
 const _getPodcastsSaved = async () => {
   const rawPodcastsSaved = await getItemFromStorage(
-    CONSTANTS.PODCASTS_SAVED,
+    CONSTANTS.KEYS.PODCASTS_SAVED,
     [],
   );
 
@@ -35,7 +35,7 @@ function* _addPodcastToSavedPodcastsList(podcastToSave) {
     ) >= 0;
 
     if (!isPodcastSaved) {
-      yield persistItemInStorage(CONSTANTS.PODCASTS_SAVED, [
+      yield persistItemInStorage(CONSTANTS.KEYS.PODCASTS_SAVED, [
         ...podcastsDownloaded,
         podcastToSave,
       ]);
@@ -59,7 +59,7 @@ function* _removePodcastFromSavedPodcastList(id) {
       );
 
       yield persistItemInStorage(
-        CONSTANTS.PODCASTS_SAVED,
+        CONSTANTS.KEYS.PODCASTS_SAVED,
         podcastsDownloadedFiltered,
       );
     }
@@ -159,7 +159,7 @@ export function* clearAllLocalPodcastsReferences() {
 
       yield removeFiles;
 
-      yield removeItemFromStorage(CONSTANTS.PODCASTS_SAVED);
+      yield removeItemFromStorage(CONSTANTS.KEYS.PODCASTS_SAVED);
 
       yield put(
         LocalPodcastsManagerCreators.clearAllLocalPodcastsReferencesSuccess(),

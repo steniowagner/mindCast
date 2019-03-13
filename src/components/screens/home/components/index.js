@@ -5,8 +5,6 @@ import {
   View, StatusBar, TouchableOpacity, Text,
 } from 'react-native';
 
-import CONSTANTS from '~/utils/CONSTANTS';
-
 type Props = {
   navigation: Object,
 };

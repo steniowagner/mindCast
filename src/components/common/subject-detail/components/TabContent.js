@@ -46,9 +46,10 @@ class TabContent extends Component<Props, {}> {
         UI: (
           <TrendingListItem
             podcasts={trendingPodcasts}
-            onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
-              [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
-              [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
+            onPress={podcast => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+              [CONSTANTS.KEYS
+                .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
+              [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
             })
             }
           />
@@ -61,9 +62,10 @@ class TabContent extends Component<Props, {}> {
             dataset={featuredPodcasts}
             render={(podcast, index) => (
               <FeaturedListItem
-                onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
-                  [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
-                  [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
+                onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+                  [CONSTANTS.KEYS
+                    .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
+                  [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
                 })
                 }
                 podcastImage={podcast.imageURL}
@@ -83,8 +85,8 @@ class TabContent extends Component<Props, {}> {
             dataset={authors}
             render={(item, index) => (
               <AuthorsListItem
-                onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_AUTHOR_DETAIL, {
-                  [CONSTANTS.AUTHOR_DETAIL_PARAMS]: {
+                onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+                  [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
                     id: item.id,
                   },
                 })

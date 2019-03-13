@@ -21,11 +21,6 @@ const RootStack = createStackNavigator(
         header: null,
       }),
     },
-
-    [CONSTANTS.NAVIGATE_PLAYER]: {
-      screen: Player,
-      navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
-    },
   },
   {
     initialRouteName: ROUTE_NAMES.HOME,

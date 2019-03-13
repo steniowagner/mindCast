@@ -9,8 +9,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as AuthorCreators } from '~/store/ducks/author';
 
-import CONSTANTS from '~/utils/CONSTANTS';
-
 const Wrapper = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('35%')}px;
   margin-right: ${({ theme }) => theme.metrics.mediumSize}px;

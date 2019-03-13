@@ -13,8 +13,8 @@ import Search from './SearchContainer';
 import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
-  SEARCH: 'SEARCH',
   SEARCH_AUTHORS_RESULT: 'SEARCH_AUTHORS_RESULT',
+  SEARCH: 'SEARCH',
 };
 
 const RootStack = createStackNavigator(
@@ -27,11 +27,11 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [CONSTANTS.NAVIGATE_SUBJECT_DETAIL]: {
+    [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
       screen: SubjectDetailContainer,
       navigationOptions: ({ navigation }) => {
         const { params } = navigation.state;
-        const subject = params[CONSTANTS.SUBJECT_DETAIL_PARAMS];
+        const subject = params[CONSTANTS.PARAMS.SUBJECT_DETAIL];
         const title = `#${subject.id}`;
 
         return {
@@ -62,14 +62,14 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [CONSTANTS.NAVIGATE_AUTHOR_DETAIL]: {
+    [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
       }),
     },
 
-    [CONSTANTS.NAVIGATE_PODCAST_DETAIL]: {
+    [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
@@ -83,7 +83,7 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [CONSTANTS.NAVIGATE_PLAYER]: {
+    [CONSTANTS.ROUTES.PLAYER]: {
       screen: Player,
       navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
     },

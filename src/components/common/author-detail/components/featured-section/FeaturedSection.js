@@ -24,9 +24,9 @@ type Props = {
 };
 
 const onPressItem = (navigation: Object, content: Object): void => {
-  navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-    [CONSTANTS.PLAYER_PARAMS]: {
-      [CONSTANTS.PLAYLIST_KEY]: content,
+  navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+    [CONSTANTS.PARAMS.PLAYER]: {
+      [CONSTANTS.KEYS.PLAYLIST]: content,
     },
   });
 };
@@ -40,9 +40,9 @@ const Featured = ({ navigation, featured }: Props): Object => (
     <ItemsWrapper>
       {featured.map((podcast, index) => (
         <FeaturedListItem
-          onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
-            [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
-            [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
+          onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+            [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
+            [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
           })
           }
           imageURL={podcast.smallImageURL}
