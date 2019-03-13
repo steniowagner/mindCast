@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { FlatList, View } from 'react-native';
+import { StackActions } from 'react-navigation';
 import styled from 'styled-components';
 
 import NewReleasesSectionItemList from './NewReleasesSectionItemList';
@@ -26,10 +27,15 @@ const ListFooterComponent = styled(View)`
 
 type Props = {
   newReleases: Array<Object>,
+  onPressItem: Function,
   navigation: Object,
 };
 
-const NewReleasesSection = ({ newReleases, navigation }: Props): Object => (
+const NewReleasesSection = ({
+  onPressItem,
+  newReleases,
+  navigation,
+}: Props): Object => (
   <Wrapper>
     <SectionWithButton
       sectionTitle="New Releases"
@@ -48,11 +54,7 @@ const NewReleasesSection = ({ newReleases, navigation }: Props): Object => (
       data={newReleases}
       renderItem={({ item }) => (
         <NewReleasesSectionItemList
-          onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
-            [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
-            [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
-          })
-          }
+          onPress={() => onPressItem(item)}
           imageURL={item.imageURL}
           subject={item.subject}
           title={item.title}

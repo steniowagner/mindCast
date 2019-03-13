@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
-import { Platform } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 
 import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
 import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
@@ -27,27 +27,6 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
-      screen: SubjectDetailContainer,
-      navigationOptions: ({ navigation }) => {
-        const { params } = navigation.state;
-        const subject = params[CONSTANTS.PARAMS.SUBJECT_DETAIL];
-        const title = `#${subject.id}`;
-
-        return {
-          title,
-          ...DEFAULT_HEADER_STYLE,
-          ...Platform.select({
-            android: {
-              headerStyle: {
-                marginTop: 0,
-              },
-            },
-          }),
-        };
-      },
-    },
-
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
       navigationOptions: () => ({
@@ -60,6 +39,20 @@ const RootStack = createStackNavigator(
           elevation: 0,
         },
       }),
+    },
+
+    [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
+      screen: SubjectDetailContainer,
+      navigationOptions: ({ navigation }) => {
+        const { params } = navigation.state;
+        const subject = params[CONSTANTS.PARAMS.SUBJECT_DETAIL];
+        const title = `#${subject.id}`;
+
+        return {
+          ...DEFAULT_HEADER_STYLE,
+          title,
+        };
+      },
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
@@ -77,6 +70,7 @@ const RootStack = createStackNavigator(
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,
+          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
           borderBottomWidth: 0,
           elevation: 0,
         },

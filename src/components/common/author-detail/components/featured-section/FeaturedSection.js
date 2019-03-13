@@ -20,31 +20,20 @@ const ItemsWrapper = styled(View)`
 
 type Props = {
   featured: Array<Object>,
+  onPressItem: Function,
   navigation: Object,
 };
 
-const onPressItem = (navigation: Object, content: Object): void => {
-  navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
-    [CONSTANTS.PARAMS.PLAYER]: {
-      [CONSTANTS.KEYS.PLAYLIST]: content,
-    },
-  });
-};
-
-const Featured = ({ navigation, featured }: Props): Object => (
+const Featured = ({ onPressItem, navigation, featured }: Props): Object => (
   <Wrapper>
     <SectionWithButton
-      onPress={() => onPressItem(navigation, featured)}
+      onPress={() => {}}
       sectionTitle="Featured"
     />
     <ItemsWrapper>
       {featured.map((podcast, index) => (
         <FeaturedListItem
-          onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
-            [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
-            [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
-          })
-          }
+          onPress={() => onPressItem(podcast)}
           imageURL={podcast.smallImageURL}
           fileName={podcast.fileName}
           subject={podcast.subject}

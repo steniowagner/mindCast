@@ -4,9 +4,11 @@ import React, { PureComponent, Fragment } from 'react';
 import { Animated, View } from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
+import { StackActions } from 'react-navigation';
 
 import ProgressiveImage from '~/components/common/ProgressiveImage';
 import Loading from '~/components/common/Loading';
+import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
 import FeaturedSection from './featured-section/FeaturedSection';
@@ -84,6 +86,18 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     }
   }
 
+  onPressPodcastListItem = (podcast: Object, navigation: Object): void => {
+    const pushAction = StackActions.push({
+      routeName: CONSTANTS.ROUTES.PODCAST_DETAIL,
+      params: {
+        [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
+        [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
+      },
+    });
+
+    navigation.dispatch(pushAction);
+  };
+
   renderAuthorImage = (
     profileImageThumbnail: string,
     profileImage: string,
@@ -159,10 +173,14 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
             />
           </SectionWrapper>
           <NewReleasesSection
+            onPressItem={podcast => this.onPressPodcastListItem(podcast, navigation)
+            }
             newReleases={newReleases}
             navigation={navigation}
           />
           <FeaturedSection
+            onPressItem={podcast => this.onPressPodcastListItem(podcast, navigation)
+            }
             navigation={navigation}
             featured={featured}
           />
