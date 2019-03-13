@@ -47,6 +47,7 @@ class TabContent extends Component<Props, {}> {
           <TrendingListItem
             podcasts={trendingPodcasts}
             onPress={podcast => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
+              [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
               [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
             })
             }
@@ -61,6 +62,7 @@ class TabContent extends Component<Props, {}> {
             render={(podcast, index) => (
               <FeaturedListItem
                 onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
+                  [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                   [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
                 })
                 }

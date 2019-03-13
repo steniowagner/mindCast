@@ -38,9 +38,13 @@ class PodcastDetail extends Component<Props, State> {
     const { navigation } = this.props;
     const { params } = navigation.state;
 
+    const shouldShowAuthorSection = params[CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION];
     const podcastInfo = params[CONSTANTS.PODCAST_DETAIL_PARAMS];
 
-    return podcastInfo;
+    return {
+      shouldShowAuthorSection,
+      podcastInfo,
+    };
   };
 
   onNavigateAuthorDetail = (id: string): void => {
@@ -54,12 +58,12 @@ class PodcastDetail extends Component<Props, State> {
   };
 
   onPressPlay = (): void => {
+    const { podcastInfo } = this.getProps();
     const { navigation } = this.props;
-    const podcast = this.getProps();
 
     navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
       [CONSTANTS.PLAYER_PARAMS]: {
-        [CONSTANTS.PLAYLIST_KEY]: [podcast],
+        [CONSTANTS.PLAYLIST_KEY]: [podcastInfo],
       },
     });
   };
@@ -101,6 +105,8 @@ class PodcastDetail extends Component<Props, State> {
   render() {
     const { isAddPlaylistModalOpen } = this.state;
 
+    const { shouldShowAuthorSection, podcastInfo } = this.getProps();
+
     const {
       description,
       uploadedAt,
@@ -111,7 +117,7 @@ class PodcastDetail extends Component<Props, State> {
       stars,
       url,
       id,
-    } = this.getProps();
+    } = podcastInfo;
 
     const isPodcastDownloaded = this.checkPodcastDownloadStatus(
       'podcastsDownloaded',
@@ -129,6 +135,7 @@ class PodcastDetail extends Component<Props, State> {
         }
         onNavigateAuthorDetail={() => this.onNavigateAuthorDetail(id)}
         onToggleAddPlaylistModal={this.onToggleAddPlaylistModal}
+        shouldShowAuthorSection={shouldShowAuthorSection}
         isAddPlaylistModalOpen={isAddPlaylistModalOpen}
         isDownloadingPodcast={isDownloadingPodcast}
         isPodcastDownloaded={isPodcastDownloaded}

@@ -40,7 +40,11 @@ const Featured = ({ navigation, featured }: Props): Object => (
     <ItemsWrapper>
       {featured.map((podcast, index) => (
         <FeaturedListItem
-          onPress={() => onPressItem(navigation, [podcast])}
+          onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
+            [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
+            [CONSTANTS.PODCAST_DETAIL_PARAMS]: podcast,
+          })
+          }
           imageURL={podcast.smallImageURL}
           fileName={podcast.fileName}
           subject={podcast.subject}

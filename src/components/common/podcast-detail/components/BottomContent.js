@@ -70,6 +70,7 @@ const LearnMoreButtonWrapper = styled(View)`
 `;
 
 type Props = {
+  shouldShowAuthorSection: boolean,
   onPressLearnMore: Function,
   authorImageURL: string,
   uploadedAt: string,
@@ -78,6 +79,7 @@ type Props = {
 };
 
 const BottomContent = ({
+  shouldShowAuthorSection,
   onPressLearnMore,
   authorImageURL,
   uploadedAt,
@@ -93,33 +95,35 @@ const BottomContent = ({
         <PodcastDescriptionText>{description}</PodcastDescriptionText>
       </SectionContentWrapper>
     </Section>
-    <Section>
-      <SectionTitle
-        title="Author"
-      />
-      <SectionContentWrapper>
-        <AuthorDetailWrapper>
-          <AuthorImage
-            uri={authorImageURL}
-          />
-          <TextContentWrapper>
-            <AuthorName>{authorName}</AuthorName>
-            <UploadTimestampText>
-              {`Uploaded at ${uploadedAt}`}
-            </UploadTimestampText>
-          </TextContentWrapper>
-        </AuthorDetailWrapper>
-        <LearnMoreButtonWrapper>
-          <View>
-            <DefaultButton
-              onPress={onPressLearnMore}
-              size="large"
-              text="LEARN MORE"
+    {shouldShowAuthorSection && (
+      <Section>
+        <SectionTitle
+          title="Author"
+        />
+        <SectionContentWrapper>
+          <AuthorDetailWrapper>
+            <AuthorImage
+              uri={authorImageURL}
             />
-          </View>
-        </LearnMoreButtonWrapper>
-      </SectionContentWrapper>
-    </Section>
+            <TextContentWrapper>
+              <AuthorName>{authorName}</AuthorName>
+              <UploadTimestampText>
+                {`Uploaded at ${uploadedAt}`}
+              </UploadTimestampText>
+            </TextContentWrapper>
+          </AuthorDetailWrapper>
+          <LearnMoreButtonWrapper>
+            <View>
+              <DefaultButton
+                onPress={onPressLearnMore}
+                size="large"
+                text="LEARN MORE"
+              />
+            </View>
+          </LearnMoreButtonWrapper>
+        </SectionContentWrapper>
+      </Section>
+    )}
   </Wrapper>
 );
 

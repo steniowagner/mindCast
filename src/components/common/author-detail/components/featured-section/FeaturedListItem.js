@@ -52,7 +52,7 @@ const Title = styled(Text).attrs({
 `;
 
 const Subject = styled(Text)`
-  font-size: ${({ theme }) => theme.metrics.mediumSize * 1.1}px;
+  font-size: ${({ theme }) => theme.metrics.mediumSize * 1.25}px;
   font-family: CircularStd-Medium;
   color: ${({ theme }) => theme.colors.progressiveImageForeground};
 `;

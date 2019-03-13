@@ -34,6 +34,8 @@ const PODCASTS = [
     },
     title:
       'The line is displayed so that the beginning fits in the container and.',
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 1,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
     thumbnailImageURL:
@@ -57,6 +59,8 @@ const PODCASTS = [
       numberPodcasts: 7,
     },
     title: 'This Girl',
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 2,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/this_girl.mp3',
     thumbnailImageURL:
@@ -80,6 +84,8 @@ const PODCASTS = [
       numberPodcasts: 7,
     },
     title: 'Valerie',
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 3,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
     thumbnailImageURL:
@@ -104,6 +110,8 @@ const PODCASTS = [
       numberPodcasts: 7,
     },
     title: 'Summit',
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 4,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/summit.mp3',
     thumbnailImageURL:
@@ -128,6 +136,8 @@ const PODCASTS = [
       numberPodcasts: 7,
     },
     title: 'Oh Nana',
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 5,
     url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/oh_nana.mp3',
     thumbnailImageURL:

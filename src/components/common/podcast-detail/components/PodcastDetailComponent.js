@@ -25,6 +25,7 @@ type AuthorProps = {
 
 type Props = {
   onNavigateAuthorDetail: Function,
+  shouldShowAuthorSection: boolean,
   onPressDownloadButton: Function,
   isDownloadingPodcast: boolean,
   isPodcastDownloaded: boolean,
@@ -39,6 +40,7 @@ type Props = {
 };
 
 const PodcastDetailComponent = ({
+  shouldShowAuthorSection,
   onNavigateAuthorDetail,
   onPressDownloadButton,
   isDownloadingPodcast,
@@ -70,6 +72,7 @@ const PodcastDetailComponent = ({
       onPressPlay={onPressPlay}
     />
     <BottomContent
+      shouldShowAuthorSection={shouldShowAuthorSection}
       onPressLearnMore={onNavigateAuthorDetail}
       authorImageURL={author.smallImageURL}
       description={description}

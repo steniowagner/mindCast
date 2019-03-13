@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import {
+  TouchableOpacity, Platform, View, Text,
+} from 'react-native';
 import styled from 'styled-components';
 
 import DefaultButton from '~/components/common/DefaultButton';
@@ -65,7 +67,7 @@ const renderProperIcon = (
   return (
     <Icon
       color={appStyles.colors.subTextWhite}
-      name="download"
+      name="cloud-download-outline"
       size={25}
     />
   );

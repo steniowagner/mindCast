@@ -10,12 +10,14 @@ export const TYPES = {
 const configs = {
   [TYPES.REMOVE_DOWNLOADED_PODCAST]: {
     title: 'Remove Downloaded Podcast',
-    description: 'Are you sure to remove this Podcast permanently?',
+    description:
+      'Are you sure to remove this Podcast permanently from your device?',
   },
 
   [TYPES.DOWNLOAD_PODCAST]: {
     title: 'Download Podcast',
-    description: 'Download this podcast?',
+    description:
+      'Are you sure you want to Download this podcast? It can take a while.',
   },
 };
 

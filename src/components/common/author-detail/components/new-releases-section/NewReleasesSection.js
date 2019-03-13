@@ -48,10 +48,9 @@ const NewReleasesSection = ({ newReleases, navigation }: Props): Object => (
       data={newReleases}
       renderItem={({ item }) => (
         <NewReleasesSectionItemList
-          onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PLAYER, {
-            [CONSTANTS.PLAYER_PARAMS]: {
-              [CONSTANTS.PLAYLIST_KEY]: [item],
-            },
+          onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_PODCAST_DETAIL, {
+            [CONSTANTS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
+            [CONSTANTS.PODCAST_DETAIL_PARAMS]: item,
           })
           }
           imageURL={item.imageURL}
