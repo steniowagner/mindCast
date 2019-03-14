@@ -25,6 +25,7 @@ const HomeComponent = ({ navigation }: Props): Object => (
       animated
     />
     <TouchableOpacity
+      onPress={() => navigation.navigate('TEST')}
       style={{
         paddingHorizontal: 20,
         paddingVertical: 10,

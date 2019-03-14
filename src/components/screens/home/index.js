@@ -15,9 +15,11 @@ type Props = {
 
 class HomeContainer extends Component<Props, {}> {
   componentDidMount() {
-    const { setPodcastsDownloadedList } = this.props;
+    const { setPodcastsDownloadedList, navigation } = this.props;
 
     setPodcastsDownloadedList();
+
+    navigation.navigate('TEST');
   }
 
   render() {

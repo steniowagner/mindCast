@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 
-import PlaylistListComponent from './PlaylistListComponent';
+import PlaylistListComponent from './components/PlaylistListComponent';
 
 const PODCASTS = [
   {

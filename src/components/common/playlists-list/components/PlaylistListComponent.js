@@ -84,15 +84,19 @@ const PlaylistListComponent = ({
         <PlaylistText>Playlists</PlaylistText>
       </HeaderWrapper>
       <FlatList
-        renderItem={({ item, index }) => (
-          <PlaylistListItem
-            onPress={() => onAddPodcastPlaylist(item.id)}
-            numberOfPodcasts={item.podcasts.length}
-            isDownloaded={item.isDownloaded}
-            images={getPodcastImages(item)}
-            title={item.title}
-          />
-        )}
+        renderItem={({ item, index }) => {
+          const images = getPodcastImages(item);
+
+          return (
+            <PlaylistListItem
+              onPress={() => onAddPodcastPlaylist(item.id)}
+              numberOfPodcasts={item.podcasts.length}
+              isDownloaded={item.isDownloaded}
+              title={item.title}
+              images={images}
+            />
+          );
+        }}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => `${item.id}`}
         data={playlists}

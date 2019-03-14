@@ -4,10 +4,10 @@ import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import styled from 'styled-components';
 
-import PlaylistCompositionImages from '../PlaylistCompositionImages';
-import DefaultButton from '../DefaultButton';
+import PlaylistCompositionImages from '../../PlaylistCompositionImages';
+import DefaultButton from '../../DefaultButton';
 import appStyles from '~/styles';
-import Icon from '../Icon';
+import Icon from '../../Icon';
 
 const Wrapper = styled(TouchableOpacity)`
   margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;

@@ -3,14 +3,17 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
 import Player from '~/components/common/player/PlayerContainer';
-// import Home from '~/components/common/playlists-list/PlaylistsListContainer';
+import PlaylistDetail from '~/components/common/playlist-detail/PlaylistDetailContainer';
 import Home from './index';
 
 import CONSTANTS from '~/utils/CONSTANTS';
 import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
+import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
+import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
   HOME: 'HOME',
+  TEST: 'TEST',
 };
 
 const RootStack = createStackNavigator(
@@ -20,6 +23,13 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         headerBackTitle: null,
         header: null,
+      }),
+    },
+
+    [ROUTE_NAMES.TEST]: {
+      screen: PlaylistDetail,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
       }),
     },
   },

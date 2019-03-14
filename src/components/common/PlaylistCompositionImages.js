@@ -41,7 +41,7 @@ const PlaylistCompositionImages = ({ images, size }: Props): Object => (
       <PodcastImage
         index={index}
         size={size}
-        key={url}
+        key={`${url}${index}`}
         uri={url}
       />
     ))}
