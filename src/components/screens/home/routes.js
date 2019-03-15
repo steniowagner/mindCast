@@ -30,6 +30,13 @@ const RootStack = createStackNavigator(
       screen: PlaylistDetail,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
       }),
     },
   },

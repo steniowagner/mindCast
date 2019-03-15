@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
 import PodcastDetailComponent from './components/PodcastDetailComponent';
-import { CustomAlert, TYPES } from '~/components/common/alert';
+import { CustomAlert, TYPES } from '~/components/common/Alert';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {

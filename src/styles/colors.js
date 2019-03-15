@@ -13,5 +13,4 @@ export default {
   dark: '#111',
   black: '#000',
   lightDark: 'rgba(1, 1, 1, 0.5)',
-  inactiveSwitch: 'rgba(0, 0, 0, 0.38)',
 };

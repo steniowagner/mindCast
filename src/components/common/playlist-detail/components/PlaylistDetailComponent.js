@@ -1,44 +1,66 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { FlatList, Animated, View } from 'react-native';
 import styled from 'styled-components';
 
+import PodcastListItem from './PodcastListItem';
 import Header from './Header';
+import appStyles from '~/styles';
 
-import Test from './PodcastListItem';
+const HEADER_HEIGHT = appStyles.metrics.getHeightFromDP('50%');
 
 const Container = styled(View)`
   width: 100%;
   height: 100%;
+  position: absolute;
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 type Props = {
+  onTogglePlaylistDownloadedSwitch: Function,
+  onRemovePodcastFromPlaylist: Function,
+  isPlaylistAvailableOffline: boolean,
   onPressPlayAllButton: Function,
   onPressShuffleButton: Function,
-  isAvailableOffline: boolean,
+  podcastsImages: Array<string>,
+  podcasts: Array<Object>,
   title: string,
 };
 
 const PlaylistDetailComponent = ({
+  onTogglePlaylistDownloadedSwitch,
+  onRemovePodcastFromPlaylist,
+  isPlaylistAvailableOffline,
   onPressPlayAllButton,
   onPressShuffleButton,
-  isAvailableOffline,
+  podcastsImages,
+  podcasts,
   title,
 }: Props): Object => (
   <Container>
     <Header
+      onTogglePlaylistDownloadedSwitch={onTogglePlaylistDownloadedSwitch}
+      isPlaylistAvailableOffline={isPlaylistAvailableOffline}
       onPressPlayAllButton={onPressPlayAllButton}
       onPressShuffleButton={onPressShuffleButton}
-      isAvailableOffline={isAvailableOffline}
-      images={Array(4).fill(
-        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
-      )}
+      images={podcastsImages}
       title={title}
     />
-    <Test
-      isPodcastDownloaded
+    <FlatList
+      renderItem={({ item, index }) => (
+        <PodcastListItem
+          onPress={() => onRemovePodcastFromPlaylist(item.id)}
+          isPodcastDownloaded={item.isPodcastDownloaded}
+          isLast={index === podcasts.length - 1}
+          authorName={item.authorName}
+          imageURL={item.imageURL}
+          title={item.title}
+        />
+      )}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={item => `${item.id}`}
+      data={podcasts}
     />
   </Container>
 );

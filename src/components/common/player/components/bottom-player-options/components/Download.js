@@ -4,7 +4,7 @@ import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import styled from 'styled-components';
 
-import { CustomAlert, TYPES } from '~/components/common/alert';
+import { CustomAlert, TYPES } from '~/components/common/Alert';
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
 

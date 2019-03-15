@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const ButtonWrapper = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
-  padding-vertical: ${({ translucent, theme }) => (translucent ? theme.metrics.mediumSize : theme.metrics.mediumSize)}px;
+  padding-vertical: ${({ translucent, theme }) => theme.metrics.mediumSize}px;
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
   background-color: ${({ translucent, theme }) => (translucent ? 'transparent' : theme.colors.primaryColor)};
   border: ${({ translucent, theme }) => (translucent ? theme.colors.white : 'transparent')}

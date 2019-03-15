@@ -3,6 +3,7 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Swipeout from 'react-native-swipeout';
 import styled from 'styled-components';
 
 import Icon from '~/components/common/Icon';
@@ -10,7 +11,8 @@ import appStyles from '~/styles';
 
 const Wrapper = styled(View)`
   width: 100%;
-  padding-left: ${({ theme }) => theme.metrics.largeSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
+  background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
@@ -18,6 +20,7 @@ const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
 }))`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('16.5%')}px;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('16.5%')}px;
+  margin-left: ${({ theme }) => theme.metrics.mediumSize}px;
   border-radius: 5px;
 `;
 
@@ -56,38 +59,81 @@ const BottomLine = styled(View)`
   width: 100%;
   height: 1px;
   margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-left: ${({ theme }) => theme.metrics.mediumSize}px;
   background-color: ${({ theme }) => theme.colors.subTextWhite};
 `;
 
-const PodcastListItem = ({ isPodcastDownloaded }): Object => (
+const SwipeDeleteButton = styled(View)`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.primaryColor};
+`;
+
+type Props = {
+  isPodcastDownloaded: boolean,
+  authorName: string,
+  onPress: Function,
+  imageURL: string,
+  isLast: boolean,
+  title: string,
+};
+
+const PodcastListItem = ({
+  isPodcastDownloaded,
+  authorName,
+  imageURL,
+  onPress,
+  isLast,
+  title,
+}: Props): Object => (
   <Wrapper>
-    <TouchableOpacity>
-      <RowWrapper>
-        <PodcastImage
-          uri="https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg"
-        />
-        <TextContentWrapper>
-          <PodcastTitle>
-            How solve Puzzles can make you a better developer
-          </PodcastTitle>
-          <RowWrapper>
-            <Icon
-              size={22}
-              name={
-                isPodcastDownloaded ? 'cloud-download-outline' : 'cloud-check'
-              }
-              color={
-                isPodcastDownloaded
-                  ? appStyles.colors.primaryColor
-                  : appStyles.colors.white
-              }
-            />
-            <AuthorName>Stenio Wagner</AuthorName>
-          </RowWrapper>
-        </TextContentWrapper>
-      </RowWrapper>
-    </TouchableOpacity>
-    <BottomLine />
+    <Swipeout
+      autoClose
+      backgroundColor={appStyles.colors.dark}
+      right={[
+        {
+          component: (
+            <SwipeDeleteButton>
+              <Icon
+                color={appStyles.colors.white}
+                name="trash-can-outline"
+                size={25}
+              />
+            </SwipeDeleteButton>
+          ),
+          type: 'delete',
+          onPress,
+        },
+      ]}
+    >
+      <TouchableOpacity>
+        <RowWrapper>
+          <PodcastImage
+            uri={imageURL}
+          />
+          <TextContentWrapper>
+            <PodcastTitle>{title}</PodcastTitle>
+            <RowWrapper>
+              <Icon
+                size={22}
+                name={
+                  isPodcastDownloaded ? 'cloud-check' : 'cloud-download-outline'
+                }
+                color={
+                  isPodcastDownloaded
+                    ? appStyles.colors.primaryColor
+                    : appStyles.colors.white
+                }
+              />
+              <AuthorName>{authorName}</AuthorName>
+            </RowWrapper>
+          </TextContentWrapper>
+        </RowWrapper>
+      </TouchableOpacity>
+    </Swipeout>
+    {!isLast && <BottomLine />}
   </Wrapper>
 );
 
