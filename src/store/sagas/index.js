@@ -10,7 +10,7 @@ import {
   clearAllLocalPodcastsReferences,
   setPodcastsDownloadedList,
   downloadPodcast,
-  removePodcast,
+  removePodcast as removePodcastFromFS,
 } from './localPodcastsManager';
 import {
   shufflePlaylist,
@@ -21,7 +21,12 @@ import {
 } from './player';
 import { searchAuthorByName, getAuthorById } from './author';
 import { getSubjectDetail } from './subject';
-import { createPlaylist, loadPlaylists, addPodcast } from './playlist';
+import {
+  createPlaylist,
+  loadPlaylists,
+  addPodcast,
+  removePodcast,
+} from './playlist';
 
 export default function* rootSaga() {
   return yield all([
@@ -34,7 +39,10 @@ export default function* rootSaga() {
       LocalPodcastsManagerCreators.CLEAR_LOCAL_PODCASTS_REFERENCES_REQUEST,
       clearAllLocalPodcastsReferences,
     ),
-    takeLatest(LocalPodcastsManagerCreators.REMOVE_PODCAST, removePodcast),
+    takeLatest(
+      LocalPodcastsManagerCreators.REMOVE_PODCAST,
+      removePodcastFromFS,
+    ),
     takeLatest(PlayerTypes.SET_PODCAST_REQUEST, setPodcast),
     takeLatest(PlayerTypes.SETUP_PLAYER, setupPlayer),
     takeLatest(PlayerTypes.PLAY_NEXT_REQUEST, playNext),
@@ -46,5 +54,6 @@ export default function* rootSaga() {
     takeLatest(PlaylistTypes.CREATE_PLAYLIST_REQUEST, createPlaylist),
     takeLatest(PlaylistTypes.LOAD_PLAYLISTS_REQUEST, loadPlaylists),
     takeLatest(PlaylistTypes.ADD_PODCAST_REQUEST, addPodcast),
+    takeLatest(PlaylistTypes.REMOVE_PODCAST_REQUEST, removePodcast),
   ]);
 }

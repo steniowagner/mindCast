@@ -84,7 +84,7 @@ const PlaylistListComponent = ({
         <FlatList
           renderItem={({ item, index }) => {
             const images = getPodcastImages(item.podcasts);
-            console.tron.log(Date.now(), item);
+
             return (
               <PlaylistListItem
                 onPress={() => onAddPodcastPlaylist(item.title)}

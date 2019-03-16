@@ -69,26 +69,62 @@ export function* createPlaylist({ payload }) {
   }
 }
 
+function* _handleUpdatePlaylists(playlist, podcasts) {
+  const { playlists } = yield select(state => state.playlist);
+
+  const playlistUpdated = {
+    ...playlist,
+    podcasts,
+  };
+
+  const playlistsUpdated = playlists.map(playlistFromState => (playlistFromState.title === playlist.title
+    ? playlistUpdated
+    : playlistFromState));
+
+  yield persistItemInStorage(
+    CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY,
+    playlistsUpdated,
+  );
+
+  return playlistsUpdated;
+}
+
 export function* addPodcast({ payload }) {
+  try {
+    const { playlist, podcast } = payload;
+
+    const podcastsUpdated = [...playlist.podcasts, podcast];
+
+    const playlistsUpdated = yield _handleUpdatePlaylists(
+      playlist,
+      podcastsUpdated,
+    );
+
+    yield put(PlaylistCreators.addPodcastSuccess(playlistsUpdated));
+  } catch (err) {
+    yield put(
+      PlaylistCreators.createPlaylistFailure(
+        'An unexpected error happened while try to add podcast on playlist. Sorry for that.',
+      ),
+    );
+  }
+}
+
+export function* removePodcast({ payload }) {
   try {
     const { playlists } = yield select(state => state.playlist);
     const { playlist, podcast } = payload;
 
-    const playlistUpdated = {
-      ...playlist,
-      podcasts: [...playlist.podcasts, podcast],
-    };
-
-    const playlistsUpdated = playlists.map(playlistFromState => (playlistFromState.title === playlist.title
-      ? playlistUpdated
-      : playlistFromState));
-
-    yield persistItemInStorage(
-      CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY,
-      playlistsUpdated,
+    const podcastsUpdated = playlist.podcasts.filter(
+      podcastInPlaylist => podcastInPlaylist.id !== podcast.id,
     );
 
-    yield put(PlaylistCreators.addPodcastSuccess(playlistsUpdated));
+    const playlistsUpdated = yield _handleUpdatePlaylists(
+      playlist,
+      podcastsUpdated,
+    );
+
+    yield put(PlaylistCreators.removePodcastSuccess(playlistsUpdated));
   } catch (err) {
     yield put(
       PlaylistCreators.createPlaylistFailure(

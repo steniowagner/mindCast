@@ -8,6 +8,9 @@ export const Types = {
   ADD_PODCAST_REQUEST: 'playlist/ADD_PODCAST_REQUEST',
   ADD_PODCAST_SUCCESS: 'playlist/ADD_PODCAST_SUCCESS',
   ADD_PODCAST_ERROR: 'playlist/ADD_PODCAST_ERROR',
+  REMOVE_PODCAST_REQUEST: 'playlist/REMOVE_PODCAST_REQUEST',
+  REMOVE_PODCAST_SUCCESS: 'playlist/REMOVE_PODCAST_SUCCESS',
+  REMOVE_PODCAST_ERROR: 'playlist/REMOVE_PODCAST_ERROR',
 };
 
 const INITIAL_STATE = {
@@ -56,6 +59,20 @@ export const Creators = {
 
   addPodcastFailure: () => ({
     type: Types.ADD_PODCAST_ERROR,
+  }),
+
+  removePodcast: (playlist, podcast) => ({
+    type: Types.REMOVE_PODCAST_REQUEST,
+    payload: { playlist, podcast },
+  }),
+
+  removePodcastSuccess: playlists => ({
+    type: Types.REMOVE_PODCAST_SUCCESS,
+    payload: { playlists },
+  }),
+
+  removePodcastFailure: () => ({
+    type: Types.REMOVE_PODCAST_ERROR,
   }),
 };
 
@@ -110,6 +127,24 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case Types.ADD_PODCAST_ERROR:
+      return {
+        ...state,
+        error: true,
+      };
+
+    case Types.REMOVE_PODCAST_REQUEST:
+      return {
+        ...state,
+        error: false,
+      };
+
+    case Types.REMOVE_PODCAST_SUCCESS:
+      return {
+        ...state,
+        playlists: payload.playlists,
+      };
+
+    case Types.REMOVE_PODCAST_ERROR:
       return {
         ...state,
         error: true,
