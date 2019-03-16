@@ -9,6 +9,7 @@ import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPod
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
 import HomeComponent from './components';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {
   navigation: Object,
@@ -20,13 +21,20 @@ class HomeContainer extends Component<Props, {}> {
       createPlaylist,
       setPodcastsDownloadedList,
       navigation,
+      loadPlaylists,
     } = this.props;
 
     // createPlaylist('MY_PLAYLIST');
 
     setPodcastsDownloadedList();
 
-    navigation.navigate('TEST');
+    loadPlaylists();
+
+    setTimeout(() => {
+      navigation.navigate('TEST', {
+        [CONSTANTS.PARAMS.PLAYLIST_TITLE]: 'MY_PLAYLIST',
+      });
+    }, 2000);
   }
 
   render() {

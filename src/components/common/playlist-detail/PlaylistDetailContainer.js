@@ -8,13 +8,23 @@ import { Creators as PlaylistCreators } from '~/store/ducks/playlist';
 
 import PlaylistDetailComponent from './components/PlaylistDetailComponent';
 import { CustomAlert, TYPES } from '~/components/common/Alert';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 type State = {
   isPlaylistAvailableOffline: boolean,
 };
 
+type Playlist = {
+  isAvailableOffline: boolean,
+  dowloads: Array<string>,
+  podcasts: Array<Object>,
+  title: string,
+};
+
 type Props = {
-  getPlaylists: Function,
+  getPlaylist: Function,
+  navigation: Object,
+  playlist: Playlist,
 };
 
 const PODCASTS = Array(25)
@@ -27,15 +37,18 @@ const PODCASTS = Array(25)
     isPodcastDownloaded: index % 2 === 0,
   }));
 
-class PlaylistDetailContainer extends Component<{}, State> {
+class PlaylistDetailContainer extends Component<Props, State> {
   state = {
     isPlaylistAvailableOffline: false,
   };
 
   componentDidMount() {
-    this.setState({
-      isPlaylistAvailableOffline: true,
-    });
+    const { getPlaylist, navigation } = this.props;
+    const { params } = navigation.state;
+
+    const playlistTitle = params[CONSTANTS.PARAMS.PLAYLIST_TITLE];
+
+    getPlaylist(playlistTitle);
   }
 
   onPressPlayAllButton = (): void => {};
@@ -55,33 +68,42 @@ class PlaylistDetailContainer extends Component<{}, State> {
   };
 
   getPodcastsImages = (podcasts: Array<Object>): Array<string> => {
-    const images = podcasts.slice(0, 4).map(podcast => podcast.imageURL);
+    let images = [];
+
+    if (podcasts) {
+      images = podcasts.slice(0, 4).map(podcast => podcast.imageURL);
+    }
 
     return images;
   };
 
   render() {
     const { isPlaylistAvailableOffline } = this.state;
+    const { playlist } = this.props;
 
-    const podcastsImages = this.getPodcastsImages(PODCASTS);
+    const {
+      isAvailableOffline, dowloads, podcasts, title,
+    } = playlist;
+
+    const podcastsImages = this.getPodcastsImages(podcasts);
 
     return (
       <PlaylistDetailComponent
         onTogglePlaylistDownloadedSwitch={this.onTogglePlaylistDownloadedSwitch}
         onRemovePodcastFromPlaylist={this.onRemovePodcastFromPlaylist}
-        isPlaylistAvailableOffline={isPlaylistAvailableOffline}
+        isPlaylistAvailableOffline={isAvailableOffline}
         onPressPlayAllButton={this.onPressPlayAllButton}
         onPressShuffleButton={this.onPressShuffleButton}
-        title="Understanding the World and the Humans"
         podcastsImages={podcastsImages}
-        podcasts={PODCASTS}
+        podcasts={podcasts}
+        title={title}
       />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  playlists: state.playlist,
+  playlist: state.playlist.playlist,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(PlaylistCreators, dispatch);

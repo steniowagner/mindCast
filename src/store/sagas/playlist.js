@@ -133,3 +133,33 @@ export function* removePodcast({ payload }) {
     );
   }
 }
+
+export function* getPlaylist({ payload }) {
+  try {
+    const { title } = payload;
+    const { localPodcastsManager, playlist } = yield select(state => state);
+
+    const { podcastsDownloaded } = localPodcastsManager;
+    const { playlists } = playlist;
+
+    const playlistSelected = playlists.find(
+      playlistInStore => playlistInStore.title === title,
+    );
+
+    const podcasts = playlistSelected.podcasts.map(podcast => ({
+      ...podcast,
+      isDownloaded: podcastsDownloaded.some(
+        podcastDownloaded => podcastDownloaded.id === podcast.id,
+      ),
+    }));
+
+    yield put(
+      PlaylistCreators.getPlaylistSuccess({
+        ...playlistSelected,
+        podcasts,
+      }),
+    );
+  } catch (err) {
+    yield put(PlaylistCreators.getPlaylistFailure());
+  }
+}

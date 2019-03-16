@@ -4,6 +4,7 @@ import React from 'react';
 import {
   View, StatusBar, TouchableOpacity, Text,
 } from 'react-native';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {
   navigation: Object,
@@ -25,7 +26,10 @@ const HomeComponent = ({ navigation }: Props): Object => (
       animated
     />
     <TouchableOpacity
-      onPress={() => navigation.navigate('TEST')}
+      onPress={() => navigation.navigate('TEST', {
+        [CONSTANTS.PARAMS.PLAYLIST_TITLE]: 'MY_PLAYLIST',
+      })
+      }
       style={{
         paddingHorizontal: 20,
         paddingVertical: 10,

@@ -11,11 +11,19 @@ export const Types = {
   REMOVE_PODCAST_REQUEST: 'playlist/REMOVE_PODCAST_REQUEST',
   REMOVE_PODCAST_SUCCESS: 'playlist/REMOVE_PODCAST_SUCCESS',
   REMOVE_PODCAST_ERROR: 'playlist/REMOVE_PODCAST_ERROR',
+  GET_PLAYLIST_REQUEST: 'playlist/GET_PLAYLIST_REQUEST',
+  GET_PLAYLIST_SUCCESS: 'playlist/GET_PLAYLIST_SUCCESS',
+  GET_PLAYLIST_ERROR: 'playlist/GET_PLAYLIST_ERROR',
 };
 
 const INITIAL_STATE = {
-  playlist: null,
   playlists: [],
+  playlist: {
+    isAvailableOffline: false,
+    dowloads: [],
+    podcasts: [],
+    title: '',
+  },
   error: false,
 };
 
@@ -73,6 +81,20 @@ export const Creators = {
 
   removePodcastFailure: () => ({
     type: Types.REMOVE_PODCAST_ERROR,
+  }),
+
+  getPlaylist: title => ({
+    type: Types.GET_PLAYLIST_REQUEST,
+    payload: { title },
+  }),
+
+  getPlaylistSuccess: playlist => ({
+    type: Types.GET_PLAYLIST_SUCCESS,
+    payload: { playlist },
+  }),
+
+  getPlaylistFailure: title => ({
+    type: Types.GET_PLAYLIST_ERROR,
   }),
 };
 
@@ -148,6 +170,22 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         error: true,
+      };
+
+    case Types.GET_PLAYLIST_REQUEST:
+      return {
+        ...state,
+      };
+
+    case Types.GET_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        playlist: payload.playlist,
+      };
+
+    case Types.GET_PLAYLIST_ERROR:
+      return {
+        ...state,
       };
 
     default:

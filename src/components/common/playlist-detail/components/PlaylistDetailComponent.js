@@ -47,21 +47,23 @@ const PlaylistDetailComponent = ({
       images={podcastsImages}
       title={title}
     />
-    <FlatList
-      renderItem={({ item, index }) => (
-        <PodcastListItem
-          onPress={() => onRemovePodcastFromPlaylist(item.id)}
-          isPodcastDownloaded={item.isPodcastDownloaded}
-          isLast={index === podcasts.length - 1}
-          authorName={item.authorName}
-          imageURL={item.imageURL}
-          title={item.title}
-        />
-      )}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={item => `${item.id}`}
-      data={podcasts}
-    />
+    {podcasts.length > 0 && (
+      <FlatList
+        renderItem={({ item, index }) => (
+          <PodcastListItem
+            onPress={() => onRemovePodcastFromPlaylist(index)}
+            isPodcastDownloaded={item.isDownloaded}
+            isLast={index === podcasts.length - 1}
+            authorName={item.author.name}
+            imageURL={item.imageURL}
+            title={item.title}
+          />
+        )}
+        keyExtractor={(item, index) => `${item.title}-${index}`}
+        showsVerticalScrollIndicator={false}
+        data={podcasts}
+      />
+    )}
   </Container>
 );
 
