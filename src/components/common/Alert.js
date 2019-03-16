@@ -3,8 +3,9 @@
 import { Alert } from 'react-native';
 
 export const TYPES = {
-  REMOVE_DOWNLOADED_PODCAST: 'REMOVE_DOWNLOADED_PODCAST',
   REMOVE_PODCAST_FROM_PLAYLIST: 'REMOVE_PODCAST_FROM_PLAYLIST',
+  ADD_REPEATED_PODCAS_PLAYLIST: 'ADD_REPEATED_PODCAS_PLAYLIST',
+  REMOVE_DOWNLOADED_PODCAST: 'REMOVE_DOWNLOADED_PODCAST',
   DOWNLOAD_PODCAST: 'DOWNLOAD_PODCAST',
 };
 
@@ -25,6 +26,12 @@ const configs = {
     title: 'Remove Podcast',
     description:
       'Are you sure you want to remove this Podcast from this Playlist?',
+  },
+
+  [TYPES.ADD_REPEATED_PODCAS_PLAYLIST]: {
+    title: 'Duplicated Podcast',
+    description:
+      'This Podcast has already been added to this Playlist. Do you want add it again?',
   },
 };
 

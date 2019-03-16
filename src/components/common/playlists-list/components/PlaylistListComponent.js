@@ -39,25 +39,22 @@ const PlaylistText = styled(Text)`
   font-family: CircularStd-Black;
 `;
 
-const getPodcastImages = (playlist: Playlist): Array<string> => {
-  const images = playlist.podcasts
-    .slice(0, 4)
-    .map(podcast => podcast.smallImageURL);
-
-  return images;
-};
-
 type Playlist = {
   podcasts: Array<Object>,
   isDownloaded: boolean,
   title: string,
-  id: string,
 };
 
 type Props = {
   onAddPodcastPlaylist: Function,
   playlists: Array<Playlist>,
   onToggleModal: Function,
+};
+
+const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
+  const images = podcasts.slice(0, 4).map(podcast => podcast.smallImageURL);
+
+  return images;
 };
 
 const PlaylistListComponent = ({
@@ -83,24 +80,26 @@ const PlaylistListComponent = ({
         </TouchableOpacity>
         <PlaylistText>Playlists</PlaylistText>
       </HeaderWrapper>
-      <FlatList
-        renderItem={({ item, index }) => {
-          const images = getPodcastImages(item);
-
-          return (
-            <PlaylistListItem
-              onPress={() => onAddPodcastPlaylist(item.id)}
-              numberOfPodcasts={item.podcasts.length}
-              isDownloaded={item.isDownloaded}
-              title={item.title}
-              images={images}
-            />
-          );
-        }}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => `${item.id}`}
-        data={playlists}
-      />
+      {playlists.length > 0 && (
+        <FlatList
+          renderItem={({ item, index }) => {
+            const images = getPodcastImages(item.podcasts);
+            console.tron.log(Date.now(), item);
+            return (
+              <PlaylistListItem
+                onPress={() => onAddPodcastPlaylist(item.title)}
+                numberOfPodcasts={item.podcasts.length}
+                isDownloaded={item.isDownloaded}
+                title={item.title}
+                images={images}
+              />
+            );
+          }}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => `${item.title}`}
+          data={playlists}
+        />
+      )}
     </Container>
   </Modal>
 );

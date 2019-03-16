@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
+import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
 import HomeComponent from './components';
 
@@ -15,7 +16,13 @@ type Props = {
 
 class HomeContainer extends Component<Props, {}> {
   componentDidMount() {
-    const { setPodcastsDownloadedList, navigation } = this.props;
+    const {
+      createPlaylist,
+      setPodcastsDownloadedList,
+      navigation,
+    } = this.props;
+
+    // createPlaylist('MY_PLAYLIST');
 
     setPodcastsDownloadedList();
 
@@ -34,6 +41,7 @@ class HomeContainer extends Component<Props, {}> {
 const Creators = Object.assign(
   {},
   LocalPodcastsManagerCreators,
+  PlaylistsCreators,
   PlayerCreators,
 );
 

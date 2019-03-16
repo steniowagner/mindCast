@@ -2,11 +2,19 @@
 
 import React, { Component } from 'react';
 
-import { CustomAlert, TYPES } from '~/components/common/Alert';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Creators as PlaylistCreators } from '~/store/ducks/playlist';
+
 import PlaylistDetailComponent from './components/PlaylistDetailComponent';
+import { CustomAlert, TYPES } from '~/components/common/Alert';
 
 type State = {
   isPlaylistAvailableOffline: boolean,
+};
+
+type Props = {
+  getPlaylists: Function,
 };
 
 const PODCASTS = Array(25)
@@ -54,6 +62,7 @@ class PlaylistDetailContainer extends Component<{}, State> {
 
   render() {
     const { isPlaylistAvailableOffline } = this.state;
+
     const podcastsImages = this.getPodcastsImages(PODCASTS);
 
     return (
@@ -71,4 +80,13 @@ class PlaylistDetailContainer extends Component<{}, State> {
   }
 }
 
-export default PlaylistDetailContainer;
+const mapStateToProps = state => ({
+  playlists: state.playlist,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(PlaylistCreators, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PlaylistDetailContainer);
