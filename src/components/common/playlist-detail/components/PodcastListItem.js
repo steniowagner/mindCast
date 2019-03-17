@@ -1,11 +1,18 @@
 // @flow
 
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  Platform,
+  View,
+  Text,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Swipeout from 'react-native-swipeout';
 import styled from 'styled-components';
 
+import Loading from '~/components/common/Loading';
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
 
@@ -51,7 +58,7 @@ const AuthorName = styled(Text).attrs({
   width: 80%;
   color: ${({ theme }) => theme.colors.subTextWhite};
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.2};
-  margin-left: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-left: ${({ theme }) => theme.metrics.mediumSize}px;
   font-family: CircularStd-Medium;
 `;
 
@@ -73,6 +80,7 @@ const SwipeDeleteButton = styled(View)`
 
 type Props = {
   isPodcastDownloaded: boolean,
+  isDownloading: boolean,
   authorName: string,
   onPress: Function,
   imageURL: string,
@@ -80,8 +88,32 @@ type Props = {
   title: string,
 };
 
+const renderStatusIcon = (isPodcastDownloaded, isDownloading): Object => {
+  if (isDownloading) {
+    return (
+      <ActivityIndicator
+        size={Platform.OS === 'ios' ? 'small' : 'large'}
+        color={appStyles.colors.primaryColor}
+      />
+    );
+  }
+
+  return (
+    <Icon
+      size={22}
+      name={isPodcastDownloaded ? 'cloud-check' : 'cloud-download-outline'}
+      color={
+        isPodcastDownloaded
+          ? appStyles.colors.primaryColor
+          : appStyles.colors.white
+      }
+    />
+  );
+};
+
 const PodcastListItem = ({
   isPodcastDownloaded,
+  isDownloading,
   authorName,
   imageURL,
   onPress,
@@ -116,17 +148,7 @@ const PodcastListItem = ({
           <TextContentWrapper>
             <PodcastTitle>{title}</PodcastTitle>
             <RowWrapper>
-              <Icon
-                size={22}
-                name={
-                  isPodcastDownloaded ? 'cloud-check' : 'cloud-download-outline'
-                }
-                color={
-                  isPodcastDownloaded
-                    ? appStyles.colors.primaryColor
-                    : appStyles.colors.white
-                }
-              />
+              {renderStatusIcon(isPodcastDownloaded, isDownloading)}
               <AuthorName>{authorName}</AuthorName>
             </RowWrapper>
           </TextContentWrapper>

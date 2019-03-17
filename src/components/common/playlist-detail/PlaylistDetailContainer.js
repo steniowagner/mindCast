@@ -21,21 +21,20 @@ type Playlist = {
   title: string,
 };
 
+type LocalPodcastManager = {
+  podcastsDownloaded: Array<Object>,
+  downloadingList: Array<string>,
+};
+
 type Props = {
+  localPodcastsManager: LocalPodcastManager,
+  setOfflineAvailability: Function,
+  downloadingList: Array<string>,
+  removePodcast: Function,
   getPlaylist: Function,
   navigation: Object,
   playlist: Playlist,
 };
-
-const PODCASTS = Array(25)
-  .fill({})
-  .map((item, index) => ({
-    id: index,
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
-    title: 'How solve puzzles',
-    authorName: 'Alan Turing',
-    isPodcastDownloaded: index % 2 === 0,
-  }));
 
 class PlaylistDetailContainer extends Component<Props, State> {
   state = {
@@ -51,20 +50,37 @@ class PlaylistDetailContainer extends Component<Props, State> {
     getPlaylist(playlistTitle);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { playlist } = nextProps;
+
+    if (playlist.title) {
+      const { isAvailableOffline } = playlist;
+
+      this.setState({
+        isPlaylistAvailableOffline: isAvailableOffline,
+      });
+    }
+  }
+
   onPressPlayAllButton = (): void => {};
 
   onPressShuffleButton = (): void => {};
 
   onTogglePlaylistDownloadedSwitch = (): void => {
+    const { setOfflineAvailability, playlist } = this.props;
     const { isPlaylistAvailableOffline } = this.state;
 
     this.setState({
       isPlaylistAvailableOffline: !isPlaylistAvailableOffline,
     });
+
+    setOfflineAvailability(playlist, !isPlaylistAvailableOffline);
   };
 
-  onRemovePodcastFromPlaylist = (id: string) => {
-    CustomAlert(TYPES.REMOVE_PODCAST_FROM_PLAYLIST, () => console.tron.log('remove', id));
+  onRemovePodcastFromPlaylist = (podcastIndex: number): void => {
+    const { removePodcast, playlist } = this.props;
+
+    CustomAlert(TYPES.REMOVE_PODCAST_FROM_PLAYLIST, () => removePodcast(playlist, podcastIndex));
   };
 
   getPodcastsImages = (podcasts: Array<Object>): Array<string> => {
@@ -77,13 +93,40 @@ class PlaylistDetailContainer extends Component<Props, State> {
     return images;
   };
 
+  getPodcastsWithDownloadStatus = (
+    podcastsDownloaded: Array<Object>,
+    downloadingList: Array<string>,
+    podcasts: Array<Object>,
+  ): Array<Object> => {
+    const podcastsWithDownloadStatus = podcasts.map((podcast) => {
+      const isPodcastBeenDownloaded = downloadingList.some(id => podcast.id);
+
+      const isPodcastAlreadyDownloaded = podcastsDownloaded.some(
+        podcastDownloaded => podcastDownloaded.id === podcast.id,
+      );
+
+      return {
+        ...podcast,
+        isDownloaded: isPodcastAlreadyDownloaded,
+        isDownloading: isPodcastBeenDownloaded,
+      };
+    });
+
+    return podcastsWithDownloadStatus;
+  };
+
   render() {
     const { isPlaylistAvailableOffline } = this.state;
-    const { playlist } = this.props;
+    const { localPodcastsManager, playlist } = this.props;
 
-    const {
-      isAvailableOffline, dowloads, podcasts, title,
-    } = playlist;
+    const { downloadingList, podcastsDownloaded } = localPodcastsManager;
+    const { podcasts, title } = playlist;
+
+    const podcastsWithDownloadStatus = this.getPodcastsWithDownloadStatus(
+      podcastsDownloaded,
+      downloadingList,
+      podcasts,
+    );
 
     const podcastsImages = this.getPodcastsImages(podcasts);
 
@@ -91,11 +134,12 @@ class PlaylistDetailContainer extends Component<Props, State> {
       <PlaylistDetailComponent
         onTogglePlaylistDownloadedSwitch={this.onTogglePlaylistDownloadedSwitch}
         onRemovePodcastFromPlaylist={this.onRemovePodcastFromPlaylist}
-        isPlaylistAvailableOffline={isAvailableOffline}
+        isPlaylistAvailableOffline={isPlaylistAvailableOffline}
         onPressPlayAllButton={this.onPressPlayAllButton}
         onPressShuffleButton={this.onPressShuffleButton}
+        podcasts={podcastsWithDownloadStatus}
+        downloadingList={downloadingList}
         podcastsImages={podcastsImages}
-        podcasts={podcasts}
         title={title}
       />
     );
@@ -103,6 +147,7 @@ class PlaylistDetailContainer extends Component<Props, State> {
 }
 
 const mapStateToProps = state => ({
+  localPodcastsManager: state.localPodcastsManager,
   playlist: state.playlist.playlist,
 });
 

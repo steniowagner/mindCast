@@ -23,6 +23,7 @@ type Props = {
   isPlaylistAvailableOffline: boolean,
   onPressPlayAllButton: Function,
   onPressShuffleButton: Function,
+  downloadingList: Array<string>,
   podcastsImages: Array<string>,
   podcasts: Array<Object>,
   title: string,
@@ -34,6 +35,7 @@ const PlaylistDetailComponent = ({
   isPlaylistAvailableOffline,
   onPressPlayAllButton,
   onPressShuffleButton,
+  downloadingList,
   podcastsImages,
   podcasts,
   title,
@@ -47,23 +49,22 @@ const PlaylistDetailComponent = ({
       images={podcastsImages}
       title={title}
     />
-    {podcasts.length > 0 && (
-      <FlatList
-        renderItem={({ item, index }) => (
-          <PodcastListItem
-            onPress={() => onRemovePodcastFromPlaylist(index)}
-            isPodcastDownloaded={item.isDownloaded}
-            isLast={index === podcasts.length - 1}
-            authorName={item.author.name}
-            imageURL={item.imageURL}
-            title={item.title}
-          />
-        )}
-        keyExtractor={(item, index) => `${item.title}-${index}`}
-        showsVerticalScrollIndicator={false}
-        data={podcasts}
-      />
-    )}
+    <FlatList
+      renderItem={({ item, index }) => (
+        <PodcastListItem
+          onPress={() => onRemovePodcastFromPlaylist(index)}
+          isPodcastDownloaded={item.isDownloaded}
+          isLast={index === podcasts.length - 1}
+          isDownloading={item.isDownloading}
+          authorName={item.author.name}
+          imageURL={item.imageURL}
+          title={item.title}
+        />
+      )}
+      keyExtractor={(item, index) => `${item.title}-${index}`}
+      showsVerticalScrollIndicator={false}
+      data={podcasts}
+    />
   </Container>
 );
 

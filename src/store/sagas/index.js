@@ -9,8 +9,8 @@ import { Types as AuthorTypes } from '../ducks/author';
 import {
   clearAllLocalPodcastsReferences,
   setPodcastsDownloadedList,
-  downloadPodcast,
-  removePodcast as removePodcastFromFS,
+  downloadPodcastToLocalStorage,
+  removePodcastFromLocalStorage,
 } from './localPodcastsManager';
 import {
   shufflePlaylist,
@@ -27,6 +27,7 @@ import {
   addPodcast,
   removePodcast,
   getPlaylist,
+  setOfflineAvailability,
 } from './playlist';
 
 export default function* rootSaga() {
@@ -35,14 +36,17 @@ export default function* rootSaga() {
       LocalPodcastsManagerCreators.SET_PODCASTS_DOWNLOADED_LIST_REQUEST,
       setPodcastsDownloadedList,
     ),
-    takeLatest(LocalPodcastsManagerCreators.DOWNLOAD_PODCAST, downloadPodcast),
+    takeLatest(
+      LocalPodcastsManagerCreators.DOWNLOAD_PODCAST,
+      downloadPodcastToLocalStorage,
+    ),
     takeLatest(
       LocalPodcastsManagerCreators.CLEAR_LOCAL_PODCASTS_REFERENCES_REQUEST,
       clearAllLocalPodcastsReferences,
     ),
     takeLatest(
       LocalPodcastsManagerCreators.REMOVE_PODCAST,
-      removePodcastFromFS,
+      removePodcastFromLocalStorage,
     ),
     takeLatest(PlayerTypes.SET_PODCAST_REQUEST, setPodcast),
     takeLatest(PlayerTypes.SETUP_PLAYER, setupPlayer),
@@ -57,5 +61,9 @@ export default function* rootSaga() {
     takeLatest(PlaylistTypes.ADD_PODCAST_REQUEST, addPodcast),
     takeLatest(PlaylistTypes.REMOVE_PODCAST_REQUEST, removePodcast),
     takeLatest(PlaylistTypes.GET_PLAYLIST_REQUEST, getPlaylist),
+    takeLatest(
+      PlaylistTypes.SET_AVAILABLE_OFFLINE_REQUEST,
+      setOfflineAvailability,
+    ),
   ]);
 }

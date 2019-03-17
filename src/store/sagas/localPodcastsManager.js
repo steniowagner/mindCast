@@ -82,9 +82,32 @@ export function* setPodcastsDownloadedList() {
   }
 }
 
-export function* downloadPodcast({ payload }) {
+function* _handleDownloadPodcastResult(statusCode, path, podcast) {
+  if (statusCode === 200) {
+    const podcastWithLocalURI = {
+      ...podcast,
+      path,
+    };
+
+    yield _addPodcastToSavedPodcastsList(podcastWithLocalURI);
+
+    yield put(
+      LocalPodcastsManagerCreators.removeFromDownloadingList(
+        podcastWithLocalURI.id,
+      ),
+    );
+    yield put(
+      LocalPodcastsManagerCreators.addToDownloadedList(podcastWithLocalURI),
+    );
+
+    return podcastWithLocalURI;
+  }
+
+  throw new Error('Something goes wrong when trying to Download the Podcast');
+}
+
+export function* downloadPodcast(podcast) {
   try {
-    const { podcast } = payload;
     const { url, id } = podcast;
 
     const PATH_TO_FILE = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
@@ -99,26 +122,32 @@ export function* downloadPodcast({ payload }) {
 
     const { statusCode } = yield promise;
 
-    if (statusCode === 200) {
-      const podcastWithLocalURI = {
-        ...podcast,
-        path: PATH_TO_FILE,
-      };
+    const podcastWithLocalURI = yield call(
+      _handleDownloadPodcastResult,
+      statusCode,
+      PATH_TO_FILE,
+      podcast,
+    );
 
-      yield _addPodcastToSavedPodcastsList(podcastWithLocalURI);
+    return podcastWithLocalURI;
+  } catch (err) {
+    throw err;
+  }
+}
 
-      yield put(PlayerCreators.updatePodcastURI(PATH_TO_FILE));
-      yield put(LocalPodcastsManagerCreators.removeFromDownloadingList(id));
-      yield put(
-        LocalPodcastsManagerCreators.addToDownloadedList(podcastWithLocalURI),
-      );
-    }
+export function* downloadPodcastToLocalStorage({ payload }) {
+  try {
+    const { podcast } = payload;
+
+    const { path } = yield call(downloadPodcast, podcast);
+
+    yield put(PlayerCreators.updatePodcastURI(path));
   } catch (err) {
     console.tron.log(err);
   }
 }
 
-export function* removePodcast({ payload }) {
+export function* removePodcastFromLocalStorage({ payload }) {
   try {
     const { podcast } = payload;
     const { uri, id } = podcast;

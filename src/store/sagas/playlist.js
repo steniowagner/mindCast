@@ -1,5 +1,5 @@
 import {
-  call, select, delay, put,
+  call, select, delay, put, all,
 } from 'redux-saga/effects';
 
 import { Creators as PlaylistCreators } from '../ducks/playlist';
@@ -9,6 +9,9 @@ import {
   persistItemInStorage,
   getItemFromStorage,
 } from '~/utils/AsyncStorageManager';
+
+import { downloadPodcast } from './localPodcastsManager';
+
 import CONSTANTS from '~/utils/CONSTANTS';
 
 export function* loadPlaylists() {
@@ -69,7 +72,7 @@ export function* createPlaylist({ payload }) {
   }
 }
 
-function* _handleUpdatePlaylists(playlist, podcasts) {
+function* _handlePersistsPlaylistsUpdated(playlist, podcasts) {
   const { playlists } = yield select(state => state.playlist);
 
   const playlistUpdated = {
@@ -95,7 +98,8 @@ export function* addPodcast({ payload }) {
 
     const podcastsUpdated = [...playlist.podcasts, podcast];
 
-    const playlistsUpdated = yield _handleUpdatePlaylists(
+    const playlistsUpdated = yield call(
+      _handlePersistsPlaylistsUpdated,
       playlist,
       podcastsUpdated,
     );
@@ -113,18 +117,24 @@ export function* addPodcast({ payload }) {
 export function* removePodcast({ payload }) {
   try {
     const { playlists } = yield select(state => state.playlist);
-    const { playlist, podcast } = payload;
+    const { playlist, podcastIndex } = payload;
 
     const podcastsUpdated = playlist.podcasts.filter(
-      podcastInPlaylist => podcastInPlaylist.id !== podcast.id,
+      (podcastInPlaylist, index) => index !== podcastIndex,
     );
 
-    const playlistsUpdated = yield _handleUpdatePlaylists(
+    const playlistsUpdated = yield call(
+      _handlePersistsPlaylistsUpdated,
       playlist,
       podcastsUpdated,
     );
 
-    yield put(PlaylistCreators.removePodcastSuccess(playlistsUpdated));
+    yield put(
+      PlaylistCreators.removePodcastSuccess(playlistsUpdated, {
+        ...playlist,
+        podcasts: podcastsUpdated,
+      }),
+    );
   } catch (err) {
     yield put(
       PlaylistCreators.createPlaylistFailure(
@@ -161,5 +171,69 @@ export function* getPlaylist({ payload }) {
     );
   } catch (err) {
     yield put(PlaylistCreators.getPlaylistFailure());
+  }
+}
+
+function* _setToAvailableOffline(playlistSelected) {
+  try {
+    const { localPodcastsManager, playlist } = yield select(state => state);
+
+    const { podcastsDownloaded } = localPodcastsManager;
+    const podcastsDownloadedByPlaylist = [];
+
+    const podcastsToDownload = playlistSelected.podcasts.filter((podcast) => {
+      const isPodcastAlreadyDownloaded = podcastsDownloaded.some(
+        podcastDownloaded => podcastDownloaded.id === podcast.id,
+      );
+
+      return !isPodcastAlreadyDownloaded;
+    });
+
+    const playlistUpdated = {
+      ...playlistSelected,
+      isAvailableOffline: true,
+      dowloads: podcastsToDownload.map(podcast => podcast.id),
+    };
+
+    yield all(
+      podcastsToDownload.map(podcast => call(downloadPodcast, podcast)),
+    );
+
+    yield call(
+      _handlePersistsPlaylistsUpdated,
+      playlistUpdated,
+      playlistSelected.podcasts,
+    );
+
+    const playlistsUpdated = playlist.playlists.map(playlist => (playlist.title === playlistUpdated.title
+      ? playlistUpdated
+      : playlistFromStore));
+
+    yield put(
+      PlaylistCreators.setOfflineAvailabilitySuccess(
+        playlistUpdated,
+        playlistsUpdated,
+      ),
+    );
+  } catch (err) {
+    throw err;
+  }
+}
+
+function* _setToUnvailableOffline(playlist) {}
+
+export function* setOfflineAvailability({ payload }) {
+  try {
+    const { playlist, available } = payload;
+
+    if (available) {
+      yield call(_setToAvailableOffline, playlist);
+    }
+
+    if (!available) {
+      yield call(_setToUnvailableOffline, playlist);
+    }
+  } catch (err) {
+    yield put(PlaylistCreators.setOfflineAvailabilityError());
   }
 }

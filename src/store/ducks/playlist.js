@@ -14,6 +14,9 @@ export const Types = {
   GET_PLAYLIST_REQUEST: 'playlist/GET_PLAYLIST_REQUEST',
   GET_PLAYLIST_SUCCESS: 'playlist/GET_PLAYLIST_SUCCESS',
   GET_PLAYLIST_ERROR: 'playlist/GET_PLAYLIST_ERROR',
+  SET_AVAILABLE_OFFLINE_REQUEST: 'playlist/SET_AVAILABLE_OFFLINE_REQUEST',
+  SET_AVAILABLE_OFFLINE_SUCCESS: 'playlist/SET_AVAILABLE_OFFLINE_SUCCESS',
+  SET_AVAILABLE_OFFLINE_ERROR: 'playlist/SET_AVAILABLE_OFFLINE_ERROR',
 };
 
 const INITIAL_STATE = {
@@ -69,14 +72,14 @@ export const Creators = {
     type: Types.ADD_PODCAST_ERROR,
   }),
 
-  removePodcast: (playlist, podcast) => ({
+  removePodcast: (playlist, podcastIndex) => ({
     type: Types.REMOVE_PODCAST_REQUEST,
-    payload: { playlist, podcast },
+    payload: { playlist, podcastIndex },
   }),
 
-  removePodcastSuccess: playlists => ({
+  removePodcastSuccess: (playlists, playlistUpdated) => ({
     type: Types.REMOVE_PODCAST_SUCCESS,
-    payload: { playlists },
+    payload: { playlists, playlistUpdated },
   }),
 
   removePodcastFailure: () => ({
@@ -95,6 +98,20 @@ export const Creators = {
 
   getPlaylistFailure: title => ({
     type: Types.GET_PLAYLIST_ERROR,
+  }),
+
+  setOfflineAvailability: (playlist, available) => ({
+    type: Types.SET_AVAILABLE_OFFLINE_REQUEST,
+    payload: { playlist, available },
+  }),
+
+  setOfflineAvailabilitySuccess: (playlistUpdated, playlistsUpdated) => ({
+    type: Types.SET_AVAILABLE_OFFLINE_SUCCESS,
+    payload: { playlistUpdated, playlistsUpdated },
+  }),
+
+  setOfflineAvailabilityError: () => ({
+    type: Types.SET_AVAILABLE_OFFLINE_ERROR,
   }),
 };
 
@@ -163,6 +180,7 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
     case Types.REMOVE_PODCAST_SUCCESS:
       return {
         ...state,
+        playlist: payload.playlistUpdated,
         playlists: payload.playlists,
       };
 
@@ -184,6 +202,23 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case Types.GET_PLAYLIST_ERROR:
+      return {
+        ...state,
+      };
+
+    case Types.SET_AVAILABLE_OFFLINE_REQUEST:
+      return {
+        ...state,
+      };
+
+    case Types.SET_AVAILABLE_OFFLINE_SUCCESS:
+      return {
+        ...state,
+        playlists: payload.playlistsUpdated,
+        playlist: payload.playlistUpdated,
+      };
+
+    case Types.SET_AVAILABLE_OFFLINE_ERROR:
       return {
         ...state,
       };
