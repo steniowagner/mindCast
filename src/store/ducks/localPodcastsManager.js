@@ -55,9 +55,9 @@ export const Creators = {
     payload: { id },
   }),
 
-  addToDownloadingList: id => ({
+  addToDownloadingList: downloadInfo => ({
     type: Types.ADD_TO_DOWNLOADING_LIST,
-    payload: { id },
+    payload: { downloadInfo },
   }),
 
   downloadPodcast: podcast => ({
@@ -104,13 +104,15 @@ const localPodcastsManagerCreators = (
     case Types.REMOVE_FROM_DOWNLOADING_LIST:
       return {
         ...state,
-        downloadingList: state.downloadingList.filter(id => id !== payload.id),
+        downloadingList: state.downloadingList.filter(
+          downloadInfo => downloadInfo.id !== payload.id,
+        ),
       };
 
     case Types.ADD_TO_DOWNLOADING_LIST:
       return {
         ...state,
-        downloadingList: [payload.id, ...state.downloadingList],
+        downloadingList: [...state.downloadingList, payload.downloadInfo],
       };
 
     case Types.DOWNLOAD_PODCAST:

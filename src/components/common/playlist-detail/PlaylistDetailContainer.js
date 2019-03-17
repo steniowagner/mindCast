@@ -23,13 +23,12 @@ type Playlist = {
 
 type LocalPodcastManager = {
   podcastsDownloaded: Array<Object>,
-  downloadingList: Array<string>,
+  downloadingList: Array<Object>,
 };
 
 type Props = {
   localPodcastsManager: LocalPodcastManager,
   setOfflineAvailability: Function,
-  downloadingList: Array<string>,
   removePodcast: Function,
   getPlaylist: Function,
   navigation: Object,
@@ -95,11 +94,13 @@ class PlaylistDetailContainer extends Component<Props, State> {
 
   getPodcastsWithDownloadStatus = (
     podcastsDownloaded: Array<Object>,
-    downloadingList: Array<string>,
+    downloadingList: Array<Object>,
     podcasts: Array<Object>,
   ): Array<Object> => {
     const podcastsWithDownloadStatus = podcasts.map((podcast) => {
-      const isPodcastBeenDownloaded = downloadingList.some(id => podcast.id);
+      const isPodcastBeenDownloaded = downloadingList.some(
+        downloadInfo => downloadInfo.id === podcast.id,
+      );
 
       const isPodcastAlreadyDownloaded = podcastsDownloaded.some(
         podcastDownloaded => podcastDownloaded.id === podcast.id,
@@ -138,7 +139,6 @@ class PlaylistDetailContainer extends Component<Props, State> {
         onPressPlayAllButton={this.onPressPlayAllButton}
         onPressShuffleButton={this.onPressShuffleButton}
         podcasts={podcastsWithDownloadStatus}
-        downloadingList={downloadingList}
         podcastsImages={podcastsImages}
         title={title}
       />

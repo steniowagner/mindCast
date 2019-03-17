@@ -112,13 +112,18 @@ export function* downloadPodcast(podcast) {
 
     const PATH_TO_FILE = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
 
-    yield put(LocalPodcastsManagerCreators.addToDownloadingList(id));
-
-    const { promise } = yield call(RNFS.downloadFile, {
+    const { jobId, promise } = yield call(RNFS.downloadFile, {
       fromUrl: url,
       toFile: PATH_TO_FILE,
       discretionary: true,
     });
+
+    yield put(
+      LocalPodcastsManagerCreators.addToDownloadingList({
+        jobId,
+        id,
+      }),
+    );
 
     const { statusCode } = yield promise;
 

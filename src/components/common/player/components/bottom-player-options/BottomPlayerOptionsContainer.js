@@ -23,7 +23,6 @@ const Wrapper = styled(View)`
 
 type LocalPodcastsManagerProps = {
   podcastsDownloaded: Array<Object>,
-  downloadingList: Array<Object>,
 };
 
 type Props = {

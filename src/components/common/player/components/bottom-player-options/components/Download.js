@@ -103,12 +103,8 @@ const renderLoading = (): Object => (
 
 const isDownloadingCurrentPodcast = (
   currentPodcast: Object,
-  downloading: Array<number>,
-): boolean => {
-  const isCurrentPodcastBeenDownloaded = downloading.findIndex(id => id === currentPodcast.id) >= 0;
-
-  return isCurrentPodcastBeenDownloaded;
-};
+  downloading: Array<Object>,
+): boolean => downloading.some(downloadingItem => downloadingItem.id === currentPodcast.id);
 
 type LocalPodcastsManagerProps = {
   podcastsDownloaded: Array<Object>,

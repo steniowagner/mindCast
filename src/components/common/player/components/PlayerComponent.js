@@ -42,7 +42,6 @@ type PlayerProps = {
 
 type LocalPodcastManagerProps = {
   podcastsDownloaded: Array<Object>,
-  downloadingList: Array<Object>,
 };
 
 type Props = {
