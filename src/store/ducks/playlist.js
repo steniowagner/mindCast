@@ -23,7 +23,7 @@ const INITIAL_STATE = {
   playlists: [],
   playlist: {
     isAvailableOffline: false,
-    dowloads: [],
+    downloads: [],
     podcasts: [],
     title: '',
   },

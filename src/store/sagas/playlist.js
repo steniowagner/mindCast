@@ -10,7 +10,11 @@ import {
   getItemFromStorage,
 } from '~/utils/AsyncStorageManager';
 
-import { downloadPodcast } from './localPodcastsManager';
+import {
+  downloadPodcast,
+  stopPodcastDownload,
+  removePodcastFromLocalStorage,
+} from './localPodcastsManager';
 
 import CONSTANTS from '~/utils/CONSTANTS';
 
@@ -54,7 +58,7 @@ export function* createPlaylist({ payload }) {
       ...playlistsCreated,
       {
         isAvailableOffline: false,
-        dowloads: [],
+        downloads: [],
         podcasts: [],
         title,
       },
@@ -192,12 +196,76 @@ function* _setToAvailableOffline(playlistSelected) {
     const playlistUpdated = {
       ...playlistSelected,
       isAvailableOffline: true,
-      dowloads: podcastsToDownload.map(podcast => podcast.id),
+      downloads: podcastsToDownload.map(podcast => podcast.id),
     };
+
+    yield call(
+      _handlePersistsPlaylistsUpdated,
+      playlistUpdated,
+      playlistSelected.podcasts,
+    );
+
+    const playlistsUpdated = playlist.playlists.map(playlist => (playlist.title === playlistUpdated.title
+      ? playlistUpdated
+      : playlistFromStore));
+
+    yield put(
+      PlaylistCreators.setOfflineAvailabilitySuccess(
+        playlistUpdated,
+        playlistsUpdated,
+      ),
+    );
 
     yield all(
       podcastsToDownload.map(podcast => call(downloadPodcast, podcast)),
     );
+  } catch (err) {
+    throw err;
+  }
+}
+
+function* _setToUnvailableOffline(playlistSelected) {
+  try {
+    const { localPodcastsManager, playlist } = yield select(state => state);
+    const { podcastsDownloaded, downloadingList } = localPodcastsManager;
+
+    const jobsToCancel = downloadingList.filter((downloadingItem) => {
+      const shouldCancelPodcatDownload = playlistSelected.downloads.some(
+        podcastId => downloadingItem.id === podcastId,
+      );
+      return shouldCancelPodcatDownload;
+    });
+
+    const podcastsAlreadyDownloadedByPlaylistSelected = playlistSelected.downloads.filter(
+      (podcast) => {
+        const isPodcastAlreadyDownloaded = podcastsDownloaded.some(
+          podcastDownloaded => podcastsDownloaded.id === podcast.id,
+        );
+        return isPodcastAlreadyDownloaded;
+      },
+    );
+
+    console.tron.log(
+      'podcastsAlreadyDownloadedByPlaylistSelected',
+      podcastsAlreadyDownloadedByPlaylistSelected,
+    );
+    yield all(
+      podcastsAlreadyDownloadedByPlaylistSelected.map(id => call(removePodcastFromLocalStorage, {
+        payload: {
+          podcast: {
+            id,
+          },
+        },
+      })),
+    );
+
+    yield all(jobsToCancel.map(jobInfo => call(stopPodcastDownload, jobInfo)));
+
+    const playlistUpdated = {
+      ...playlistSelected,
+      isAvailableOffline: false,
+      downloads: [],
+    };
 
     yield call(
       _handlePersistsPlaylistsUpdated,
@@ -220,8 +288,6 @@ function* _setToAvailableOffline(playlistSelected) {
   }
 }
 
-function* _setToUnvailableOffline(playlist) {}
-
 export function* setOfflineAvailability({ payload }) {
   try {
     const { playlist, available } = payload;
@@ -234,6 +300,7 @@ export function* setOfflineAvailability({ payload }) {
       yield call(_setToUnvailableOffline, playlist);
     }
   } catch (err) {
+    console.log(err);
     yield put(PlaylistCreators.setOfflineAvailabilityError());
   }
 }

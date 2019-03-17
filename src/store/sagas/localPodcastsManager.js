@@ -41,44 +41,72 @@ function* _addPodcastToSavedPodcastsList(podcastToSave) {
       ]);
     }
   } catch (err) {
-    console.tron.log(err);
+    console.log(err);
   }
 }
 
-function* _removePodcastFromSavedPodcastList(id) {
+function* _removePersistedPodcasts(id) {
   try {
     const { podcastsDownloaded } = yield select(
       state => state.localPodcastsManager,
     );
 
-    const isPodcastSaved = podcastsDownloaded.findIndex(podcastSaved => podcastSaved.id === id) >= 0;
+    const podcastsSaved = podcastsDownloaded.filter(
+      podcast => podcast.id !== id,
+    );
 
-    if (isPodcastSaved) {
-      const podcastsDownloadedFiltered = podcastsDownloaded.filter(
-        podcast => podcast.id !== id,
-      );
-
-      yield persistItemInStorage(
-        CONSTANTS.KEYS.PODCASTS_SAVED,
-        podcastsDownloadedFiltered,
-      );
-    }
+    yield persistItemInStorage(CONSTANTS.KEYS.PODCASTS_SAVED, podcastsSaved);
   } catch (err) {
-    console.tron.log(err);
+    console.log(err);
+  }
+}
+
+function* _getPodcastsDownloadedFromFS(podcastsFromFS) {
+  try {
+    const directoryContent = yield call(
+      RNFS.readDir,
+      RNFS.DocumentDirectoryPath,
+    );
+
+    const directoryFiles = directoryContent.filter(directoryItem => directoryItem.isFile());
+
+    const podcastsDownloaded = podcastsFromFS.filter((podcastFromFS) => {
+      const podcastFilename = `${podcastFromFS.id}.mp3`;
+
+      const isPodcastsStillDownloaded = directoryFiles.some(
+        file => file.name === podcastFilename,
+      );
+
+      return isPodcastsStillDownloaded;
+    });
+
+    return podcastsDownloaded;
+  } catch (err) {
+    throw err;
   }
 }
 
 export function* setPodcastsDownloadedList() {
   try {
-    const podcastsSaved = yield _getPodcastsSaved();
+    const podcastsFromFS = yield _getPodcastsSaved();
+
+    const podcastsDownloaded = yield call(
+      _getPodcastsDownloadedFromFS,
+      podcastsFromFS,
+    );
+
+    yield persistItemInStorage(
+      CONSTANTS.KEYS.PODCASTS_SAVED,
+      podcastsDownloaded,
+    );
 
     yield put(
       LocalPodcastsManagerCreators.setPodcastsDownloadedListSuccess(
-        podcastsSaved,
+        podcastsDownloaded,
       ),
     );
   } catch (err) {
-    console.tron.log(err);
+    console.log(err);
   }
 }
 
@@ -148,7 +176,27 @@ export function* downloadPodcastToLocalStorage({ payload }) {
 
     yield put(PlayerCreators.updatePodcastURI(path));
   } catch (err) {
-    console.tron.log(err);
+    console.log(err);
+  }
+}
+
+export function* stopPodcastDownload(downloadInfo) {
+  try {
+    const { jobId, id } = downloadInfo;
+
+    yield call(RNFS.stopDownload, jobId);
+
+    yield call(removePodcastFromLocalStorage, {
+      payload: {
+        podcast: {
+          id,
+        },
+      },
+    });
+
+    yield put(LocalPodcastsManagerCreators.removeFromDownloadingList(id));
+  } catch (err) {
+    throw err;
   }
 }
 
@@ -162,15 +210,19 @@ export function* removePodcastFromLocalStorage({ payload }) {
     if (!uri) {
       uriToRemove = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
     }
+    const isPodcastFileExists = yield call(RNFS.exists, uriToRemove);
 
-    yield call(RNFS.unlink, uriToRemove);
+    if (isPodcastFileExists) {
+      yield call(RNFS.unlink, uriToRemove);
 
-    yield _removePodcastFromSavedPodcastList(id);
+      yield _removePersistedPodcasts(id);
 
-    yield put(LocalPodcastsManagerCreators.removeFromDownloadedList(id));
-    yield put(PlayerCreators.updatePodcastURI(podcast.url));
+      yield put(LocalPodcastsManagerCreators.removeFromDownloadedList(id));
+
+      yield put(PlayerCreators.updatePodcastURI(podcast.url));
+    }
   } catch (err) {
-    console.tron.log('removePodcast - err');
+    console.log(err);
   }
 }
 
