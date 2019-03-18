@@ -89,7 +89,7 @@ const PlaylistListComponent = ({
               <PlaylistListItem
                 onPress={() => onAddPodcastPlaylist(item.title)}
                 numberOfPodcasts={item.podcasts.length}
-                isDownloaded={item.isDownloaded}
+                isDownloaded={item.isAvailableOffline}
                 title={item.title}
                 images={images}
               />

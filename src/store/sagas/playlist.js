@@ -100,11 +100,31 @@ export function* addPodcast({ payload }) {
   try {
     const { playlist, podcast } = payload;
 
-    const podcastsUpdated = [...playlist.podcasts, podcast];
+    const podcastsUpdated = [podcast, ...playlist.podcasts];
+
+    let playlistUpdated = playlist;
+
+    if (playlist.isAvailableOffline) {
+      const { podcastsDownloaded } = yield select(
+        state => state.localPodcastsManager,
+      );
+
+      const isPodcastAlreadyDownloaded = podcastsDownloaded.some(
+        podcastDownloaded => podcastDownloaded.id === podcast.id,
+      );
+
+      if (!isPodcastAlreadyDownloaded) {
+        playlistUpdated = {
+          ...playlistUpdated,
+          downloads: [podcast.id, ...playlistUpdated.downloads],
+        };
+        yield call(downloadPodcast, podcast);
+      }
+    }
 
     const playlistsUpdated = yield call(
       _handlePersistsPlaylistsUpdated,
-      playlist,
+      playlistUpdated,
       podcastsUpdated,
     );
 

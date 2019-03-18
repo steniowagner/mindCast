@@ -2,11 +2,7 @@
 
 import React from 'react';
 import {
-  ActivityIndicator,
-  TouchableOpacity,
-  Platform,
-  View,
-  Text,
+  ActivityIndicator, TouchableOpacity, View, Text,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Swipeout from 'react-native-swipeout';
@@ -58,7 +54,7 @@ const AuthorName = styled(Text).attrs({
   width: 80%;
   color: ${({ theme }) => theme.colors.subTextWhite};
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.2};
-  margin-left: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-left: ${({ theme }) => theme.metrics.smallSize}px;
   font-family: CircularStd-Medium;
 `;
 
@@ -78,6 +74,13 @@ const SwipeDeleteButton = styled(View)`
   background-color: ${({ theme }) => theme.colors.primaryColor};
 `;
 
+const IconWrapper = styled(View)`
+  width: 24px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
 type Props = {
   isPodcastDownloaded: boolean,
   isDownloading: boolean,
@@ -92,8 +95,8 @@ const renderStatusIcon = (isPodcastDownloaded, isDownloading): Object => {
   if (isDownloading) {
     return (
       <ActivityIndicator
-        size={Platform.OS === 'ios' ? 'small' : 'large'}
         color={appStyles.colors.primaryColor}
+        size="small"
       />
     );
   }
@@ -148,7 +151,9 @@ const PodcastListItem = ({
           <TextContentWrapper>
             <PodcastTitle>{title}</PodcastTitle>
             <RowWrapper>
-              {renderStatusIcon(isPodcastDownloaded, isDownloading)}
+              <IconWrapper>
+                {renderStatusIcon(isPodcastDownloaded, isDownloading)}
+              </IconWrapper>
               <AuthorName>{authorName}</AuthorName>
             </RowWrapper>
           </TextContentWrapper>
