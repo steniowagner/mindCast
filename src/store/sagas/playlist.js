@@ -100,8 +100,6 @@ export function* addPodcast({ payload }) {
   try {
     const { playlist, podcast } = payload;
 
-    const podcastsUpdated = [podcast, ...playlist.podcasts];
-
     let playlistUpdated = playlist;
 
     if (playlist.isAvailableOffline) {
@@ -118,9 +116,12 @@ export function* addPodcast({ payload }) {
           ...playlistUpdated,
           downloads: [podcast.id, ...playlistUpdated.downloads],
         };
+
         yield call(downloadPodcast, podcast);
       }
     }
+
+    const podcastsUpdated = [podcast, ...playlist.podcasts];
 
     const playlistsUpdated = yield call(
       _handlePersistsPlaylistsUpdated,
@@ -143,6 +144,23 @@ export function* removePodcast({ payload }) {
     const { playlists } = yield select(state => state.playlist);
     const { playlist, podcastIndex } = payload;
 
+    if (playlist.isAvailableOffline) {
+      const podcast = playlist.podcasts[podcastIndex];
+      const isPodcastDownloadedByPlaylist = playlist.downloads.some(
+        podcastId => podcastId === podcast.id,
+      );
+
+      if (isPodcastDownloadedByPlaylist) {
+        yield call(removePodcastFromLocalStorage, {
+          payload: {
+            podcast: {
+              id: podcast.id,
+            },
+          },
+        });
+      }
+    }
+
     const podcastsUpdated = playlist.podcasts.filter(
       (podcastInPlaylist, index) => index !== podcastIndex,
     );
@@ -160,11 +178,8 @@ export function* removePodcast({ payload }) {
       }),
     );
   } catch (err) {
-    yield put(
-      PlaylistCreators.createPlaylistFailure(
-        'An unexpected error happened while try to add podcast on playlist. Sorry for that.',
-      ),
-    );
+    console.log(err);
+    yield put(PlaylistCreators.removePodcastFailure());
   }
 }
 
