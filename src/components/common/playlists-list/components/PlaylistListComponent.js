@@ -40,13 +40,14 @@ const PlaylistText = styled(Text)`
 `;
 
 type Playlist = {
+  podcastsDownloaded: Array<Object>,
+  isAvailableOffline: boolean,
   podcasts: Array<Object>,
-  isDownloaded: boolean,
   title: string,
 };
 
 type Props = {
-  onAddPodcastPlaylist: Function,
+  onPressPlaylistListItem: Function,
   playlists: Array<Playlist>,
   onToggleModal: Function,
 };
@@ -58,7 +59,7 @@ const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
 };
 
 const PlaylistListComponent = ({
-  onAddPodcastPlaylist,
+  onPressPlaylistListItem,
   onToggleModal,
   playlists,
 }: Props): Object => (
@@ -87,7 +88,7 @@ const PlaylistListComponent = ({
 
             return (
               <PlaylistListItem
-                onPress={() => onAddPodcastPlaylist(item.title)}
+                onPress={() => onPressPlaylistListItem(item)}
                 numberOfPodcasts={item.podcasts.length}
                 isDownloaded={item.isAvailableOffline}
                 title={item.title}

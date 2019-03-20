@@ -11,8 +11,8 @@ import { CustomAlert, TYPES } from '~/components/common/Alert';
 
 type Playlist = {
   podcastsDownloaded: Array<Object>,
-  podcasts: Array<Object>,
   isAvailableOffline: boolean,
+  podcasts: Array<Object>,
   title: string,
 };
 
@@ -32,62 +32,62 @@ class PlaylistListContainer extends Component<Props, {}> {
     loadPlaylists();
   }
 
-  handleAddPodcast = (playlistTitle: string): void => {
-    const {
-      onToggleModal, addPodcast, playlists, podcast,
-    } = this.props;
+  onAddPodcast = (playlist: Playlist): void => {
+    const { onToggleModal, addPodcast, podcast } = this.props;
 
-    const playlistSelected = playlists.find(
-      playlist => playlist.title === playlistTitle,
-    );
-
-    addPodcast(playlistSelected, podcast);
-
+    addPodcast(playlist, podcast);
     onToggleModal();
   };
 
-  onAddPodcastPlaylist = (playlistTitle: string): void => {
-    const { playlists, podcast } = this.props;
-
-    const playlistSelected = playlists.find(
-      playlist => playlist.title === playlistTitle,
+  onPressPlaylistListItem = (playlist: Playlist): void => {
+    const isPodcastAlreadyInPlaylist = this.checkIsPodcastAlreadyInPlaylist(
+      playlist,
     );
 
-    const isPodcastAlreadyInPlaylist = playlistSelected.podcasts.find(
-      podcastInPlaylist => podcastInPlaylist.id === podcast.id,
+    const isPodcastAlreadyDownloaded = this.checkIsPodcastAlreadyDownloaded(
+      playlist,
     );
+
+    if (
+      playlist.isAvailableOffline
+      && !isPodcastAlreadyInPlaylist
+      && !isPodcastAlreadyDownloaded
+    ) {
+      CustomAlert(
+        TYPES.ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE,
+        () => this.onAddPodcast(playlist),
+      );
+
+      return;
+    }
 
     if (isPodcastAlreadyInPlaylist) {
-      CustomAlert(TYPES.ADD_REPEATED_PODCAS_PLAYLIST, this.handleAddPodcast);
+      CustomAlert(TYPES.ADD_REPEATED_PODCAS_PLAYLIST, () => this.onAddPodcast(playlist));
+
+      return;
     }
 
-    if (!isPodcastAlreadyInPlaylist) {
-      this.handleAddPodcast();
-    }
+    this.onAddPodcast(playlist);
   };
 
-  handleAddPodcastDownloadedPlaylist = (playlist: Playlist): void => {
+  checkIsPodcastAlreadyDownloaded = (playlist: Playlist): boolean => {
     const { podcastsDownloaded, podcast } = this.props;
+
     const isPodcastAlreadyDownloaded = podcastsDownloaded.some(
       podcastDownloaded => podcastDownloaded.id === podcast.id,
     );
 
-    if (!isPodcastAlreadyDownloaded) {
-      CustomAlert(
-        TYPES.ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE,
-        handleAddPodcast,
-      );
-    }
+    return isPodcastAlreadyDownloaded;
   };
 
-  onPressPlaylistListItem = (playlist: Playlist): void => {
-    if (playlist.isAvailableOffline) {
-      this.handleAddPodcastDownloadedPlaylist(playlist);
-    }
+  checkIsPodcastAlreadyInPlaylist = (playlist: Playlist): boolean => {
+    const { podcast } = this.props;
 
-    if (!playlist.isAvailableOffline) {
-      this.onAddPodcastPlaylist(playlist.title);
-    }
+    const isPodcastAlreadyInPlaylist = playlist.podcasts.some(
+      podcastInPlaylist => podcastInPlaylist.id === podcast.id,
+    );
+
+    return isPodcastAlreadyInPlaylist;
   };
 
   render() {
@@ -95,7 +95,7 @@ class PlaylistListContainer extends Component<Props, {}> {
 
     return (
       <PlaylistListComponent
-        onAddPodcastPlaylist={this.onAddPodcastPlaylist}
+        onPressPlaylistListItem={this.onPressPlaylistListItem}
         onToggleModal={onToggleModal}
         playlists={playlists}
       />

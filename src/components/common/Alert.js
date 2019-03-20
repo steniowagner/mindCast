@@ -16,35 +16,40 @@ const configs = {
     title: 'Remove Downloaded Podcast',
     description:
       'Are you sure to remove this Podcast permanently from your device?',
+    positiveText: 'Yes',
   },
 
   [TYPES.DOWNLOAD_PODCAST]: {
     title: 'Download Podcast',
     description:
       'Are you sure you want to Download this podcast? It can take a while.',
+    positiveText: 'Yes',
   },
 
   [TYPES.REMOVE_PODCAST_FROM_PLAYLIST]: {
     title: 'Remove Podcast',
     description:
       'Are you sure you want to remove this Podcast from this Playlist?',
+    positiveText: 'Yes',
   },
 
   [TYPES.ADD_REPEATED_PODCAS_PLAYLIST]: {
     title: 'Duplicated Podcast',
     description:
       'This Podcast has already been added to this Playlist. Do you want add it again?',
+    positiveText: 'Yes',
   },
 
   [TYPES.ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE]: {
     title: 'Availability Offline',
     description:
       'This Playlist is Available Offline. When you add this podcast to this playlist, it will be downloaded automatically.',
+    positiveText: 'OK',
   },
 };
 
 export const CustomAlert = (type: string, action: Function): void => {
-  const { title, description } = configs[type];
+  const { title, description, positiveText } = configs[type];
 
   Alert.alert(
     title,
@@ -54,7 +59,7 @@ export const CustomAlert = (type: string, action: Function): void => {
         text: 'Cancel',
         style: 'cancel',
       },
-      { text: 'Yes', onPress: () => action() },
+      { text: positiveText, onPress: () => action() },
     ],
     { cancelable: false },
   );
