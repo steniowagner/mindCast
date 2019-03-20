@@ -21,6 +21,7 @@ type Props = {
   onTogglePlaylistDownloadedSwitch: Function,
   onRemovePodcastFromPlaylist: Function,
   isPlaylistAvailableOffline: boolean,
+  onPressPodcastsListItem: Function,
   onPressPlayAllButton: Function,
   onPressShuffleButton: Function,
   podcastsImages: Array<string>,
@@ -32,6 +33,7 @@ const PlaylistDetailComponent = ({
   onTogglePlaylistDownloadedSwitch,
   onRemovePodcastFromPlaylist,
   isPlaylistAvailableOffline,
+  onPressPodcastsListItem,
   onPressPlayAllButton,
   onPressShuffleButton,
   podcastsImages,
@@ -50,7 +52,8 @@ const PlaylistDetailComponent = ({
     <FlatList
       renderItem={({ item, index }) => (
         <PodcastListItem
-          onPress={() => onRemovePodcastFromPlaylist(index)}
+          onRemovePodcastFromPlaylist={() => onRemovePodcastFromPlaylist(index)}
+          onPressPodcastsListItem={() => onPressPodcastsListItem(item)}
           isPodcastDownloaded={item.isDownloaded}
           isLast={index === podcasts.length - 1}
           isDownloading={item.isDownloading}

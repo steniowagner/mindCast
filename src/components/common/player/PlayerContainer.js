@@ -78,12 +78,16 @@ class PlayerContainer extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const { player, setupPlayer, navigation } = this.props;
+    const {
+      setupShufflePlayer, setupPlayer, navigation, player,
+    } = this.props;
 
     const { params } = navigation.state;
     const { playlist: pastPlaylist, currentPodcast, paused } = player;
 
     const playerParams = params[CONSTANTS.PARAMS.PLAYER];
+
+    const shouldShufflePlaylist = playerParams[CONSTANTS.KEYS.SHOULD_SHUFFLE_PLAYLIST];
     const playlist = playerParams[CONSTANTS.KEYS.PLAYLIST];
 
     const isCurrentPodcastDefined = !!currentPodcast;
@@ -99,8 +103,13 @@ class PlayerContainer extends Component<Props, State> {
       !isCurrentPodcastDefined
       || isPodcastChanged
       || !isPlayingSamePlaylist
+      || shouldShufflePlaylist
     ) {
-      setupPlayer(playlist);
+      const properAction = shouldShufflePlaylist
+        ? setupShufflePlayer
+        : setupPlayer;
+
+      properAction(playlist);
     }
 
     this.setHeaderTitle(navigation, playlist[0].subject);

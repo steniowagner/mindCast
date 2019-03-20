@@ -88,6 +88,25 @@ function* _rewindToPreviousPodcast(newPlaylistIndex) {
   }
 }
 
+const _shufflePlaylistItems = (playlist) => {
+  const shuffledPlaylist = Object.create(playlist);
+
+  let currentIndex = shuffledPlaylist.length;
+  let temporaryValue;
+  let randomIndex;
+
+  while (currentIndex > 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = shuffledPlaylist[currentIndex];
+    shuffledPlaylist[currentIndex] = shuffledPlaylist[randomIndex];
+    shuffledPlaylist[randomIndex] = temporaryValue;
+  }
+
+  return shuffledPlaylist;
+};
+
 export function* shufflePlaylist() {
   try {
     const {
@@ -106,24 +125,13 @@ export function* shufflePlaylist() {
       );
     }
 
-    const shuffledPlaylist = originalPlaylist.filter(
+    const playlistWithoutCurrentPodcast = originalPlaylist.filter(
       podcast => podcast.id !== currentPodcast.id,
     );
 
-    let currentIndex = shuffledPlaylist.length;
-    let temporaryValue;
-    let randomIndex;
-
-    while (currentIndex > 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = shuffledPlaylist[currentIndex];
-      shuffledPlaylist[currentIndex] = shuffledPlaylist[randomIndex];
-      shuffledPlaylist[randomIndex] = temporaryValue;
-    }
-
-    shuffledPlaylist.unshift(currentPodcast);
+    const shuffledPlaylist = _shufflePlaylistItems(
+      playlistWithoutCurrentPodcast,
+    );
 
     const currentPodcastIndexOnOriginalPlaylist = _findIndexInsideOriginalPlaylist(
       originalPlaylist,
@@ -133,7 +141,7 @@ export function* shufflePlaylist() {
     yield put(
       PlayerCreators.shufflePlaylistSuccess({
         originalPlaylistIndex: currentPodcastIndexOnOriginalPlaylist,
-        playlist: shuffledPlaylist,
+        playlist: [currentPodcast, ...shuffledPlaylist],
         playlistIndex: 0,
       }),
     );
@@ -144,6 +152,22 @@ export function* shufflePlaylist() {
 
 export function* setupPlayer() {
   try {
+    yield call(setPodcast);
+  } catch (err) {
+    console.tron.log('setupPlayer', 'err');
+  }
+}
+
+export function* setupShufflePlayer({ payload }) {
+  try {
+    const { playlist } = payload;
+
+    const shuffledPlaylist = _shufflePlaylistItems(playlist);
+
+    yield put(
+      PlayerCreators.shufflePlaylistSuccess({ playlist: shuffledPlaylist }),
+    );
+
     yield call(setPodcast);
   } catch (err) {
     console.tron.log('setupPlayer', 'err');

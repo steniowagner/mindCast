@@ -61,9 +61,26 @@ class PlaylistDetailContainer extends Component<Props, State> {
     }
   }
 
-  onPressPlayAllButton = (): void => {};
+  onPressHeaderButton = (shouldShufflePlaylist: boolean): void => {
+    const { navigation } = this.props;
+    const { playlist } = this.props;
 
-  onPressShuffleButton = (): void => {};
+    navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+      [CONSTANTS.PARAMS.PLAYER]: {
+        [CONSTANTS.KEYS.SHOULD_SHUFFLE_PLAYLIST]: shouldShufflePlaylist,
+        [CONSTANTS.KEYS.PLAYLIST]: playlist.podcasts,
+      },
+    });
+  };
+
+  onPressPodcastsListItem = (podcast: Object): void => {
+    const { navigation } = this.props;
+
+    navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+      [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
+      [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
+    });
+  };
 
   onTogglePlaylistDownloadedSwitch = (): void => {
     const { setOfflineAvailability, playlist } = this.props;
@@ -136,8 +153,9 @@ class PlaylistDetailContainer extends Component<Props, State> {
         onTogglePlaylistDownloadedSwitch={this.onTogglePlaylistDownloadedSwitch}
         onRemovePodcastFromPlaylist={this.onRemovePodcastFromPlaylist}
         isPlaylistAvailableOffline={isPlaylistAvailableOffline}
-        onPressPlayAllButton={this.onPressPlayAllButton}
-        onPressShuffleButton={this.onPressShuffleButton}
+        onPressPodcastsListItem={this.onPressPodcastsListItem}
+        onPressPlayAllButton={() => this.onPressHeaderButton(false)}
+        onPressShuffleButton={() => this.onPressHeaderButton(true)}
         podcasts={podcastsWithDownloadStatus}
         podcastsImages={podcastsImages}
         title={title}

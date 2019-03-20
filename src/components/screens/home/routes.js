@@ -4,6 +4,7 @@ import { StatusBar, Platform } from 'react-native';
 
 import Player from '~/components/common/player/PlayerContainer';
 import PlaylistDetail from '~/components/common/playlist-detail/PlaylistDetailContainer';
+import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import Home from './index';
 
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -24,6 +25,26 @@ const RootStack = createStackNavigator(
         headerBackTitle: null,
         header: null,
       }),
+    },
+
+    [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
+      screen: PodcastDetailContainer,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'Podcast Detail',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+      }),
+    },
+
+    [CONSTANTS.ROUTES.PLAYER]: {
+      screen: Player,
+      navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
     },
 
     [ROUTE_NAMES.TEST]: {

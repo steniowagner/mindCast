@@ -27,7 +27,12 @@ type Props = {
 const Featured = ({ onPressItem, navigation, featured }: Props): Object => (
   <Wrapper>
     <SectionWithButton
-      onPress={() => {}}
+      onPress={() => navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+        [CONSTANTS.PARAMS.PLAYER]: {
+          [CONSTANTS.KEYS.PLAYLIST]: featured,
+        },
+      })
+      }
       sectionTitle="Featured"
     />
     <ItemsWrapper>

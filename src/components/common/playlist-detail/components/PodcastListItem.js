@@ -82,10 +82,11 @@ const IconWrapper = styled(View)`
 `;
 
 type Props = {
+  onRemovePodcastFromPlaylist: Function,
+  onPressPodcastsListItem: Function,
   isPodcastDownloaded: boolean,
   isDownloading: boolean,
   authorName: string,
-  onPress: Function,
   imageURL: string,
   isLast: boolean,
   title: string,
@@ -115,11 +116,12 @@ const renderStatusIcon = (isPodcastDownloaded, isDownloading): Object => {
 };
 
 const PodcastListItem = ({
+  onRemovePodcastFromPlaylist,
+  onPressPodcastsListItem,
   isPodcastDownloaded,
   isDownloading,
   authorName,
   imageURL,
-  onPress,
   isLast,
   title,
 }: Props): Object => (
@@ -138,12 +140,14 @@ const PodcastListItem = ({
               />
             </SwipeDeleteButton>
           ),
+          onPress: onRemovePodcastFromPlaylist,
           type: 'delete',
-          onPress,
         },
       ]}
     >
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={onPressPodcastsListItem}
+      >
         <RowWrapper>
           <PodcastImage
             uri={imageURL}
