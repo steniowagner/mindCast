@@ -26,6 +26,36 @@ class PodcastDetail extends Component<Props, State> {
     isAddPlaylistModalOpen: false,
   };
 
+  onPressDownloadButton = (
+    isPodcastDownloaded: boolean,
+    podcast: Object,
+  ): void => {
+    const { downloadPodcast, removePodcast } = this.props;
+    const { url, id } = podcast;
+
+    let action;
+    let type;
+
+    if (isPodcastDownloaded) {
+      const isPodcastDownloadedByPlaylist = this.checkPodcastAvailableOfflineWithPlaylist(
+        podcast,
+      );
+
+      type = isPodcastDownloadedByPlaylist
+        ? TYPES.REMOVE_DOWNLOADED_PODCAST_BY_PLAYLIST
+        : TYPES.REMOVE_DOWNLOADED_PODCAST;
+
+      action = () => removePodcast({ id });
+    }
+
+    if (!isPodcastDownloaded) {
+      action = () => downloadPodcast({ id, url });
+      type = TYPES.DOWNLOAD_PODCAST;
+    }
+
+    CustomAlert(type, action);
+  };
+
   onToggleAddPlaylistModal = (): void => {
     const { isAddPlaylistModalOpen } = this.state;
 
@@ -39,11 +69,11 @@ class PodcastDetail extends Component<Props, State> {
     const { params } = navigation.state;
 
     const shouldShowAuthorSection = params[CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION];
-    const podcastInfo = params[CONSTANTS.PARAMS.PODCAST_DETAIL];
+    const podcast = params[CONSTANTS.PARAMS.PODCAST_DETAIL];
 
     return {
       shouldShowAuthorSection,
-      podcastInfo,
+      podcast,
     };
   };
 
@@ -58,34 +88,26 @@ class PodcastDetail extends Component<Props, State> {
   };
 
   onPressPlay = (): void => {
-    const { podcastInfo } = this.getProps();
+    const { podcast } = this.getProps();
     const { navigation } = this.props;
 
     navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
       [CONSTANTS.PARAMS.PLAYER]: {
-        [CONSTANTS.KEYS.PLAYLIST]: [podcastInfo],
+        [CONSTANTS.KEYS.PLAYLIST]: [podcast],
       },
     });
   };
 
-  onPressDownloadButton = (
-    isPodcastDownloaded: boolean,
-    id: string,
-    url: string,
-  ): void => {
-    const { downloadPodcast, removePodcast } = this.props;
+  checkPodcastAvailableOfflineWithPlaylist = (podcast: Object): boolean => {
+    const { playlists } = this.props;
 
-    const { action, type } = isPodcastDownloaded
-      ? {
-        action: () => removePodcast({ id }),
-        type: TYPES.REMOVE_DOWNLOADED_PODCAST,
-      }
-      : {
-        action: () => downloadPodcast({ id, url }),
-        type: TYPES.DOWNLOAD_PODCAST,
-      };
+    const isPodcastDownloadedByPlaylist = playlists
+      .filter(playlist => playlist.isAvailableOffline)
+      .some(playlist => playlist.podcasts.some(
+        playlistPodcast => playlistPodcast.id === podcast.id,
+      ));
 
-    CustomAlert(type, action);
+    return isPodcastDownloadedByPlaylist;
   };
 
   checkPodcastDownloadStatus = (listKey: string, podcastId: string) => {
@@ -103,32 +125,31 @@ class PodcastDetail extends Component<Props, State> {
   };
 
   render() {
-    const { shouldShowAuthorSection, podcastInfo } = this.getProps();
     const { isAddPlaylistModalOpen } = this.state;
-    const { id, url } = podcastInfo;
+    const { shouldShowAuthorSection, podcast } = this.getProps();
 
     const isPodcastDownloaded = this.checkPodcastDownloadStatus(
       'podcastsDownloaded',
-      id,
+      podcast.id,
     );
 
     const isDownloadingPodcast = this.checkPodcastDownloadStatus(
       'downloadingList',
-      id,
+      podcast.id,
     );
 
     return (
       <PodcastDetailComponent
-        onPressDownloadButton={() => this.onPressDownloadButton(isPodcastDownloaded, id, url)
+        onPressDownloadButton={() => this.onPressDownloadButton(isPodcastDownloaded, podcast)
         }
-        onNavigateAuthorDetail={() => this.onNavigateAuthorDetail(id)}
+        onNavigateAuthorDetail={() => this.onNavigateAuthorDetail(podcast.id)}
         onToggleAddPlaylistModal={this.onToggleAddPlaylistModal}
         shouldShowAuthorSection={shouldShowAuthorSection}
         isAddPlaylistModalOpen={isAddPlaylistModalOpen}
         isDownloadingPodcast={isDownloadingPodcast}
         isPodcastDownloaded={isPodcastDownloaded}
         onPressPlay={this.onPressPlay}
-        podcast={podcastInfo}
+        podcast={podcast}
       />
     );
   }
@@ -136,6 +157,7 @@ class PodcastDetail extends Component<Props, State> {
 
 const mapStateToProps = state => ({
   localPodcastsManager: state.localPodcastsManager,
+  playlists: state.playlist.playlists,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(LocalPodcastsManagerCreators, dispatch);

@@ -3,6 +3,8 @@
 import { Alert } from 'react-native';
 
 export const TYPES = {
+  REMOVE_DOWNLOADED_PODCAST_BY_PLAYLIST:
+    'REMOVE_DOWNLOADED_PODCAST_BY_PLAYLIST',
   ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE:
     'ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE',
   REMOVE_PODCAST_FROM_PLAYLIST: 'REMOVE_PODCAST_FROM_PLAYLIST',
@@ -12,6 +14,13 @@ export const TYPES = {
 };
 
 const configs = {
+  [TYPES.REMOVE_DOWNLOADED_PODCAST_BY_PLAYLIST]: {
+    title: 'Remove Downloaded Podcast',
+    description:
+      "This Podcast belongs to some of your Playlists that are available offline. If you remove the download of this podcast, it won't be available offline anymore on these playlists.",
+    positiveText: 'Ok',
+  },
+
   [TYPES.REMOVE_DOWNLOADED_PODCAST]: {
     title: 'Remove Downloaded Podcast',
     description:
