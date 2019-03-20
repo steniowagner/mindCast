@@ -24,7 +24,7 @@ class HomeContainer extends Component<Props, {}> {
       loadPlaylists,
     } = this.props;
 
-    // createPlaylist('MY_PLAYLIST');
+    // createPlaylist('MY_PLAYLIST');
 
     setPodcastsDownloadedList();
 

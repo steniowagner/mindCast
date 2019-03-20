@@ -29,18 +29,18 @@ const BottomContentWrapper = styled(View)`
 `;
 
 const PlaylistTitle = styled(Text).attrs({
-  numberOfLines: 2,
+  numberOfLines: 3,
 })`
-  margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
+  font-size: ${({ theme }) => theme.metrics.getWidthFromDP('5.35%')}px;
+  font-family: CircularStd-Black;
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
-  font-family: CircularStd-Bold;
 `;
 
 const NumberPodcasts = styled(Text)`
   margin-right: ${({ theme }) => theme.metrics.smallSize}px;
   color: ${({ theme }) => theme.colors.subTextWhite};
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+  font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
   font-family: CircularStd-Bold;
 `;
 
@@ -72,7 +72,7 @@ const PlaylistListItem = ({
     <ContentWrapper>
       <PlaylistCompositionImages
         images={images}
-        size="small"
+        size="large"
       />
       <TextWrapper>
         <PlaylistTitle>{title}</PlaylistTitle>
@@ -89,7 +89,7 @@ const PlaylistListItem = ({
                 : appStyles.colors.subTextWhite
             }
             name={isDownloaded ? 'cloud-check' : 'cloud-download-outline'}
-            size={19}
+            size={22}
           />
         </BottomContentWrapper>
       </TextWrapper>

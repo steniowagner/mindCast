@@ -3,6 +3,8 @@
 import { Alert } from 'react-native';
 
 export const TYPES = {
+  ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE:
+    'ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE',
   REMOVE_PODCAST_FROM_PLAYLIST: 'REMOVE_PODCAST_FROM_PLAYLIST',
   ADD_REPEATED_PODCAS_PLAYLIST: 'ADD_REPEATED_PODCAS_PLAYLIST',
   REMOVE_DOWNLOADED_PODCAST: 'REMOVE_DOWNLOADED_PODCAST',
@@ -32,6 +34,12 @@ const configs = {
     title: 'Duplicated Podcast',
     description:
       'This Podcast has already been added to this Playlist. Do you want add it again?',
+  },
+
+  [TYPES.ADD_UNDOWNLOADED_PODCAST_PLAYLIST_AVAILABLE_OFFLINE]: {
+    title: 'Availability Offline',
+    description:
+      'This Playlist is Available Offline. When you add this podcast to this playlist, it will be downloaded automatically.',
   },
 };
 
