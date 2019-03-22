@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
 import Player from '~/components/common/player/PlayerContainer';
-import PlaylistDetail from '~/components/common/playlist-detail/PlaylistDetailContainer';
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import Home from './index';
 
@@ -45,20 +44,6 @@ const RootStack = createStackNavigator(
     [CONSTANTS.ROUTES.PLAYER]: {
       screen: Player,
       navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
-    },
-
-    [ROUTE_NAMES.TEST]: {
-      screen: PlaylistDetail,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
     },
   },
   {

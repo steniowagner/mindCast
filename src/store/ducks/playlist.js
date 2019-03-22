@@ -17,6 +17,9 @@ export const Types = {
   SET_AVAILABLE_OFFLINE_REQUEST: 'playlist/SET_AVAILABLE_OFFLINE_REQUEST',
   SET_AVAILABLE_OFFLINE_SUCCESS: 'playlist/SET_AVAILABLE_OFFLINE_SUCCESS',
   SET_AVAILABLE_OFFLINE_ERROR: 'playlist/SET_AVAILABLE_OFFLINE_ERROR',
+  REMOVE_PLAYLIST_REQUEST: 'playlist/REMOVE_PLAYLIST_REQUEST',
+  REMOVE_PLAYLIST_SUCCESS: 'playlist/REMOVE_PLAYLIST_SUCCESS',
+  REMOVE_PLAYLIST_ERROR: 'playlist/REMOVE_PLAYLIST_ERROR',
 };
 
 const INITIAL_STATE = {
@@ -113,6 +116,20 @@ export const Creators = {
   setOfflineAvailabilityError: () => ({
     type: Types.SET_AVAILABLE_OFFLINE_ERROR,
   }),
+
+  removePlaylist: playlistTitle => ({
+    type: Types.REMOVE_PLAYLIST_REQUEST,
+    payload: { playlistTitle },
+  }),
+
+  removePlaylistSuccess: playlists => ({
+    type: Types.REMOVE_PLAYLIST_SUCCESS,
+    payload: { playlists },
+  }),
+
+  removePlaylistFailure: () => ({
+    type: Types.REMOVE_PLAYLIST_ERROR,
+  }),
 };
 
 const playlist = (state = INITIAL_STATE, { type, payload }) => {
@@ -185,6 +202,24 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case Types.REMOVE_PODCAST_ERROR:
+      return {
+        ...state,
+        error: true,
+      };
+
+    case Types.REMOVE_PLAYLIST_REQUEST:
+      return {
+        ...state,
+        error: false,
+      };
+
+    case Types.REMOVE_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        playlists: payload.playlists,
+      };
+
+    case Types.REMOVE_PLAYLIST_ERROR:
       return {
         ...state,
         error: true,

@@ -66,10 +66,18 @@ type Playlist = {
 };
 
 type Props = {
+  onPressPlaylistItem: Function,
   playlists: Array<Playlist>,
+  onRemovePlaylist: Function,
+  onEditPlaylist: Function,
 };
 
-const LibraryComponent = ({ playlists }: Props): Object => {
+const LibraryComponent = ({
+  onPressPlaylistItem,
+  onRemovePlaylist,
+  onEditPlaylist,
+  playlists,
+}: Props): Object => {
   const options = getOptionsItems();
 
   return (
@@ -89,6 +97,8 @@ const LibraryComponent = ({ playlists }: Props): Object => {
       </ContentWrapper>
       <Divider />
       <Playlists
+        onPressPlaylistItem={onPressPlaylistItem}
+        onRemovePlaylist={onRemovePlaylist}
         playlists={playlists}
       />
     </Wrapper>

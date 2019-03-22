@@ -96,6 +96,26 @@ function* _handlePersistsPlaylistsUpdated(playlist, podcasts) {
   return playlistsUpdated;
 }
 
+export function* removePlaylist({ payload }) {
+  try {
+    const { playlists } = yield select(state => state.playlist);
+    const { playlistTitle } = payload;
+
+    const playlistsUpdated = playlists.filter(
+      playlist => playlist.title !== playlistTitle,
+    );
+
+    yield persistItemInStorage(
+      CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY,
+      playlistsUpdated,
+    );
+
+    yield put(PlaylistCreators.removePlaylistSuccess(playlistsUpdated));
+  } catch (err) {
+    yield put(PlaylistCreators.removePlaylistFailure());
+  }
+}
+
 export function* addPodcast({ payload }) {
   try {
     const { playlist, podcast } = payload;

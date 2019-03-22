@@ -11,6 +11,7 @@ export const TYPES = {
   ADD_REPEATED_PODCAS_PLAYLIST: 'ADD_REPEATED_PODCAS_PLAYLIST',
   REMOVE_DOWNLOADED_PODCAST: 'REMOVE_DOWNLOADED_PODCAST',
   DOWNLOAD_PODCAST: 'DOWNLOAD_PODCAST',
+  REMOVE_PLAYLIST: 'REMOVE_PLAYLIST',
 };
 
 const configs = {
@@ -54,6 +55,12 @@ const configs = {
     description:
       'This Playlist is Available Offline. When you add this podcast to this playlist, it will be downloaded automatically.',
     positiveText: 'OK',
+  },
+
+  [TYPES.REMOVE_PLAYLIST]: {
+    title: 'Remove Playlist',
+    description: 'Are you sure you want to remove this Playlist?',
+    positiveText: 'Yes',
   },
 };
 

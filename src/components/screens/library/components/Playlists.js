@@ -39,6 +39,8 @@ type Playlist = {
 };
 
 type Props = {
+  onPressPlaylistItem: Function,
+  onRemovePlaylist: Function,
   playlists: Array<Playlist>,
 };
 
@@ -48,7 +50,11 @@ const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
   return images;
 };
 
-const Playlists = ({ playlists }: Props): Object => (
+const Playlists = ({
+  onPressPlaylistItem,
+  onRemovePlaylist,
+  playlists,
+}: Props): Object => (
   <Wrapper>
     <Header>
       <PlaylistsText>Playlists</PlaylistsText>
@@ -73,7 +79,8 @@ const Playlists = ({ playlists }: Props): Object => (
 
         return (
           <PlaylistListItem
-            onPress={() => {}}
+            onRemovePlaylist={() => onRemovePlaylist(item.title)}
+            onPress={() => onPressPlaylistItem(item.title)}
             numberOfPodcasts={item.podcasts.length}
             isDownloaded={item.isAvailableOffline}
             title={item.title}

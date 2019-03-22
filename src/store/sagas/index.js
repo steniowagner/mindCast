@@ -29,6 +29,7 @@ import {
   removePodcast,
   getPlaylist,
   setOfflineAvailability,
+  removePlaylist,
 } from './playlist';
 
 export default function* rootSaga() {
@@ -62,6 +63,7 @@ export default function* rootSaga() {
     takeLatest(PlaylistTypes.LOAD_PLAYLISTS_REQUEST, loadPlaylists),
     takeLatest(PlaylistTypes.ADD_PODCAST_REQUEST, addPodcast),
     takeLatest(PlaylistTypes.REMOVE_PODCAST_REQUEST, removePodcast),
+    takeLatest(PlaylistTypes.REMOVE_PLAYLIST_REQUEST, removePlaylist),
     takeLatest(PlaylistTypes.GET_PLAYLIST_REQUEST, getPlaylist),
     takeLatest(
       PlaylistTypes.SET_AVAILABLE_OFFLINE_REQUEST,

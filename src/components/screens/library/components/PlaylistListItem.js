@@ -42,12 +42,13 @@ const NumberPodcasts = styled(Text)`
   font-family: CircularStd-Bold;
 `;
 
-const ContentWrapper = styled(View)`
+const ContentWrapper = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
 `;
 
 type Props = {
+  onRemovePlaylist: Function,
   numberOfPodcasts: number,
   isDownloaded: boolean,
   images: Array<string>,
@@ -56,6 +57,7 @@ type Props = {
 };
 
 const PlaylistListItem = ({
+  onRemovePlaylist,
   numberOfPodcasts,
   isDownloaded,
   onPress,
@@ -74,7 +76,7 @@ const PlaylistListItem = ({
               icon="trash-can-outline"
             />
           ),
-          onPress: () => {},
+          onPress: onRemovePlaylist,
           type: 'delete',
         },
         {
@@ -89,7 +91,9 @@ const PlaylistListItem = ({
         },
       ]}
     >
-      <ContentWrapper>
+      <ContentWrapper
+        onPress={onPress}
+      >
         <PlaylistCompositionImages
           images={images}
           size="small"
