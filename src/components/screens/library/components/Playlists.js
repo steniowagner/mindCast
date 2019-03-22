@@ -31,6 +31,12 @@ const Header = styled(View)`
   margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
+const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
+  const images = podcasts.slice(0, 4).map(podcast => podcast.smallImageURL);
+
+  return images;
+};
+
 type Playlist = {
   isAvailableOffline: boolean,
   dowloads: Array<string>,
@@ -39,20 +45,18 @@ type Playlist = {
 };
 
 type Props = {
+  onTogglePlaylistOperationModal: Function,
   onPressPlaylistItem: Function,
   onRemovePlaylist: Function,
   playlists: Array<Playlist>,
-};
-
-const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
-  const images = podcasts.slice(0, 4).map(podcast => podcast.smallImageURL);
-
-  return images;
+  modalOperations: Object,
 };
 
 const Playlists = ({
+  onTogglePlaylistOperationModal,
   onPressPlaylistItem,
   onRemovePlaylist,
+  modalOperations,
   playlists,
 }: Props): Object => (
   <Wrapper>
@@ -65,6 +69,7 @@ const Playlists = ({
           left: appStyles.metrics.smallSize,
           top: appStyles.metrics.smallSize,
         }}
+        onPress={() => onTogglePlaylistOperationModal(modalOperations.CREATE)}
       >
         <Icon
           color={appStyles.colors.white}
@@ -90,7 +95,7 @@ const Playlists = ({
       }}
       showsVerticalScrollIndicator={false}
       keyExtractor={item => `${item.title}`}
-      data={[...playlists, ...playlists, ...playlists]}
+      data={playlists}
     />
   </Wrapper>
 );

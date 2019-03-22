@@ -66,15 +66,19 @@ type Playlist = {
 };
 
 type Props = {
+  onTogglePlaylistOperationModal: Function,
   onPressPlaylistItem: Function,
   playlists: Array<Playlist>,
   onRemovePlaylist: Function,
   onEditPlaylist: Function,
+  modalOperations: Object,
 };
 
 const LibraryComponent = ({
+  onTogglePlaylistOperationModal,
   onPressPlaylistItem,
   onRemovePlaylist,
+  modalOperations,
   onEditPlaylist,
   playlists,
 }: Props): Object => {
@@ -97,8 +101,10 @@ const LibraryComponent = ({
       </ContentWrapper>
       <Divider />
       <Playlists
+        onTogglePlaylistOperationModal={onTogglePlaylistOperationModal}
         onPressPlaylistItem={onPressPlaylistItem}
         onRemovePlaylist={onRemovePlaylist}
+        modalOperations={modalOperations}
         playlists={playlists}
       />
     </Wrapper>

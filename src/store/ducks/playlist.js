@@ -39,9 +39,9 @@ export const Creators = {
     payload: { title },
   }),
 
-  createPlaylistSuccess: newPlaylist => ({
+  createPlaylistSuccess: playlists => ({
     type: Types.CREATE_PLAYLIST_SUCCESS,
-    payload: { newPlaylist },
+    payload: { playlists },
   }),
 
   createPlaylistFailure: () => ({
@@ -143,7 +143,7 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
     case Types.CREATE_PLAYLIST_SUCCESS:
       return {
         ...state,
-        playlists: [...state.playlists, payload.newPlaylist],
+        playlists: payload.playlists,
       };
 
     case Types.CREATE_PLAYLIST_ERROR:

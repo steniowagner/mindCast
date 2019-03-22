@@ -37,36 +37,26 @@ export function* loadPlaylists() {
 
 export function* createPlaylist({ payload }) {
   try {
-    const { playlists: playlistsCreated } = yield select(
-      state => state.playlist,
-    );
+    const { playlists } = yield select(state => state.playlist);
+
     const { title } = payload;
 
-    const isPlaylistAlreadyCreated = playlistsCreated.some(
-      playlist => playlist.title === title,
-    );
-
-    if (isPlaylistAlreadyCreated) {
-      return yield put(
-        PlaylistCreators.createPlaylistFailure(
-          'A Playlist with this name already exists.',
-        ),
-      );
-    }
-
-    const playlists = [
-      ...playlistsCreated,
+    const playlistsUpdated = [
       {
         isAvailableOffline: false,
         downloads: [],
         podcasts: [],
         title,
       },
+      ...playlists,
     ];
 
-    yield persistItemInStorage(CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY, playlists);
+    yield persistItemInStorage(
+      CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY,
+      playlistsUpdated,
+    );
 
-    yield put(PlaylistCreators.createPlaylistSuccess(playlists));
+    yield put(PlaylistCreators.createPlaylistSuccess(playlistsUpdated));
   } catch (err) {
     yield put(
       PlaylistCreators.createPlaylistFailure(
@@ -300,10 +290,6 @@ function* _setToUnvailableOffline(playlistSelected) {
       },
     );
 
-    console.tron.log(
-      'podcastsAlreadyDownloadedByPlaylistSelected',
-      podcastsAlreadyDownloadedByPlaylistSelected,
-    );
     yield all(
       podcastsAlreadyDownloadedByPlaylistSelected.map(id => call(removePodcastFromLocalStorage, {
         payload: {

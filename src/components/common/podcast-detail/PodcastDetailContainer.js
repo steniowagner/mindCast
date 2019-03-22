@@ -18,7 +18,7 @@ type Props = {
 };
 
 type State = {
-  isPlaylistModalOpen: boolean,
+  isAddPlaylistModalOpen: boolean,
 };
 
 class PodcastDetail extends Component<Props, State> {
