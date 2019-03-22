@@ -29,12 +29,6 @@ class HomeContainer extends Component<Props, {}> {
     setPodcastsDownloadedList();
 
     loadPlaylists();
-
-    setTimeout(() => {
-      navigation.navigate('TEST', {
-        [CONSTANTS.PARAMS.PLAYLIST_TITLE]: 'MY_PLAYLIST',
-      });
-    }, 2000);
   }
 
   render() {

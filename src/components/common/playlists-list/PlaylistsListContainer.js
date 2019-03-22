@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlaylistCreators } from '~/store/ducks/playlist';
 
-import PlaylistListComponent from './components/PlaylistListComponent';
 import { CustomAlert, TYPES } from '~/components/common/Alert';
+import PlaylistListComponent from './components/PlaylistListComponent';
 
 type Playlist = {
   podcastsDownloaded: Array<Object>,

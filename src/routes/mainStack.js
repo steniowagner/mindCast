@@ -10,6 +10,7 @@ import {
 
 import HomeRoutes from '~/components/screens/home/routes';
 import SearchRoutes from '~/components/screens/search/routes';
+import LibraryRoutes from '~/components/screens/library/routes';
 
 import isEqualsOrLargestThanIphoneX from '~/utils/isEqualsOrLargestThanIphoneX';
 import appStyles from '~/styles';
@@ -49,6 +50,14 @@ const ApplicationTabs = createMaterialTopTabNavigator(
       header: null,
       navigationOptions: {
         tabBarIcon: getTabIcon('magnify'),
+      },
+    },
+
+    [ROUTE_NAMES.LIBRARY]: {
+      screen: LibraryRoutes,
+      header: null,
+      navigationOptions: {
+        tabBarIcon: getTabIcon('library-music'),
       },
     },
   },

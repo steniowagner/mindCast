@@ -8,6 +8,7 @@ import FastImage from 'react-native-fast-image';
 import Swipeout from 'react-native-swipeout';
 import styled from 'styled-components';
 
+import SwipeOutButton from '~/components/common/SwipeOutButton';
 import Loading from '~/components/common/Loading';
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
@@ -132,13 +133,10 @@ const PodcastListItem = ({
       right={[
         {
           component: (
-            <SwipeDeleteButton>
-              <Icon
-                color={appStyles.colors.white}
-                name="trash-can-outline"
-                size={25}
-              />
-            </SwipeDeleteButton>
+            <SwipeOutButton
+              color={appStyles.colors.primaryColor}
+              icon="trash-can-outline"
+            />
           ),
           onPress: onRemovePodcastFromPlaylist,
           type: 'delete',
