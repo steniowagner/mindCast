@@ -250,9 +250,7 @@ function* _setToAvailableOffline(playlistSelected) {
       playlistSelected.podcasts,
     );
 
-    const playlistsUpdated = playlist.playlists.map(playlist => (playlist.title === playlistUpdated.title
-      ? playlistUpdated
-      : playlistFromStore));
+    const playlistsUpdated = playlist.playlists.map(playlist => (playlist.title === playlistUpdated.title ? playlistUpdated : playlist));
 
     yield put(
       PlaylistCreators.setOfflineAvailabilitySuccess(
@@ -314,9 +312,7 @@ function* _setToUnvailableOffline(playlistSelected) {
       playlistSelected.podcasts,
     );
 
-    const playlistsUpdated = playlist.playlists.map(playlist => (playlist.title === playlistUpdated.title
-      ? playlistUpdated
-      : playlistFromStore));
+    const playlistsUpdated = playlist.playlists.map(playlist => (playlist.title === playlistUpdated.title ? playlistUpdated : playlist));
 
     yield put(
       PlaylistCreators.setOfflineAvailabilitySuccess(
