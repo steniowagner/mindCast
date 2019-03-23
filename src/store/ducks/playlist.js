@@ -20,6 +20,9 @@ export const Types = {
   REMOVE_PLAYLIST_REQUEST: 'playlist/REMOVE_PLAYLIST_REQUEST',
   REMOVE_PLAYLIST_SUCCESS: 'playlist/REMOVE_PLAYLIST_SUCCESS',
   REMOVE_PLAYLIST_ERROR: 'playlist/REMOVE_PLAYLIST_ERROR',
+  EDIT_PLAYLIST_REQUEST: 'playlist/EDIT_PLAYLIST_REQUEST',
+  EDIT_PLAYLIST_SUCCESS: 'playlist/EDIT_PLAYLIST_SUCCESS',
+  EDIT_PLAYLIST_ERROR: 'playlist/EDIT_PLAYLIST_ERROR',
 };
 
 const INITIAL_STATE = {
@@ -130,6 +133,20 @@ export const Creators = {
   removePlaylistFailure: () => ({
     type: Types.REMOVE_PLAYLIST_ERROR,
   }),
+
+  editPlaylist: (playlistTitle, index) => ({
+    type: Types.EDIT_PLAYLIST_REQUEST,
+    payload: { playlistTitle, index },
+  }),
+
+  editPlaylistSuccess: playlists => ({
+    type: Types.EDIT_PLAYLIST_SUCCESS,
+    payload: { playlists },
+  }),
+
+  editPlaylistFailure: () => ({
+    type: Types.EDIT_PLAYLIST_ERROR,
+  }),
 };
 
 const playlist = (state = INITIAL_STATE, { type, payload }) => {
@@ -220,6 +237,24 @@ const playlist = (state = INITIAL_STATE, { type, payload }) => {
       };
 
     case Types.REMOVE_PLAYLIST_ERROR:
+      return {
+        ...state,
+        error: true,
+      };
+
+    case Types.EDIT_PLAYLIST_REQUEST:
+      return {
+        ...state,
+        error: false,
+      };
+
+    case Types.EDIT_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        playlists: payload.playlists,
+      };
+
+    case Types.EDIT_PLAYLIST_ERROR:
       return {
         ...state,
         error: true,

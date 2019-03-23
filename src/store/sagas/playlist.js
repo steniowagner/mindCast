@@ -86,6 +86,29 @@ function* _handlePersistsPlaylistsUpdated(playlist, podcasts) {
   return playlistsUpdated;
 }
 
+export function* editPlaylist({ payload }) {
+  try {
+    const { playlists } = yield select(state => state.playlist);
+    const { playlistTitle, index } = payload;
+
+    const playlistsUpdated = Object.assign([...playlists], {
+      [index]: {
+        ...playlists[index],
+        title: playlistTitle,
+      },
+    });
+
+    yield persistItemInStorage(
+      CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY,
+      playlistsUpdated,
+    );
+
+    yield put(PlaylistCreators.editPlaylistSuccess(playlistsUpdated));
+  } catch (err) {
+    yield put(PlaylistCreators.editPlaylistFailure());
+  }
+}
+
 export function* removePlaylist({ payload }) {
   try {
     const { playlists } = yield select(state => state.playlist);

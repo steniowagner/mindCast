@@ -25,9 +25,17 @@ const CardContainer = styled(View)`
 `;
 
 const OperationTitle = styled(Text)`
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2};
+  margin-bottom: ${({ theme }) => theme.metrics.mediumSize * 1.15}px;
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
   font-family: CircularStd-Bold;
   color: ${({ theme }) => theme.colors.darkText};
+`;
+
+const Error = styled(Text)`
+  margin-bottom: ${({ theme }) => theme.metrics.mediumSize * 1.15}px;
+  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+  font-family: CircularStd-Book;
+  color: ${({ theme }) => theme.colors.primaryColor};
 `;
 
 const ActionButtonsWrapper = styled(View)`
@@ -39,6 +47,7 @@ const ActionButtonsWrapper = styled(View)`
 
 const ActionButtonsContent = styled(View)`
   width: 100%;
+  margin-top: ${({ theme }) => theme.metrics.largeSize}px;
   flex-direction: row;
   justify-content: flex-end;
 `;
@@ -55,7 +64,6 @@ const InputWrapper = styled(View)`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  margin-vertical: ${({ theme }) => theme.metrics.largeSize}px;
   padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
   height: ${({ theme }) => theme.metrics.getHeightFromDP('6%')};
   border: solid 1px ${({ theme }) => theme.colors.subText};
@@ -113,6 +121,7 @@ type Props = {
   onToggleModal: Function,
   playlistTitle: string,
   mainAction: Function,
+  hasError: boolean,
   modalMode: string,
 };
 
@@ -122,6 +131,7 @@ const PlaylistOperationModal = ({
   playlistTitle,
   mainAction,
   modalMode,
+  hasError,
 }: Props): Object => (
   <Modal
     onRequestClose={onToggleModal}
@@ -132,9 +142,12 @@ const PlaylistOperationModal = ({
     <Container>
       <CardContainer>
         <OperationTitle>{`${modalMode} Playlist`}</OperationTitle>
+        {hasError && <Error>This title is already in use</Error>}
         <InputWrapper>
           <Input
             onChangeText={playlistTitle => onTypePlaylistTitle(playlistTitle)}
+            onSubmitEditing={mainAction}
+            value={playlistTitle}
           />
         </InputWrapper>
         <ActionButtonsWrapper>

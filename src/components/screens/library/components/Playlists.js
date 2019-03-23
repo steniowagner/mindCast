@@ -13,6 +13,7 @@ import appStyles from '~/styles';
 const Wrapper = styled(View)`
   width: 100%;
   height: 100%;
+  flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
   padding-top: ${({ theme }) => theme.metrics.largeSize}px;
 `;
@@ -84,6 +85,12 @@ const Playlists = ({
 
         return (
           <PlaylistListItem
+            onEditPlaylist={() => onTogglePlaylistOperationModal(
+              modalOperations.EDIT,
+              item.title,
+              index,
+            )
+            }
             onRemovePlaylist={() => onRemovePlaylist(item.title)}
             onPress={() => onPressPlaylistItem(item.title)}
             numberOfPodcasts={item.podcasts.length}

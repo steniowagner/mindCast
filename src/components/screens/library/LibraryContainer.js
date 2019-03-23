@@ -25,11 +25,14 @@ type Props = {
   playlists: Array<Playlist>,
   removePlaylist: Function,
   createPlaylist: Function,
+  editPlaylist: Function,
   navigation: Object,
 };
 
 type State = {
   isPlaylistOperationModalOpen: boolean,
+  isPlaylistTitleAlreadyInUse: boolean,
+  indexPlaylistToEdit: number,
   playlistTitle: string,
   modalMode: string,
 };
@@ -37,6 +40,8 @@ type State = {
 class LibraryContainer extends Component<Props, State> {
   state = {
     isPlaylistOperationModalOpen: false,
+    isPlaylistTitleAlreadyInUse: false,
+    indexPlaylistToEdit: 0,
     playlistTitle: '',
     modalMode: '',
   };
@@ -45,17 +50,44 @@ class LibraryContainer extends Component<Props, State> {
     const { createPlaylist } = this.props;
     const { playlistTitle } = this.state;
 
+    const isTitleAlreadyInUse = this.checkPlaylistTitleIsAlreadyInUse();
+
+    if (isTitleAlreadyInUse) {
+      this.setState({
+        isPlaylistTitleAlreadyInUse: true,
+      });
+
+      return;
+    }
+
     createPlaylist(playlistTitle);
 
     this.setState({
       isPlaylistOperationModalOpen: false,
+      isPlaylistTitleAlreadyInUse: false,
       playlistTitle: '',
     });
   };
 
-  onEditPlaylist = (): void => {
+  onEditPlaylist = (index: number): void => {
+    const { editPlaylist } = this.props;
+    const { indexPlaylistToEdit, playlistTitle } = this.state;
+
+    const isTitleAlreadyInUse = this.checkPlaylistTitleIsAlreadyInUse();
+
+    if (isTitleAlreadyInUse) {
+      this.setState({
+        isPlaylistTitleAlreadyInUse: true,
+      });
+
+      return;
+    }
+
+    editPlaylist(playlistTitle, indexPlaylistToEdit);
+
     this.setState({
       isPlaylistOperationModalOpen: false,
+      isPlaylistTitleAlreadyInUse: false,
       playlistTitle: '',
     });
   };
@@ -68,15 +100,23 @@ class LibraryContainer extends Component<Props, State> {
 
   onTypePlaylistTitle = (playlistTitle: string) => {
     this.setState({
+      isPlaylistTitleAlreadyInUse: false,
       playlistTitle,
     });
   };
 
-  onTogglePlaylistOperationModal = (modalMode: string): void => {
+  onTogglePlaylistOperationModal = (
+    modalMode: string,
+    playlistTitle: string,
+    index: number,
+  ): void => {
     const { isPlaylistOperationModalOpen } = this.state;
 
     this.setState({
       isPlaylistOperationModalOpen: !isPlaylistOperationModalOpen,
+      isPlaylistTitleAlreadyInUse: false,
+      indexPlaylistToEdit: index,
+      playlistTitle,
       modalMode,
     });
   };
@@ -89,9 +129,21 @@ class LibraryContainer extends Component<Props, State> {
     });
   };
 
+  checkPlaylistTitleIsAlreadyInUse = (): boolean => {
+    const { playlistTitle } = this.state;
+    const { playlists } = this.props;
+
+    const isTitleAlreadyInUse = playlists.some(
+      playlist => playlist.title === playlistTitle,
+    );
+
+    return isTitleAlreadyInUse;
+  };
+
   render() {
     const {
       isPlaylistOperationModalOpen,
+      isPlaylistTitleAlreadyInUse,
       playlistTitle,
       modalMode,
     } = this.state;
@@ -118,6 +170,7 @@ class LibraryContainer extends Component<Props, State> {
             }
             onToggleModal={this.onTogglePlaylistOperationModal}
             onTypePlaylistTitle={this.onTypePlaylistTitle}
+            hasError={isPlaylistTitleAlreadyInUse}
             playlistTitle={playlistTitle}
             modalMode={modalMode}
           />

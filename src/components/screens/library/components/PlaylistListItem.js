@@ -49,6 +49,7 @@ const ContentWrapper = styled(TouchableOpacity)`
 
 type Props = {
   onRemovePlaylist: Function,
+  onEditPlaylist: Function,
   numberOfPodcasts: number,
   isDownloaded: boolean,
   images: Array<string>,
@@ -59,6 +60,7 @@ type Props = {
 const PlaylistListItem = ({
   onRemovePlaylist,
   numberOfPodcasts,
+  onEditPlaylist,
   isDownloaded,
   onPress,
   images,
@@ -86,7 +88,7 @@ const PlaylistListItem = ({
               icon="pencil"
             />
           ),
-          onPress: () => {},
+          onPress: onEditPlaylist,
           type: 'primary',
         },
       ]}
