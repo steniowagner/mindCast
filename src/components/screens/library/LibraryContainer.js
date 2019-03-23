@@ -161,6 +161,7 @@ class LibraryContainer extends Component<Props, State> {
           onRemovePlaylist={this.onRemovePlaylist}
           onEditPlaylist={this.onEditPlaylist}
           modalOperations={OPERATIONS}
+          navigation={this.props.navigation}
           playlists={playlists}
         />
         {isPlaylistOperationModalOpen && (

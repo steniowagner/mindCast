@@ -7,7 +7,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
-import AuthorInfo from '../AuthorInfo';
+import AuthorInfo from '../../../AuthorInfo';
 
 const ButtonWrapper = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('45%')}px;

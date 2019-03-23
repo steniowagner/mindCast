@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import ScreenTitle from '~/components/common/ScreenTitle';
 import LibraryOptionItem from './LibraryOptionItem';
 import Playlists from './Playlists';
+import { ROUTE_NAMES } from '../routes';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -72,6 +74,7 @@ type Props = {
   onRemovePlaylist: Function,
   onEditPlaylist: Function,
   modalOperations: Object,
+  navigation: Object,
 };
 
 const LibraryComponent = ({
@@ -80,9 +83,18 @@ const LibraryComponent = ({
   onRemovePlaylist,
   modalOperations,
   onEditPlaylist,
+  navigation,
   playlists,
 }: Props): Object => {
-  const options = getOptionsItems();
+  const onPressAllPodcastsOption = () => {
+    navigation.navigate(ROUTE_NAMES.ALL_PODCASTS, {
+      [CONSTANTS.KEYS.ALL_PODCASTS]: playlists
+        .map(playlist => playlist.podcasts)
+        .reduce((acc, curr) => acc.concat(...curr), []),
+    });
+  };
+
+  const options = getOptionsItems(onPressAllPodcastsOption);
 
   return (
     <Wrapper>

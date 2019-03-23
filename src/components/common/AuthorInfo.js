@@ -35,7 +35,7 @@ type Props = {
   name: string,
 };
 
-const AuthorInfoWrapper = ({
+const AuthorInfo = ({
   numberOfLines,
   imageURL,
   textColor,
@@ -54,4 +54,4 @@ const AuthorInfoWrapper = ({
   </Wrapper>
 );
 
-export default AuthorInfoWrapper;
+export default AuthorInfo;

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import FastImage from 'react-native-fast-image';
 
 import ReviewStars from '~/components/common/ReviewStars';
-import AuthorInfo from './AuthorInfo';
+import AuthorInfo from '../../AuthorInfo';
 
 const Wrapper = styled(View)`
   width: 100%;
