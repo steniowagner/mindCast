@@ -92,10 +92,10 @@ class LibraryContainer extends Component<Props, State> {
     });
   };
 
-  onRemovePlaylist = (playlistTitle: string): void => {
+  onRemovePlaylist = (playlist: Playlist): void => {
     const { removePlaylist } = this.props;
 
-    CustomAlert(TYPES.REMOVE_PLAYLIST, () => removePlaylist(playlistTitle));
+    CustomAlert(TYPES.REMOVE_PLAYLIST, () => removePlaylist(playlist));
   };
 
   onTypePlaylistTitle = (playlistTitle: string) => {

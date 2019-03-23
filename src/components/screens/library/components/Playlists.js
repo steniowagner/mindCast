@@ -91,7 +91,7 @@ const Playlists = ({
               index,
             )
             }
-            onRemovePlaylist={() => onRemovePlaylist(item.title)}
+            onRemovePlaylist={() => onRemovePlaylist(item)}
             onPress={() => onPressPlaylistItem(item.title)}
             numberOfPodcasts={item.podcasts.length}
             isDownloaded={item.isAvailableOffline}

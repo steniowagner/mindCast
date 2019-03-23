@@ -120,9 +120,9 @@ export const Creators = {
     type: Types.SET_AVAILABLE_OFFLINE_ERROR,
   }),
 
-  removePlaylist: playlistTitle => ({
+  removePlaylist: playlistToRemove => ({
     type: Types.REMOVE_PLAYLIST_REQUEST,
-    payload: { playlistTitle },
+    payload: { playlistToRemove },
   }),
 
   removePlaylistSuccess: playlists => ({

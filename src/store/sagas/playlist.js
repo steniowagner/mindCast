@@ -112,11 +112,15 @@ export function* editPlaylist({ payload }) {
 export function* removePlaylist({ payload }) {
   try {
     const { playlists } = yield select(state => state.playlist);
-    const { playlistTitle } = payload;
+    const { playlistToRemove } = payload;
 
     const playlistsUpdated = playlists.filter(
-      playlist => playlist.title !== playlistTitle,
+      playlist => playlist.title !== playlistToRemove.title,
     );
+
+    if (playlistToRemove.isAvailableOffline) {
+      yield call(_setPlaylistToUnvailableOffline, playlistToRemove);
+    }
 
     yield persistItemInStorage(
       CONSTANTS.KEYS.PLAYLIST_STORAGE_KEY,
@@ -211,7 +215,6 @@ export function* removePodcast({ payload }) {
       }),
     );
   } catch (err) {
-    console.log(err);
     yield put(PlaylistCreators.removePodcastFailure());
   }
 }
@@ -246,7 +249,7 @@ export function* getPlaylist({ payload }) {
   }
 }
 
-function* _setToAvailableOffline(playlistSelected) {
+function* _setPlaylistToAvailableOffline(playlistSelected) {
   try {
     const { localPodcastsManager, playlist } = yield select(state => state);
 
@@ -290,7 +293,7 @@ function* _setToAvailableOffline(playlistSelected) {
   }
 }
 
-function* _setToUnvailableOffline(playlistSelected) {
+function* _setPlaylistToUnvailableOffline(playlistSelected) {
   try {
     const { localPodcastsManager, playlist } = yield select(state => state);
     const { podcastsDownloaded, downloadingList } = localPodcastsManager;
@@ -353,11 +356,11 @@ export function* setOfflineAvailability({ payload }) {
     const { playlist, available } = payload;
 
     if (available) {
-      yield call(_setToAvailableOffline, playlist);
+      yield call(_setPlaylistToAvailableOffline, playlist);
     }
 
     if (!available) {
-      yield call(_setToUnvailableOffline, playlist);
+      yield call(_setPlaylistToUnvailableOffline, playlist);
     }
   } catch (err) {
     console.log(err);
