@@ -49,7 +49,7 @@ class PodcastDetail extends Component<Props, State> {
     }
 
     if (!isPodcastDownloaded) {
-      action = () => downloadPodcast({ id, url });
+      action = () => downloadPodcast(podcast);
       type = TYPES.DOWNLOAD_PODCAST;
     }
 

@@ -124,6 +124,7 @@ function* _handleDownloadPodcastResult(statusCode, path, podcast) {
         podcastWithLocalURI.id,
       ),
     );
+
     yield put(
       LocalPodcastsManagerCreators.addToDownloadedList(podcastWithLocalURI),
     );

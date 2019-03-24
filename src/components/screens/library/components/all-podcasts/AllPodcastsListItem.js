@@ -13,7 +13,8 @@ const ListItemWrapper = styled(View)`
   width: 100%;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('35%')}px;
   flex-direction: row;
-  margin-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
+  margin-top: ${({ theme }) => theme.metrics.smallSize}px;
   border-radius: 5px;
 `;
 

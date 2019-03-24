@@ -2,9 +2,11 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
+import PodcastsDownloaded from './components/podcasts-downloaded/PodcastsDownloaded';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
-import LibraryContainer from './LibraryContainer';
 import AllPodcasts from './components/all-podcasts/AllPodcasts';
+import Player from '~/components/common/player/PlayerContainer';
+import LibraryContainer from './LibraryContainer';
 
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
@@ -16,6 +18,7 @@ export const ROUTE_NAMES = {
   LIBRARY: 'LIBRARY',
   PLAYLIST_DETAIL: 'PLAYLIST_DETAIL',
   ALL_PODCASTS: 'ALL_PODCASTS',
+  PODCASTS_DOWNLOADED: 'PODCASTS_DOWNLOADED',
 };
 
 const RootStack = createStackNavigator(
@@ -26,6 +29,11 @@ const RootStack = createStackNavigator(
         headerBackTitle: null,
         header: null,
       }),
+    },
+
+    [CONSTANTS.ROUTES.PLAYER]: {
+      screen: Player,
+      navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
     },
 
     [ROUTE_NAMES.PLAYLIST_DETAIL]: {
@@ -62,6 +70,20 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
         title: 'All Podcasts',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+      }),
+    },
+
+    [ROUTE_NAMES.PODCASTS_DOWNLOADED]: {
+      screen: PodcastsDownloaded,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'Downloads',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,

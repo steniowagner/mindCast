@@ -22,6 +22,7 @@ type Playlist = {
 };
 
 type Props = {
+  podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
   removePlaylist: Function,
   createPlaylist: Function,
@@ -148,7 +149,7 @@ class LibraryContainer extends Component<Props, State> {
       modalMode,
     } = this.state;
 
-    const { playlists } = this.props;
+    const { podcastsDownloaded, playlists } = this.props;
 
     const isModalCreationMode = modalMode === OPERATIONS.CREATE;
 
@@ -159,6 +160,7 @@ class LibraryContainer extends Component<Props, State> {
           isPlaylistOperationModalOpen={isPlaylistOperationModalOpen}
           onPressPlaylistItem={this.onPressPlaylistItem}
           onRemovePlaylist={this.onRemovePlaylist}
+          podcastsDownloaded={podcastsDownloaded}
           onEditPlaylist={this.onEditPlaylist}
           modalOperations={OPERATIONS}
           navigation={this.props.navigation}
@@ -184,6 +186,7 @@ class LibraryContainer extends Component<Props, State> {
 const mapDispatchToProps = dispatch => bindActionCreators(PlaylistsCreators, dispatch);
 
 const mapStateToProps = state => ({
+  podcastsDownloaded: state.localPodcastsManager.podcastsDownloaded,
   playlists: state.playlist.playlists,
 });
 

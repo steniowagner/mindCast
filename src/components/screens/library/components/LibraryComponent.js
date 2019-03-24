@@ -69,6 +69,7 @@ type Playlist = {
 
 type Props = {
   onTogglePlaylistOperationModal: Function,
+  podcastsDownloaded: Array<Object>,
   onPressPlaylistItem: Function,
   playlists: Array<Playlist>,
   onRemovePlaylist: Function,
@@ -80,6 +81,7 @@ type Props = {
 const LibraryComponent = ({
   onTogglePlaylistOperationModal,
   onPressPlaylistItem,
+  podcastsDownloaded,
   onRemovePlaylist,
   modalOperations,
   onEditPlaylist,
@@ -88,13 +90,22 @@ const LibraryComponent = ({
 }: Props): Object => {
   const onPressAllPodcastsOption = () => {
     navigation.navigate(ROUTE_NAMES.ALL_PODCASTS, {
-      [CONSTANTS.KEYS.ALL_PODCASTS]: playlists
+      [CONSTANTS.PARAMS.ALL_PODCASTS]: playlists
         .map(playlist => playlist.podcasts)
         .reduce((acc, curr) => acc.concat(...curr), []),
     });
   };
 
-  const options = getOptionsItems(onPressAllPodcastsOption);
+  const onPressDownloadsOption = () => {
+    navigation.navigate(ROUTE_NAMES.PODCASTS_DOWNLOADED, {
+      [CONSTANTS.PARAMS.PODCASTS_DOWNLOADED]: podcastsDownloaded,
+    });
+  };
+
+  const options = getOptionsItems(
+    onPressAllPodcastsOption,
+    onPressDownloadsOption,
+  );
 
   return (
     <Wrapper>
