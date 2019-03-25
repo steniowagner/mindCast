@@ -5,6 +5,7 @@ import { StatusBar, Platform } from 'react-native';
 import PodcastsDownloaded from './components/podcasts-downloaded/PodcastsDownloaded';
 import YourPodcasts from './components/your-podcasts/YourPodcasts';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
+import Interests from '~/components/common/interests/Interests';
 import Player from '~/components/common/player/PlayerContainer';
 import Library from './Library';
 
@@ -70,6 +71,20 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
         title: 'Your Podcasts',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+      }),
+    },
+
+    [CONSTANTS.ROUTES.INTERESTS]: {
+      screen: Interests,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'Your Interests',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,

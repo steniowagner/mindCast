@@ -7,6 +7,7 @@ export default {
   progressiveImageForeground: 'rgba(242, 242, 242, 0.5)',
   primaryColor: '#EF010B',
   primaryColorAlpha: 'rgba(239, 1, 11, 0.2)',
+  interestSelectedColor: 'rgba(239, 1, 11, 0.6)',
   yellow: '#F8C330',
   white: '#FFF',
   lightSecondaryColor: '#222',

@@ -32,7 +32,7 @@ const getSectionsConfig = (navigation: Object): Array<Object> => {
       iconName: 'clock-outline',
     },
     {
-      onPress: () => {},
+      onPress: () => navigation.navigate(CONSTANTS.ROUTES.INTERESTS),
       title: 'Interests',
       iconName: 'playlist-check',
     },
