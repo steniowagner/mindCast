@@ -17,8 +17,8 @@ const ContentWrapper = styled(View)`
 const getSectionsConfig = (navigation: Object): Array<Object> => {
   const sections = [
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.ALL_PODCASTS),
-      title: 'All Podcasts',
+      onPress: () => navigation.navigate(ROUTE_NAMES.YOUR_PODCASTS),
+      title: 'Your Podcasts',
       iconName: 'podcast',
     },
     {

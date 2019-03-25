@@ -1,9 +1,10 @@
 // @flow
 
 import React from 'react';
-import {
-  TouchableOpacity, AlertIOS, Platform, View, Text,
-} from 'react-native';
+import { AlertIOS, Platform } from 'react-native';
+import styled from 'styled-components';
+
+import AndroidOperationModal from './AndroidOperationModal';
 
 const iOSModalAlert = (
   mainAction: Function,
@@ -11,6 +12,7 @@ const iOSModalAlert = (
   error,
   defaultText: string,
   toggleModal: Function,
+  mode: string,
 ): void => {
   AlertIOS.prompt(
     title,
@@ -22,7 +24,7 @@ const iOSModalAlert = (
         style: 'cancel',
       },
       {
-        text: 'OK',
+        text: mode.toUpperCase(),
         onPress: playlistTitle => mainAction(playlistTitle),
       },
     ],
@@ -31,17 +33,8 @@ const iOSModalAlert = (
   );
 };
 
-const AndroidAlert = (): Object => (
-  <View
-    style={{
-      width: 200,
-      height: 200,
-      backgroundColor: '#f0f',
-    }}
-  />
-);
-
 type Props = {
+  onTypePlaylistTitle: Function,
   toggleModal: Function,
   mainAction: Function,
   playlistTitle: string,
@@ -50,6 +43,7 @@ type Props = {
 };
 
 const PlaylistOperationModal = ({
+  onTypePlaylistTitle,
   playlistTitle,
   toggleModal,
   mainAction,
@@ -62,10 +56,19 @@ const PlaylistOperationModal = ({
     : '';
 
   if (Platform.OS === 'android') {
-    return <AndroidAlert />;
+    return (
+      <AndroidOperationModal
+        onTypePlaylistTitle={onTypePlaylistTitle}
+        playlistTitle={playlistTitle}
+        toggleModal={toggleModal}
+        mainAction={mainAction}
+        error={error}
+        mode={mode}
+      />
+    );
   }
 
-  iOSModalAlert(mainAction, title, error, playlistTitle, toggleModal);
+  iOSModalAlert(mainAction, title, error, playlistTitle, toggleModal, mode);
 
   return null;
 };

@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
 import PodcastsDownloaded from './components/podcasts-downloaded/PodcastsDownloaded';
-import AllPodcasts from './components/all-podcasts/AllPodcasts';
+import YourPodcasts from './components/your-podcasts/YourPodcasts';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
 import Player from '~/components/common/player/PlayerContainer';
 import Library from './Library';
@@ -17,7 +17,7 @@ import appStyles from '~/styles';
 export const ROUTE_NAMES = {
   LIBRARY: 'LIBRARY',
   PLAYLIST_DETAIL: 'PLAYLIST_DETAIL',
-  ALL_PODCASTS: 'ALL_PODCASTS',
+  YOUR_PODCASTS: 'YOUR_PODCASTS',
   PODCASTS_DOWNLOADED: 'PODCASTS_DOWNLOADED',
 };
 
@@ -65,11 +65,11 @@ const RootStack = createStackNavigator(
       }),
     },
 
-    [ROUTE_NAMES.ALL_PODCASTS]: {
-      screen: AllPodcasts,
+    [ROUTE_NAMES.YOUR_PODCASTS]: {
+      screen: YourPodcasts,
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
-        title: 'All Podcasts',
+        title: 'Your Podcasts',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,

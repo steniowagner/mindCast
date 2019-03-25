@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
-import AllPodcastsListItem from './AllPodcastsListItem';
+import YourPodcastsListItem from './YourPodcastsListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
@@ -57,13 +57,13 @@ const getPodcastsFromPlaylists = (
   return podcastsFromPlaylists;
 };
 
-const getAllPodcasts = (
+const getAllUserPodcasts = (
   podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
 ): Array<Object> => {
   const podcastsFromPlaylists = getPodcastsFromPlaylists(playlists);
 
-  const allPodcasts = podcastsFromPlaylists.concat(
+  const userPodcasts = podcastsFromPlaylists.concat(
     podcastsDownloaded.filter(
       podcastDownloaded => podcastsFromPlaylists.findIndex(
         podcastFromPlaylists => podcastFromPlaylists.id === podcastDownloaded.id,
@@ -71,21 +71,21 @@ const getAllPodcasts = (
     ),
   );
 
-  return allPodcasts;
+  return userPodcasts;
 };
 
-const AllPodcasts = ({
+const YourPodcasts = ({
   podcastsDownloaded,
   navigation,
   playlists,
 }: Props): Object => {
-  const allPodcasts = getAllPodcasts(podcastsDownloaded, playlists);
+  const userPodcasts = getAllUserPodcasts(podcastsDownloaded, playlists);
 
   return (
     <Wrapper>
       <FlatList
         renderItem={({ item, index }) => (
-          <AllPodcastsListItem
+          <YourPodcastsListItem
             onPressDetailButton={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
               [CONSTANTS.KEYS
                 .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
@@ -97,7 +97,7 @@ const AllPodcasts = ({
         )}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => `${item.id}`}
-        data={allPodcasts}
+        data={userPodcasts}
       />
     </Wrapper>
   );
@@ -108,4 +108,4 @@ const mapStateToProps = state => ({
   playlists: state.playlist.playlists,
 });
 
-export default connect(mapStateToProps)(AllPodcasts);
+export default connect(mapStateToProps)(YourPodcasts);

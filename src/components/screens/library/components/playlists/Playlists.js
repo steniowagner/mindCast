@@ -41,33 +41,19 @@ const Header = styled(View)`
   margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
-// type Props = {
-//   podcastsDownloaded: Array<Object>,
-//   playlists: Array<Playlist>,
-//   removePlaylist: Function,
-//   createPlaylist: Function,
-//   editPlaylist: Function,
-//   navigation: Object,
-// };
-
-// type State = {
-//   isPlaylistOperationModalOpen: boolean,
-//   isPlaylistTitleAlreadyInUse: boolean,
-//   indexPlaylistToEdit: number,
-//   playlistTitle: string,
-//   modalMode: string,
-// };
-
-// type Playlist = {
-//   isAvailableOffline: boolean,
-//   dowloads: Array<string>,
-//   podcasts: Array<Object>,
-//   title: string,
-// };
+type Playlist = {
+  isAvailableOffline: boolean,
+  dowloads: Array<string>,
+  podcasts: Array<Object>,
+  title: string,
+};
 
 type Props = {
   onRemovePlaylist: Function,
   playlists: Array<Playlist>,
+  removePlaylist: Function,
+  createPlaylist: Function,
+  editPlaylist: Function,
   modalOperations: Object,
   navigation: Object,
 };
@@ -95,11 +81,18 @@ class Playlists extends Component<Props, State> {
     return images;
   };
 
-  onCreatePlaylist = (playlistTitleFromIos: ?string): void => {
+  onTypePlaylistTitle = (playlistTitle: string): void => {
+    this.setState({
+      isPlaylistTitleAlreadyInUse: false,
+      playlistTitle,
+    });
+  };
+
+  onCreatePlaylist = (titleFromIosAlertPrompt: ?string): void => {
     const { createPlaylist } = this.props;
     const { playlistTitle } = this.state;
 
-    const title = playlistTitleFromIos || playlistTitle;
+    const title = titleFromIosAlertPrompt || playlistTitle;
 
     if (!title) {
       this.setState({
@@ -124,15 +117,14 @@ class Playlists extends Component<Props, State> {
     this.setState({
       isPlaylistOperationModalOpen: false,
       isPlaylistTitleAlreadyInUse: false,
-      playlistTitle: '',
     });
   };
 
-  onEditPlaylist = (playlistTitleFromIos: ?string): void => {
-    const { indexPlaylistToEdit, playlistTitle } = this.state;
+  onEditPlaylist = (titleFromIosAlertPrompt: ?string): void => {
+    const { playlistTitle, indexPlaylistToEdit } = this.state;
     const { editPlaylist, playlists } = this.props;
 
-    const title = playlistTitleFromIos || playlistTitle;
+    const title = titleFromIosAlertPrompt || playlistTitle;
 
     if (!title) {
       this.setState({
@@ -167,7 +159,6 @@ class Playlists extends Component<Props, State> {
     this.setState({
       isPlaylistOperationModalOpen: false,
       isPlaylistTitleAlreadyInUse: false,
-      playlistTitle: '',
     });
   };
 
@@ -203,13 +194,6 @@ class Playlists extends Component<Props, State> {
     CustomAlert(TYPES.REMOVE_PLAYLIST, () => removePlaylist(playlist));
   };
 
-  // onTypePlaylistTitle = (playlistTitle: string): void => {
-  //   this.setState({
-  //     isPlaylistTitleAlreadyInUse: false,
-  //     playlistTitle,
-  //   });
-  // };
-
   onPressPlaylistItem = (playlistTitle: string): void => {
     const { navigation } = this.props;
 
@@ -240,7 +224,7 @@ class Playlists extends Component<Props, State> {
               left: appStyles.metrics.smallSize,
               top: appStyles.metrics.smallSize,
             }}
-            onPress={() => this.onTogglePlaylistOperationModal('Create')}
+            onPress={() => this.onTogglePlaylistOperationModal('Create', '', 0)}
           >
             <Icon
               color={appStyles.colors.white}
@@ -272,6 +256,7 @@ class Playlists extends Component<Props, State> {
         />
         {isPlaylistOperationModalOpen && (
           <PlaylistOperationModal
+            onTypePlaylistTitle={this.onTypePlaylistTitle}
             toggleModal={() => this.setState({
               isPlaylistOperationModalOpen: false,
             })
