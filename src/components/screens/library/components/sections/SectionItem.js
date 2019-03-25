@@ -33,7 +33,7 @@ type Props = {
   title: string,
 };
 
-const LibraryOptionItem = ({ onPressItem, iconName, title }: Props): Object => (
+const SectionItem = ({ onPressItem, iconName, title }: Props): Object => (
   <Container>
     <LeftContentWrapper>
       <Icon
@@ -61,4 +61,4 @@ const LibraryOptionItem = ({ onPressItem, iconName, title }: Props): Object => (
   </Container>
 );
 
-export default LibraryOptionItem;
+export default SectionItem;

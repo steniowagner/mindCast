@@ -4,9 +4,11 @@ import React from 'react';
 import { FlatList, View, Text } from 'react-native';
 import styled from 'styled-components';
 
+import { connect } from 'react-redux';
+import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
+
 import PodcastsDownloadedListItem from './PodcastsDownloadedListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
-import appStyles from '~/styles';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -16,34 +18,37 @@ const Wrapper = styled(View)`
 `;
 
 type Props = {
+  podcastsDownloaded: Array<Object>,
   navigation: Object,
 };
 
-const PodcastsDownloaded = ({ navigation }: Props): Object => {
-  const { params } = navigation.state;
-  const podcastsDownloaded = params[CONSTANTS.PARAMS.PODCASTS_DOWNLOADED];
+const PodcastsDownloaded = ({
+  podcastsDownloaded,
+  navigation,
+}: Props): Object => (
+  <Wrapper>
+    <FlatList
+      renderItem={({ item, index }) => (
+        <PodcastsDownloadedListItem
+          onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+            [CONSTANTS.PARAMS.PLAYER]: {
+              [CONSTANTS.KEYS.PLAYLIST]: [item],
+            },
+          })
+          }
+          podcast={item}
+          index={index}
+        />
+      )}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={item => `${item.id}`}
+      data={podcastsDownloaded}
+    />
+  </Wrapper>
+);
 
-  return (
-    <Wrapper>
-      <FlatList
-        renderItem={({ item, index }) => (
-          <PodcastsDownloadedListItem
-            onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
-              [CONSTANTS.PARAMS.PLAYER]: {
-                [CONSTANTS.KEYS.PLAYLIST]: [item],
-              },
-            })
-            }
-            podcast={item}
-            index={index}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => `${item.id}`}
-        data={podcastsDownloaded}
-      />
-    </Wrapper>
-  );
-};
+const mapStateToProps = state => ({
+  podcastsDownloaded: state.localPodcastsManager.podcastsDownloaded,
+});
 
-export default PodcastsDownloaded;
+export default connect(mapStateToProps)(PodcastsDownloaded);

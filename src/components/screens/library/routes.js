@@ -3,10 +3,10 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
 import PodcastsDownloaded from './components/podcasts-downloaded/PodcastsDownloaded';
-import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
 import AllPodcasts from './components/all-podcasts/AllPodcasts';
+import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
 import Player from '~/components/common/player/PlayerContainer';
-import LibraryContainer from './LibraryContainer';
+import Library from './Library';
 
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
@@ -24,7 +24,7 @@ export const ROUTE_NAMES = {
 const RootStack = createStackNavigator(
   {
     [ROUTE_NAMES.LIBRARY]: {
-      screen: LibraryContainer,
+      screen: Library,
       navigationOptions: () => ({
         headerBackTitle: null,
         header: null,

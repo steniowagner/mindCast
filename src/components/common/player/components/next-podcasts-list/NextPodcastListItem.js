@@ -43,7 +43,7 @@ const Title = styled(Text).attrs({
   numberOfLines: 2,
 })`
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Black;
 `;
 
@@ -52,7 +52,7 @@ const Author = styled(Text).attrs({
 })`
   margin-top: ${({ theme }) => theme.metrics.extraSmallSize}px;
   color: ${({ theme }) => theme.colors.primaryColor};
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+  font-size: ${({ theme }) => theme.metrics.mediumSize * 1.2}px;
   font-family: CircularStd-Bold;
 `;
 
