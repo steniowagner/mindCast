@@ -57,9 +57,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-      }),
+      navigationOptions: () => DEFAULT_HEADER_STYLE,
     },
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {

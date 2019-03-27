@@ -7,9 +7,9 @@ import CONSTANTS from '~/utils/CONSTANTS';
 import DEFAULT_HEADER_STYLE from './DEFAULT_HEADER_STYLE';
 
 const getPlayerNavigationOption = (navigation: Object) => {
-  const { state } = navigation;
   const { params } = navigation.state;
 
+  const onPressHeaderRightButton = params[CONSTANTS.PARAMS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
   const isRightMenuOpen = params[CONSTANTS.KEYS.IS_PLAYER_RIGHT_MENU_OPEN];
   const title = params[CONSTANTS.PARAMS.PLAYER_TITLE];
 
@@ -18,10 +18,7 @@ const getPlayerNavigationOption = (navigation: Object) => {
     title: title ? `#${title}` : '',
     headerRight: (
       <HeaderButton
-        onPress={() => {
-          const onPressHeaderRightButton = state.params[CONSTANTS.KEYS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
-          onPressHeaderRightButton();
-        }}
+        onPress={onPressHeaderRightButton}
         iconName="format-list-bulleted"
         position={POSITIONS.RIGHT}
       />

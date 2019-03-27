@@ -14,27 +14,61 @@ const ContentWrapper = styled(View)`
   padding-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const getSectionsConfig = (navigation: Object): Array<Object> => {
+const setHeaderPlayButtonPress = (
+  playlist: Array<Object>,
+  navigation: Object,
+): void => {
+  const onPressPlayHeaderButton = () => {
+    if (playlist.length > 0) {
+      navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+        [CONSTANTS.PARAMS.PLAYER]: {
+          [CONSTANTS.KEYS.PLAYLIST]: playlist,
+        },
+      });
+    }
+  };
+
+  navigation.setParams({
+    [CONSTANTS.PARAMS.HEADER_PLAY_ACTION]: onPressPlayHeaderButton,
+  });
+};
+
+const getSectionsConfig = (navigate: Function): Array<Object> => {
   const sections = [
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.YOUR_PODCASTS),
-      title: 'Your Podcasts',
+      onPress: () => navigate(ROUTE_NAMES.YOUR_PODCASTS, {
+        [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
+          playlist,
+          navigation,
+        ) => setHeaderPlayButtonPress(playlist, navigation),
+      }),
       iconName: 'podcast',
+      title: 'Your Podcasts',
     },
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.PODCASTS_DOWNLOADED),
-      title: 'Downloads',
+      onPress: () => navigate(ROUTE_NAMES.PODCASTS_DOWNLOADED, {
+        [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
+          playlist,
+          navigation,
+        ) => setHeaderPlayButtonPress(playlist, navigation),
+      }),
       iconName: 'cloud-download-outline',
+      title: 'Downloads',
     },
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.RECENTLY_PLAYED),
-      title: 'Recently Played',
+      onPress: () => navigate(ROUTE_NAMES.RECENTLY_PLAYED, {
+        [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
+          playlist,
+          navigation,
+        ) => setHeaderPlayButtonPress(playlist, navigation),
+      }),
       iconName: 'clock-outline',
+      title: 'Recently Played',
     },
     {
-      onPress: () => navigation.navigate(CONSTANTS.ROUTES.INTERESTS),
-      title: 'Interests',
+      onPress: () => navigate(CONSTANTS.ROUTES.INTERESTS),
       iconName: 'playlist-check',
+      title: 'Interests',
     },
   ];
 
@@ -46,12 +80,13 @@ type Props = {
 };
 
 const Sections = ({ navigation }: Props): Object => {
-  const sections = getSectionsConfig(navigation);
+  const sections = getSectionsConfig(navigation.navigate);
 
   return (
     <ContentWrapper>
       {sections.map(option => (
         <SectionItem
+          setHeaderPlayButtonPress={setHeaderPlayButtonPress}
           onPressItem={option.onPress}
           iconName={option.iconName}
           title={option.title}

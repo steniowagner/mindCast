@@ -3,7 +3,10 @@
 import React, { PureComponent } from 'react';
 import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
+
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as PlayerCreators } from '~/store/ducks/player';
 
 import RecentlyPlayedListItem from './RecentlyPlayedListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -16,13 +19,10 @@ const Wrapper = styled(View)`
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
-type LocalPodcastManager = {
-  podcastsRecentlyPlayed: Array<Object>,
-  podcastsDownloaded: Array<Object>,
-};
-
 type Props = {
-  localPodcastsManager: LocalPodcastManager,
+  podcastsRecentlyPlayed: Array<Object>,
+  setHeaderPlayButtonPress: Function,
+  podcastsDownloaded: Array<Object>,
   navigation: Object,
 };
 
@@ -36,8 +36,41 @@ class RecentlyPlayed extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    const { localPodcastsManager } = this.props;
-    const { podcastsRecentlyPlayed, podcastsDownloaded } = localPodcastsManager;
+    this.setPodcastsRecentlyPlayed(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setPodcastsRecentlyPlayed(nextProps);
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { podcastsRecentlyPlayed } = this.state;
+
+    const isListLengthChanged = podcastsRecentlyPlayed.length !== prevState.podcastsRecentlyPlayed.length;
+
+    let listOrderChanged = false;
+
+    for (let i = 0; i < prevState.podcastsRecentlyPlayed.length; i++) {
+      const isSamePodcast = prevState.podcastsRecentlyPlayed[i].id === podcastsRecentlyPlayed[i].id;
+
+      if (!isSamePodcast) {
+        listOrderChanged = true;
+        break;
+      }
+    }
+
+    if (isListLengthChanged || listOrderChanged) {
+      const { navigation } = this.props;
+      const { params } = navigation.state;
+
+      const setHeaderPlayButtonPress = params[CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM];
+
+      setHeaderPlayButtonPress(podcastsRecentlyPlayed, navigation);
+    }
+  }
+
+  setPodcastsRecentlyPlayed = (props: Props): void => {
+    const { podcastsRecentlyPlayed, podcastsDownloaded } = props;
 
     const podcastsRecentlyPlayedWithDownloadStatus = podcastsRecentlyPlayed.map(
       (podcastRecentlyPlayed) => {
@@ -55,7 +88,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
     this.setState({
       podcastsRecentlyPlayed: podcastsRecentlyPlayedWithDownloadStatus,
     });
-  }
+  };
 
   render() {
     const { podcastsRecentlyPlayed } = this.state;
@@ -84,8 +117,14 @@ class RecentlyPlayed extends PureComponent<Props, State> {
   }
 }
 
+const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
+
 const mapStateToProps = state => ({
-  localPodcastsManager: state.localPodcastsManager,
+  podcastsRecentlyPlayed: state.localPodcastsManager.podcastsRecentlyPlayed,
+  podcastsDownloaded: state.localPodcastsManager.podcastsDownloaded,
 });
 
-export default connect(mapStateToProps)(RecentlyPlayed);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(RecentlyPlayed);

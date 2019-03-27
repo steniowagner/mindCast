@@ -50,6 +50,7 @@ type LocalPodcastManagerProps = {
 type Props = {
   localPodcastsManager: LocalPodcastManagerProps,
   removeFromPlaylist: Function,
+  setupShufflePlayer: Function,
   seekProgressTimer: Function,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
@@ -160,7 +161,7 @@ class PlayerContainer extends Component<Props, State> {
     const { navigation } = this.props;
 
     navigation.setParams({
-      [CONSTANTS.KEYS.HEADER_BUTTON_RIGHT_PLAYER_ACTION]: this
+      [CONSTANTS.PARAMS.HEADER_BUTTON_RIGHT_PLAYER_ACTION]: this
         .onToggleQueueSideMenu,
     });
   };

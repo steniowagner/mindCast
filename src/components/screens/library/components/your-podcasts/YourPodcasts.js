@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import styled from 'styled-components';
 
@@ -20,88 +20,133 @@ const Wrapper = styled(View)`
 
 type Playlist = {
   isAvailableOffline: boolean,
-  dowloads: Array<string>,
+  downloads: Array<string>,
   podcasts: Array<Object>,
   title: string,
 };
 
 type Props = {
+  setHeaderPlayButtonPress: Function,
   podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
   navigation: Object,
 };
 
-const removePodcastsDuplicated = (podcasts: Array<Object>): Array<Object> => {
-  const podcastsWithouDuplicated = podcasts.filter((podcast, index) => {
-    const podcastIndex = podcasts.findIndex(
-      podcastItem => podcastItem.id === podcast.id,
+type State = {
+  userPodcasts: Array<Object>,
+};
+
+class YourPodcasts extends PureComponent<Props, State> {
+  state = {
+    userPodcasts: [],
+  };
+
+  componentDidMount() {
+    this.setUserPodcasts(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setUserPodcasts(nextProps);
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { userPodcasts } = this.state;
+
+    const isListLengthChanged = userPodcasts.length !== prevState.userPodcasts.length;
+
+    const hasNewItemInserted = prevState.userPodcasts.some(
+      prevUserPodcast => userPodcasts.findIndex(
+        userPodcast => userPodcast.id === prevUserPodcast.id,
+      ) === -1,
     );
 
-    return podcastIndex === index;
-  });
+    if (hasNewItemInserted || isListLengthChanged) {
+      const { navigation } = this.props;
+      const { params } = navigation.state;
 
-  return podcastsWithouDuplicated;
-};
+      const setHeaderPlayButtonPress = params[CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM];
 
-const getPodcastsFromPlaylists = (
-  playlists: Array<Playlist>,
-): Array<Object> => {
-  const podcastsFromPlaylistsWithPossibleDuplicates = playlists
-    .map(playlist => playlist.podcasts)
-    .reduce((accumulator, podcasts) => accumulator.concat(podcasts), []);
+      setHeaderPlayButtonPress(userPodcasts, navigation);
+    }
+  }
 
-  const podcastsFromPlaylists = removePodcastsDuplicated(
-    podcastsFromPlaylistsWithPossibleDuplicates,
-  );
+  setUserPodcasts = (props: Props): void => {
+    const { podcastsDownloaded, playlists } = props;
 
-  return podcastsFromPlaylists;
-};
+    const userPodcasts = this.getUserPodcasts(podcastsDownloaded, playlists);
 
-const getAllUserPodcasts = (
-  podcastsDownloaded: Array<Object>,
-  playlists: Array<Playlist>,
-): Array<Object> => {
-  const podcastsFromPlaylists = getPodcastsFromPlaylists(playlists);
+    this.setState({
+      userPodcasts,
+    });
+  };
 
-  const userPodcasts = podcastsFromPlaylists.concat(
-    podcastsDownloaded.filter(
-      podcastDownloaded => podcastsFromPlaylists.findIndex(
-        podcastFromPlaylists => podcastFromPlaylists.id === podcastDownloaded.id,
-      ) < 0,
-    ),
-  );
+  getUserPodcasts = (
+    podcastsDownloaded: Array<Object>,
+    playlists: Array<Playlist>,
+  ): Array<Object> => {
+    const podcastsFromPlaylists = this.getPodcastsFromPlaylists(playlists);
 
-  return userPodcasts;
-};
+    const userPodcasts = podcastsFromPlaylists.concat(
+      podcastsDownloaded.filter(
+        podcastDownloaded => podcastsFromPlaylists.findIndex(
+          podcastFromPlaylists => podcastFromPlaylists.id === podcastDownloaded.id,
+        ) < 0,
+      ),
+    );
 
-const YourPodcasts = ({
-  podcastsDownloaded,
-  navigation,
-  playlists,
-}: Props): Object => {
-  const userPodcasts = getAllUserPodcasts(podcastsDownloaded, playlists);
+    return userPodcasts;
+  };
 
-  return (
-    <Wrapper>
-      <FlatList
-        renderItem={({ item, index }) => (
-          <YourPodcastsListItem
-            onPressDetailButton={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
-              [CONSTANTS.KEYS
-                .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
-              [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
-            })
-            }
-            podcast={item}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => `${item.id}`}
-        data={userPodcasts}
-      />
-    </Wrapper>
-  );
-};
+  removePodcastsDuplicated = (podcasts: Array<Object>): Array<Object> => {
+    const podcastsWithouDuplicated = podcasts.filter((podcast, index) => {
+      const podcastIndex = podcasts.findIndex(
+        podcastItem => podcastItem.id === podcast.id,
+      );
+
+      return podcastIndex === index;
+    });
+
+    return podcastsWithouDuplicated;
+  };
+
+  getPodcastsFromPlaylists = (playlists: Array<Playlist>): Array<Object> => {
+    const podcastsFromPlaylistsWithPossibleDuplicates = playlists
+      .map(playlist => playlist.podcasts)
+      .reduce((podcastsList, podcasts) => podcastsList.concat(podcasts), []);
+
+    const podcastsFromPlaylists = this.removePodcastsDuplicated(
+      podcastsFromPlaylistsWithPossibleDuplicates,
+    );
+
+    return podcastsFromPlaylists;
+  };
+
+  render() {
+    const { userPodcasts } = this.state;
+    const { navigation } = this.props;
+
+    return (
+      <Wrapper>
+        <FlatList
+          renderItem={({ item, index }) => (
+            <YourPodcastsListItem
+              onPressDetailButton={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+                [CONSTANTS.KEYS
+                  .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
+                [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
+              })
+              }
+              podcast={item}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => `${item.id}`}
+          data={userPodcasts}
+        />
+      </Wrapper>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   podcastsDownloaded: state.localPodcastsManager.podcastsDownloaded,

@@ -78,7 +78,10 @@ type Props = {
   podcast: Object,
 };
 
-const AllPodcasts = ({ onPressDetailButton, podcast }: Props): Object => (
+const YourPodcastsListItem = ({
+  onPressDetailButton,
+  podcast,
+}: Props): Object => (
   <ListItemWrapper>
     <PodcastImage
       uri={podcast.imageURL}
@@ -106,4 +109,4 @@ const AllPodcasts = ({ onPressDetailButton, podcast }: Props): Object => (
   </ListItemWrapper>
 );
 
-export default AllPodcasts;
+export default YourPodcastsListItem;

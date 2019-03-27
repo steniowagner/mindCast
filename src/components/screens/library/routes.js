@@ -9,6 +9,7 @@ import RecentlyPlayed from './components/recently-played/RecentlyPlayed';
 import YourPodcasts from './components/your-podcasts/YourPodcasts';
 import Interests from '~/components/common/interests/Interests';
 import Player from '~/components/common/player/PlayerContainer';
+import HeaderActionButton from './components/HeaderActionButton';
 import Library from './Library';
 
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
@@ -23,6 +24,31 @@ export const ROUTE_NAMES = {
   YOUR_PODCASTS: 'YOUR_PODCASTS',
   PODCASTS_DOWNLOADED: 'PODCASTS_DOWNLOADED',
   RECENTLY_PLAYED: 'RECENTLY_PLAYED',
+};
+
+const getDefaultLibraryHeader = title => ({
+  ...DEFAULT_HEADER_STYLE,
+  headerTransparent: false,
+  title,
+  headerStyle: {
+    backgroundColor: appStyles.colors.dark,
+    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    borderBottomWidth: 0,
+    elevation: 0,
+  },
+});
+
+const getDefaultLibraryHeaderWithButton = (navigation, title) => {
+  const { params } = navigation.state;
+
+  const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_PLAY_ACTION];
+
+  return {
+    ...getDefaultLibraryHeader(title),
+    headerRight: <HeaderActionButton
+      onPress={onPressHeaderButton}
+    />,
+  };
 };
 
 const RootStack = createStackNavigator(
@@ -42,94 +68,37 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.PLAYLIST_DETAIL]: {
       screen: PlaylistDetail,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultLibraryHeader(''),
     },
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Podcast Detail',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultLibraryHeader('Podcast Detail'),
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-      }),
+      navigationOptions: () => DEFAULT_HEADER_STYLE,
     },
 
     [ROUTE_NAMES.YOUR_PODCASTS]: {
       screen: YourPodcasts,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Your Podcasts',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
-    },
-
-    [CONSTANTS.ROUTES.INTERESTS]: {
-      screen: Interests,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Your Interests',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
-    },
-
-    [ROUTE_NAMES.RECENTLY_PLAYED]: {
-      screen: RecentlyPlayed,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Recently Played',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: ({ navigation }) => getDefaultLibraryHeaderWithButton(navigation, 'Your Podcasts'),
     },
 
     [ROUTE_NAMES.PODCASTS_DOWNLOADED]: {
       screen: PodcastsDownloaded,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Downloads',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: ({ navigation }) => getDefaultLibraryHeaderWithButton(navigation, 'Downloads'),
+    },
+
+    [ROUTE_NAMES.RECENTLY_PLAYED]: {
+      screen: RecentlyPlayed,
+      navigationOptions: ({ navigation }) => getDefaultLibraryHeaderWithButton(navigation, 'Recently Played'),
+    },
+
+    [CONSTANTS.ROUTES.INTERESTS]: {
+      screen: Interests,
+      navigationOptions: () => getDefaultLibraryHeader('Your Interests'),
     },
   },
   {

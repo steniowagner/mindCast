@@ -81,7 +81,7 @@ type State = {
   error: string,
 };
 
-const AndroidAlert = ({
+const AndroidOperationModal = ({
   onTypePlaylistTitle,
   playlistTitle,
   toggleModal,
@@ -125,4 +125,4 @@ const AndroidAlert = ({
   </Modal>
 );
 
-export default AndroidAlert;
+export default AndroidOperationModal;
