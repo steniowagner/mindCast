@@ -15,11 +15,16 @@ export const Types = {
     'localPodcastsManager/REMOVE_FROM_DOWNLOADING_LIST',
   DOWNLOAD_PODCAST: 'localPodcastsManager/DOWNLOAD_PODCAST',
   REMOVE_PODCAST: 'localPodcastsManager/REMOVE_PODCAST',
+  LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST:
+    'localPodcastsManager/LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST',
+  LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS:
+    'localPodcastsManager/LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS',
 };
 
 const INITIAL_STATE = {
   podcastsDownloaded: [],
   downloadingList: [],
+  recentlyPlayed: [],
 };
 
 export const Creators = {
@@ -68,6 +73,20 @@ export const Creators = {
   removePodcast: podcast => ({
     type: Types.REMOVE_PODCAST,
     payload: { podcast },
+  }),
+
+  setPodcastsRecentlyPlayed: podcastsRecentlyPlayed => ({
+    type: Types.SET_PODCASTS_RECENTLY_PLAYED,
+    payload: { podcastsRecentlyPlayed },
+  }),
+
+  loadPodcastsRecentlyPlayed: () => ({
+    type: Types.LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST,
+  }),
+
+  loadPodcastsRecentlyPlayedSuccess: podcastsRecentlyPlayed => ({
+    type: Types.LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS,
+    payload: { podcastsRecentlyPlayed },
   }),
 };
 
@@ -133,6 +152,24 @@ const localPodcastsManagerCreators = (
     case Types.CLEAR_LOCAL_PODCASTS_REFERENCES_SUCCESS:
       return {
         ...INITIAL_STATE,
+        recentlyPlayed: state.recentlyPlayed,
+      };
+
+    case Types.SET_PODCASTS_RECENTLY_PLAYED:
+      return {
+        ...state,
+        recentlyPlayed: payload.podcastsRecentlyPlayed,
+      };
+
+    case Types.LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST:
+      return {
+        ...state,
+      };
+
+    case Types.LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS:
+      return {
+        ...state,
+        recentlyPlayed: payload.podcastsRecentlyPlayed,
       };
 
     default:

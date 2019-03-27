@@ -27,7 +27,7 @@ const getSectionsConfig = (navigation: Object): Array<Object> => {
       iconName: 'cloud-download-outline',
     },
     {
-      onPress: () => {},
+      onPress: () => navigation.navigate(ROUTE_NAMES.RECENTLY_PLAYED),
       title: 'Recently Played',
       iconName: 'clock-outline',
     },

@@ -1,5 +1,7 @@
 import RNFS from 'react-native-fs';
-import { select, call, put } from 'redux-saga/effects';
+import {
+  select, call, all, put,
+} from 'redux-saga/effects';
 
 import {
   removeItemFromStorage,
@@ -10,6 +12,66 @@ import CONSTANTS from '~/utils/CONSTANTS';
 
 import { Creators as LocalPodcastsManagerCreators } from '../ducks/localPodcastsManager';
 import { Creators as PlayerCreators } from '../ducks/player';
+
+export function* loadPodcastsRecentlyPlayed() {
+  try {
+    const rawPodcastsRecentlyPlayed = yield call(
+      getItemFromStorage,
+      CONSTANTS.KEYS.PODCASTS_PLAYED_RECENTLY,
+      [],
+    );
+
+    const podcastsRecentlyPlayed = typeof rawPodcastsRecentlyPlayed === 'string'
+      ? JSON.parse(rawPodcastsRecentlyPlayed)
+      : rawPodcastsRecentlyPlayed;
+
+    yield put(
+      LocalPodcastsManagerCreators.loadPodcastsRecentlyPlayedSuccess(
+        podcastsRecentlyPlayed,
+      ),
+    );
+  } catch (err) {
+    yield call(
+      persistItemInStorage,
+      CONSTANTS.KEYS.PODCASTS_PLAYED_RECENTLY,
+      [],
+    );
+  }
+}
+
+export function* addPodcastToRecentlyPlayedList(podcast) {
+  try {
+    const { recentlyPlayed } = yield select(
+      state => state.localPodcastsManager,
+    );
+
+    const isPodcastAlreadyRecentlyPlayedList = recentlyPlayed.some(
+      podcastRecentlyPlayed => podcastRecentlyPlayed.id === podcast.id,
+    );
+
+    if (isPodcastAlreadyRecentlyPlayedList) {
+      return;
+    }
+
+    const podcastsRecentlyPlayed = [podcast, ...recentlyPlayed].slice(0, 20);
+
+    yield all([
+      call(
+        persistItemInStorage,
+        CONSTANTS.KEYS.PODCASTS_PLAYED_RECENTLY,
+        podcastsRecentlyPlayed,
+      ),
+      put(
+        LocalPodcastsManagerCreators.setPodcastsRecentlyPlayed(
+          podcastsRecentlyPlayed,
+        ),
+      ),
+    ]);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 
 const _getPodcastsSaved = async () => {
   const rawPodcastsSaved = await getItemFromStorage(

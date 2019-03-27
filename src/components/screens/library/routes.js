@@ -5,6 +5,7 @@ import { StatusBar, Platform } from 'react-native';
 import PodcastsDownloaded from './components/podcasts-downloaded/PodcastsDownloaded';
 import YourPodcasts from './components/your-podcasts/YourPodcasts';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
+import RecentlyPlayed from './components/recently-played/RecentlyPlayed';
 import Interests from '~/components/common/interests/Interests';
 import Player from '~/components/common/player/PlayerContainer';
 import Library from './Library';
@@ -20,6 +21,7 @@ export const ROUTE_NAMES = {
   PLAYLIST_DETAIL: 'PLAYLIST_DETAIL',
   YOUR_PODCASTS: 'YOUR_PODCASTS',
   PODCASTS_DOWNLOADED: 'PODCASTS_DOWNLOADED',
+  RECENTLY_PLAYED: 'RECENTLY_PLAYED',
 };
 
 const RootStack = createStackNavigator(
@@ -85,6 +87,20 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
         title: 'Your Interests',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+      }),
+    },
+
+    [ROUTE_NAMES.RECENTLY_PLAYED]: {
+      screen: RecentlyPlayed,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'Recently Played',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,

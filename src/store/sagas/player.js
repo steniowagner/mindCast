@@ -1,8 +1,10 @@
 import {
-  call, select, delay, put,
+  select, delay, call, all, put,
 } from 'redux-saga/effects';
 
 import { Creators as PlayerCreators } from '../ducks/player';
+
+import { addPodcastToRecentlyPlayedList } from './localPodcastsManager';
 
 const _findIndexInsideOriginalPlaylist = (
   originalPlaylist,
@@ -184,9 +186,12 @@ export function* setPodcast() {
 
     yield delay(300); // Just for visual effects!
 
-    yield put(PlayerCreators.setPodcastSuccess(podcastWithURI));
+    yield all([
+      put(PlayerCreators.setPodcastSuccess(podcastWithURI)),
+      call(addPodcastToRecentlyPlayedList, currentPodcast),
+    ]);
   } catch (err) {
-    console.tron.log('setPodcast', err);
+    console.log(err);
   }
 }
 

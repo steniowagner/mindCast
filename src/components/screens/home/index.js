@@ -22,11 +22,14 @@ class HomeContainer extends Component<Props, {}> {
       setPodcastsDownloadedList,
       navigation,
       loadPlaylists,
+      loadPodcastsRecentlyPlayed,
     } = this.props;
 
     // createPlaylist('MY_PLAYLIST');
 
     setPodcastsDownloadedList();
+
+    loadPodcastsRecentlyPlayed();
 
     loadPlaylists();
   }
