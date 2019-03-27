@@ -39,36 +39,36 @@ export function* loadPodcastsRecentlyPlayed() {
   }
 }
 
-export function* addPodcastToRecentlyPlayedList(podcast) {
+export function* addPodcastToRecentlyPlayedList({ payload }) {
   try {
-    const { recentlyPlayed } = yield select(
+    const { podcast } = payload;
+
+    const { podcastsRecentlyPlayed } = yield select(
       state => state.localPodcastsManager,
     );
 
-    const isPodcastAlreadyRecentlyPlayedList = recentlyPlayed.some(
-      podcastRecentlyPlayed => podcastRecentlyPlayed.id === podcast.id,
+    const podcastsRecentlyPlayedWithourCurrentPodcast = podcastsRecentlyPlayed.filter(
+      podcastRecentlyPlayed => podcastRecentlyPlayed.id !== podcast.id,
     );
 
-    if (isPodcastAlreadyRecentlyPlayedList) {
-      return;
-    }
-
-    const podcastsRecentlyPlayed = [podcast, ...recentlyPlayed].slice(0, 20);
+    const podcastsRecentlyPlayedUpdated = [
+      podcast,
+      ...podcastsRecentlyPlayedWithourCurrentPodcast,
+    ].slice(0, 20);
 
     yield all([
       call(
         persistItemInStorage,
         CONSTANTS.KEYS.PODCASTS_PLAYED_RECENTLY,
-        podcastsRecentlyPlayed,
+        podcastsRecentlyPlayedUpdated,
       ),
       put(
-        LocalPodcastsManagerCreators.setPodcastsRecentlyPlayed(
-          podcastsRecentlyPlayed,
+        LocalPodcastsManagerCreators.addPodcastToRecentlyPlayedListSuccess(
+          podcastsRecentlyPlayedUpdated,
         ),
       ),
     ]);
   } catch (err) {
-    console.log(err);
     throw err;
   }
 }

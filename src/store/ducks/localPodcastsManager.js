@@ -19,12 +19,16 @@ export const Types = {
     'localPodcastsManager/LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST',
   LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS:
     'localPodcastsManager/LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS',
+  ADD_PODCAST_RECENTLY_PLAYED_REQUEST:
+    'localPodcastsManager/ADD_PODCAST_RECENTLY_PLAYED_REQUEST',
+  ADD_PODCAST_RECENTLY_PLAYED_SUCCESS:
+    'localPodcastsManager/ADD_PODCAST_RECENTLY_PLAYED_SUCCESS',
 };
 
 const INITIAL_STATE = {
+  podcastsRecentlyPlayed: [],
   podcastsDownloaded: [],
   downloadingList: [],
-  recentlyPlayed: [],
 };
 
 export const Creators = {
@@ -75,8 +79,13 @@ export const Creators = {
     payload: { podcast },
   }),
 
-  setPodcastsRecentlyPlayed: podcastsRecentlyPlayed => ({
-    type: Types.SET_PODCASTS_RECENTLY_PLAYED,
+  addPodcastToRecentlyPlayedList: podcast => ({
+    type: Types.ADD_PODCAST_RECENTLY_PLAYED_REQUEST,
+    payload: { podcast },
+  }),
+
+  addPodcastToRecentlyPlayedListSuccess: podcastsRecentlyPlayed => ({
+    type: Types.ADD_PODCAST_RECENTLY_PLAYED_SUCCESS,
     payload: { podcastsRecentlyPlayed },
   }),
 
@@ -152,13 +161,7 @@ const localPodcastsManagerCreators = (
     case Types.CLEAR_LOCAL_PODCASTS_REFERENCES_SUCCESS:
       return {
         ...INITIAL_STATE,
-        recentlyPlayed: state.recentlyPlayed,
-      };
-
-    case Types.SET_PODCASTS_RECENTLY_PLAYED:
-      return {
-        ...state,
-        recentlyPlayed: payload.podcastsRecentlyPlayed,
+        podcastsRecentlyPlayed: state.podcastsRecentlyPlayed,
       };
 
     case Types.LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST:
@@ -169,7 +172,18 @@ const localPodcastsManagerCreators = (
     case Types.LOAD_PODCASTS_RECENTLY_PLAYED_SUCCESS:
       return {
         ...state,
-        recentlyPlayed: payload.podcastsRecentlyPlayed,
+        podcastsRecentlyPlayed: payload.podcastsRecentlyPlayed,
+      };
+
+    case Types.ADD_PODCAST_RECENTLY_PLAYED_REQUEST:
+      return {
+        ...state,
+      };
+
+    case Types.ADD_PODCAST_RECENTLY_PLAYED_SUCCESS:
+      return {
+        ...state,
+        podcastsRecentlyPlayed: payload.podcastsRecentlyPlayed,
       };
 
     default:

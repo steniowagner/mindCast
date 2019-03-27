@@ -12,6 +12,7 @@ import {
   downloadPodcastToLocalStorage,
   removePodcastFromLocalStorage,
   loadPodcastsRecentlyPlayed,
+  addPodcastToRecentlyPlayedList,
 } from './localPodcastsManager';
 import {
   shufflePlaylist,
@@ -55,6 +56,10 @@ export default function* rootSaga() {
     takeLatest(
       LocalPodcastsManagerCreators.LOAD_PODCASTS_RECENTLY_PLAYED_REQUEST,
       loadPodcastsRecentlyPlayed,
+    ),
+    takeLatest(
+      LocalPodcastsManagerCreators.ADD_PODCAST_RECENTLY_PLAYED_REQUEST,
+      addPodcastToRecentlyPlayedList,
     ),
     takeLatest(PlayerTypes.SET_PODCAST_REQUEST, setPodcast),
     takeLatest(PlayerTypes.SETUP_PLAYER, setupPlayer),

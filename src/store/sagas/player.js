@@ -3,8 +3,7 @@ import {
 } from 'redux-saga/effects';
 
 import { Creators as PlayerCreators } from '../ducks/player';
-
-import { addPodcastToRecentlyPlayedList } from './localPodcastsManager';
+import { Creators as LocalPodcastsManagerCreators } from '../ducks/localPodcastsManager';
 
 const _findIndexInsideOriginalPlaylist = (
   originalPlaylist,
@@ -188,7 +187,11 @@ export function* setPodcast() {
 
     yield all([
       put(PlayerCreators.setPodcastSuccess(podcastWithURI)),
-      call(addPodcastToRecentlyPlayedList, currentPodcast),
+      put(
+        LocalPodcastsManagerCreators.addPodcastToRecentlyPlayedList(
+          currentPodcast,
+        ),
+      ),
     ]);
   } catch (err) {
     console.log(err);

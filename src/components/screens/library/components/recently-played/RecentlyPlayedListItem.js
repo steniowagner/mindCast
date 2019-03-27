@@ -68,7 +68,7 @@ type Props = {
 };
 
 const RecentlyPlayedListItem = ({ onPressItem, podcast }: Props): Object => {
-  const buttonConfig = podcast.isPodcastDownloaded
+  const iconConfig = podcast.isDonwloaded
     ? {
       name: 'cloud-check',
       color: appStyles.colors.primaryColor,
@@ -89,7 +89,7 @@ const RecentlyPlayedListItem = ({ onPressItem, podcast }: Props): Object => {
         <PodcastTitle>{podcast.title}</PodcastTitle>
         <BottomContent>
           <Icon
-            {...buttonConfig}
+            {...iconConfig}
             size={20}
           />
           <AuthorName>{podcast.author.name}</AuthorName>
