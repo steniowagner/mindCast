@@ -8,7 +8,7 @@ import { Creators as PlayerCreators } from '~/store/ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
-import HomeComponent from './components';
+import HomeComponent from './components/HomeComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {

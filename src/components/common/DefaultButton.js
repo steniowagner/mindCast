@@ -12,12 +12,14 @@ const ButtonWrapper = styled(TouchableOpacity)`
   background-color: ${({ translucent, theme }) => (translucent ? 'transparent' : theme.colors.primaryColor)};
   border: ${({ translucent, theme }) => (translucent ? theme.colors.white : 'transparent')}
     solid 1.5px;
-  border-radius: 3px;
+  border-radius: 4px;
 `;
 
 const Title = styled(Text)`
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme, size }) => (size === 'large' ? theme.metrics.largeSize : theme.metrics.mediumSize)}px;
+  font-size: ${({ theme, size }) => (size === 'large'
+    ? theme.metrics.largeSize
+    : theme.metrics.mediumSize * 1.2)}px;
   font-family: CircularStd-Black;
 `;
 

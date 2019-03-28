@@ -4,7 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
 
-import SectionWithButton from '../SectionWithButton';
+import SectionWithButton from '~/components/common/SectionWithButton';
 import FeaturedListItem from './FeaturedListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
 
@@ -33,6 +33,8 @@ const Featured = ({ onPressItem, navigation, featured }: Props): Object => (
         },
       })
       }
+      buttonSize="large"
+      buttonText="LISTEN NOW"
       sectionTitle="Featured"
     />
     <ItemsWrapper>

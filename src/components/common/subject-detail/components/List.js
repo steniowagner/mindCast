@@ -14,6 +14,7 @@ const List = ({ dataset, render }: Props): Object => (
     renderItem={({ item, index }) => render(item, index)}
     style={{
       paddingHorizontal: appStyles.metrics.mediumSize,
+      paddingTop: appStyles.metrics.largeSize,
       width: appStyles.metrics.width,
     }}
     showsVerticalScrollIndicator={false}

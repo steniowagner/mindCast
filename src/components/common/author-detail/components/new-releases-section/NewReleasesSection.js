@@ -6,7 +6,7 @@ import { StackActions } from 'react-navigation';
 import styled from 'styled-components';
 
 import NewReleasesSectionItemList from './NewReleasesSectionItemList';
-import SectionWithButton from '../SectionWithButton';
+import SectionWithButton from '~/components/common/SectionWithButton';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
@@ -38,13 +38,15 @@ const NewReleasesSection = ({
 }: Props): Object => (
   <Wrapper>
     <SectionWithButton
-      sectionTitle="New Releases"
       onPress={() => navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
         [CONSTANTS.PARAMS.PLAYER]: {
           [CONSTANTS.KEYS.PLAYLIST]: newReleases,
         },
       })
       }
+      sectionTitle="New Releases"
+      buttonText="LISTEN NOW"
+      buttonSize="large"
     />
     <NewReleasesList
       ListFooterComponent={ListFooterComponent}

@@ -9,10 +9,10 @@ import DefaultButton from '~/components/common/DefaultButton';
 
 const Wrapper = styled(View)`
   width: 100%;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('60%')}px;
   flex-direction: row;
   justify-content: space-between;
-  margin-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
-  margin-top: ${({ theme, isFirst }) => (isFirst ? theme.metrics.largeSize : 0)}px;
+  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
@@ -29,6 +29,7 @@ const AuthorImage = styled(FastImage).attrs(({ uri }) => ({
 const TextContent = styled(View)`
   height: 100%;
   width: 70%;
+  justify-content: space-between;
   padding-left: ${({ theme }) => theme.metrics.extraSmallSize}px;
 `;
 
@@ -39,7 +40,9 @@ const AuthorName = styled(Text)`
   margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
 `;
 
-const AuthorAbout = styled(Text)`
+const AuthorAbout = styled(Text).attrs({
+  numberOfLines: 4,
+})`
   color: ${({ theme }) => theme.colors.subTextWhite};
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Medium;
@@ -70,18 +73,10 @@ type Props = {
   podcastImage: string,
   author: AuthorProps,
   onPress: Function,
-  isFirst: boolean,
 };
 
-const AuthorsListItem = ({
-  podcastImage,
-  onPress,
-  isFirst,
-  author,
-}: Props): Object => (
-  <Wrapper
-    isFirst={isFirst}
-  >
+const AuthorsListItem = ({ podcastImage, onPress, author }: Props): Object => (
+  <Wrapper>
     <AuthorImage
       uri={podcastImage}
     />

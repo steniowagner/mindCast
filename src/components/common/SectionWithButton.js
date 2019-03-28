@@ -7,35 +7,38 @@ import styled from 'styled-components';
 import DefaultButton from './DefaultButton';
 import SectionTitle from './SectionTitle';
 
-const UpperContent = styled(View)`
+const ContentWrapper = styled(View)`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding-right: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 type Props = {
   sectionTitle: string,
-  buttonTitle: string,
+  buttonSize: string,
+  buttonText: string,
   onPress: Function,
 };
 
 const SectionWithButton = ({
   sectionTitle,
-  buttonTitle,
+  buttonText,
+  buttonSize,
   onPress,
 }: Props): Object => (
-  <UpperContent>
+  <ContentWrapper>
     <SectionTitle
       title={sectionTitle}
     />
     <DefaultButton
       translucent={false}
       onPress={onPress}
-      text={buttonTitle}
-      size="large"
+      size={buttonSize}
+      text={buttonText}
     />
-  </UpperContent>
+  </ContentWrapper>
 );
 
 export default SectionWithButton;

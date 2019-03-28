@@ -5,7 +5,7 @@ import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
 import RelatedAuthorsListItem from './RelatedAuthorsListItem';
-import SectionTitle from '../SectionTitle';
+import SectionTitle from '~/components/common/SectionTitle';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -20,6 +20,7 @@ const UpperContent = styled(View)`
 
 const RelatedAuthorsList = styled(FlatList)`
   width: 100%;
+  margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
   padding-left: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
@@ -40,11 +41,9 @@ type Props = {
 
 const RelatedAuthors = ({ relatedAuthors }: Props): Object => (
   <Wrapper>
-    <UpperContent>
-      <SectionTitle
-        title="Related Authors"
-      />
-    </UpperContent>
+    <SectionTitle
+      title="Related Authors"
+    />
     <RelatedAuthorsList
       ListFooterComponent={ListFooterComponent}
       showsHorizontalScrollIndicator={false}

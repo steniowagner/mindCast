@@ -5,7 +5,7 @@ import { FlatList } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import FeaturedListItem from './FeaturedListItem';
-import AuthorsListItem from './AuthorsListItem';
+import AuthorsListItem from '../../AuthorsListItem';
 import TrendingListItem from './trending/Trending';
 import List from './List';
 
@@ -69,7 +69,6 @@ class TabContent extends Component<Props, {}> {
                 })
                 }
                 podcastImage={podcast.imageURL}
-                isFirst={index === 0}
                 author={podcast.author}
                 title={podcast.title}
                 stars={podcast.stars}
@@ -92,7 +91,6 @@ class TabContent extends Component<Props, {}> {
                 })
                 }
                 podcastImage={item.imageURL}
-                isFirst={index === 0}
                 author={item.author}
                 title={item.title}
                 stars={item.stars}

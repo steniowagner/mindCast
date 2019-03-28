@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import styled from 'styled-components';
 
 const Wrapper = styled(View)`
-  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-left: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 const Title = styled(Text)`
