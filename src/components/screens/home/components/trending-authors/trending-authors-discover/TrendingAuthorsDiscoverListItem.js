@@ -20,9 +20,9 @@ const Wrapper = styled(TouchableOpacity)`
 const AuthorImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
-  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('8%')}px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('18%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('18%')}px;
+  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('9%')}px;
   align-self: center;
   background-color: #f0f;
 `;

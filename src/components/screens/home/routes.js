@@ -2,7 +2,8 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
-import TrendingAuthorsSeeAll from './components/trending-authors/trending-authors-see-all/TrendingAuthorsSeeAll';
+import TrendingAuthorsSeeAll from './components/trending-authors/TrendingAuthorsSeeAll';
+import HottestPodcastsSeeAll from './components/hottest-podcasts/HottestPodcastsSeeAll';
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import Player from '~/components/common/player/PlayerContainer';
 import Home from './Home';
@@ -14,8 +15,8 @@ import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
   TRENDING_AUTHORS_SEE_ALL: 'TRENDING_AUTHORS_SEE_ALL',
+  HOTTEST_PODCASTS_SEE_ALL: 'HOTTEST_PODCASTS_SEE_ALL',
   HOME: 'HOME',
-  TEST: 'TEST',
 };
 
 const RootStack = createStackNavigator(
@@ -48,6 +49,21 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
         title: 'Trending Authors',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+      }),
+    },
+
+    [ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL]: {
+      screen: HottestPodcastsSeeAll,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'Hottest Podcasts',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,

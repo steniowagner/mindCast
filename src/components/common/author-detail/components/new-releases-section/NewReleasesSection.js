@@ -16,13 +16,7 @@ const Wrapper = styled(View)`
 
 const NewReleasesList = styled(FlatList)`
   width: 100%;
-  padding-left: ${({ theme }) => theme.metrics.extraLargeSize}px;
   margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
-`;
-
-const ListFooterComponent = styled(View)`
-  width: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
-  height: 1px;
 `;
 
 type Props = {
@@ -49,13 +43,13 @@ const NewReleasesSection = ({
       buttonSize="large"
     />
     <NewReleasesList
-      ListFooterComponent={ListFooterComponent}
       showsHorizontalScrollIndicator={false}
-      horizontal
       keyExtractor={podcast => `${podcast.id}`}
       data={newReleases}
-      renderItem={({ item }) => (
+      horizontal
+      renderItem={({ item, index }) => (
         <NewReleasesSectionItemList
+          isLastIndex={index === newReleases.length - 1}
           onPress={() => onPressItem(item)}
           imageURL={item.imageURL}
           subject={item.subject}

@@ -11,7 +11,8 @@ const Container = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('55%')};
   height: ${({ theme }) => theme.metrics.getWidthFromDP('55%')};
   border-radius: 3px;
-  margin-right: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-left: ${({ theme }) => theme.metrics.largeSize}px;
+  margin-right: ${({ theme, isLastIndex }) => (isLastIndex ? theme.metrics.largeSize : 0)}px;
 `;
 
 const DarkLayer = styled(View)`
@@ -61,6 +62,7 @@ const Category = styled(Text)`
 `;
 
 type Props = {
+  isLastIndex: boolean,
   onPress: Function,
   imageURL: string,
   subject: string,
@@ -69,6 +71,7 @@ type Props = {
 };
 
 const NewReleasesSectionItemList = ({
+  isLastIndex,
   imageURL,
   onPress,
   subject,
@@ -76,6 +79,7 @@ const NewReleasesSectionItemList = ({
   stars,
 }: Props): Object => (
   <Container
+    isLastIndex={isLastIndex}
     onPress={onPress}
   >
     <BackgroundImage>

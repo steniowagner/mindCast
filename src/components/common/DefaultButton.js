@@ -12,7 +12,7 @@ const ButtonWrapper = styled(TouchableOpacity)`
   background-color: ${({ translucent, theme }) => (translucent ? 'transparent' : theme.colors.primaryColor)};
   border: ${({ translucent, theme }) => (translucent ? theme.colors.white : 'transparent')}
     solid 1.5px;
-  border-radius: 4px;
+  border-radius: 3.5px;
 `;
 
 const Title = styled(Text)`

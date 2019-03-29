@@ -5,8 +5,9 @@ import { ScrollView, View } from 'react-native';
 import styled from 'styled-components';
 
 import TrendingAuthorsDiscover from './trending-authors/trending-authors-discover/TrendingAuthorsDiscover';
-import ScreenTitle from '~/components/common/ScreenTitle';
+import HottestPodcasts from './hottest-podcasts/HottestPodcastsDiscover';
 
+import ScreenTitle from '~/components/common/ScreenTitle';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
@@ -25,6 +26,9 @@ const HomeComponent = ({ navigation }: Props): Object => (
     <ScrollView>
       <ScreenTitle
         title="Discover"
+      />
+      <HottestPodcasts
+        navigation={navigation}
       />
       <TrendingAuthorsDiscover
         navigation={navigation}
