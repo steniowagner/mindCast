@@ -4,6 +4,8 @@ import { StatusBar, Platform } from 'react-native';
 
 import TrendingAuthorsSeeAll from './components/trending-authors/TrendingAuthorsSeeAll';
 import HottestPodcastsSeeAll from './components/hottest-podcasts/HottestPodcastsSeeAll';
+import NewReleasesSeeAll from './components/new-releases/NewReleasesSeeAll';
+
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import Player from '~/components/common/player/PlayerContainer';
 import Home from './Home';
@@ -16,6 +18,7 @@ import appStyles from '~/styles';
 export const ROUTE_NAMES = {
   TRENDING_AUTHORS_SEE_ALL: 'TRENDING_AUTHORS_SEE_ALL',
   HOTTEST_PODCASTS_SEE_ALL: 'HOTTEST_PODCASTS_SEE_ALL',
+  NEW_RELEASES_SEE_ALL: 'NEW_RELEASES_SEE_ALL',
   HOME: 'HOME',
 };
 
@@ -64,6 +67,21 @@ const RootStack = createStackNavigator(
       navigationOptions: () => ({
         ...DEFAULT_HEADER_STYLE,
         title: 'Hottest Podcasts',
+        headerTransparent: false,
+        headerStyle: {
+          backgroundColor: appStyles.colors.dark,
+          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+          borderBottomWidth: 0,
+          elevation: 0,
+        },
+      }),
+    },
+
+    [ROUTE_NAMES.NEW_RELEASES_SEE_ALL]: {
+      screen: NewReleasesSeeAll,
+      navigationOptions: () => ({
+        ...DEFAULT_HEADER_STYLE,
+        title: 'New Releases',
         headerTransparent: false,
         headerStyle: {
           backgroundColor: appStyles.colors.dark,

@@ -3,9 +3,9 @@ import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
-import PodcastsDownloaded from './components/podcasts-downloaded/PodcastsDownloaded';
+import PodcastsDownloaded from './components/PodcastsDownloaded';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
-import RecentlyPlayed from './components/recently-played/RecentlyPlayed';
+import RecentlyPlayed from './components/RecentlyPlayed';
 import YourPodcasts from './components/your-podcasts/YourPodcasts';
 import Interests from '~/components/common/interests/Interests';
 import Player from '~/components/common/player/PlayerContainer';

@@ -5,6 +5,7 @@ import { ScrollView, View } from 'react-native';
 import styled from 'styled-components';
 
 import TrendingAuthorsDiscover from './trending-authors/trending-authors-discover/TrendingAuthorsDiscover';
+import NewReleasesDiscover from './new-releases/new-releases-discover/NewReleasesDiscover';
 import HottestPodcasts from './hottest-podcasts/HottestPodcastsDiscover';
 
 import ScreenTitle from '~/components/common/ScreenTitle';
@@ -23,9 +24,14 @@ type Props = {
 
 const HomeComponent = ({ navigation }: Props): Object => (
   <Wrapper>
-    <ScrollView>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+    >
       <ScreenTitle
         title="Discover"
+      />
+      <NewReleasesDiscover
+        navigation={navigation}
       />
       <HottestPodcasts
         navigation={navigation}

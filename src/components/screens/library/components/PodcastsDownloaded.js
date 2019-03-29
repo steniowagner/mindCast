@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
-import PodcastsDownloadedListItem from './PodcastsDownloadedListItem';
+import PodcastsDownloadedListItem from '~/components/common/PodcastItemLIst';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
@@ -46,8 +46,10 @@ class PodcastsDownloaded extends PureComponent<Props, {}> {
                 },
               })
               }
+              shouldShowDownloadStatus
+              roundedImage={false}
+              index={index + 1}
               podcast={item}
-              index={index}
             />
           )}
           showsVerticalScrollIndicator={false}

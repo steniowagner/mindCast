@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
-import RecentlyPlayedListItem from './RecentlyPlayedListItem';
+import RecentlyPlayedListItem from '~/components/common/PodcastItemLIst';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -17,6 +17,12 @@ const Wrapper = styled(View)`
   height: 100%;
   flex: 1;
   background-color: ${({ theme }) => theme.colors.dark};
+`;
+
+const RecentlyPlayedList = styled(FlatList)`
+  width: 100%;
+  height: 100%;
+  padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 type Props = {
@@ -96,7 +102,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        <FlatList
+        <RecentlyPlayedList
           renderItem={({ item, index }) => (
             <RecentlyPlayedListItem
               onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
@@ -105,6 +111,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
               })
               }
+              index={index + 1}
               podcast={item}
             />
           )}

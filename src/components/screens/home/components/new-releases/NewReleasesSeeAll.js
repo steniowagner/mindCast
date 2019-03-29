@@ -4,12 +4,10 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
-import HottestPodcastsSeeAllListItem from '~/components/common/PodcastItemLIst';
-
-import AuthorsListItem from '~/components/common/AuthorsListItem';
-import CONSTANTS from '~/utils/CONSTANTS';
-
 import PODCASTS from '../PODCASTS_TEST';
+
+import NewReleasesSeeAllListItem from '~/components/common/PodcastItemLIst';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -19,23 +17,23 @@ const Wrapper = styled(View)`
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
-const HottestPodcastsSeeAllList = styled(FlatList)`
+const NewReleasesSeeAllList = styled(FlatList)`
   width: 100%;
   height: 100%;
 `;
 
-class HottestPodcastsSeeAll extends Component {
+class NewReleasesSeeAll extends Component {
   render() {
     const { navigation } = this.props;
 
     return (
       <Wrapper>
-        <HottestPodcastsSeeAllList
+        <NewReleasesSeeAllList
           keyExtractor={podcast => `${podcast.id}`}
           showsVerticalScrollIndicator={false}
           data={PODCASTS}
           renderItem={({ item, index }) => (
-            <HottestPodcastsSeeAllListItem
+            <NewReleasesSeeAllListItem
               onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
                 [CONSTANTS.KEYS
                   .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
@@ -43,9 +41,9 @@ class HottestPodcastsSeeAll extends Component {
               })
               }
               shouldShowDownloadStatus={false}
-              roundedImage={false}
               podcast={item}
               index={index + 1}
+              roundedImage
             />
           )}
         />
@@ -54,4 +52,4 @@ class HottestPodcastsSeeAll extends Component {
   }
 }
 
-export default HottestPodcastsSeeAll;
+export default NewReleasesSeeAll;

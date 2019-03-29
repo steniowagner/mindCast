@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import {
+  TouchableOpacity, Platform, View, Text,
+} from 'react-native';
 import styled from 'styled-components';
 import FastImage from 'react-native-fast-image';
 
@@ -50,7 +52,9 @@ const Title = styled(Text).attrs({
   numberOfLines: 3,
 })`
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.2}px;
-  font-family: CircularStd-Black;
+  font-family: ${Platform.OS === 'android'
+    ? 'CircularStd-Medium'
+    : 'CircularStd-Bold'};
   color: ${({ theme }) => theme.colors.white};
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
 `;

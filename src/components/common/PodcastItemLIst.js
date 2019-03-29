@@ -20,10 +20,10 @@ const Wrapper = styled(TouchableOpacity)`
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('18%')}px;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('18%')}px;
-  margin-left: ${({ theme }) => theme.metrics.mediumSize}px;
-  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('9%')}px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
+  margin-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
+  border-radius: ${({ roundedImage, theme }) => (roundedImage ? theme.metrics.getWidthFromDP('8%') : 4)}px;
 `;
 
 const ContentContainer = styled(View)`
@@ -42,8 +42,8 @@ const PodcastTitle = styled(Text).attrs({
 const AuthorName = styled(Text).attrs({
   numberOfLines: 1,
 })`
-  margin-left: ${({ theme }) => theme.metrics.smallSize}px;
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+  margin-left: ${({ shouldShowDownloadStatus, theme }) => (shouldShowDownloadStatus ? theme.metrics.smallSize : 0)}px;
+  font-size: ${({ theme }) => theme.metrics.mediumSize * 1.2}px;
   font-family: CircularStd-Medium;
   color: ${({ theme }) => theme.colors.subTextWhite};
 `;
@@ -56,19 +56,20 @@ const BottomContent = styled(View)`
 `;
 
 const PodcastDuration = styled(Text)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Medium;
+  text-align: right;
   color: ${({ theme }) => theme.colors.subTextWhite};
 `;
 
-type Props = {
-  onPressItem: Function,
-  podcast: Object,
-};
+const Index = styled(Text)`
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  font-family: CircularStd-Bold;
+  color: ${({ theme }) => theme.colors.white};
+`;
 
-const RecentlyPlayedListItem = ({ onPressItem, podcast }: Props): Object => {
-  const iconConfig = podcast.isDonwloaded
+const getDonwloadStatusIconConfig = (isDonwloaded: boolean): Object => {
+  const iconConfig = isDonwloaded
     ? {
       name: 'cloud-check',
       color: appStyles.colors.primaryColor,
@@ -78,26 +79,52 @@ const RecentlyPlayedListItem = ({ onPressItem, podcast }: Props): Object => {
       color: appStyles.colors.white,
     };
 
-  return (
-    <Wrapper
-      onPress={() => onPressItem(podcast)}
-    >
-      <PodcastImage
-        uri={podcast.imageURL}
-      />
-      <ContentContainer>
-        <PodcastTitle>{podcast.title}</PodcastTitle>
-        <BottomContent>
-          <Icon
-            {...iconConfig}
-            size={20}
-          />
-          <AuthorName>{podcast.author.name}</AuthorName>
-        </BottomContent>
-      </ContentContainer>
-      <PodcastDuration>{podcast.duration}</PodcastDuration>
-    </Wrapper>
-  );
+  return {
+    ...iconConfig,
+    size: 20,
+  };
 };
+
+type Props = {
+  shouldShowDownloadStatus: boolean,
+  onPressItem: Function,
+  roundedImage: ?boolean,
+  podcast: Object,
+  index: number,
+};
+
+const RecentlyPlayedListItem = ({
+  shouldShowDownloadStatus,
+  roundedImage,
+  onPressItem,
+  podcast,
+  index,
+}: Props): Object => (
+  <Wrapper
+    onPress={() => onPressItem(podcast)}
+  >
+    <Index>{index}</Index>
+    <PodcastImage
+      uri={podcast.imageURL}
+      roundedImage={roundedImage}
+    />
+    <ContentContainer>
+      <PodcastTitle>{podcast.title}</PodcastTitle>
+      <BottomContent>
+        {shouldShowDownloadStatus && (
+          <Icon
+            {...getDonwloadStatusIconConfig(podcast.isDonwloaded)}
+          />
+        )}
+        <AuthorName
+          shouldShowDownloadStatus={shouldShowDownloadStatus}
+        >
+          {podcast.author.name}
+        </AuthorName>
+      </BottomContent>
+    </ContentContainer>
+    <PodcastDuration>{podcast.duration}</PodcastDuration>
+  </Wrapper>
+);
 
 export default RecentlyPlayedListItem;

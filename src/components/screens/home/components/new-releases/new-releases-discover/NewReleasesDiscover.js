@@ -4,12 +4,12 @@ import React from 'react';
 import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
-import NewReleasesSectionItemList from '~/components/common/author-detail/components/new-releases-section/NewReleasesSectionItemList';
+import NewReleasesDiscoverListItem from './NewReleasesDiscoverListItem';
 import SectionWithButton from '~/components/common/SectionWithButton';
-import { ROUTE_NAMES } from '../../routes';
+import { ROUTE_NAMES } from '../../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-import PODCASTS from '../PODCASTS_TEST';
+import PODCAST from '../../PODCASTS_TEST';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -18,7 +18,7 @@ const Wrapper = styled(View)`
   margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const HottestPodcastsDiscoverList = styled(FlatList)`
+const NewReleasesDiscover = styled(FlatList)`
   width: 100%;
   flex: 1;
   margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
@@ -31,28 +31,30 @@ type Props = {
 const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
   <Wrapper>
     <SectionWithButton
-      onPress={() => navigation.navigate(ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL)}
-      sectionTitle="Hottest Podcasts"
+      onPress={() => navigation.navigate(ROUTE_NAMES.NEW_RELEASES_SEE_ALL)}
+      sectionTitle="New Releases"
       buttonText="SEE ALL"
       buttonSize="small"
     />
-    <HottestPodcastsDiscoverList
+    <NewReleasesDiscover
+      keyExtractor={podcast => `${podcast.id}`}
       showsHorizontalScrollIndicator={false}
       horizontal
-      keyExtractor={podcast => `${podcast.id}`}
-      data={PODCASTS}
+      data={PODCAST}
       renderItem={({ item, index }) => (
-        <NewReleasesSectionItemList
-          onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+        <NewReleasesDiscoverListItem
+          onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
             [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
             [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
           })
           }
-          isLastIndex={index === PODCASTS.length - 1}
-          imageURL={item.imageURL}
+          authorImage={item.author.thumbnailImageURL}
+          authorName={item.author.name}
+          podcastImage={item.imageURL}
+          isLastIndex={index === PODCAST.length - 1}
+          navigation={navigation}
           subject={item.subject}
           title={item.title}
-          stars={item.stars}
         />
       )}
     />
