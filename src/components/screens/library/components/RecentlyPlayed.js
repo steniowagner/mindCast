@@ -80,13 +80,13 @@ class RecentlyPlayed extends PureComponent<Props, State> {
 
     const podcastsRecentlyPlayedWithDownloadStatus = podcastsRecentlyPlayed.map(
       (podcastRecentlyPlayed) => {
-        const isDonwloaded = podcastsDownloaded.some(
+        const isDownloaded = podcastsDownloaded.some(
           podcast => podcast.id === podcastRecentlyPlayed.id,
         );
 
         return {
           ...podcastRecentlyPlayed,
-          isDonwloaded,
+          isDownloaded,
         };
       },
     );
@@ -111,8 +111,10 @@ class RecentlyPlayed extends PureComponent<Props, State> {
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
               })
               }
+              shouldShowDownloadStatus
               index={index + 1}
               podcast={item}
+              roundedImage
             />
           )}
           showsVerticalScrollIndicator={false}

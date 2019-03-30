@@ -68,8 +68,8 @@ const Index = styled(Text)`
   color: ${({ theme }) => theme.colors.white};
 `;
 
-const getDonwloadStatusIconConfig = (isDonwloaded: boolean): Object => {
-  const iconConfig = isDonwloaded
+const getDonwloadStatusIconConfig = (isDownloaded: boolean): Object => {
+  const iconConfig = isDownloaded
     ? {
       name: 'cloud-check',
       color: appStyles.colors.primaryColor,
@@ -113,7 +113,7 @@ const RecentlyPlayedListItem = ({
       <BottomContent>
         {shouldShowDownloadStatus && (
           <Icon
-            {...getDonwloadStatusIconConfig(podcast.isDonwloaded)}
+            {...getDonwloadStatusIconConfig(podcast.isDownloaded)}
           />
         )}
         <AuthorName

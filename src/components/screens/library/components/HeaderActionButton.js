@@ -30,7 +30,7 @@ const HeaderActionButton = ({ onPress }: Props): Object => (
       }}
     >
       <Icon
-        color={appStyles.colors.primaryColor}
+        color={appStyles.colors.white}
         name="play-circle-outline"
         size={26}
       />

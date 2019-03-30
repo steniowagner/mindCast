@@ -52,12 +52,7 @@ const Creators = Object.assign(
 
 const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
 
-const mapStateToProps = state => ({
-  localPodcastsManager: state.localPodcastsManager,
-  player: state.player,
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(HomeContainer);

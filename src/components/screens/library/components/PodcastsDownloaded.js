@@ -17,6 +17,12 @@ const Wrapper = styled(View)`
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
+const PodcastsDownloadedList = styled(FlatList)`
+  width: 100%;
+  height: 100%;
+  padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
+`;
+
 type Props = {
   podcastsDownloaded: Array<Object>,
   navigation: Object,
@@ -37,7 +43,7 @@ class PodcastsDownloaded extends PureComponent<Props, {}> {
 
     return (
       <Wrapper>
-        <FlatList
+        <PodcastsDownloadedList
           renderItem={({ item, index }) => (
             <PodcastsDownloadedListItem
               onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
@@ -46,8 +52,6 @@ class PodcastsDownloaded extends PureComponent<Props, {}> {
                 },
               })
               }
-              shouldShowDownloadStatus
-              roundedImage={false}
               index={index + 1}
               podcast={item}
             />
