@@ -43,7 +43,7 @@ const PodcastTitle = styled(Text).attrs({
   numberOfLines: 3,
 })`
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('5.5%')}px;
-  font-family: CircularStd ${Platform.OS === 'android' ? '-Medium' : '-Bold'};
+  font-family: CircularStd- ${Platform.OS === 'android' ? 'Medium' : 'Bold'};
   color: ${({ theme }) => theme.colors.white};
 `;
 

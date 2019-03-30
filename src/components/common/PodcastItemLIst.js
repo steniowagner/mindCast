@@ -1,7 +1,13 @@
 // @flow
 
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import {
+  ActivityIndicator,
+  TouchableOpacity,
+  Platform,
+  View,
+  Text,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
@@ -10,11 +16,10 @@ import appStyles from '~/styles';
 
 const Wrapper = styled(TouchableOpacity)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('24%')}px;
+  margin-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
 `;
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
@@ -34,8 +39,10 @@ const ContentContainer = styled(View)`
 const PodcastTitle = styled(Text).attrs({
   numberOfLines: 2,
 })`
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
-  font-family: CircularStd-Bold;
+  font-size: ${({ theme }) => theme.metrics.mediumSize * 1.35}px;
+  font-family: ${Platform.OS === 'android'
+    ? 'CircularStd-Medium'
+    : 'CircularStd-Bold'};
   color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -63,12 +70,32 @@ const PodcastDuration = styled(Text)`
 `;
 
 const Index = styled(Text)`
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
-  font-family: CircularStd-Bold;
+  margin-right: ${({ isFirstIndex }) => (isFirstIndex ? 2 : 0)}px;
+  font-size: ${({ theme }) => theme.metrics.largeSize * 1.2}px;
+  font-family: CircularStd-Book;
   color: ${({ theme }) => theme.colors.white};
 `;
 
-const getDonwloadStatusIconConfig = (isDownloaded: boolean): Object => {
+const IconWrapper = styled(View)`
+  width: 24px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const getDonwloadStatusIconConfig = (
+  isDownloaded: boolean,
+  isDownloading: boolean,
+): Object => {
+  if (isDownloading) {
+    return (
+      <ActivityIndicator
+        color={appStyles.colors.primaryColor}
+        size="small"
+      />
+    );
+  }
+
   const iconConfig = isDownloaded
     ? {
       name: 'cloud-check',
@@ -79,22 +106,24 @@ const getDonwloadStatusIconConfig = (isDownloaded: boolean): Object => {
       color: appStyles.colors.white,
     };
 
-  return {
-    ...iconConfig,
-    size: 20,
-  };
+  return <Icon
+    {...iconConfig}
+    size={20}
+  />;
 };
 
 type Props = {
   shouldShowDownloadStatus: boolean,
-  onPressItem: Function,
+  isDownloading: ?boolean,
   roundedImage: ?boolean,
+  onPressItem: Function,
   podcast: Object,
   index: number,
 };
 
 const RecentlyPlayedListItem = ({
   shouldShowDownloadStatus,
+  isDownloading,
   roundedImage,
   onPressItem,
   podcast,
@@ -103,18 +132,22 @@ const RecentlyPlayedListItem = ({
   <Wrapper
     onPress={() => onPressItem(podcast)}
   >
-    <Index>{index}</Index>
+    <Index
+      isFirstIndex={index === 1}
+    >
+      {index}
+    </Index>
     <PodcastImage
-      uri={podcast.imageURL}
       roundedImage={roundedImage}
+      uri={podcast.imageURL}
     />
     <ContentContainer>
       <PodcastTitle>{podcast.title}</PodcastTitle>
       <BottomContent>
         {shouldShowDownloadStatus && (
-          <Icon
-            {...getDonwloadStatusIconConfig(podcast.isDownloaded)}
-          />
+          <IconWrapper>
+            {getDonwloadStatusIconConfig(podcast.isDownloaded, !!isDownloading)}
+          </IconWrapper>
         )}
         <AuthorName
           shouldShowDownloadStatus={shouldShowDownloadStatus}

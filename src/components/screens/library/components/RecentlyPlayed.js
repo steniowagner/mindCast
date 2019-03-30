@@ -112,6 +112,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
               })
               }
               shouldShowDownloadStatus
+              isDownloading={false}
               index={index + 1}
               podcast={item}
               roundedImage

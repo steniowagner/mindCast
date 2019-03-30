@@ -54,12 +54,9 @@ const PlaylistDetailComponent = ({
         <PodcastListItem
           onRemovePodcastFromPlaylist={() => onRemovePodcastFromPlaylist(index)}
           onPressPodcastsListItem={() => onPressPodcastsListItem(item)}
-          isPodcastDownloaded={item.isDownloaded}
-          isLast={index === podcasts.length - 1}
           isDownloading={item.isDownloading}
-          authorName={item.author.name}
-          imageURL={item.imageURL}
-          title={item.title}
+          podcast={item}
+          index={index}
         />
       )}
       keyExtractor={(item, index) => `${item.title}-${index}`}
