@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
-import YourPodcastsListItem from './YourPodcastsListItem';
+import RecentlyPlayedListItem from '~/components/common/PodcastItemLIst';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
@@ -74,9 +74,13 @@ class YourPodcasts extends PureComponent<Props, State> {
     const { podcastsDownloaded, playlists } = props;
 
     const userPodcasts = this.getUserPodcasts(podcastsDownloaded, playlists);
+    const userPodcastsWithDownloadStatus = this.setPodcastsDownloadStatus(
+      podcastsDownloaded,
+      userPodcasts,
+    );
 
     this.setState({
-      userPodcasts,
+      userPodcasts: userPodcastsWithDownloadStatus,
     });
   };
 
@@ -121,6 +125,24 @@ class YourPodcasts extends PureComponent<Props, State> {
     return podcastsFromPlaylists;
   };
 
+  setPodcastsDownloadStatus = (
+    podcastsDownloaded: Array<Object>,
+    podcasts: Array<Object>,
+  ): Array<Object> => {
+    const userPodcastsWithDownloadStatus = podcasts.map((podcast) => {
+      const isDownloaded = podcastsDownloaded.some(
+        podcastDownloaded => podcastDownloaded.id === podcast.id,
+      );
+
+      return {
+        ...podcast,
+        isDownloaded,
+      };
+    });
+
+    return userPodcastsWithDownloadStatus;
+  };
+
   render() {
     const { userPodcasts } = this.state;
     const { navigation } = this.props;
@@ -129,13 +151,16 @@ class YourPodcasts extends PureComponent<Props, State> {
       <Wrapper>
         <FlatList
           renderItem={({ item, index }) => (
-            <YourPodcastsListItem
-              onPressDetailButton={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+            <RecentlyPlayedListItem
+              onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
                 [CONSTANTS.KEYS
                   .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
               })
               }
+              shouldShowDownloadStatus
+              isDownloading={false}
+              index={index + 1}
               podcast={item}
             />
           )}

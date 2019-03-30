@@ -27,12 +27,13 @@ const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
 }))`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
-  margin-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
   border-radius: ${({ roundedImage, theme }) => (roundedImage ? theme.metrics.getWidthFromDP('8%') : 4)}px;
 `;
 
 const ContentContainer = styled(View)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('57%')}px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('55%')}px;
+  padding-top: ${({ shouldShowDownloadStatus, theme }) => (shouldShowDownloadStatus ? theme.metrics.smallSize : 0)}px;
   justify-content: center;
 `;
 
@@ -56,8 +57,7 @@ const AuthorName = styled(Text).attrs({
 `;
 
 const BottomContent = styled(View)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('50%')}px;
-  margin-top: ${({ theme }) => theme.metrics.extraSmallSize}px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('47%')}px;
   flex-direction: row;
   align-items: center;
 `;
@@ -141,7 +141,9 @@ const RecentlyPlayedListItem = ({
       roundedImage={roundedImage}
       uri={podcast.imageURL}
     />
-    <ContentContainer>
+    <ContentContainer
+      shouldShowDownloadStatus={shouldShowDownloadStatus}
+    >
       <PodcastTitle>{podcast.title}</PodcastTitle>
       <BottomContent>
         {shouldShowDownloadStatus && (

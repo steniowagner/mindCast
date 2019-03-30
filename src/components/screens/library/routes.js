@@ -6,7 +6,7 @@ import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetai
 import PodcastsDownloaded from './components/PodcastsDownloaded';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
 import RecentlyPlayed from './components/RecentlyPlayed';
-import YourPodcasts from './components/your-podcasts/YourPodcasts';
+import YourPodcasts from './components/YourPodcasts';
 import Interests from '~/components/common/interests/Interests';
 import Player from '~/components/common/player/PlayerContainer';
 import HeaderActionButton from './components/HeaderActionButton';
