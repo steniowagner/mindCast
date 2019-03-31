@@ -5,53 +5,55 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import styled from 'styled-components';
 import FastImage from 'react-native-fast-image';
 
+import DefaultButton from '~/components/common/DefaultButton';
 import ReviewStars from '~/components/common/ReviewStars';
 import AuthorInfo from '../../AuthorInfo';
 
 const Wrapper = styled(View)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('25%')}px;
-  margin-top: ${({ theme, isFirst }) => (isFirst ? theme.metrics.largeSize : 0)}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('40%')}px;
+  justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
+  padding: ${({ theme }) => theme.metrics.mediumSize}px;
+  background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
+  border-radius: 4px;
+`;
+
+const UpperContent = styled(View)`
+  width: 100%;
+  flex-direction: row;
+`;
+
+const BottomContent = styled(View)`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TextContent = styled(View)`
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('72%')}px
+  padding-left: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
-  width: 100%;
-  height: 100%;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('16%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('20%')}px;
   border-radius: 4px;
 `;
 
-const Button = styled(TouchableOpacity)`
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-`;
-
-const DarkLayer = styled(View)`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.darkLayer};
-  padding-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
-  padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
-  border-radius: 4px;
-`;
-
-const StarsWrapper = styled(View)`
-  justify-content: flex-end;
-  align-items: flex-end;
+const TextWrapper = styled(View)`
+  width: 60%;
 `;
 
 const PodcastTitle = styled(Text).attrs({
-  numberOfLines: 2,
+  numberOfLines: 3,
 })`
+  margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
+  font-size: ${({ theme }) => theme.metrics.largeSize}px;
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.largeSize * 1.35}px;
   font-family: CircularStd-Bold;
 `;
 
@@ -77,30 +79,35 @@ const FeaturedListitem = ({
   title,
   isFirst,
 }: Props): Object => (
-  <Wrapper
-    isFirst={isFirst}
-  >
-    <Button
-      onPress={onPress}
-    >
+  <Wrapper>
+    <UpperContent>
       <PodcastImage
         uri={podcastImage}
       />
-      <DarkLayer>
+      <TextContent>
+        <PodcastTitle>{title}</PodcastTitle>
         <ReviewStars
           shouldShowReviewsText={false}
-          isSmall={false}
           stars={stars}
+          isSmall
         />
-        <PodcastTitle>{title}</PodcastTitle>
+      </TextContent>
+    </UpperContent>
+    <BottomContent>
+      <TextWrapper>
         <AuthorInfo
-          numberOfLines={1}
           imageURL={author.thumbnailImageURL}
           name={author.name}
+          numberOfLines={1}
           textColor="white"
         />
-      </DarkLayer>
-    </Button>
+      </TextWrapper>
+      <DefaultButton
+        onPress={onPress}
+        size="small"
+        text="MORE"
+      />
+    </BottomContent>
   </Wrapper>
 );
 
