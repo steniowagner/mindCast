@@ -40,6 +40,7 @@ const ContentContainer = styled(View)`
 const PodcastTitle = styled(Text).attrs({
   numberOfLines: 2,
 })`
+  margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.35}px;
   font-family: ${Platform.OS === 'android'
     ? 'CircularStd-Medium'

@@ -78,7 +78,7 @@ type Props = {
   onPressItem: Function,
   author: AuthorProps,
   withIndex: ?boolean,
-  index: number,
+  index: ?number,
 };
 
 const AuthorListItem = ({

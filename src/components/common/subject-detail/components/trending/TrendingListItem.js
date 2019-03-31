@@ -11,7 +11,7 @@ import AuthorInfo from '../../../AuthorInfo';
 
 const ButtonWrapper = styled(TouchableOpacity)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('45%')}px;
-  margin-top: ${({ theme }) => theme.metrics.largeSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({

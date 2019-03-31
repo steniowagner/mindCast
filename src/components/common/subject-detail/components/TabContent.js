@@ -6,8 +6,8 @@ import { withNavigation } from 'react-navigation';
 
 import FeaturedListItem from './FeaturedListItem';
 import AuthorsListItem from '../../AuthorsListItem';
-import TrendingListItem from './trending/Trending';
-import List from './List';
+import TrendingList from './trending/Trending';
+import appStyles from '~/styles';
 
 import CONSTANTS from '~/utils/CONSTANTS';
 
@@ -42,9 +42,34 @@ class TabContent extends Component<Props, {}> {
 
     const items = [
       {
+        id: 'featured',
+        UI: (
+          <FlatList
+            renderItem={({ item, index }) => (
+              <FeaturedListItem
+                onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+                  [CONSTANTS.KEYS
+                    .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
+                  [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
+                })
+                }
+                podcast={item}
+              />
+            )}
+            style={{
+              paddingHorizontal: appStyles.metrics.mediumSize,
+              width: appStyles.metrics.width,
+            }}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => `${item.id}`}
+            data={featuredPodcasts}
+          />
+        ),
+      },
+      {
         id: 'trending',
         UI: (
-          <TrendingListItem
+          <TrendingList
             podcasts={trendingPodcasts}
             onPress={podcast => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
               [CONSTANTS.KEYS
@@ -56,33 +81,10 @@ class TabContent extends Component<Props, {}> {
         ),
       },
       {
-        id: 'featured',
-        UI: (
-          <List
-            dataset={featuredPodcasts}
-            render={(podcast, index) => (
-              <FeaturedListItem
-                onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
-                  [CONSTANTS.KEYS
-                    .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
-                  [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
-                })
-                }
-                podcastImage={podcast.imageURL}
-                author={podcast.author}
-                title={podcast.title}
-                stars={podcast.stars}
-              />
-            )}
-          />
-        ),
-      },
-      {
         id: 'authors',
         UI: (
-          <List
-            dataset={authors}
-            render={(item, index) => (
+          <FlatList
+            renderItem={({ item, index }) => (
               <AuthorsListItem
                 onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
                   [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
@@ -93,6 +95,12 @@ class TabContent extends Component<Props, {}> {
                 author={item}
               />
             )}
+            style={{
+              paddingHorizontal: appStyles.metrics.mediumSize,
+            }}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => `${item.id}`}
+            data={authors}
           />
         ),
       },
@@ -100,10 +108,13 @@ class TabContent extends Component<Props, {}> {
 
     return (
       <FlatList
-        ref={ref => this.handleRef(ref)}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => item.UI}
+        ref={ref => this.handleRef(ref)}
         keyExtractor={item => item.id}
+        style={{
+          paddingTop: appStyles.metrics.mediumSize,
+        }}
         data={items}
         pagingEnabled
         horizontal

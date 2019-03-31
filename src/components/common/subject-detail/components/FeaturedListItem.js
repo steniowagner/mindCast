@@ -57,38 +57,22 @@ const PodcastTitle = styled(Text).attrs({
   font-family: CircularStd-Bold;
 `;
 
-type AuthorProps = {
-  thumbnailImageURL: string,
-  name: string,
-};
-
 type Props = {
-  podcastImage: string,
-  author: AuthorProps,
   onPress: Function,
-  isFirst: boolean,
-  stars: number,
-  title: string,
+  podcast: Object,
 };
 
-const FeaturedListitem = ({
-  podcastImage,
-  onPress,
-  author,
-  stars,
-  title,
-  isFirst,
-}: Props): Object => (
+const FeaturedListitem = ({ onPress, podcast }: Props): Object => (
   <Wrapper>
     <UpperContent>
       <PodcastImage
-        uri={podcastImage}
+        uri={podcast.imageURL}
       />
       <TextContent>
-        <PodcastTitle>{title}</PodcastTitle>
+        <PodcastTitle>{podcast.title}</PodcastTitle>
         <ReviewStars
           shouldShowReviewsText={false}
-          stars={stars}
+          stars={podcast.stars}
           isSmall
         />
       </TextContent>
@@ -96,8 +80,8 @@ const FeaturedListitem = ({
     <BottomContent>
       <TextWrapper>
         <AuthorInfo
-          imageURL={author.thumbnailImageURL}
-          name={author.name}
+          imageURL={podcast.author.thumbnailImageURL}
+          name={podcast.author.name}
           numberOfLines={1}
           textColor="white"
         />

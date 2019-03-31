@@ -12,8 +12,8 @@ import TabContent from './TabContent';
 import appStyles from '~/styles';
 
 const TAB_ITEMS = [
-  { id: 'trending', title: 'Trending' },
   { id: 'featured', title: 'Featured' },
+  { id: 'trending', title: 'Trending' },
   { id: 'authors', title: 'Authors' },
 ];
 
