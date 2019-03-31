@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import HottestPodcastsSeeAllListItem from '~/components/common/PodcastItemLIst';
 
-import AuthorsListItem from '~/components/common/AuthorsListItem';
+import AuthorsListItem from '~/components/common/AuthorListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 import PODCASTS from '../PODCASTS_TEST';

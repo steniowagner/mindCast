@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
-import AuthorsListItem from '~/components/common/AuthorsListItem';
+import AuthorsListItem from '~/components/common/AuthorListItemWithSubjects';
 import CONSTANTS from '~/utils/CONSTANTS';
 import PODCASTS from '../PODCASTS_TEST';
 
@@ -18,7 +18,6 @@ const Wrapper = styled(View)`
 const TrendingAuthorsList = styled(FlatList)`
   width: 100%;
   height: 100%;
-  padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 class TrendingAuthorsSeeAll extends Component {
@@ -29,6 +28,7 @@ class TrendingAuthorsSeeAll extends Component {
       ...podcast.author,
       imageURL:
         'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+      subjects: ['science', 'technology', 'history', 'philosofy'],
       id: index,
     }));
 
@@ -40,16 +40,17 @@ class TrendingAuthorsSeeAll extends Component {
           data={AUTHORS}
           renderItem={({ item, index }) => (
             <AuthorsListItem
-              index={index + 1}
-              withBottomline
-              author={item}
-              withIndex
-              onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+              onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
                 [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
                   id: item.id,
                 },
               })
               }
+              numberPodcasts={item.numberPodcasts}
+              profileImage={item.imageURL}
+              subjects={item.subjects}
+              name={item.name}
+              id={item.id}
             />
           )}
         />

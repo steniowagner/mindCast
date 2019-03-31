@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { Animated, Text, View } from 'react-native';
 import styled from 'styled-components';
 
-import SearchAuthorListItem from './SearchAuthorListItem';
+import SearchAuthorListItem from '~/components/common/AuthorListItemWithSubjects';
 import Loading from '~/components/common/Loading';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -17,10 +17,9 @@ const Container = styled(View)`
 `;
 
 const SearchResultText = styled(Text).attrs({
-  numberOfLines: 3,
+  numberOfLines: 2,
 })`
-  margin-left: ${({ theme }) => theme.metrics.extraLargeSize * 2};
-  margin-right: ${({ theme }) => theme.metrics.extraLargeSize};
+  margin-left: ${({ theme }) => theme.metrics.getWidthFromDP('15%')};
   margin-vertical: ${({ theme }) => theme.metrics.mediumSize};
   font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
   font-family: CircularStd-Bold;
@@ -59,42 +58,40 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
     authors: Array<Object>,
     authorName: string,
     navigation: Object,
-  ): Object => {
-    const resultsText = `Results for: '${authorName}'`;
-
-    return (
-      <Animated.FlatList
-        ListHeaderComponent={<SearchResultText>{resultsText}</SearchResultText>}
-        style={[
-          {
-            transform: [
-              {
-                translateY: this._authorSearchListPosition.y,
-              },
-            ],
-          },
-        ]}
-        renderItem={({ item }) => (
-          <SearchAuthorListItem
-            numberPodcasts={item.numberPodcasts}
-            onPress={() => navigation.navigate(CONSTANTS.NAVIGATE_AUTHOR_DETAIL, {
-              [CONSTANTS.AUTHOR_DETAIL_PARAMS]: {
-                id: item.id,
-              },
-            })
-            }
-            profileImage={item.profileImage}
-            subjects={item.subjects}
-            name={item.name}
-            id={item.id}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => `${item.id}`}
-        data={authors}
-      />
-    );
-  };
+  ): Object => (
+    <Animated.FlatList
+      ListHeaderComponent={
+        <SearchResultText>{`Results for: '${authorName}'`}</SearchResultText>
+      }
+      style={[
+        {
+          transform: [
+            {
+              translateY: this._authorSearchListPosition.y,
+            },
+          ],
+        },
+      ]}
+      renderItem={({ item }) => (
+        <SearchAuthorListItem
+          onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+            [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+              id: item.id,
+            },
+          })
+          }
+          numberPodcasts={item.numberPodcasts}
+          profileImage={item.profileImage}
+          subjects={item.subjects}
+          name={item.name}
+          id={item.id}
+        />
+      )}
+      showsVerticalScrollIndicator={false}
+      keyExtractor={item => `${item.id}`}
+      data={authors}
+    />
+  );
 
   render() {
     const {

@@ -7,7 +7,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
-import Icon from '~/components/common/Icon';
+import DefaultButton from '~/components/common/DefaultButton';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -25,10 +25,6 @@ const CardWrapper = styled(View)`
   border-radius: 5px;
 `;
 
-const CardContent = styled(View)`
-  width: 100%;
-`;
-
 const ProfileImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
@@ -39,12 +35,13 @@ const ProfileImage = styled(FastImage).attrs(({ uri }) => ({
 `;
 
 const AuthorName = styled(Text)`
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.25}px;
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
   font-family: CircularStd-Black;
   color: ${({ theme }) => theme.colors.darkText};
 `;
 
 const NumberPodcasts = styled(Text)`
+  margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Medium;
   color: ${({ theme }) => theme.colors.subText};
@@ -55,7 +52,7 @@ const SubjectItemWrapper = styled(View)`
   align-items: center;
   margin-right: ${({ theme }) => theme.metrics.smallSize}px;
   margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
-  padding-vertical: ${({ theme }) => theme.metrics.smallSize * 1.2}px;
+  padding-vertical: ${({ theme }) => theme.metrics.smallSize * 1.1}px;
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
   border-radius: 3px;
   background-color: ${({ theme }) => theme.colors.dark};
@@ -63,17 +60,8 @@ const SubjectItemWrapper = styled(View)`
 
 const DetailButtonWrapper = styled(View)`
   width: 100%;
-  margin-top: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
   align-items: flex-end;
-`;
-
-const DetailButton = styled(TouchableOpacity)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('13%')}px;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('13%')}px;
-  justify-content: center;
-  align-items: center;
-  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('7.5%')}px;
-  background-color: ${({ theme }) => theme.colors.primaryColor};
 `;
 
 const SubjectItemText = styled(Text)`
@@ -96,49 +84,6 @@ type Props = {
   name: string,
 };
 
-const renderSubjects = (subjects: Array<string>): Object => (
-  <SubjectsWrapper>
-    {subjects.map(subject => (
-      <SubjectItemWrapper
-        key={subject}
-      >
-        <SubjectItemText>{`#${subject}`}</SubjectItemText>
-      </SubjectItemWrapper>
-    ))}
-  </SubjectsWrapper>
-);
-
-const renderDetailButton = (onPress: Function): Object => (
-  <DetailButtonWrapper>
-    <DetailButton
-      onPress={onPress}
-    >
-      <Icon
-        name="magnify"
-        size={22}
-      />
-    </DetailButton>
-  </DetailButtonWrapper>
-);
-
-const renderCardContent = (
-  subjects: Array<string>,
-  numberPodcasts: number,
-  onPress: Function,
-  name: string,
-): Object => (
-  <CardWrapper>
-    <CardContent>
-      <AuthorName>{name}</AuthorName>
-      <NumberPodcasts>
-        {`${numberPodcasts} ${numberPodcasts === 1 ? 'Podcast' : 'Podcasts'}`}
-      </NumberPodcasts>
-      {renderSubjects(subjects)}
-      {renderDetailButton(onPress)}
-    </CardContent>
-  </CardWrapper>
-);
-
 const SearchAuthorListItem = ({
   numberPodcasts,
   profileImage,
@@ -147,7 +92,30 @@ const SearchAuthorListItem = ({
   name,
 }: Props): Object => (
   <Wrapper>
-    {renderCardContent(subjects, numberPodcasts, onPress, name)}
+    <CardWrapper>
+      <View>
+        <AuthorName>{name}</AuthorName>
+        <NumberPodcasts>
+          {`${numberPodcasts} ${numberPodcasts === 1 ? 'Podcast' : 'Podcasts'}`}
+        </NumberPodcasts>
+        <SubjectsWrapper>
+          {subjects.map(subject => (
+            <SubjectItemWrapper
+              key={subject}
+            >
+              <SubjectItemText>{`#${subject}`}</SubjectItemText>
+            </SubjectItemWrapper>
+          ))}
+        </SubjectsWrapper>
+        <DetailButtonWrapper>
+          <DefaultButton
+            onPress={onPress}
+            text="LEARN MORE"
+            size="small"
+          />
+        </DetailButtonWrapper>
+      </View>
+    </CardWrapper>
     <ProfileImage
       uri={profileImage}
     />

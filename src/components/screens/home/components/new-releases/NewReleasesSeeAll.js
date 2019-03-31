@@ -43,7 +43,6 @@ class NewReleasesSeeAll extends Component {
               shouldShowDownloadStatus={false}
               podcast={item}
               index={index + 1}
-              roundedImage
             />
           )}
         />

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import ScreenTitle from '~/components/common/ScreenTitle';
 import SearchAuthorTextInput from './SearchAuthorTextInput';
-import SubjectsList from './subjects-list';
+import SubjectsList from './subjects-list/SubjectList';
 
 const Container = styled(View)`
   width: 100%;
@@ -29,6 +29,7 @@ const DarkLayer = styled(View)`
 const SubjectsListWrapper = styled(View)`
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
+  opacity: ${({ isTextInputFocused }) => (isTextInputFocused ? 0.35 : 1)};
 `;
 
 const SearchAuthorTextInputWrapper = styled(View)`
@@ -64,12 +65,14 @@ const SearchComponent = ({
           navigate={navigate}
         />
       </SearchAuthorTextInputWrapper>
-      <SubjectsListWrapper>
+      <SubjectsListWrapper
+        isTextInputFocused={isTextInputFocused}
+      >
         <SubjectsList
+          isTextInputFocused={isTextInputFocused}
           navigate={navigate}
         />
       </SubjectsListWrapper>
-      {isTextInputFocused && <DarkLayer />}
     </ContentWrapper>
   </Container>
 );

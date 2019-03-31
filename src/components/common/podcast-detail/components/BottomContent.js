@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
-import AuthorsListItem from '~/components/common/AuthorsListItem';
+import AuthorsListItem from '~/components/common/AuthorListItem';
 import DefaultButton from '~/components/common/DefaultButton';
 import SectionTitle from '~/components/common/SectionTitle';
 
@@ -32,7 +32,7 @@ const AuthorDetailWrapper = styled(View)`
 
 const PodcastDescriptionText = styled(Text)`
   color: ${({ theme }) => theme.colors.white};
-  font-family: CircularStd-Medium;
+  font-family: CircularStd-Book;
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
 `;
 

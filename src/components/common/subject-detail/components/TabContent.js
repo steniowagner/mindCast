@@ -5,7 +5,7 @@ import { FlatList } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import FeaturedListItem from './FeaturedListItem';
-import AuthorsListItem from '../../AuthorsListItem';
+import AuthorsListItem from '../../AuthorListItem';
 import TrendingList from './trending/Trending';
 import appStyles from '~/styles';
 

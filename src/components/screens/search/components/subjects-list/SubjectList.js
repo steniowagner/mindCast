@@ -34,13 +34,15 @@ const items = [
 ];
 
 type Props = {
+  isTextInputFocused: boolean,
   navigate: Function,
 };
 
-const SubjectsList = ({ navigate }: Props): Object => (
+const SubjectsList = ({ isTextInputFocused, navigate }: Props): Object => (
   <FlatList
     renderItem={({ item, index }) => (
       <SubjectsListItem
+        isTextInputFocused={isTextInputFocused}
         title={item.title}
         onPress={() => navigate(CONSTANTS.ROUTES.SUBJECT_DETAIL, {
           [CONSTANTS.PARAMS.SUBJECT_DETAIL]: item,
