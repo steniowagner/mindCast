@@ -33,10 +33,10 @@ const HomeComponent = ({ navigation }: Props): Object => (
       <NewReleasesDiscover
         navigation={navigation}
       />
-      <HottestPodcasts
+      <TrendingAuthorsDiscover
         navigation={navigation}
       />
-      <TrendingAuthorsDiscover
+      <HottestPodcasts
         navigation={navigation}
       />
     </ScrollView>

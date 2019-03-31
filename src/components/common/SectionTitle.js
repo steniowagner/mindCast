@@ -4,10 +4,6 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components';
 
-const Wrapper = styled(View)`
-  margin-left: ${({ theme }) => theme.metrics.largeSize}px;
-`;
-
 const Title = styled(Text)`
   width: 100%;
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
@@ -27,10 +23,10 @@ type Props = {
 };
 
 const SectionTitle = ({ title }: Props): Object => (
-  <Wrapper>
+  <View>
     <Title>{title}</Title>
     <Line />
-  </Wrapper>
+  </View>
 );
 
 export default SectionTitle;

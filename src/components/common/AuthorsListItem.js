@@ -1,102 +1,112 @@
-// @flow
+// @flow
 
-import React from 'react';
-import { Platform, View, Text } from 'react-native';
+import React, { Fragment } from 'react';
+import {
+  TouchableOpacity, Platform, View, Text,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
+import SectionTitle from '~/components/common/SectionTitle';
 import DefaultButton from '~/components/common/DefaultButton';
+import Icon from '~/components/common/Icon';
 
-const Wrapper = styled(View)`
+const ContentWrapper = styled(View)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('60%')}px;
   flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
-  border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
+  border-radius: 4px;
 `;
 
 const AuthorImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('25%')}px;
-  height: 100%;
-  border-radius: 4px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('17%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('17%')}px;
+  margin-right: ${({ theme }) => theme.metrics.largeSize}px;
+  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('8.5%')}px;
 `;
 
-const TextContent = styled(View)`
-  height: 100%;
-  width: 70%;
-  justify-content: space-between;
-  padding-left: ${({ theme }) => theme.metrics.extraSmallSize}px;
-`;
-
-const AuthorName = styled(Text)`
-  color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
-  font-family: CircularStd-Bold;
-  margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
-`;
-
-const AuthorAbout = styled(Text).attrs({
-  numberOfLines: 4,
+const AuthorName = styled(Text).attrs({
+  numberOfLines: 2,
 })`
-  color: ${({ theme }) => theme.colors.subTextWhite};
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
-  font-family: CircularStd-Medium;
-  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
-`;
-
-const NumberPodcasts = styled(Text)`
+  width: 80%;
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.largeSize * 1.2}px;
   font-family: CircularStd-Bold;
+  font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
 `;
 
-const BottomContent = styled(View)`
-  width: 100%;
+const DetailButton = styled(TouchableOpacity)`
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
+  justify-content: center;
+  align-items: center;
+  padding-top: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
+  padding-left: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
+  background-color: ${({ theme }) => theme.colors.dark};
+  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('5%')}px;
+`;
+
+const Index = styled(Text)`
+  margin-right: ${({ theme }) => theme.metrics.largeSize}px;
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  font-family: CircularStd-Bold;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+const RightContent = styled(View)`
+  width: ${({ theme, withIndex }) => {
+    const percentage = withIndex ? '60%' : '67%';
+    return theme.metrics.getWidthFromDP(percentage);
+  }};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
-
 type AuthorProps = {
-  numberPodcasts: number,
+  onPressItem: Function,
   imageURL: string,
-  about: string,
   name: string,
+  id: string,
 };
 
 type Props = {
-  podcastImage: string,
+  withBottomline: ?boolean,
+  onPressItem: Function,
   author: AuthorProps,
-  onPress: Function,
+  withIndex: ?boolean,
+  index: number,
 };
 
-const AuthorsListItem = ({ podcastImage, onPress, author }: Props): Object => (
-  <Wrapper>
+const AuthorListItem = ({
+  withBottomline,
+  onPressItem,
+  withIndex,
+  author,
+  index,
+}: Props): Object => (
+  <ContentWrapper>
+    {withIndex && <Index>{index}</Index>}
     <AuthorImage
-      uri={podcastImage}
+      uri={author.imageURL}
     />
-    <TextContent>
+    <RightContent
+      withIndex={withIndex}
+    >
       <AuthorName>{author.name}</AuthorName>
-      <AuthorAbout>{author.about}</AuthorAbout>
-      <BottomContent>
-        <NumberPodcasts>
-          {`${author.numberPodcasts} ${
-            author.numberPodcasts === 1 ? 'Podcast' : 'Podcasts'
-          }`}
-        </NumberPodcasts>
-        <DefaultButton
-          onPress={onPress}
-          text="LEARN MORE"
-          size="small"
+      <DetailButton
+        onPress={onPressItem}
+      >
+        <Icon
+          size={18}
+          name="magnify"
         />
-      </BottomContent>
-    </TextContent>
-  </Wrapper>
+      </DetailButton>
+    </RightContent>
+  </ContentWrapper>
 );
 
-export default AuthorsListItem;
+export default AuthorListItem;

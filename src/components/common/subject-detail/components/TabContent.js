@@ -84,16 +84,13 @@ class TabContent extends Component<Props, {}> {
             dataset={authors}
             render={(item, index) => (
               <AuthorsListItem
-                onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+                onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
                   [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
                     id: item.id,
                   },
                 })
                 }
-                podcastImage={item.imageURL}
-                author={item.author}
-                title={item.title}
-                stars={item.stars}
+                author={item}
               />
             )}
           />

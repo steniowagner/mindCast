@@ -15,7 +15,7 @@ const Wrapper = styled(ScrollView)`
   width: 100%;
   height: 100%;
   flex: 1;
-  padding: ${({ theme }) => theme.metrics.largeSize}px;
+  padding: ${({ theme }) => theme.metrics.mediumSize}px;
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
@@ -79,11 +79,9 @@ const PodcastDetailComponent = ({
     />
     <BottomContent
       shouldShowAuthorSection={shouldShowAuthorSection}
-      onPressLearnMore={onNavigateAuthorDetail}
-      authorImageURL={podcast.author.smallImageURL}
+      onPressDetail={onNavigateAuthorDetail}
       description={podcast.description}
-      authorName={podcast.author.name}
-      uploadedAt={podcast.uploadedAt}
+      author={podcast.author}
     />
     {isAddPlaylistModalOpen && (
       <PlaylistList

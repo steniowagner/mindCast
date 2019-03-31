@@ -12,7 +12,7 @@ const ContentWrapper = styled(View)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right: ${({ theme }) => theme.metrics.largeSize}px;
+  padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 type Props = {

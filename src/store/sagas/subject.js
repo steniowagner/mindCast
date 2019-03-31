@@ -167,7 +167,11 @@ export function* getSubjectDetail({ payload }) {
         items: {
           trending: PODCASTS,
           featured: PODCASTS,
-          authors: PODCASTS,
+          authors: PODCASTS.map(podcast => ({
+            ...podcast.author,
+            imageURL:
+              'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+          })),
         },
       }),
     );

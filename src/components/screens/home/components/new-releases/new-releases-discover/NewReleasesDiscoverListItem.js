@@ -45,7 +45,7 @@ const PodcastTitle = styled(Text).attrs({
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('5.5%')}px;
   font-family: ${Platform.OS === 'android'
     ? 'CircularStd-Medium'
-    : 'CircularStd-Bold'};
+    : 'CircularStd-Black'};
   color: ${({ theme }) => theme.colors.white};
 `;
 
@@ -88,8 +88,8 @@ const NewReleasesDiscoverListItem = ({
     <DarkLayer>
       <AuthorInfoWrapper>
         <AuthorInfo
-          numberOfLines={2}
           imageURL={authorImage}
+          numberOfLines={2}
           textColor="white"
           name={authorName}
         />

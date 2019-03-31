@@ -29,6 +29,11 @@ const ListFooterComponent = styled(View)`
   height: 1px;
 `;
 
+const TitleWrapper = styled(View)`
+  width: 100%;
+  padding-left: ${({ theme }) => theme.metrics.largeSize}px;
+`;
+
 type RelatedAuthorProps = {
   profileImage: string,
   name: string,
@@ -41,9 +46,11 @@ type Props = {
 
 const RelatedAuthors = ({ relatedAuthors }: Props): Object => (
   <Wrapper>
-    <SectionTitle
-      title="Related Authors"
-    />
+    <TitleWrapper>
+      <SectionTitle
+        title="Related Authors"
+      />
+    </TitleWrapper>
     <RelatedAuthorsList
       ListFooterComponent={ListFooterComponent}
       showsHorizontalScrollIndicator={false}

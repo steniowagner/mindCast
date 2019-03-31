@@ -1,6 +1,9 @@
 export default [
   {
     author: {
+      imageURL:
+        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+
       thumbnailImageURL:
         'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
       name: 'Tech N9ne, 2Pac & Eminem',
@@ -27,6 +30,9 @@ export default [
   },
   {
     author: {
+      imageURL:
+        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+
       thumbnailImageURL:
         'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
       name: 'Kungs vs Cookin’ on 3 Burners',
@@ -52,6 +58,9 @@ export default [
   },
   {
     author: {
+      imageURL:
+        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+
       thumbnailImageURL:
         'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
       name: 'Tomorrows Bad Seeds',
@@ -78,6 +87,9 @@ export default [
   },
   {
     author: {
+      imageURL:
+        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+
       thumbnailImageURL:
         'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
       name: 'Skrillex - Summit (feat. Ellie Goulding)',
@@ -104,6 +116,9 @@ export default [
   },
   {
     author: {
+      imageURL:
+        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+
       thumbnailImageURL:
         'https://s3-sa-east-1.amazonaws.com/bon-appetit-resources/reviewers/alex-holyoake.jpg',
       name: 'Dj 6RB REMiX',
