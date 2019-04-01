@@ -7,7 +7,7 @@ import FastImage from 'react-native-fast-image';
 
 import DefaultButton from '~/components/common/DefaultButton';
 import ReviewStars from '~/components/common/ReviewStars';
-import AuthorInfo from '../../AuthorInfo';
+import AuthorInfo from '~/components/common/AuthorInfo';
 
 const Wrapper = styled(View)`
   width: 100%;

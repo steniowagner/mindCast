@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
+import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
 import TrendingAuthorsSeeAll from './components/trending-authors/TrendingAuthorsSeeAll';
 import HottestPodcastsSeeAll from './components/hottest-podcasts/HottestPodcastsSeeAll';
 import NewReleasesSeeAll from './components/new-releases/NewReleasesSeeAll';
@@ -10,8 +11,11 @@ import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDe
 import Player from '~/components/common/player/PlayerContainer';
 import Home from './Home';
 
-import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
-import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
+import {
+  getDefaultNavigationWithTitle,
+  getPlayerNavigationOption,
+  DEFAULT_HEADER_STYLE,
+} from '~/routes/utils/navigationOptions';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -34,62 +38,27 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Podcast Detail',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultNavigationWithTitle('Podcast Detail'),
     },
 
     [ROUTE_NAMES.TRENDING_AUTHORS_SEE_ALL]: {
       screen: TrendingAuthorsSeeAll,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Trending Authors',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultNavigationWithTitle('Trending Authors'),
     },
 
     [ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL]: {
       screen: HottestPodcastsSeeAll,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Hottest Podcasts',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultNavigationWithTitle('Hottest Podcasts'),
     },
 
     [ROUTE_NAMES.NEW_RELEASES_SEE_ALL]: {
       screen: NewReleasesSeeAll,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'New Releases',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultNavigationWithTitle('New Releases'),
+    },
+
+    [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
+      screen: AuthorDetailContainer,
+      navigationOptions: () => DEFAULT_HEADER_STYLE,
     },
 
     [CONSTANTS.ROUTES.PLAYER]: {

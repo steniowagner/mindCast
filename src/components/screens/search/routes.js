@@ -1,15 +1,19 @@
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
-import SubjectDetailContainer from '~/components/common/subject-detail/SubjectDetailContainer';
+import SubjectDetailContainer from './components/subject-detail/SubjectDetailContainer';
+import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import SearchAuthorListContainer from './components/search-author/SearchAuthorListContainer';
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
-import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
-import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
-import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
 import Player from '~/components/common/player/PlayerContainer';
-import CONSTANTS from '~/utils/CONSTANTS';
 import Search from './SearchContainer';
+
+import {
+  getPlayerNavigationOption,
+  getDefaultNavigationWithTitle,
+  DEFAULT_HEADER_STYLE,
+} from '~/routes/utils/navigationOptions';
+import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
@@ -29,16 +33,7 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Search Authors',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultNavigationWithTitle('Search Authors'),
     },
 
     [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
@@ -62,17 +57,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: () => ({
-        ...DEFAULT_HEADER_STYLE,
-        title: 'Podcast Detail',
-        headerTransparent: false,
-        headerStyle: {
-          backgroundColor: appStyles.colors.dark,
-          marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-          borderBottomWidth: 0,
-          elevation: 0,
-        },
-      }),
+      navigationOptions: () => getDefaultNavigationWithTitle('Search Authors'),
     },
 
     [CONSTANTS.ROUTES.PLAYER]: {

@@ -13,16 +13,9 @@ const DEFAULT_HEADER_STYLE = {
     color: appStyles.colors.white,
   },
   headerTitleStyle: {
-    fontFamily: 'CircularStd-Bold',
+    fontFamily: 'CircularStd-Medium',
     fontSize: appStyles.metrics.extraLargeSize,
   },
-  ...Platform.select({
-    android: {
-      headerStyle: {
-        marginTop: StatusBar.currentHeight,
-      },
-    },
-  }),
 };
 
 export default DEFAULT_HEADER_STYLE;

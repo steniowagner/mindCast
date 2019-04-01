@@ -13,8 +13,8 @@ import HeaderActionButton from './components/HeaderActionButton';
 import Library from './Library';
 
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
-import getPlayerNavigationOption from '~/routes/utils/getPlayerNavigationOption';
-import DEFAULT_HEADER_STYLE from '~/routes/utils/DEFAULT_HEADER_STYLE';
+import { getPlayerNavigationOption } from '~/routes/utils/navigationOptions';
+import { DEFAULT_HEADER_STYLE } from '~/routes/utils/navigationOptions';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -32,7 +32,6 @@ const getDefaultLibraryHeader = title => ({
   title,
   headerStyle: {
     backgroundColor: appStyles.colors.dark,
-    marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     borderBottomWidth: 0,
     elevation: 0,
   },

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { ActivityIndicator, Platform, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import styled from 'styled-components';
 import appStyles from '~/styles';
@@ -15,8 +15,8 @@ const LoadingWrapper = styled(View)`
 const Loading = (): Object => (
   <LoadingWrapper>
     <ActivityIndicator
-      size={Platform.OS === 'ios' ? 'small' : 'large'}
       color={appStyles.colors.primaryColor}
+      size="large"
     />
   </LoadingWrapper>
 );
