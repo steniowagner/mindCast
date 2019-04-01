@@ -40,7 +40,7 @@ const NewReleasesSection = ({
       }
       sectionTitle="New Releases"
       buttonText="LISTEN NOW"
-      buttonSize="large"
+      buttonSize="small"
     />
     <NewReleasesList
       showsHorizontalScrollIndicator={false}

@@ -33,7 +33,7 @@ const Featured = ({ onPressItem, navigation, featured }: Props): Object => (
         },
       })
       }
-      buttonSize="large"
+      buttonSize="small"
       buttonText="LISTEN NOW"
       sectionTitle="Featured"
     />

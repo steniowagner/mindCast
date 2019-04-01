@@ -10,33 +10,26 @@ import appStyles from '~/styles';
 
 const Wrapper = styled(View)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('15%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('20%')}px;
+  margin-vertical: ${({ theme }) => theme.metrics.smallSize}px;
   flex-direction: row;
   align-items: center;
-  padding-left: ${({ theme }) => theme.metrics.smallSize}px;
-  padding-right: ${({ theme }) => theme.metrics.largeSize}px;
+  padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
 `;
 
 const TextWrapper = styled(View)`
-  width: 60%;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('54%')}px;
   height: 100%;
   justify-content: center;
   padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
 `;
 
-const ThumbanailImage = styled(FastImage).attrs(({ uri }) => ({
+const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   source: { uri },
 }))`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('25%')}px;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('25%')}px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('20%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('20%')}px;
   border-radius: 6px;
-`;
-
-const CloseIconWrapper = styled(View)`
-  width: 10%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Title = styled(Text).attrs({
@@ -47,7 +40,7 @@ const Title = styled(Text).attrs({
   font-family: CircularStd-Black;
 `;
 
-const Author = styled(Text).attrs({
+const AuthorName = styled(Text).attrs({
   numberOfLines: 2,
 })`
   margin-top: ${({ theme }) => theme.metrics.extraSmallSize}px;
@@ -56,17 +49,36 @@ const Author = styled(Text).attrs({
   font-family: CircularStd-Bold;
 `;
 
-const renderTextContent = (author: string, title: string): Object => (
-  <TextWrapper>
-    <Title>{title}</Title>
-    <Author>{author}</Author>
-  </TextWrapper>
-);
+type AuthorProps = {
+  name: string,
+};
 
-const renderCloseIcon = (removeFromPlaylist: Function, id: string): Object => (
-  <CloseIconWrapper>
+type PodcastProps = {
+  imageURL: string,
+  author: AuthorProps,
+  title: string,
+  id: string,
+};
+
+type Props = {
+  removeFromPlaylist: Function,
+  podcast: PodcastProps,
+};
+
+const NextPodcastListItem = ({
+  removeFromPlaylist,
+  podcast,
+}: Props): Object => (
+  <Wrapper>
+    <PodcastImage
+      uri={podcast.imageURL}
+    />
+    <TextWrapper>
+      <Title>{podcast.title}</Title>
+      <AuthorName>{podcast.author.name}</AuthorName>
+    </TextWrapper>
     <TouchableOpacity
-      onPress={() => removeFromPlaylist(id)}
+      onPress={() => removeFromPlaylist(podcast.id)}
       hitSlop={{
         bottom: appStyles.metrics.smallSize,
         right: appStyles.metrics.smallSize,
@@ -79,42 +91,7 @@ const renderCloseIcon = (removeFromPlaylist: Function, id: string): Object => (
         size={20}
       />
     </TouchableOpacity>
-  </CloseIconWrapper>
+  </Wrapper>
 );
-
-type AuthorProps = {
-  name: string,
-};
-
-type PodcastProps = {
-  thumbnailImageURL: string,
-  author: AuthorProps,
-  title: string,
-  id: string,
-};
-
-type Props = {
-  removeFromPlaylist: Function,
-  podcast: PodcastProps,
-};
-
-const NextPodcastListItem = ({
-  podcast,
-  removeFromPlaylist,
-}: Props): Object => {
-  const {
-    thumbnailImageURL, author, title, id,
-  } = podcast;
-
-  return (
-    <Wrapper>
-      <ThumbanailImage
-        uri={thumbnailImageURL}
-      />
-      {renderTextContent(author.name, title)}
-      {renderCloseIcon(removeFromPlaylist, id)}
-    </Wrapper>
-  );
-};
 
 export default NextPodcastListItem;

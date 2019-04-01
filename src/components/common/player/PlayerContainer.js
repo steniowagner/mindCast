@@ -23,7 +23,7 @@ const Container = styled(View)`
 `;
 
 const DarkLayer = styled(Animated.View)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('20%')};
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('15%')};
   height: 100%;
   position: absolute;
   background-color: ${({ theme }) => theme.colors.darkLayer};
@@ -209,7 +209,7 @@ class PlayerContainer extends Component<Props, State> {
       <Container>
         {isPodcastDefined && (
           <SideMenu
-            openMenuOffset={appStyles.metrics.getWidthFromDP('80%')}
+            openMenuOffset={appStyles.metrics.getWidthFromDP('85%')}
             animationFunction={(prop, value) => Animated.timing(prop, {
               toValue: value,
               duration: 250,
