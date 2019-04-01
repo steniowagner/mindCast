@@ -40,14 +40,14 @@ const AuthorName = styled(Text).attrs({
 `;
 
 const DetailButton = styled(TouchableOpacity)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('13%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('13%')}px;
   justify-content: center;
   align-items: center;
   padding-top: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
   padding-left: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
   background-color: ${({ theme }) => theme.colors.dark};
-  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('5%')}px;
+  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('6.5%')}px;
 `;
 
 const Index = styled(Text)`
@@ -101,7 +101,7 @@ const AuthorListItem = ({
         onPress={onPressItem}
       >
         <Icon
-          size={18}
+          size={22}
           name="magnify"
         />
       </DetailButton>

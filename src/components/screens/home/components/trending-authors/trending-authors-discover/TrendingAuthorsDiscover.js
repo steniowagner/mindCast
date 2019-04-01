@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import TrendingAuthorsDiscoverListItem from './TrendingAuthorsDiscoverListItem';
 import SectionWithButton from '~/components/common/SectionWithButton';
 import { ROUTE_NAMES } from '../../../routes';
+import PODCASTS from '../../PODCASTS_TEST';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -37,11 +39,20 @@ const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
       showsHorizontalScrollIndicator={false}
       horizontal
       keyExtractor={podcast => `${podcast.id}`}
-      data={[1, 2, 3, 4]}
+      data={PODCASTS.map((podcast, index) => ({
+        ...podcast.author,
+        id: index,
+      }))}
       renderItem={({ item, index }) => (
         <TrendingAuthorsDiscoverListItem
-          isLastIndex={index === 3}
-          navigation={navigation}
+          isLastIndex={index === PODCASTS.length - 1}
+          onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+            [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+              id: item.id,
+            },
+          })
+          }
+          author={item}
         />
       )}
     />

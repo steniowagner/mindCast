@@ -8,6 +8,7 @@ import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
 import DefaultButton from '~/components/common/DefaultButton';
+import Icon from '~/components/common/Icon';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -58,12 +59,6 @@ const SubjectItemWrapper = styled(View)`
   background-color: ${({ theme }) => theme.colors.dark};
 `;
 
-const DetailButtonWrapper = styled(View)`
-  width: 100%;
-  margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
-  align-items: flex-end;
-`;
-
 const SubjectItemText = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.3}px;
   font-family: CircularStd-Bold;
@@ -74,6 +69,18 @@ const SubjectsWrapper = styled(View)`
   flex-wrap: wrap;
   flex-direction: row;
   margin-top: ${({ theme }) => theme.metrics.smallSize}px;
+`;
+
+const DetailButton = styled(TouchableOpacity)`
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('14%')}px;
+  height: ${({ theme }) => theme.metrics.getWidthFromDP('14%')}px;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+  margin-top: ${({ theme }) => theme.metrics.smallSize}px;
+  padding-top: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
+  border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('7%')}px;
+  background-color: ${({ theme }) => theme.colors.primaryColor};
 `;
 
 type Props = {
@@ -93,28 +100,27 @@ const SearchAuthorListItem = ({
 }: Props): Object => (
   <Wrapper>
     <CardWrapper>
-      <View>
-        <AuthorName>{name}</AuthorName>
-        <NumberPodcasts>
-          {`${numberPodcasts} ${numberPodcasts === 1 ? 'Podcast' : 'Podcasts'}`}
-        </NumberPodcasts>
-        <SubjectsWrapper>
-          {subjects.map(subject => (
-            <SubjectItemWrapper
-              key={subject}
-            >
-              <SubjectItemText>{`#${subject}`}</SubjectItemText>
-            </SubjectItemWrapper>
-          ))}
-        </SubjectsWrapper>
-        <DetailButtonWrapper>
-          <DefaultButton
-            onPress={onPress}
-            text="LEARN MORE"
-            size="small"
-          />
-        </DetailButtonWrapper>
-      </View>
+      <AuthorName>{name}</AuthorName>
+      <NumberPodcasts>
+        {`${numberPodcasts} ${numberPodcasts === 1 ? 'Podcast' : 'Podcasts'}`}
+      </NumberPodcasts>
+      <SubjectsWrapper>
+        {subjects.map(subject => (
+          <SubjectItemWrapper
+            key={subject}
+          >
+            <SubjectItemText>{`#${subject}`}</SubjectItemText>
+          </SubjectItemWrapper>
+        ))}
+      </SubjectsWrapper>
+      <DetailButton
+        onPress={onPress}
+      >
+        <Icon
+          size={24}
+          name="magnify"
+        />
+      </DetailButton>
     </CardWrapper>
     <ProfileImage
       uri={profileImage}
