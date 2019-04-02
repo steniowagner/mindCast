@@ -16,9 +16,10 @@ const Wrapper = styled(View)`
 
 type Props = {
   onPress: Function,
+  icon: string,
 };
 
-const HeaderActionButton = ({ onPress }: Props): Object => (
+const HeaderActionButton = ({ onPress, icon }: Props): Object => (
   <Wrapper>
     <TouchableOpacity
       onPress={onPress}
@@ -31,7 +32,7 @@ const HeaderActionButton = ({ onPress }: Props): Object => (
     >
       <Icon
         color={appStyles.colors.white}
-        name="play-circle-outline"
+        name={icon}
         size={26}
       />
     </TouchableOpacity>

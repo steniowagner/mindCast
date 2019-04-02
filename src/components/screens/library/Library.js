@@ -26,9 +26,6 @@ const Library = ({ navigation }: Props): Object => (
     <Sections
       navigation={navigation}
     />
-    <Playlists
-      navigation={navigation}
-    />
   </Wrapper>
 );
 

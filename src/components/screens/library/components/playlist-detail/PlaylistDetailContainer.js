@@ -134,8 +134,8 @@ class PlaylistDetailContainer extends Component<Props, State> {
   };
 
   render() {
-    const { isPlaylistAvailableOffline } = this.state;
     const { localPodcastsManager, playlist } = this.props;
+    const { isPlaylistAvailableOffline } = this.state;
 
     const { downloadingList, podcastsDownloaded } = localPodcastsManager;
     const { podcasts, title } = playlist;
@@ -154,8 +154,16 @@ class PlaylistDetailContainer extends Component<Props, State> {
         onRemovePodcastFromPlaylist={this.onRemovePodcastFromPlaylist}
         isPlaylistAvailableOffline={isPlaylistAvailableOffline}
         onPressPodcastsListItem={this.onPressPodcastsListItem}
-        onPressPlayAllButton={() => this.onPressHeaderButton(false)}
-        onPressShuffleButton={() => this.onPressHeaderButton(true)}
+        onPressPlayAllButton={() => {
+          if (podcastsWithDownloadStatus.length > 0) {
+            this.onPressHeaderButton(false);
+          }
+        }}
+        onPressShuffleButton={() => {
+          if (podcastsWithDownloadStatus.length > 0) {
+            this.onPressHeaderButton(true);
+          }
+        }}
         podcasts={podcastsWithDownloadStatus}
         podcastsImages={podcastsImages}
         title={title}

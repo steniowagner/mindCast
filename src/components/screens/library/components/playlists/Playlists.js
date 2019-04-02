@@ -14,7 +14,6 @@ import PlaylistOperationModal from './PlaylistOperationModal';
 import PlaylistListItem from './PlaylistListItem';
 
 import { CustomAlert, TYPES } from '~/components/common/Alert';
-import Icon from '~/components/common/Icon';
 import { ROUTE_NAMES } from '../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -25,20 +24,7 @@ const Wrapper = styled(View)`
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
   padding-top: ${({ theme }) => theme.metrics.largeSize}px;
-`;
-
-const PlaylistsText = styled(Text)`
-  font-size: ${({ theme }) => theme.metrics.getWidthFromDP('6.5%')}px;
-  font-family: CircularStd-Bold;
-  color: ${({ theme }) => theme.colors.white};
-`;
-
-const Header = styled(View)`
-  width: 100%;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
+  background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 type Playlist = {
@@ -74,6 +60,14 @@ class Playlists extends Component<Props, State> {
     playlistTitle: '',
     modalMode: '',
   };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    navigation.setParams({
+      [CONSTANTS.PARAMS.HEADER_ACTION]: () => this.onTogglePlaylistOperationModal('Create', '', 0),
+    });
+  }
 
   getPodcastImages = (podcasts: Array<Object>): Array<string> => {
     const images = podcasts.slice(0, 4).map(podcast => podcast.smallImageURL);
@@ -215,24 +209,6 @@ class Playlists extends Component<Props, State> {
 
     return (
       <Wrapper>
-        <Header>
-          <PlaylistsText>Playlists</PlaylistsText>
-          <TouchableOpacity
-            hitSlop={{
-              bottom: appStyles.metrics.smallSize,
-              right: appStyles.metrics.smallSize,
-              left: appStyles.metrics.smallSize,
-              top: appStyles.metrics.smallSize,
-            }}
-            onPress={() => this.onTogglePlaylistOperationModal('Create', '', 0)}
-          >
-            <Icon
-              color={appStyles.colors.white}
-              name="plus"
-              size={26}
-            />
-          </TouchableOpacity>
-        </Header>
         <FlatList
           renderItem={({ item, index }) => {
             const images = this.getPodcastImages(item.podcasts);

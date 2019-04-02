@@ -18,6 +18,11 @@ const ContentWrapper = styled(View)`
 const getSectionsConfig = (navigate: Function): Array<Object> => {
   const sections = [
     {
+      onPress: () => navigate(ROUTE_NAMES.PLAYLISTS),
+      iconName: 'playlist-play',
+      title: 'Playlists',
+    },
+    {
       onPress: () => navigate(ROUTE_NAMES.YOUR_PODCASTS, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,

@@ -60,19 +60,23 @@ export const getDefaultNavigationWithTitle = (title: string): Object => ({
   title,
 });
 
-export const getDefaultHeaderWithPlayButton = (
+export const getDefaultHeaderWithButton = (
   navigation: Object,
   title: string,
+  icon: string,
 ): Object => {
   const { params } = navigation.state;
 
-  const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_PLAY_ACTION];
+  const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_ACTION];
 
   return {
     ...getDefaultNavigationWithTitle(title),
-    headerRight: <HeaderActionButton
-      onPress={onPressHeaderButton}
-    />,
+    headerRight: (
+      <HeaderActionButton
+        onPress={onPressHeaderButton}
+        icon={icon}
+      />
+    ),
   };
 };
 
@@ -91,6 +95,6 @@ export const setHeaderPlayButtonPress = (
   };
 
   navigation.setParams({
-    [CONSTANTS.PARAMS.HEADER_PLAY_ACTION]: onPressPlayHeaderButton,
+    [CONSTANTS.PARAMS.HEADER_ACTION]: onPressPlayHeaderButton,
   });
 };

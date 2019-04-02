@@ -6,6 +6,7 @@ import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetai
 import PodcastsDownloaded from './components/PodcastsDownloaded';
 import PlaylistDetail from './components/playlist-detail/PlaylistDetailContainer';
 import RecentlyPlayed from './components/RecentlyPlayed';
+import Playlists from './components/playlists/Playlists';
 import YourPodcasts from './components/YourPodcasts';
 import Interests from '~/components/common/interests/Interests';
 import Player from '~/components/common/player/PlayerContainer';
@@ -13,7 +14,7 @@ import Library from './Library';
 
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import {
-  getDefaultHeaderWithPlayButton,
+  getDefaultHeaderWithButton,
   getDefaultNavigationWithTitle,
   getPlayerNavigationOption,
 } from '~/routes/utils/navigationOptions';
@@ -23,6 +24,7 @@ import appStyles from '~/styles';
 export const ROUTE_NAMES = {
   LIBRARY: 'LIBRARY',
   PLAYLIST_DETAIL: 'PLAYLIST_DETAIL',
+  PLAYLISTS: 'PLAYLISTS',
   YOUR_PODCASTS: 'YOUR_PODCASTS',
   PODCASTS_DOWNLOADED: 'PODCASTS_DOWNLOADED',
   RECENTLY_PLAYED: 'RECENTLY_PLAYED',
@@ -48,6 +50,11 @@ const RootStack = createStackNavigator(
       navigationOptions: () => getDefaultNavigationWithTitle(''),
     },
 
+    [ROUTE_NAMES.PLAYLISTS]: {
+      screen: Playlists,
+      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(navigation, 'Playlists', 'plus'),
+    },
+
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
       navigationOptions: () => getDefaultNavigationWithTitle('Podcast Detail'),
@@ -60,17 +67,29 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.YOUR_PODCASTS]: {
       screen: YourPodcasts,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithPlayButton(navigation, 'Your Podcasts'),
+      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+        navigation,
+        'Your Podcasts',
+        'play-circle-outline',
+      ),
     },
 
     [ROUTE_NAMES.PODCASTS_DOWNLOADED]: {
       screen: PodcastsDownloaded,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithPlayButton(navigation, 'Downloads'),
+      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+        navigation,
+        'Downloads',
+        'play-circle-outline',
+      ),
     },
 
     [ROUTE_NAMES.RECENTLY_PLAYED]: {
       screen: RecentlyPlayed,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithPlayButton(navigation, 'Recently Played'),
+      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+        navigation,
+        'Recently Played',
+        'play-circle-outline',
+      ),
     },
 
     [CONSTANTS.ROUTES.INTERESTS]: {
