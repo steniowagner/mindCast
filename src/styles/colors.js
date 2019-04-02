@@ -2,7 +2,7 @@ export default {
   darkText: 'rgba(0, 0, 0, 0.8)',
   subText: 'rgba(0, 0, 0, 0.5)',
   subTextWhite: '#ccc',
-  darkLayer: 'rgba(0, 0, 0, 0.7)',
+  darkLayer: 'rgba(0, 0, 0, 0.6)',
   lighDarkLayer: 'rgba(0, 0, 0, 0.45)',
   progressiveImageForeground: 'rgba(242, 242, 242, 0.5)',
   primaryColor: '#EF010B',

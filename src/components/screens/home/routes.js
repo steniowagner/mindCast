@@ -12,6 +12,7 @@ import Player from '~/components/common/player/PlayerContainer';
 import Home from './Home';
 
 import {
+  getDefaultHeaderWithPlayButton,
   getDefaultNavigationWithTitle,
   getPlayerNavigationOption,
   DEFAULT_HEADER_STYLE,
@@ -48,12 +49,12 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL]: {
       screen: HottestPodcastsSeeAll,
-      navigationOptions: () => getDefaultNavigationWithTitle('Hottest Podcasts'),
+      navigationOptions: ({ navigation }) => getDefaultHeaderWithPlayButton(navigation, 'Hottest Podcasts'),
     },
 
     [ROUTE_NAMES.NEW_RELEASES_SEE_ALL]: {
       screen: NewReleasesSeeAll,
-      navigationOptions: () => getDefaultNavigationWithTitle('New Releases'),
+      navigationOptions: ({ navigation }) => getDefaultHeaderWithPlayButton(navigation, 'New Releases'),
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {

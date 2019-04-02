@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import HottestPodcastsSeeAllListItem from '~/components/common/PodcastItemLIst';
 
+import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
 import AuthorsListItem from '~/components/common/AuthorListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
 
@@ -24,7 +25,17 @@ const HottestPodcastsSeeAllList = styled(FlatList)`
   height: 100%;
 `;
 
-class HottestPodcastsSeeAll extends Component {
+type Props = {
+  navigation: Object,
+};
+
+class HottestPodcastsSeeAll extends Component<Props, {}> {
+  componentDidMount() {
+    const { navigation } = this.props;
+
+    setHeaderPlayButtonPress(PODCASTS, navigation);
+  }
+
   render() {
     const { navigation } = this.props;
 

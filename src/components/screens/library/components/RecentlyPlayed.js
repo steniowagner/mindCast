@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
 
+import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
 import RecentlyPlayedListItem from '~/components/common/PodcastItemLIst';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -27,7 +28,6 @@ const RecentlyPlayedList = styled(FlatList)`
 
 type Props = {
   podcastsRecentlyPlayed: Array<Object>,
-  setHeaderPlayButtonPress: Function,
   podcastsDownloaded: Array<Object>,
   navigation: Object,
 };
@@ -68,8 +68,6 @@ class RecentlyPlayed extends PureComponent<Props, State> {
     if (isListLengthChanged || listOrderChanged) {
       const { navigation } = this.props;
       const { params } = navigation.state;
-
-      const setHeaderPlayButtonPress = params[CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM];
 
       setHeaderPlayButtonPress(podcastsRecentlyPlayed, navigation);
     }

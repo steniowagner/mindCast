@@ -4,6 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 import styled from 'styled-components';
 
+import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
 import { ROUTE_NAMES } from '../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 import SectionItem from './SectionItem';
@@ -13,25 +14,6 @@ const ContentWrapper = styled(View)`
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
   padding-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
-
-const setHeaderPlayButtonPress = (
-  playlist: Array<Object>,
-  navigation: Object,
-): void => {
-  const onPressPlayHeaderButton = () => {
-    if (playlist.length > 0) {
-      navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
-        [CONSTANTS.PARAMS.PLAYER]: {
-          [CONSTANTS.KEYS.PLAYLIST]: playlist,
-        },
-      });
-    }
-  };
-
-  navigation.setParams({
-    [CONSTANTS.PARAMS.HEADER_PLAY_ACTION]: onPressPlayHeaderButton,
-  });
-};
 
 const getSectionsConfig = (navigate: Function): Array<Object> => {
   const sections = [
@@ -86,7 +68,6 @@ const Sections = ({ navigation }: Props): Object => {
     <ContentWrapper>
       {sections.map(option => (
         <SectionItem
-          setHeaderPlayButtonPress={setHeaderPlayButtonPress}
           onPressItem={option.onPress}
           iconName={option.iconName}
           title={option.title}

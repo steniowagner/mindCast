@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { StatusBar, Platform } from 'react-native';
 
@@ -5,6 +7,7 @@ import {
   HeaderButton,
   POSITIONS,
 } from '~/components/common/player/components/HeaderButton';
+import HeaderActionButton from '~/components/common/HeaderActionButton';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -25,7 +28,7 @@ export const DEFAULT_HEADER_STYLE = {
   },
 };
 
-export const getPlayerNavigationOption = (navigation: Object) => {
+export const getPlayerNavigationOption = (navigation: Object): Object => {
   const { params } = navigation.state;
 
   const onPressHeaderRightButton = params[CONSTANTS.PARAMS.HEADER_BUTTON_RIGHT_PLAYER_ACTION];
@@ -46,7 +49,7 @@ export const getPlayerNavigationOption = (navigation: Object) => {
   };
 };
 
-export const getDefaultNavigationWithTitle = title => ({
+export const getDefaultNavigationWithTitle = (title: string): Object => ({
   ...DEFAULT_HEADER_STYLE,
   headerTransparent: false,
   headerStyle: {
@@ -56,3 +59,38 @@ export const getDefaultNavigationWithTitle = title => ({
   },
   title,
 });
+
+export const getDefaultHeaderWithPlayButton = (
+  navigation: Object,
+  title: string,
+): Object => {
+  const { params } = navigation.state;
+
+  const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_PLAY_ACTION];
+
+  return {
+    ...getDefaultNavigationWithTitle(title),
+    headerRight: <HeaderActionButton
+      onPress={onPressHeaderButton}
+    />,
+  };
+};
+
+export const setHeaderPlayButtonPress = (
+  playlist: Array<Object>,
+  navigation: Object,
+): void => {
+  const onPressPlayHeaderButton = (): void => {
+    if (playlist.length > 0) {
+      navigation.navigate(CONSTANTS.ROUTES.PLAYER, {
+        [CONSTANTS.PARAMS.PLAYER]: {
+          [CONSTANTS.KEYS.PLAYLIST]: playlist,
+        },
+      });
+    }
+  };
+
+  navigation.setParams({
+    [CONSTANTS.PARAMS.HEADER_PLAY_ACTION]: onPressPlayHeaderButton,
+  });
+};

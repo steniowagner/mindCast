@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
 
+import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
 import RecentlyPlayedListItem from '~/components/common/PodcastItemLIst';
 import CONSTANTS from '~/utils/CONSTANTS';
 
@@ -26,7 +27,6 @@ type Playlist = {
 };
 
 type Props = {
-  setHeaderPlayButtonPress: Function,
   podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
   navigation: Object,
@@ -63,8 +63,6 @@ class YourPodcasts extends PureComponent<Props, State> {
     if (hasNewItemInserted || isListLengthChanged) {
       const { navigation } = this.props;
       const { params } = navigation.state;
-
-      const setHeaderPlayButtonPress = params[CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM];
 
       setHeaderPlayButtonPress(userPodcasts, navigation);
     }

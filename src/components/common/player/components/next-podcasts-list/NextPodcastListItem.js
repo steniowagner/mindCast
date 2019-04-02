@@ -12,13 +12,20 @@ const Wrapper = styled(View)`
   width: 100%;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('20%')}px;
   margin-vertical: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
   flex-direction: row;
+`;
+
+const TextContentWrapper = styled(View)`
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('61%')}px;
+  height: 100%;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
 `;
 
 const TextWrapper = styled(View)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('54%')}px;
+  width: 90%;
   height: 100%;
   justify-content: center;
   padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
@@ -73,24 +80,26 @@ const NextPodcastListItem = ({
     <PodcastImage
       uri={podcast.imageURL}
     />
-    <TextWrapper>
-      <Title>{podcast.title}</Title>
-      <AuthorName>{podcast.author.name}</AuthorName>
-    </TextWrapper>
-    <TouchableOpacity
-      onPress={() => removeFromPlaylist(podcast.id)}
-      hitSlop={{
-        bottom: appStyles.metrics.smallSize,
-        right: appStyles.metrics.smallSize,
-        left: appStyles.metrics.smallSize,
-        top: appStyles.metrics.smallSize,
-      }}
-    >
-      <Icon
-        name="close"
-        size={20}
-      />
-    </TouchableOpacity>
+    <TextContentWrapper>
+      <TextWrapper>
+        <Title>{podcast.title}</Title>
+        <AuthorName>{podcast.author.name}</AuthorName>
+      </TextWrapper>
+      <TouchableOpacity
+        onPress={() => removeFromPlaylist(podcast.id)}
+        hitSlop={{
+          bottom: appStyles.metrics.smallSize,
+          right: appStyles.metrics.smallSize,
+          left: appStyles.metrics.smallSize,
+          top: appStyles.metrics.smallSize,
+        }}
+      >
+        <Icon
+          name="close"
+          size={20}
+        />
+      </TouchableOpacity>
+    </TextContentWrapper>
   </Wrapper>
 );
 
