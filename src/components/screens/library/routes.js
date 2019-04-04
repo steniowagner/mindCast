@@ -1,6 +1,11 @@
-import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import React, { Component } from 'react';
+import {
+  createStackNavigator,
+  createAppContainer,
+  withNavigation,
+} from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
+import { withTheme } from 'styled-components';
 
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
 import PodcastsDownloaded from './components/PodcastsDownloaded';
@@ -47,7 +52,7 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.PLAYLIST_DETAIL]: {
       screen: PlaylistDetail,
-      navigationOptions: () => getDefaultNavigationWithTitle(''),
+      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('', navigation),
     },
 
     [ROUTE_NAMES.PLAYLISTS]: {
@@ -57,7 +62,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: () => getDefaultNavigationWithTitle('Podcast Detail'),
+      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Podcast Detail', navigation),
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
@@ -94,7 +99,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.INTERESTS]: {
       screen: Interests,
-      navigationOptions: () => getDefaultNavigationWithTitle('Your Interests'),
+      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Your Interests', navigation),
     },
   },
   {

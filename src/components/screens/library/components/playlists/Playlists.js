@@ -24,7 +24,7 @@ const Wrapper = styled(View)`
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
   padding-top: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 type Playlist = {

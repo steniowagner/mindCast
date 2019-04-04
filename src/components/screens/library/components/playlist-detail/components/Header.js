@@ -1,14 +1,12 @@
 // @flow
 
 import React from 'react';
-import {
-  Platform, Switch, View, Text,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import styled from 'styled-components';
 
 import PlaylistCompositionImages from '~/components/common/PlaylistCompositionImages';
 import DefaultButton from '~/components/common/DefaultButton';
-import appStyles from '~/styles';
+import Switch from '~/components/common/Switch';
 
 const Wrapper = styled(View)`
   width: 100%
@@ -55,35 +53,6 @@ const Row = styled(View)`
   align-items: center;
 `;
 
-const renderSwitch = (
-  onTogglePlaylistDownloadedSwitch: Function,
-  isPlaylistAvailableOffline: boolean,
-): Object => {
-  const thumbTintColor = isPlaylistAvailableOffline
-    ? appStyles.colors.primaryColor
-    : appStyles.colors.white;
-
-  const trackColor = {
-    true:
-      Platform.OS === 'android'
-        ? appStyles.colors.primaryColorAlpha
-        : appStyles.colors.primaryColor,
-    false:
-      Platform.OS === 'android'
-        ? appStyles.colors.progressiveImageForeground
-        : '',
-  };
-
-  return (
-    <Switch
-      thumbColor={Platform.OS === 'android' ? thumbTintColor : ''}
-      onValueChange={onTogglePlaylistDownloadedSwitch}
-      value={isPlaylistAvailableOffline}
-      trackColor={trackColor}
-    />
-  );
-};
-
 type Props = {
   onTogglePlaylistDownloadedSwitch: Function,
   isPlaylistAvailableOffline: boolean,
@@ -126,10 +95,10 @@ const Header = ({
     </UpperContent>
     <BottomContent>
       <AvailableOfflineText>Available Offline</AvailableOfflineText>
-      {renderSwitch(
-        onTogglePlaylistDownloadedSwitch,
-        isPlaylistAvailableOffline,
-      )}
+      <Switch
+        onToggle={onTogglePlaylistDownloadedSwitch}
+        value={isPlaylistAvailableOffline}
+      />
     </BottomContent>
   </Wrapper>
 );

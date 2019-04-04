@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
@@ -24,20 +24,26 @@ const OptionTitle = styled(Text)`
   margin-left: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Medium;
   font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 type Props = {
   onPressItem: Function,
   iconName: string,
   title: string,
+  theme: Object,
 };
 
-const SectionItem = ({ onPressItem, iconName, title }: Props): Object => (
+const SectionItem = ({
+  onPressItem,
+  iconName,
+  title,
+  theme,
+}: Props): Object => (
   <Container>
     <LeftContentWrapper>
       <Icon
-        color={appStyles.colors.primaryColor}
+        color={theme.colors.primaryColor}
         name={iconName}
         size={24}
       />
@@ -53,7 +59,7 @@ const SectionItem = ({ onPressItem, iconName, title }: Props): Object => (
       }}
     >
       <Icon
-        color={appStyles.colors.subTextWhite}
+        color={theme.colors.textColor}
         name="chevron-right"
         size={28}
       />
@@ -61,4 +67,4 @@ const SectionItem = ({ onPressItem, iconName, title }: Props): Object => (
   </Container>
 );
 
-export default SectionItem;
+export default withTheme(SectionItem);

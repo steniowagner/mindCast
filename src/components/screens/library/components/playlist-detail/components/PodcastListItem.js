@@ -34,29 +34,6 @@ type Props = {
   index: number,
 };
 
-// const renderStatusIcon = (isPodcastDownloaded, isDownloading): Object => {
-//   if (isDownloading) {
-//     return (
-//       <ActivityIndicator
-//         color={appStyles.colors.primaryColor}
-//         size="small"
-//       />
-//     );
-//   }
-
-//   return (
-//     <Icon
-//       size={22}
-//       name={isPodcastDownloaded ? 'cloud-check' : 'cloud-download-outline'}
-//       color={
-//         isPodcastDownloaded
-//           ? appStyles.colors.primaryColor
-//           : appStyles.colors.white
-//       }
-//     />
-//   );
-// };
-
 const PodcastListItem = ({
   onRemovePodcastFromPlaylist,
   onPressPodcastsListItem,

@@ -15,45 +15,55 @@ const ContentWrapper = styled(View)`
   padding-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const getSectionsConfig = (navigate: Function): Array<Object> => {
+const getSectionsConfig = (
+  navigation: Object,
+  theme: Object,
+): Array<Object> => {
   const sections = [
     {
-      onPress: () => navigate(ROUTE_NAMES.PLAYLISTS),
+      onPress: () => navigation.navigate(ROUTE_NAMES.PLAYLISTS, {
+        [CONSTANTS.PARAMS.APP_THEME]: theme,
+      }),
       iconName: 'playlist-play',
       title: 'Playlists',
     },
     {
-      onPress: () => navigate(ROUTE_NAMES.YOUR_PODCASTS, {
+      onPress: () => navigation.navigate(ROUTE_NAMES.YOUR_PODCASTS, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,
           navigation,
         ) => setHeaderPlayButtonPress(playlist, navigation),
+        [CONSTANTS.PARAMS.APP_THEME]: theme,
       }),
       iconName: 'podcast',
       title: 'Your Podcasts',
     },
     {
-      onPress: () => navigate(ROUTE_NAMES.PODCASTS_DOWNLOADED, {
+      onPress: () => navigation.navigate(ROUTE_NAMES.PODCASTS_DOWNLOADED, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,
           navigation,
         ) => setHeaderPlayButtonPress(playlist, navigation),
+        [CONSTANTS.PARAMS.APP_THEME]: theme,
       }),
       iconName: 'cloud-download-outline',
       title: 'Downloads',
     },
     {
-      onPress: () => navigate(ROUTE_NAMES.RECENTLY_PLAYED, {
+      onPress: () => navigation.navigate(ROUTE_NAMES.RECENTLY_PLAYED, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,
           navigation,
         ) => setHeaderPlayButtonPress(playlist, navigation),
+        [CONSTANTS.PARAMS.APP_THEME]: theme,
       }),
       iconName: 'clock-outline',
       title: 'Recently Played',
     },
     {
-      onPress: () => navigate(CONSTANTS.ROUTES.INTERESTS),
+      onPress: () => navigation.navigate(CONSTANTS.ROUTES.INTERESTS, {
+        [CONSTANTS.PARAMS.APP_THEME]: theme,
+      }),
       iconName: 'playlist-check',
       title: 'Interests',
     },
@@ -64,10 +74,11 @@ const getSectionsConfig = (navigate: Function): Array<Object> => {
 
 type Props = {
   navigation: Object,
+  theme: Object,
 };
 
-const Sections = ({ navigation }: Props): Object => {
-  const sections = getSectionsConfig(navigation.navigate);
+const Sections = ({ navigation, theme }: Props): Object => {
+  const sections = getSectionsConfig(navigation, theme);
 
   return (
     <ContentWrapper>

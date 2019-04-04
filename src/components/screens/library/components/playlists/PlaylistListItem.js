@@ -3,7 +3,7 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import Swipeout from 'react-native-swipeout';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import PlaylistCompositionImages from '~/components/common/PlaylistCompositionImages';
 import SwipeOutButton from '~/components/common/SwipeOutButton';
@@ -13,7 +13,6 @@ import appStyles from '~/styles';
 const Wrapper = styled(View)`
   width: 100%;
   margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 const TextWrapper = styled(View)`
@@ -27,7 +26,7 @@ const PlaylistTitle = styled(Text).attrs({
   margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Black;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 const BottomContentWrapper = styled(View)`
@@ -55,6 +54,7 @@ type Props = {
   images: Array<string>,
   onPress: Function,
   title: string,
+  theme: Object,
 };
 
 const PlaylistListItem = ({
@@ -65,11 +65,12 @@ const PlaylistListItem = ({
   onPress,
   images,
   title,
+  theme,
 }: Props): Object => (
   <Wrapper>
     <Swipeout
       autoClose
-      backgroundColor={appStyles.colors.dark}
+      backgroundColor={theme.colors.secondaryColor}
       right={[
         {
           component: (
@@ -124,4 +125,4 @@ const PlaylistListItem = ({
   </Wrapper>
 );
 
-export default PlaylistListItem;
+export default withTheme(PlaylistListItem);

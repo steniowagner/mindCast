@@ -32,7 +32,7 @@ const AuthorDetailWrapper = styled(View)`
 
 const PodcastDescriptionText = styled(Text)`
   color: ${({ theme }) => theme.colors.white};
-  font-family: CircularStd-Book;
+  font-family: CircularStd-Medium;
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
 `;
 

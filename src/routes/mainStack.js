@@ -11,7 +11,7 @@ import {
 import HomeRoutes from '~/components/screens/home/routes';
 import SearchRoutes from '~/components/screens/search/routes';
 import LibraryRoutes from '~/components/screens/library/routes';
-
+import SettingsRoutes from '~/components/screens/settings/routes';
 import isEqualsOrLargestThanIphoneX from '~/utils/isEqualsOrLargestThanIphoneX';
 import appStyles from '~/styles';
 
@@ -60,6 +60,14 @@ const ApplicationTabs = createMaterialTopTabNavigator(
         tabBarIcon: getTabIcon('library-music'),
       },
     },
+
+    [ROUTE_NAMES.SETTINGS]: {
+      screen: SettingsRoutes,
+      header: null,
+      navigationOptions: {
+        tabBarIcon: getTabIcon('settings'),
+      },
+    },
   },
   {
     initialRouteName: ROUTE_NAMES.HOME,
@@ -68,7 +76,7 @@ const ApplicationTabs = createMaterialTopTabNavigator(
     swipeEnabled: false,
     lazy: true,
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       showIcon: true,
       style: {
         paddingBottom: isEqualsOrLargestThanIphoneX() ? 30 : 0,

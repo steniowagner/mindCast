@@ -49,16 +49,28 @@ export const getPlayerNavigationOption = (navigation: Object): Object => {
   };
 };
 
-export const getDefaultNavigationWithTitle = (title: string): Object => ({
-  ...DEFAULT_HEADER_STYLE,
-  headerTransparent: false,
-  headerStyle: {
-    backgroundColor: appStyles.colors.dark,
-    borderBottomWidth: 0,
-    elevation: 0,
-  },
-  title,
-});
+export const getDefaultNavigationWithTitle = (
+  title: string,
+  navigation: Object,
+): Object => {
+  const { params } = navigation.state;
+  const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
+
+  return {
+    ...DEFAULT_HEADER_STYLE,
+    headerTintColor: theme.colors.textColor,
+    titleStyle: {
+      color: theme.colors.textColor,
+    },
+    headerTransparent: false,
+    headerStyle: {
+      backgroundColor: theme.colors.secondaryColor,
+      borderBottomWidth: 0,
+      elevation: 0,
+    },
+    title,
+  };
+};
 
 export const getDefaultHeaderWithButton = (
   navigation: Object,
@@ -68,11 +80,13 @@ export const getDefaultHeaderWithButton = (
   const { params } = navigation.state;
 
   const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_ACTION];
+  const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
 
   return {
-    ...getDefaultNavigationWithTitle(title),
+    ...getDefaultNavigationWithTitle(title, navigation),
     headerRight: (
       <HeaderActionButton
+        color={theme.colors.textColor}
         onPress={onPressHeaderButton}
         icon={icon}
       />
