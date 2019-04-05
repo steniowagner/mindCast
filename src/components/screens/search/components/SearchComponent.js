@@ -38,8 +38,7 @@ type Props = {
   onToggleDarkLayer: Function,
   isTextInputFocused: boolean,
   onTypeAuthorName: Function,
-  navigate: Function,
-  theme: Object,
+  navigation: Object,
 };
 
 const SearchComponent = ({
@@ -47,30 +46,17 @@ const SearchComponent = ({
   onToggleDarkLayer,
   isTextInputFocused,
   onTypeAuthorName,
-  navigate,
-  theme,
+  navigation,
 }: Props): Object => (
   <Container>
     <ScreenTitle
       title="Search"
     />
-    <SearchAuthorTextInputWrapper
-      style={{
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-      }}
-    >
+    <SearchAuthorTextInputWrapper>
       <SearchAuthorTextInput
         onSearchForAuthor={onSearchForAuthor}
         onToggleDarkLayer={onToggleDarkLayer}
         onTypeAuthorName={onTypeAuthorName}
-        navigate={navigate}
       />
     </SearchAuthorTextInputWrapper>
     <SubjectsListWrapper
@@ -78,7 +64,7 @@ const SearchComponent = ({
     >
       <SubjectsList
         isTextInputFocused={isTextInputFocused}
-        navigate={navigate}
+        navigation={navigation}
       />
     </SubjectsListWrapper>
   </Container>

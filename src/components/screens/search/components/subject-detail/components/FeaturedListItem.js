@@ -10,10 +10,9 @@ import ReviewStars from '~/components/common/ReviewStars';
 import AuthorInfo from '~/components/common/AuthorInfo';
 
 const Wrapper = styled(View)`
-  width: 100%;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('40%')}px;
   justify-content: space-between;
-  margin-vertical: ${({ theme }) => theme.metrics.smallSize}px;
+  margin: ${({ theme }) => theme.metrics.smallSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 4px;

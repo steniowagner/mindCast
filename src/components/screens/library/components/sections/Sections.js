@@ -15,15 +15,10 @@ const ContentWrapper = styled(View)`
   padding-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const getSectionsConfig = (
-  navigation: Object,
-  theme: Object,
-): Array<Object> => {
+const getSectionsConfig = (navigation: Object): Array<Object> => {
   const sections = [
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.PLAYLISTS, {
-        [CONSTANTS.PARAMS.APP_THEME]: theme,
-      }),
+      onPress: () => navigation.navigate(ROUTE_NAMES.PLAYLISTS),
       iconName: 'playlist-play',
       title: 'Playlists',
     },
@@ -33,7 +28,6 @@ const getSectionsConfig = (
           playlist,
           navigation,
         ) => setHeaderPlayButtonPress(playlist, navigation),
-        [CONSTANTS.PARAMS.APP_THEME]: theme,
       }),
       iconName: 'podcast',
       title: 'Your Podcasts',
@@ -44,7 +38,6 @@ const getSectionsConfig = (
           playlist,
           navigation,
         ) => setHeaderPlayButtonPress(playlist, navigation),
-        [CONSTANTS.PARAMS.APP_THEME]: theme,
       }),
       iconName: 'cloud-download-outline',
       title: 'Downloads',
@@ -55,15 +48,12 @@ const getSectionsConfig = (
           playlist,
           navigation,
         ) => setHeaderPlayButtonPress(playlist, navigation),
-        [CONSTANTS.PARAMS.APP_THEME]: theme,
       }),
       iconName: 'clock-outline',
       title: 'Recently Played',
     },
     {
-      onPress: () => navigation.navigate(CONSTANTS.ROUTES.INTERESTS, {
-        [CONSTANTS.PARAMS.APP_THEME]: theme,
-      }),
+      onPress: () => navigation.navigate(CONSTANTS.ROUTES.INTERESTS),
       iconName: 'playlist-check',
       title: 'Interests',
     },
@@ -74,11 +64,10 @@ const getSectionsConfig = (
 
 type Props = {
   navigation: Object,
-  theme: Object,
 };
 
-const Sections = ({ navigation, theme }: Props): Object => {
-  const sections = getSectionsConfig(navigation, theme);
+const Sections = ({ navigation }: Props): Object => {
+  const sections = getSectionsConfig(navigation);
 
   return (
     <ContentWrapper>

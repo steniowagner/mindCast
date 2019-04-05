@@ -4,11 +4,12 @@ import React, { Component } from 'react';
 import { FlatList, View, Text } from 'react-native';
 import styled from 'styled-components';
 
+import CONSTANTS from '~/utils/CONSTANTS';
 import {
   getItemFromStorage,
   persistItemInStorage,
 } from '~/utils/AsyncStorageManager';
-import CONSTANTS from '~/utils/CONSTANTS';
+
 import InterestsListItem from './InterestsListItem';
 
 const DEFAULT_INTERESTS = [

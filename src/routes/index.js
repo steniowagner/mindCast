@@ -1,4 +1,7 @@
+import React from 'react';
+
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { withTheme } from 'styled-components';
 
 import MainStack from './mainStack';
 
@@ -21,4 +24,8 @@ const InitialStack = createSwitchNavigator(
 
 const AppContainer = createAppContainer(InitialStack);
 
-export default AppContainer;
+export default withTheme(({ theme }) => (
+  <AppContainer
+    screenProps={{ theme }}
+  />
+));

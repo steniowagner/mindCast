@@ -57,9 +57,10 @@ export const getPlayerNavigationOption = (navigation: Object): Object => {
 export const getDefaultNavigationWithTitle = (
   title: string,
   navigation: Object,
+  screenProps: Object,
 ): Object => {
   const { params } = navigation.state;
-  const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
+  const { theme } = screenProps;
 
   return {
     ...DEFAULT_HEADER_STYLE,
@@ -80,14 +81,19 @@ export const getDefaultNavigationWithTitle = (
 
 export const getDefaultHeaderWithButton = (
   navigation: Object,
+  screenProps: Object,
   title: string,
   icon: string,
 ): Object => {
   const { params } = navigation.state;
+  const { theme } = screenProps;
 
   const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_ACTION];
-  const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
-  const headerWithTitleStyle = getDefaultNavigationWithTitle(title, navigation);
+  const headerWithTitleStyle = getDefaultNavigationWithTitle(
+    title,
+    navigation,
+    screenProps,
+  );
 
   return {
     ...headerWithTitleStyle,
@@ -128,11 +134,8 @@ export const setHeaderPlayButtonPress = (
   });
 };
 
-export const getHiddenHeaderLayout = (navigation: Object): Object => {
-  const { params } = navigation.state;
-  const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
-
-  console.tron.log('getHiddenHeaderLayout', theme.colors.textColor);
+export const getHiddenHeaderLayout = (screenProps: Object): Object => {
+  const { theme } = screenProps;
 
   return {
     ...DEFAULT_HEADER_STYLE,

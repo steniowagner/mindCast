@@ -99,19 +99,19 @@ const SearchAuthorListItem = ({
   onPress,
   name,
 }: Props): Object => (
-  <Wrapper
-    style={{
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
-    }}
-  >
-    <CardWrapper>
+  <Wrapper>
+    <CardWrapper
+      style={{
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      }}
+    >
       <AuthorName>{name}</AuthorName>
       <NumberPodcasts>
         {`${numberPodcasts} ${numberPodcasts === 1 ? 'Podcast' : 'Podcasts'}`}
@@ -136,6 +136,16 @@ const SearchAuthorListItem = ({
       </DetailButton>
     </CardWrapper>
     <ProfileImage
+      style={{
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 6,
+      }}
       uri={profileImage}
     />
   </Wrapper>

@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react';
-import { FlatList, View } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import { FlatList, Platform, View } from 'react-native';
+import styled from 'styled-components';
 
 import TrendingAuthorsDiscoverListItem from './TrendingAuthorsDiscoverListItem';
 import SectionWithButton from '~/components/common/SectionWithButton';
@@ -18,7 +18,6 @@ const Wrapper = styled(View)`
 `;
 
 const TrendingAuthorsList = styled(FlatList)`
-  height: ${({ theme }) => theme.metrics.getWidthFromDP('68%')}px;
   width: 100%;
   flex: 1;
   margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
@@ -26,10 +25,9 @@ const TrendingAuthorsList = styled(FlatList)`
 
 type Props = {
   navigation: Object,
-  theme: Object,
 };
 
-const TrendingAuthorsDiscover = ({ navigation, theme }: Props): Object => (
+const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
   <Wrapper>
     <SectionWithButton
       onPress={() => navigation.navigate(ROUTE_NAMES.TRENDING_AUTHORS_SEE_ALL)}
@@ -51,11 +49,11 @@ const TrendingAuthorsDiscover = ({ navigation, theme }: Props): Object => (
       renderItem={({ item, index }) => (
         <TrendingAuthorsDiscoverListItem
           isLastIndex={index === PODCASTS.length - 1}
+          isFirst={index === 0}
           onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
             [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
               id: item.id,
             },
-            [CONSTANTS.PARAMS.APP_THEME]: theme,
           })
           }
           author={item}
@@ -65,4 +63,4 @@ const TrendingAuthorsDiscover = ({ navigation, theme }: Props): Object => (
   </Wrapper>
 );
 
-export default withTheme(TrendingAuthorsDiscover);
+export default TrendingAuthorsDiscover;

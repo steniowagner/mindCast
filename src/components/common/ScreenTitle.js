@@ -6,10 +6,7 @@ import styled from 'styled-components';
 
 const Title = styled(Text)`
   width: 100%;
-  margin-top: ${({ theme }) => {
-    const percentage = Platform.OS === 'ios' ? '14%' : '10%';
-    return theme.metrics.getWidthFromDP(percentage);
-  }}px;
+  margin-top: ${({ theme }) => theme.metrics.getWidthFromDP('15%')}px;
   margin-left: ${({ theme }) => theme.metrics.largeSize}px;
   font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.7}px;
   font-family: CircularStd-Black;

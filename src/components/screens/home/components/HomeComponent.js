@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ScrollView, View } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import TrendingAuthorsDiscover from './trending-authors/trending-authors-discover/TrendingAuthorsDiscover';
 import NewReleasesDiscover from './new-releases/new-releases-discover/NewReleasesDiscover';

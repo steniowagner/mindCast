@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import {
+  TouchableOpacity, Platform, View, Text,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
@@ -12,8 +14,25 @@ const Wrapper = styled(View)`
   height: ${({ theme }) => theme.metrics.getWidthFromDP('64%')}px;
   justify-content: space-between;
   align-items: center;
-  margin-left: ${({ theme }) => theme.metrics.largeSize}px;
-  margin-right: ${({ theme, isLastIndex }) => (isLastIndex ? theme.metrics.largeSize : 0)}px;
+  margin-vertical: ${({ theme }) => theme.metrics.smallSize}px;
+  margin-left: ${({ isFirst, theme }) => {
+    if (isFirst) {
+      return theme.metrics.largeSize;
+    }
+
+    if (Platform.OS === 'android') {
+      return theme.metrics.smallSize;
+    }
+
+    return 0;
+  }}px;
+  margin-right: ${({ isLastIndex, theme }) => {
+    if (isLastIndex) {
+      return theme.metrics.largeSize;
+    }
+
+    return theme.metrics.mediumSize;
+  }}px;
   padding-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
   background-color: ${({ theme }) => theme.colors.trendingAuthorsCard};
   border-radius: 4px;
@@ -73,11 +92,13 @@ type Props = {
 
 const TrendingAuthorsListItem = ({
   isLastIndex,
+  isFirst,
   onPress,
   author,
 }: Props): Object => (
   <Wrapper
     isLastIndex={isLastIndex}
+    isFirst={isFirst}
     style={{
       shadowColor: '#000',
       shadowOffset: {

@@ -46,7 +46,18 @@ const SearchAuthorTextInput = ({
   onToggleDarkLayer,
   onTypeAuthorName,
 }: Props): Object => (
-  <Wrapper>
+  <Wrapper
+    style={{
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+      elevation: 4,
+    }}
+  >
     <Icon
       name="magnify"
       color={appStyles.colors.darkText}

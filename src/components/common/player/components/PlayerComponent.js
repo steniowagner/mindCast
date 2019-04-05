@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import styled from 'styled-components';
 
 import CurrentPodcastPlaying from './CurrentPodcastPlaying';
@@ -82,6 +82,12 @@ const PlayerComponent = ({
 
   return (
     <Wrapper>
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle="light-content"
+        translucent
+        animated
+      />
       <BackgroundImage
         imageURL={thumbnailImageURL}
       />

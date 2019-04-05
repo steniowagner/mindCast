@@ -17,7 +17,7 @@ const Wrapper = styled(View)`
   height: 100%;
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 const HottestPodcastsSeeAllList = styled(FlatList)`

@@ -33,31 +33,39 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
-      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Search Authors', navigation),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
+        'Search Authors',
+        navigation,
+        screenProps,
+      ),
     },
 
     [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
       screen: SubjectDetailContainer,
-      navigationOptions: ({ navigation }) => {
+      navigationOptions: ({ navigation, screenProps }) => {
         const { params } = navigation.state;
         const subject = params[CONSTANTS.PARAMS.SUBJECT_DETAIL];
         const title = `#${subject.id}`;
 
         return {
           title,
-          ...getHiddenHeaderLayout(navigation),
+          ...getHiddenHeaderLayout(screenProps),
         };
       },
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: ({ navigation }) => getHiddenHeaderLayout(navigation),
+      navigationOptions: ({ screenProps }) => getHiddenHeaderLayout(screenProps),
     },
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Search Authors', navigation),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
+        'Podcast Detail',
+        navigation,
+        screenProps,
+      ),
     },
 
     [CONSTANTS.ROUTES.PLAYER]: {

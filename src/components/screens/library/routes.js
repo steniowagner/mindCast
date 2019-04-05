@@ -54,28 +54,38 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.PLAYLIST_DETAIL]: {
       screen: PlaylistDetail,
-      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('', navigation),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle('', navigation, screenProps),
     },
 
     [ROUTE_NAMES.PLAYLISTS]: {
       screen: Playlists,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(navigation, 'Playlists', 'plus'),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
+        navigation,
+        screenProps,
+        'Playlists',
+        'plus',
+      ),
     },
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Podcast Detail', navigation),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
+        'Podcast Detail',
+        navigation,
+        screenProps,
+      ),
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: ({ navigation }) => getHiddenHeaderLayout(navigation),
+      navigationOptions: ({ screenProps }) => getHiddenHeaderLayout(screenProps),
     },
 
     [ROUTE_NAMES.YOUR_PODCASTS]: {
       screen: YourPodcasts,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
+        screenProps,
         'Your Podcasts',
         'play-circle-outline',
       ),
@@ -83,8 +93,9 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.PODCASTS_DOWNLOADED]: {
       screen: PodcastsDownloaded,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
+        screenProps,
         'Downloads',
         'play-circle-outline',
       ),
@@ -92,8 +103,9 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.RECENTLY_PLAYED]: {
       screen: RecentlyPlayed,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
+        screenProps,
         'Recently Played',
         'play-circle-outline',
       ),
@@ -101,7 +113,11 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.INTERESTS]: {
       screen: Interests,
-      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Your Interests', navigation),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
+        'Your Interests',
+        navigation,
+        screenProps,
+      ),
     },
   },
   {

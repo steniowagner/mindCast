@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { Animated, Text, View } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import SearchAuthorListItem from '~/components/common/AuthorListItemWithSubjects';
 import Loading from '~/components/common/Loading';
@@ -31,7 +31,6 @@ type Props = {
   authorName: string,
   navigation: Object,
   loading: boolean,
-  theme: Object,
 };
 
 class SearchAuthorListComponent extends PureComponent<Props, {}> {
@@ -56,9 +55,7 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
   }
 
   renderSearchAuthorsList = (): Object => {
-    const {
-      authorName, navigation, authors, theme,
-    } = this.props;
+    const { authorName, navigation, authors } = this.props;
 
     return (
       <Animated.FlatList
@@ -80,7 +77,6 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
               [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
                 id: item.id,
               },
-              [CONSTANTS.PARAMS.APP_THEME]: theme,
             })
             }
             numberPodcasts={item.numberPodcasts}
@@ -110,4 +106,4 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
   }
 }
 
-export default withTheme(SearchAuthorListComponent);
+export default SearchAuthorListComponent;

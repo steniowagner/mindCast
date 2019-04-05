@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
   TouchableOpacity, FlatList, View, Text, Platform,
 } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -47,7 +47,6 @@ type Props = {
   editPlaylist: Function,
   modalOperations: Object,
   navigation: Object,
-  theme: Object,
 };
 
 type State = {
@@ -195,11 +194,10 @@ class Playlists extends Component<Props, State> {
   };
 
   onPressPlaylistItem = (playlistTitle: string): void => {
-    const { navigation, theme } = this.props;
+    const { navigation } = this.props;
 
     navigation.navigate(ROUTE_NAMES.PLAYLIST_DETAIL, {
       [CONSTANTS.PARAMS.PLAYLIST_TITLE]: playlistTitle,
-      [CONSTANTS.PARAMS.APP_THEME]: theme,
     });
   };
 
@@ -264,9 +262,7 @@ const mapStateToProps = state => ({
   playlists: state.playlist.playlists,
 });
 
-const PlaylistsWithTheme = withTheme(Playlists);
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PlaylistsWithTheme);
+)(Playlists);

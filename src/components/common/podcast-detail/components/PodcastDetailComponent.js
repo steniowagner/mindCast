@@ -1,7 +1,7 @@
 // @flow
 
-import React from 'react';
-import { ScrollView, Text } from 'react-native';
+import React, { Fragment } from 'react';
+import { StatusBar, ScrollView, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled, { withTheme } from 'styled-components';
 
@@ -50,8 +50,9 @@ type Props = {
   onPressPlay: Function,
   navigation: Object,
   podcast: Props,
-  theme: Object,
 };
+
+getBarStyle = (theme: Object): string => (theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content');
 
 const PodcastDetailComponent = ({
   onToggleAddPlaylistModal,
@@ -65,44 +66,53 @@ const PodcastDetailComponent = ({
   navigation,
   podcast,
   theme,
-}: Props): Object => (
-  <Wrapper
-    showsVerticalScrollIndicator={false}
-    alwaysBounceVertical={false}
-  >
-    <PodcastInfo
-      imageURL={podcast.imageURL}
-      subject={podcast.subject}
-      title={podcast.title}
-      stars={podcast.stars}
-    />
-    <ActionButtons
-      onPressAddToPlaylist={onToggleAddPlaylistModal}
-      isDownloadingPodcast={isDownloadingPodcast}
-      onPressDownloadButton={onPressDownloadButton}
-      isPodcastDownloaded={isPodcastDownloaded}
-      onPressPlay={onPressPlay}
-    />
-    <BottomContent
-      shouldShowAuthorSection={shouldShowAuthorSection}
-      onPressDetail={() => {
-        navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
-          [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
-            id: podcast.id,
-          },
-          [CONSTANTS.PARAMS.APP_THEME]: theme,
-        });
-      }}
-      description={podcast.description}
-      author={podcast.author}
-    />
-    {isAddPlaylistModalOpen && (
-      <PlaylistList
-        onToggleModal={onToggleAddPlaylistModal}
-        podcast={podcast}
+}: Props): Object => {
+  const barStyle = getBarStyle(theme);
+
+  return (
+    <Fragment>
+      <StatusBar
+        backgroundColor={theme.colors.androidToolbarColor}
+        barStyle={barStyle}
       />
-    )}
-  </Wrapper>
-);
+      <Wrapper
+        showsVerticalScrollIndicator={false}
+        alwaysBounceVertical={false}
+      >
+        <PodcastInfo
+          imageURL={podcast.imageURL}
+          subject={podcast.subject}
+          title={podcast.title}
+          stars={podcast.stars}
+        />
+        <ActionButtons
+          onPressAddToPlaylist={onToggleAddPlaylistModal}
+          isDownloadingPodcast={isDownloadingPodcast}
+          onPressDownloadButton={onPressDownloadButton}
+          isPodcastDownloaded={isPodcastDownloaded}
+          onPressPlay={onPressPlay}
+        />
+        <BottomContent
+          shouldShowAuthorSection={shouldShowAuthorSection}
+          onPressDetail={() => {
+            navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+              [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+                id: podcast.id,
+              },
+            });
+          }}
+          description={podcast.description}
+          author={podcast.author}
+        />
+        {isAddPlaylistModalOpen && (
+          <PlaylistList
+            onToggleModal={onToggleAddPlaylistModal}
+            podcast={podcast}
+          />
+        )}
+      </Wrapper>
+    </Fragment>
+  );
+};
 
 export default withTheme(PodcastDetailComponent);

@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { FlatList, View, Text } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { connect } from 'react-redux';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
@@ -30,7 +30,6 @@ type Props = {
   podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
   navigation: Object,
-  theme: Object,
 };
 
 type State = {
@@ -144,7 +143,7 @@ class YourPodcasts extends PureComponent<Props, State> {
 
   render() {
     const { userPodcasts } = this.state;
-    const { navigation, theme } = this.props;
+    const { navigation } = this.props;
 
     return (
       <Wrapper>
@@ -155,7 +154,6 @@ class YourPodcasts extends PureComponent<Props, State> {
                 [CONSTANTS.KEYS
                   .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
-                [CONSTANTS.PARAMS.APP_THEME]: theme,
               })
               }
               shouldShowDownloadStatus
@@ -178,6 +176,4 @@ const mapStateToProps = state => ({
   playlists: state.playlist.playlists,
 });
 
-const YourPodcastsWithTheme = withTheme(YourPodcasts);
-
-export default connect(mapStateToProps)(YourPodcastsWithTheme);
+export default connect(mapStateToProps)(YourPodcasts);

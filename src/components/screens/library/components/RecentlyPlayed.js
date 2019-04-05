@@ -30,7 +30,6 @@ type Props = {
   podcastsRecentlyPlayed: Array<Object>,
   podcastsDownloaded: Array<Object>,
   navigation: Object,
-  theme: Object,
 };
 
 type State = {
@@ -97,7 +96,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
 
   render() {
     const { podcastsRecentlyPlayed } = this.state;
-    const { navigation, theme } = this.props;
+    const { navigation } = this.props;
 
     return (
       <Wrapper>
@@ -108,7 +107,6 @@ class RecentlyPlayed extends PureComponent<Props, State> {
                 [CONSTANTS.KEYS
                   .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
-                [CONSTANTS.PARAMS.APP_THEME]: theme,
               })
               }
               shouldShowDownloadStatus
@@ -134,9 +132,7 @@ const mapStateToProps = state => ({
   podcastsDownloaded: state.localPodcastsManager.podcastsDownloaded,
 });
 
-const RecentlyPlayedWithTheme = withTheme(RecentlyPlayed);
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RecentlyPlayedWithTheme);
+)(RecentlyPlayed);

@@ -2,7 +2,7 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import { StatusBar, Animated, View } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions } from 'react-navigation';
 
@@ -62,6 +62,7 @@ type Props = {
   navigation: Object,
   loading: boolean,
   error: boolean,
+  theme: Object,
 };
 
 class AuthorDetailComponent extends PureComponent<Props, {}> {
@@ -87,41 +88,16 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   }
 
   onPressPodcastListItem = (podcast: Object, navigation: Object): void => {
-    const theme = this.getAppTheme();
-
     const pushAction = StackActions.push({
       routeName: CONSTANTS.ROUTES.PODCAST_DETAIL,
       params: {
         [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
         [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
-        [CONSTANTS.PARAMS.APP_THEME]: theme,
       },
     });
 
     navigation.dispatch(pushAction);
   };
-
-  renderAuthorImage = (
-    profileImageThumbnail: string,
-    profileImage: string,
-  ): Object => (
-    <Header
-      style={{
-        opacity: this._scrollViewOffset.interpolate({
-          inputRange: [0, appStyles.metrics.getHeightFromDP('25%')],
-          outputRange: [1, 0],
-          extrapolate: 'clamp',
-        }),
-      }}
-    >
-      <ImageWrapper>
-        <ProgressiveImage
-          thumbnailImageURL={profileImageThumbnail}
-          imageURL={profileImage}
-        />
-      </ImageWrapper>
-    </Header>
-  );
 
   renderContent = (): Object => {
     const { navigation, author } = this.props;
@@ -139,7 +115,22 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
 
     return (
       <Fragment>
-        {this.renderAuthorImage(profileImageThumbnail, profileImage)}
+        <Header
+          style={{
+            opacity: this._scrollViewOffset.interpolate({
+              inputRange: [0, appStyles.metrics.getHeightFromDP('25%')],
+              outputRange: [1, 0],
+              extrapolate: 'clamp',
+            }),
+          }}
+        >
+          <ImageWrapper>
+            <ProgressiveImage
+              thumbnailImageURL={profileImageThumbnail}
+              imageURL={profileImage}
+            />
+          </ImageWrapper>
+        </Header>
         <SmokeShadow />
         <Animated.ScrollView
           scrollEventThrottle={16}
@@ -197,29 +188,15 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     );
   };
 
-  getAppTheme = (): Object => {
-    const { navigation } = this.props;
-    const {
-      state: { params },
-    } = navigation;
-
-    const theme = params[CONSTANTS.PARAMS.APP_THEME];
-
-    return theme;
-  };
-
-  getBarStyle = (): string => {
-    const theme = this.getAppTheme();
-    const barStyle = theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content';
-
-    return barStyle;
-  };
+  getBarStyle = (theme: Object): string => (theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content');
 
   render() {
-    const { navigation, loading, author } = this.props;
+    const {
+      navigation, loading, author, theme,
+    } = this.props;
 
     const hasAuthorDefined = !!author;
-    const barStyle = this.getBarStyle();
+    const barStyle = this.getBarStyle(theme);
 
     return (
       <Container>
@@ -235,4 +212,4 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   }
 }
 
-export default AuthorDetailComponent;
+export default withTheme(AuthorDetailComponent);

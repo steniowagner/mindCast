@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FlatList, Animated, View } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import PodcastListItem from './PodcastListItem';
 import Header from './Header';
@@ -28,7 +28,6 @@ type Props = {
   podcastsImages: Array<string>,
   podcasts: Array<Object>,
   navigation: Object,
-  theme: Object,
   title: string,
 };
 
@@ -41,7 +40,6 @@ const PlaylistDetailComponent = ({
   podcastsImages,
   navigation,
   podcasts,
-  theme,
   title,
 }: Props): Object => (
   <Container>
@@ -61,7 +59,6 @@ const PlaylistDetailComponent = ({
             navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
               [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
               [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
-              [CONSTANTS.PARAMS.APP_THEME]: theme,
             });
           }}
           isDownloading={item.isDownloading}
@@ -76,4 +73,4 @@ const PlaylistDetailComponent = ({
   </Container>
 );
 
-export default withTheme(PlaylistDetailComponent);
+export default PlaylistDetailComponent;

@@ -7,6 +7,7 @@ import {
   createMaterialTopTabNavigator,
   createAppContainer,
 } from 'react-navigation';
+import { withTheme } from 'styled-components';
 
 import HomeRoutes from '~/components/screens/home/routes';
 import SearchRoutes from '~/components/screens/search/routes';
@@ -70,7 +71,7 @@ const ApplicationTabs = createMaterialTopTabNavigator(
     },
   },
   {
-    initialRouteName: ROUTE_NAMES.SEARCH,
+    initialRouteName: ROUTE_NAMES.HOME,
     tabBarPosition: 'bottom',
     animationEnabled: true,
     swipeEnabled: false,

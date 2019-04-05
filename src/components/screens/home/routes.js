@@ -39,18 +39,27 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: () => getDefaultNavigationWithTitle('Podcast Detail'),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
+        'Podcast Detail',
+        navigation,
+        screenProps,
+      ),
     },
 
     [ROUTE_NAMES.TRENDING_AUTHORS_SEE_ALL]: {
       screen: TrendingAuthorsSeeAll,
-      navigationOptions: () => getDefaultNavigationWithTitle('Trending Authors'),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
+        'Trending Authors',
+        navigation,
+        screenProps,
+      ),
     },
 
     [ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL]: {
       screen: HottestPodcastsSeeAll,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
+        screenProps,
         'Hottest Podcasts',
         'play-circle-outline',
       ),
@@ -58,8 +67,9 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.NEW_RELEASES_SEE_ALL]: {
       screen: NewReleasesSeeAll,
-      navigationOptions: ({ navigation }) => getDefaultHeaderWithButton(
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
+        screenProps,
         'New Releases',
         'play-circle-outline',
       ),
@@ -67,7 +77,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: ({ navigation }) => getHiddenHeaderLayout(navigation),
+      navigationOptions: ({ screenProps }) => getHiddenHeaderLayout(screenProps),
     },
 
     [CONSTANTS.ROUTES.PLAYER]: {
