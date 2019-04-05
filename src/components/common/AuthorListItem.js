@@ -17,7 +17,7 @@ const ContentWrapper = styled(View)`
   align-items: center;
   margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
   border-radius: 4px;
 `;
 
@@ -34,7 +34,7 @@ const AuthorName = styled(Text).attrs({
   numberOfLines: 2,
 })`
   width: 80%;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-family: CircularStd-Bold;
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
 `;
@@ -46,7 +46,7 @@ const DetailButton = styled(TouchableOpacity)`
   align-items: center;
   padding-top: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
   padding-left: ${({ theme }) => (Platform.OS === 'ios' ? 2 : 0)}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
   border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('6.5%')}px;
 `;
 

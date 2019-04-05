@@ -36,7 +36,7 @@ const BottomContentWrapper = styled(View)`
 
 const NumberPodcasts = styled(Text)`
   margin-right: ${({ theme }) => theme.metrics.smallSize}px;
-  color: ${({ theme }) => theme.colors.subTextWhite};
+  color: ${({ theme }) => theme.colors.subTextColor};
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.3}px;
   font-family: CircularStd-Bold;
 `;
@@ -70,7 +70,7 @@ const PlaylistListItem = ({
   <Wrapper>
     <Swipeout
       autoClose
-      backgroundColor={theme.colors.secondaryColor}
+      backgroundColor="transparent"
       right={[
         {
           component: (

@@ -63,6 +63,7 @@ class PlayerControls extends PureComponent<Props, {}> {
           onPress={onPress}
         >
           <Icon
+            color={appStyles.colors.white}
             name={iconName}
             size={iconSize}
           />
@@ -86,6 +87,7 @@ class PlayerControls extends PureComponent<Props, {}> {
       }}
     >
       <Icon
+        color={appStyles.colors.white}
         name={iconName}
         size={iconSize}
       />

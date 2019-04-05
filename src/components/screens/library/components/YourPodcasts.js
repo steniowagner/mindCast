@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { FlatList, View, Text } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import { connect } from 'react-redux';
 import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
@@ -16,7 +16,7 @@ const Wrapper = styled(View)`
   height: 100%;
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 type Playlist = {
@@ -30,6 +30,7 @@ type Props = {
   podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
   navigation: Object,
+  theme: Object,
 };
 
 type State = {
@@ -143,7 +144,7 @@ class YourPodcasts extends PureComponent<Props, State> {
 
   render() {
     const { userPodcasts } = this.state;
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
 
     return (
       <Wrapper>
@@ -154,6 +155,7 @@ class YourPodcasts extends PureComponent<Props, State> {
                 [CONSTANTS.KEYS
                   .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
+                [CONSTANTS.PARAMS.APP_THEME]: theme,
               })
               }
               shouldShowDownloadStatus
@@ -176,4 +178,6 @@ const mapStateToProps = state => ({
   playlists: state.playlist.playlists,
 });
 
-export default connect(mapStateToProps)(YourPodcasts);
+const YourPodcastsWithTheme = withTheme(YourPodcasts);
+
+export default connect(mapStateToProps)(YourPodcastsWithTheme);

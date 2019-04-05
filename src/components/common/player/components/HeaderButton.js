@@ -45,6 +45,7 @@ export const HeaderButton = ({
       }}
     >
       <Icon
+        color={appStyles.colors.white}
         name={iconName}
         size={26}
       />

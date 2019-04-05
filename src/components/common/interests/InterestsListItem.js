@@ -19,6 +19,7 @@ const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   width: 100%;
   height: 100%;
   position: absolute;
+  border-radius: 4px;
 `;
 
 const DarkLayer = styled(View)`
@@ -27,6 +28,7 @@ const DarkLayer = styled(View)`
   justify-content: center;
   align-items: center;
   background-color: ${({ isSelected, theme }) => (isSelected ? theme.colors.interestSelectedColor : theme.colors.darkLayer)};
+  border-radius: 4px;
 `;
 
 const InterestTitle = styled(Text)`

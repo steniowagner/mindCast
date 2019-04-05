@@ -13,9 +13,9 @@ const Wrapper = styled(View)`
   width: 100%;
   height: ${({ theme }) => theme.metrics.getWidthFromDP('40%')}px;
   justify-content: space-between;
-  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-vertical: ${({ theme }) => theme.metrics.smallSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 4px;
 `;
 
@@ -53,7 +53,7 @@ const PodcastTitle = styled(Text).attrs({
 })`
   margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.dark};
   font-family: CircularStd-Bold;
 `;
 
@@ -63,7 +63,18 @@ type Props = {
 };
 
 const FeaturedListitem = ({ onPress, podcast }: Props): Object => (
-  <Wrapper>
+  <Wrapper
+    style={{
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.32,
+      shadowRadius: 5.46,
+      elevation: 9,
+    }}
+  >
     <UpperContent>
       <PodcastImage
         uri={podcast.imageURL}
@@ -83,7 +94,7 @@ const FeaturedListitem = ({ onPress, podcast }: Props): Object => (
           imageURL={podcast.author.thumbnailImageURL}
           name={podcast.author.name}
           numberOfLines={1}
-          textColor="white"
+          textColor="dark"
         />
       </TextWrapper>
       <DefaultButton

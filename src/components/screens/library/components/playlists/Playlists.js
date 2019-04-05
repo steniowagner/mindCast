@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import {
   TouchableOpacity, FlatList, View, Text, Platform,
 } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,8 +23,13 @@ const Wrapper = styled(View)`
   height: 100%;
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
+`;
+
+const PlaylistsList = styled(FlatList)`
+  width: 100%;
+  height: 100%;
   padding-top: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 type Playlist = {
@@ -42,6 +47,7 @@ type Props = {
   editPlaylist: Function,
   modalOperations: Object,
   navigation: Object,
+  theme: Object,
 };
 
 type State = {
@@ -189,10 +195,11 @@ class Playlists extends Component<Props, State> {
   };
 
   onPressPlaylistItem = (playlistTitle: string): void => {
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
 
     navigation.navigate(ROUTE_NAMES.PLAYLIST_DETAIL, {
       [CONSTANTS.PARAMS.PLAYLIST_TITLE]: playlistTitle,
+      [CONSTANTS.PARAMS.APP_THEME]: theme,
     });
   };
 
@@ -205,11 +212,12 @@ class Playlists extends Component<Props, State> {
     } = this.state;
 
     const { playlists } = this.props;
+
     const isModalCreationMode = modalMode === 'Create';
 
     return (
       <Wrapper>
-        <FlatList
+        <PlaylistsList
           renderItem={({ item, index }) => {
             const images = this.getPodcastImages(item.podcasts);
 
@@ -256,7 +264,9 @@ const mapStateToProps = state => ({
   playlists: state.playlist.playlists,
 });
 
+const PlaylistsWithTheme = withTheme(Playlists);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Playlists);
+)(PlaylistsWithTheme);

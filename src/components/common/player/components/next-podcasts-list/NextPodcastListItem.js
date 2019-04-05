@@ -42,7 +42,7 @@ const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
 const Title = styled(Text).attrs({
   numberOfLines: 2,
 })`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Black;
 `;
@@ -55,6 +55,12 @@ const AuthorName = styled(Text).attrs({
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.2}px;
   font-family: CircularStd-Bold;
 `;
+
+const ShowListIcon = styled(Icon).attrs(({ theme }) => ({
+  color: theme.colors.textColor,
+  name: 'close',
+  size: 20,
+}))``;
 
 type AuthorProps = {
   name: string,
@@ -94,10 +100,7 @@ const NextPodcastListItem = ({
           top: appStyles.metrics.smallSize,
         }}
       >
-        <Icon
-          name="close"
-          size={20}
-        />
+        <ShowListIcon />
       </TouchableOpacity>
     </TextContentWrapper>
   </Wrapper>

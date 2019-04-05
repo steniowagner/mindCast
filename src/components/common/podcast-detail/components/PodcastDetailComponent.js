@@ -3,7 +3,7 @@
 import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import PlaylistList from '~/components/common/playlists-list/PlaylistsListContainer';
 
@@ -11,12 +11,14 @@ import ActionButtons from './ActionButtons';
 import BottomContent from './BottomContent';
 import PodcastInfo from './PodcastInfo';
 
+import CONSTANTS from '~/utils/CONSTANTS';
+
 const Wrapper = styled(ScrollView)`
   width: 100%;
   height: 100%;
   flex: 1;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 type AuthorProps = {
@@ -46,7 +48,9 @@ type Props = {
   isDownloadingPodcast: boolean,
   isPodcastDownloaded: boolean,
   onPressPlay: Function,
+  navigation: Object,
   podcast: Props,
+  theme: Object,
 };
 
 const PodcastDetailComponent = ({
@@ -58,7 +62,9 @@ const PodcastDetailComponent = ({
   isDownloadingPodcast,
   isPodcastDownloaded,
   onPressPlay,
+  navigation,
   podcast,
+  theme,
 }: Props): Object => (
   <Wrapper
     showsVerticalScrollIndicator={false}
@@ -79,7 +85,14 @@ const PodcastDetailComponent = ({
     />
     <BottomContent
       shouldShowAuthorSection={shouldShowAuthorSection}
-      onPressDetail={onNavigateAuthorDetail}
+      onPressDetail={() => {
+        navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+          [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+            id: podcast.id,
+          },
+          [CONSTANTS.PARAMS.APP_THEME]: theme,
+        });
+      }}
       description={podcast.description}
       author={podcast.author}
     />
@@ -92,4 +105,4 @@ const PodcastDetailComponent = ({
   </Wrapper>
 );
 
-export default PodcastDetailComponent;
+export default withTheme(PodcastDetailComponent);

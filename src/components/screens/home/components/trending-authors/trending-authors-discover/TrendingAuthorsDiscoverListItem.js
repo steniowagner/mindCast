@@ -15,7 +15,7 @@ const Wrapper = styled(View)`
   margin-left: ${({ theme }) => theme.metrics.largeSize}px;
   margin-right: ${({ theme, isLastIndex }) => (isLastIndex ? theme.metrics.largeSize : 0)}px;
   padding-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
+  background-color: ${({ theme }) => theme.colors.trendingAuthorsCard};
   border-radius: 4px;
 `;
 
@@ -43,7 +43,7 @@ const AuthorName = styled(Text).attrs({
   numberOfLines: 2,
 })`
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.05}px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-family: CircularStd-Bold;
   text-align: center;
 `;
@@ -78,6 +78,16 @@ const TrendingAuthorsListItem = ({
 }: Props): Object => (
   <Wrapper
     isLastIndex={isLastIndex}
+    style={{
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    }}
   >
     <AuthorImage
       uri={author.imageURL}

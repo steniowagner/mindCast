@@ -14,7 +14,7 @@ const Wrapper = styled(View)`
 const Name = styled(Text)`
   font-family: CircularStd-Black;
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('10%')}px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 type Props = {

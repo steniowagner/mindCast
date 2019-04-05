@@ -37,14 +37,14 @@ const PlaylistTitle = styled(Text).attrs({
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('5.35%')}px;
   font-family: CircularStd-Black;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   text-align: left;
 `;
 
 const AvailableOfflineText = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
   font-family: CircularStd-Medium;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 const Row = styled(View)`

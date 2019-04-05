@@ -36,6 +36,12 @@ export const getPlayerNavigationOption = (navigation: Object): Object => {
   const title = params[CONSTANTS.PARAMS.PLAYER_TITLE];
 
   return {
+    ...DEFAULT_HEADER_STYLE,
+    headerStyle: {
+      marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+      backgroundColor: 'transparent',
+      borderBottomWidth: 0,
+    },
     header: isRightMenuOpen ? null : undefined,
     title: title ? `#${title}` : '',
     headerRight: (
@@ -45,7 +51,6 @@ export const getPlayerNavigationOption = (navigation: Object): Object => {
         position={POSITIONS.RIGHT}
       />
     ),
-    ...DEFAULT_HEADER_STYLE,
   };
 };
 
@@ -65,6 +70,7 @@ export const getDefaultNavigationWithTitle = (
     headerTransparent: false,
     headerStyle: {
       backgroundColor: theme.colors.secondaryColor,
+      marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       borderBottomWidth: 0,
       elevation: 0,
     },
@@ -81,9 +87,18 @@ export const getDefaultHeaderWithButton = (
 
   const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_ACTION];
   const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
+  const headerWithTitleStyle = getDefaultNavigationWithTitle(title, navigation);
 
   return {
-    ...getDefaultNavigationWithTitle(title, navigation),
+    ...headerWithTitleStyle,
+    ...Platform.select({
+      android: {
+        headerStyle: {
+          ...headerWithTitleStyle.headerStyle,
+          marginTop: StatusBar.currentHeight,
+        },
+      },
+    }),
     headerRight: (
       <HeaderActionButton
         color={theme.colors.textColor}
@@ -111,4 +126,24 @@ export const setHeaderPlayButtonPress = (
   navigation.setParams({
     [CONSTANTS.PARAMS.HEADER_ACTION]: onPressPlayHeaderButton,
   });
+};
+
+export const getHiddenHeaderLayout = (navigation: Object): Object => {
+  const { params } = navigation.state;
+  const theme = params && params[CONSTANTS.PARAMS.APP_THEME];
+
+  console.tron.log('getHiddenHeaderLayout', theme.colors.textColor);
+
+  return {
+    ...DEFAULT_HEADER_STYLE,
+    headerTintColor: theme.colors.textColor,
+    headerBackTitle: null,
+    ...Platform.select({
+      android: {
+        headerStyle: {
+          marginTop: StatusBar.currentHeight,
+        },
+      },
+    }),
+  };
 };

@@ -17,6 +17,7 @@ type Props = {
   authors: Array<Object>,
   setListRef: Function,
   navigation: Object,
+  theme: Object,
 };
 
 class TabContent extends Component<Props, {}> {
@@ -38,6 +39,7 @@ class TabContent extends Component<Props, {}> {
       featuredPodcasts,
       navigation,
       authors,
+      theme,
     } = this.props;
 
     const items = [
@@ -51,6 +53,7 @@ class TabContent extends Component<Props, {}> {
                   [CONSTANTS.KEYS
                     .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                   [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
+                  [CONSTANTS.PARAMS.APP_THEME]: theme,
                 })
                 }
                 podcast={item}
@@ -75,6 +78,7 @@ class TabContent extends Component<Props, {}> {
               [CONSTANTS.KEYS
                 .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
               [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
+              [CONSTANTS.PARAMS.APP_THEME]: theme,
             })
             }
           />
@@ -90,6 +94,7 @@ class TabContent extends Component<Props, {}> {
                   [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
                     id: item.id,
                   },
+                  [CONSTANTS.PARAMS.APP_THEME]: theme,
                 })
                 }
                 author={item}

@@ -11,7 +11,7 @@ import Search from './SearchContainer';
 import {
   getPlayerNavigationOption,
   getDefaultNavigationWithTitle,
-  DEFAULT_HEADER_STYLE,
+  getHiddenHeaderLayout,
 } from '~/routes/utils/navigationOptions';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -33,7 +33,7 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
-      navigationOptions: () => getDefaultNavigationWithTitle('Search Authors'),
+      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Search Authors', navigation),
     },
 
     [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
@@ -44,20 +44,20 @@ const RootStack = createStackNavigator(
         const title = `#${subject.id}`;
 
         return {
-          ...DEFAULT_HEADER_STYLE,
           title,
+          ...getHiddenHeaderLayout(navigation),
         };
       },
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: () => DEFAULT_HEADER_STYLE,
+      navigationOptions: ({ navigation }) => getHiddenHeaderLayout(navigation),
     },
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: () => getDefaultNavigationWithTitle('Search Authors'),
+      navigationOptions: ({ navigation }) => getDefaultNavigationWithTitle('Search Authors', navigation),
     },
 
     [CONSTANTS.ROUTES.PLAYER]: {

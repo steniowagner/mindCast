@@ -73,15 +73,6 @@ class PlaylistDetailContainer extends Component<Props, State> {
     });
   };
 
-  onPressPodcastsListItem = (podcast: Object): void => {
-    const { navigation } = this.props;
-
-    navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
-      [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
-      [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
-    });
-  };
-
   onTogglePlaylistDownloadedSwitch = (): void => {
     const { setOfflineAvailability, playlist } = this.props;
     const { isPlaylistAvailableOffline } = this.state;
@@ -134,7 +125,7 @@ class PlaylistDetailContainer extends Component<Props, State> {
   };
 
   render() {
-    const { localPodcastsManager, playlist } = this.props;
+    const { localPodcastsManager, navigation, playlist } = this.props;
     const { isPlaylistAvailableOffline } = this.state;
 
     const { downloadingList, podcastsDownloaded } = localPodcastsManager;
@@ -153,7 +144,6 @@ class PlaylistDetailContainer extends Component<Props, State> {
         onTogglePlaylistDownloadedSwitch={this.onTogglePlaylistDownloadedSwitch}
         onRemovePodcastFromPlaylist={this.onRemovePodcastFromPlaylist}
         isPlaylistAvailableOffline={isPlaylistAvailableOffline}
-        onPressPodcastsListItem={this.onPressPodcastsListItem}
         onPressPlayAllButton={() => {
           if (podcastsWithDownloadStatus.length > 0) {
             this.onPressHeaderButton(false);
@@ -166,6 +156,7 @@ class PlaylistDetailContainer extends Component<Props, State> {
         }}
         podcasts={podcastsWithDownloadStatus}
         podcastsImages={podcastsImages}
+        navigation={navigation}
         title={title}
       />
     );

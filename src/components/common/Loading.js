@@ -12,11 +12,15 @@ const LoadingWrapper = styled(View)`
   align-items: center;
 `;
 
-const Loading = (): Object => (
+type Props = {
+  size: ?string,
+};
+
+const Loading = ({ size }: Props): Object => (
   <LoadingWrapper>
     <ActivityIndicator
       color={appStyles.colors.primaryColor}
-      size="large"
+      size={size || 'large'}
     />
   </LoadingWrapper>
 );

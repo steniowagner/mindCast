@@ -77,16 +77,6 @@ class PodcastDetail extends Component<Props, State> {
     };
   };
 
-  onNavigateAuthorDetail = (id: string): void => {
-    const { navigation } = this.props;
-
-    navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
-      [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
-        id,
-      },
-    });
-  };
-
   onPressPlay = (): void => {
     const { podcast } = this.getProps();
     const { navigation } = this.props;
@@ -126,6 +116,8 @@ class PodcastDetail extends Component<Props, State> {
 
   render() {
     const { isAddPlaylistModalOpen } = this.state;
+    const { navigation } = this.props;
+
     const { shouldShowAuthorSection, podcast } = this.getProps();
 
     const isPodcastDownloaded = this.checkPodcastDownloadStatus(
@@ -142,13 +134,13 @@ class PodcastDetail extends Component<Props, State> {
       <PodcastDetailComponent
         onPressDownloadButton={() => this.onPressDownloadButton(isPodcastDownloaded, podcast)
         }
-        onNavigateAuthorDetail={() => this.onNavigateAuthorDetail(podcast.id)}
         onToggleAddPlaylistModal={this.onToggleAddPlaylistModal}
         shouldShowAuthorSection={shouldShowAuthorSection}
         isAddPlaylistModalOpen={isAddPlaylistModalOpen}
         isDownloadingPodcast={isDownloadingPodcast}
         isPodcastDownloaded={isPodcastDownloaded}
         onPressPlay={this.onPressPlay}
+        navigation={navigation}
         podcast={podcast}
       />
     );

@@ -15,7 +15,6 @@ import appStyles from '~/styles';
 const Wrapper = styled(View)`
   width: 100%;
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
 `;
 
 const SwipeDeleteButton = styled(View)`
@@ -43,7 +42,7 @@ const PodcastListItem = ({
 }: Props): Object => (
   <Wrapper>
     <Swipeout
-      backgroundColor={appStyles.colors.dark}
+      backgroundColor="transparent"
       autoClose
       right={[
         {

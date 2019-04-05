@@ -25,6 +25,7 @@ const DownloadButton = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-right: ${({ theme }) => (Platform.OS === 'android' ? theme.metrics.extraSmallSize : 0)}px;
   border-radius: ${({ theme }) => theme.metrics.getWidthFromDP('8%')}px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
@@ -51,7 +52,9 @@ const renderProperIcon = (
   isPodcastDownloaded,
 ): Object => {
   if (isDownloadingPodcast) {
-    return <Loading />;
+    return <Loading
+      size="small"
+    />;
   }
 
   if (isPodcastDownloaded) {
@@ -98,6 +101,16 @@ const ActionButtons = ({
     <DownloadButton
       disabled={isDownloadingPodcast}
       onPress={onPressDownloadButton}
+      style={{
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+      }}
     >
       {renderProperIcon(isDownloadingPodcast, isPodcastDownloaded)}
     </DownloadButton>

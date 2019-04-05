@@ -36,7 +36,7 @@ class SubjectDetailContainer extends Component<Props, {}> {
   }
 
   render() {
-    const { subject } = this.props;
+    const { subject, navigation } = this.props;
     const { loading, error, data } = subject;
 
     return (

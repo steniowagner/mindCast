@@ -11,11 +11,7 @@ import SubjectsList from './subjects-list/SubjectList';
 const Container = styled(View)`
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.dark};
-`;
-
-const ContentWrapper = styled(View)`
-  flex: 1;
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 const DarkLayer = styled(View)`
@@ -43,6 +39,7 @@ type Props = {
   isTextInputFocused: boolean,
   onTypeAuthorName: Function,
   navigate: Function,
+  theme: Object,
 };
 
 const SearchComponent = ({
@@ -51,29 +48,39 @@ const SearchComponent = ({
   isTextInputFocused,
   onTypeAuthorName,
   navigate,
+  theme,
 }: Props): Object => (
   <Container>
     <ScreenTitle
       title="Search"
     />
-    <ContentWrapper>
-      <SearchAuthorTextInputWrapper>
-        <SearchAuthorTextInput
-          onSearchForAuthor={onSearchForAuthor}
-          onToggleDarkLayer={onToggleDarkLayer}
-          onTypeAuthorName={onTypeAuthorName}
-          navigate={navigate}
-        />
-      </SearchAuthorTextInputWrapper>
-      <SubjectsListWrapper
+    <SearchAuthorTextInputWrapper
+      style={{
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+      }}
+    >
+      <SearchAuthorTextInput
+        onSearchForAuthor={onSearchForAuthor}
+        onToggleDarkLayer={onToggleDarkLayer}
+        onTypeAuthorName={onTypeAuthorName}
+        navigate={navigate}
+      />
+    </SearchAuthorTextInputWrapper>
+    <SubjectsListWrapper
+      isTextInputFocused={isTextInputFocused}
+    >
+      <SubjectsList
         isTextInputFocused={isTextInputFocused}
-      >
-        <SubjectsList
-          isTextInputFocused={isTextInputFocused}
-          navigate={navigate}
-        />
-      </SubjectsListWrapper>
-    </ContentWrapper>
+        navigate={navigate}
+      />
+    </SubjectsListWrapper>
   </Container>
 );
 

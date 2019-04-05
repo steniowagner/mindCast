@@ -22,6 +22,8 @@ import {
   getDefaultHeaderWithButton,
   getDefaultNavigationWithTitle,
   getPlayerNavigationOption,
+  getHiddenHeaderLayout,
+  DEFAULT_HEADER_STYLE,
 } from '~/routes/utils/navigationOptions';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -67,7 +69,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
       screen: AuthorDetailContainer,
-      navigationOptions: () => DEFAULT_HEADER_STYLE,
+      navigationOptions: ({ navigation }) => getHiddenHeaderLayout(navigation),
     },
 
     [ROUTE_NAMES.YOUR_PODCASTS]: {

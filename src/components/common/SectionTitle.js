@@ -9,7 +9,7 @@ const Title = styled(Text)`
   margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
   font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
   font-family: CircularStd-Bold;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 const Line = styled(View)`

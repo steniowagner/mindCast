@@ -60,14 +60,14 @@ const Wrapper = styled(View)`
   height: 100%;
   flex: 1;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 const ListText = styled(Text)`
   margin-vertical: ${({ theme }) => theme.metrics.largeSize}px;
   font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.1};
   font-family: CircularStd-Medium;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   text-align: center;
 `;
 

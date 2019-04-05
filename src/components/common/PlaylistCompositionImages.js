@@ -14,7 +14,7 @@ const SMALL_SIZE = appStyles.metrics.getWidthFromDP('18.05%');
 const Wrapper = styled(View)`
   width: ${({ theme, size }) => (size === 'large' ? LARGE_SIZE : SMALL_SIZE)}px;
   height: ${({ theme, size }) => (size === 'large' ? LARGE_SIZE : SMALL_SIZE)}px;
-  background-color: ${({ theme }) => theme.colors.subTextWhite};
+  background-color: ${({ theme }) => theme.colors.textColor};
   border-radius: 5px;
   flex-wrap: wrap;
 `;

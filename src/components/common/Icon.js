@@ -3,20 +3,23 @@
 import React from 'react';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import appStyles from '~/styles';
+import { withTheme } from 'styled-components';
 
 type Props = {
   color: ?string,
+  theme: Object,
   name: string,
   size: number,
 };
 
-const Icon = ({ color, name, size }: Props) => (
+const Icon = ({
+  theme, color, name, size,
+}: Props) => (
   <MaterialCommunityIcons
-    color={color || appStyles.colors.white}
+    color={color || theme.colors.textColor}
     name={name}
     size={size}
   />
 );
 
-export default Icon;
+export default withTheme(Icon);

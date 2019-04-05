@@ -28,7 +28,7 @@ const Name = styled(Text).attrs({
   margin-top: ${({ theme }) => theme.metrics.smallSize}px;
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Bold;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 type Props = {

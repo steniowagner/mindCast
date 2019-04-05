@@ -4,7 +4,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components';
 
-import SectionTitle from './SectionTitle';
+import SectionTitle from '~/components/common/SectionTitle';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -31,6 +31,7 @@ const SubjectsWrapper = styled(View)`
   width: 100%;
   flex-wrap: wrap;
   flex-direction: row;
+  margin-top: ${({ theme }) => theme.metrics.largeSize}px;
 `;
 
 type Props = {

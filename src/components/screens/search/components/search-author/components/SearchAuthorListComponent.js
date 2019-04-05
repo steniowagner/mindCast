@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { Animated, Text, View } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import SearchAuthorListItem from '~/components/common/AuthorListItemWithSubjects';
 import Loading from '~/components/common/Loading';
@@ -13,7 +13,7 @@ const Container = styled(View)`
   width: 100%;
   height: 100%;
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 const SearchResultText = styled(Text).attrs({
@@ -23,7 +23,7 @@ const SearchResultText = styled(Text).attrs({
   margin-vertical: ${({ theme }) => theme.metrics.mediumSize};
   font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
   font-family: CircularStd-Bold;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 type Props = {
@@ -31,6 +31,7 @@ type Props = {
   authorName: string,
   navigation: Object,
   loading: boolean,
+  theme: Object,
 };
 
 class SearchAuthorListComponent extends PureComponent<Props, {}> {
@@ -54,62 +55,59 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
     }
   }
 
-  renderSearchAuthorsList = (
-    authors: Array<Object>,
-    authorName: string,
-    navigation: Object,
-  ): Object => (
-    <Animated.FlatList
-      ListHeaderComponent={
-        <SearchResultText>{`Results for: '${authorName}'`}</SearchResultText>
-      }
-      style={[
-        {
-          transform: [
-            {
-              translateY: this._authorSearchListPosition.y,
-            },
-          ],
-        },
-      ]}
-      renderItem={({ item }) => (
-        <SearchAuthorListItem
-          onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
-            [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
-              id: item.id,
-            },
-          })
-          }
-          numberPodcasts={item.numberPodcasts}
-          profileImage={item.profileImage}
-          subjects={item.subjects}
-          name={item.name}
-          id={item.id}
-        />
-      )}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={item => `${item.id}`}
-      data={authors}
-    />
-  );
+  renderSearchAuthorsList = (): Object => {
+    const {
+      authorName, navigation, authors, theme,
+    } = this.props;
+
+    return (
+      <Animated.FlatList
+        ListHeaderComponent={
+          <SearchResultText>{`Results for: '${authorName}'`}</SearchResultText>
+        }
+        style={[
+          {
+            transform: [
+              {
+                translateY: this._authorSearchListPosition.y,
+              },
+            ],
+          },
+        ]}
+        renderItem={({ item }) => (
+          <SearchAuthorListItem
+            onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+              [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+                id: item.id,
+              },
+              [CONSTANTS.PARAMS.APP_THEME]: theme,
+            })
+            }
+            numberPodcasts={item.numberPodcasts}
+            profileImage={item.profileImage}
+            subjects={item.subjects}
+            name={item.name}
+            id={item.id}
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => `${item.id}`}
+        data={authors}
+      />
+    );
+  };
 
   render() {
-    const {
-      authorName, navigation, authors, loading,
-    } = this.props;
+    const { authors, loading } = this.props;
 
     const shouldRenderLoading = loading && authors.length === 0;
 
     return (
       <Container>
-        {shouldRenderLoading ? (
-          <Loading />
-        ) : (
-          this.renderSearchAuthorsList(authors, authorName, navigation)
-        )}
+        {shouldRenderLoading ? <Loading /> : this.renderSearchAuthorsList()}
       </Container>
     );
   }
 }
 
-export default SearchAuthorListComponent;
+export default withTheme(SearchAuthorListComponent);

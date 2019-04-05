@@ -10,13 +10,13 @@ const ButtonWrapper = styled(TouchableOpacity)`
   padding-vertical: ${({ translucent, theme }) => theme.metrics.mediumSize}px;
   padding-horizontal: ${({ theme }) => theme.metrics.mediumSize}px;
   background-color: ${({ translucent, theme }) => (translucent ? 'transparent' : theme.colors.primaryColor)};
-  border: ${({ translucent, theme }) => (translucent ? theme.colors.white : 'transparent')}
+  border: ${({ translucent, theme }) => (translucent ? theme.colors.textColor : 'transparent')}
     solid 1.5px;
   border-radius: 3.5px;
 `;
 
 const Title = styled(Text)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ translucent, theme }) => (translucent ? theme.colors.textColor : theme.colors.white)};
   font-size: ${({ theme, size }) => (size === 'large'
     ? theme.metrics.largeSize
     : theme.metrics.mediumSize * 1.2)}px;
@@ -41,6 +41,7 @@ const ListenNowButton = ({
     onPress={onPress}
   >
     <Title
+      translucent={translucent}
       size={size}
     >
       {text}

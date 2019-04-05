@@ -32,7 +32,7 @@ const PodcastTitleText = styled(Text).attrs({
 })`
   margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.15}px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-family: CircularStd-Bold;
 `;
 

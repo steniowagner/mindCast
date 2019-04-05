@@ -9,7 +9,7 @@ import {
   View,
   Text,
 } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import PlaylistListItem from './PlaylistsListItem';
 import Icon from '~/components/common/Icon';
@@ -21,7 +21,7 @@ const Container = styled(View)`
     ? theme.metrics.mediumSize
     : theme.metrics.extraLargeSize)}px;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 const HeaderWrapper = styled(View)`
@@ -34,7 +34,7 @@ const HeaderWrapper = styled(View)`
 
 const PlaylistText = styled(Text)`
   margin-left: ${({ theme }) => theme.metrics.largeSize}px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('7%')}px;
   font-family: CircularStd-Black;
 `;
@@ -50,6 +50,7 @@ type Props = {
   onPressPlaylistListItem: Function,
   playlists: Array<Playlist>,
   onToggleModal: Function,
+  theme: Object,
 };
 
 const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
@@ -62,12 +63,13 @@ const PlaylistListComponent = ({
   onPressPlaylistListItem,
   onToggleModal,
   playlists,
+  theme,
 }: Props): Object => (
   <Modal
     onRequestClose={onToggleModal}
     animationType="slide"
     hardwareAccelerated
-    transparent
+    transparent={false}
   >
     <Container>
       <HeaderWrapper>
@@ -77,6 +79,7 @@ const PlaylistListComponent = ({
           <Icon
             name={Platform.OS === 'android' ? 'arrow-down' : 'chevron-down'}
             size={Platform.OS === 'ios' ? 34 : 28}
+            color={theme.colors.textColor}
           />
         </TouchableOpacity>
         <PlaylistText>Playlists</PlaylistText>
@@ -105,4 +108,4 @@ const PlaylistListComponent = ({
   </Modal>
 );
 
-export default PlaylistListComponent;
+export default withTheme(PlaylistListComponent);

@@ -3,7 +3,7 @@
 import React, { Component, Fragment } from 'react';
 import { Animated, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import ProgressiveImage from '~/components/common/ProgressiveImage';
 import CustomTab from '~/components/common/CustomTab';
@@ -21,7 +21,7 @@ const HEADER_HEIGHT = appStyles.metrics.getHeightFromDP('20%');
 
 const Container = styled(View)`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 const Header = styled(View)`
@@ -37,9 +37,9 @@ const DarkLayer = styled(View)`
   position: absolute;
 `;
 
-const SmokeShadow = styled(LinearGradient).attrs({
-  colors: ['transparent', appStyles.colors.dark],
-})`
+const SmokeShadow = styled(LinearGradient).attrs(({ theme }) => ({
+  colors: ['transparent', theme.colors.secondaryColor],
+}))`
   width: 100%;
   height: ${HEADER_HEIGHT}px;
   position: absolute;
@@ -54,6 +54,7 @@ type Props = {
   loading: boolean,
   subject: Object,
   error: boolean,
+  theme: Object,
 };
 
 class SubjectDetail extends Component<Props, {}> {
@@ -62,6 +63,14 @@ class SubjectDetail extends Component<Props, {}> {
     x: 0,
     y: HEADER_HEIGHT * 2,
   });
+
+  componentDidMount() {
+    const { navigation, theme } = this.props;
+
+    // navigation.setParams({
+    //   [CONSTANTS]
+    // })
+  }
 
   componentWillReceiveProps(nextProps: Props) {
     const { loading, error, subject } = nextProps;
@@ -89,12 +98,12 @@ class SubjectDetail extends Component<Props, {}> {
         thumbnailImageURL={thumbnailImageURL}
         imageURL={imageURL}
       />
-      <DarkLayer />
     </Header>
   );
 
   renderTabContent = (items: Object): Object => {
     const { trending, featured, authors } = items;
+    const { theme } = this.props;
 
     return (
       <ContentWrapper>
@@ -110,6 +119,7 @@ class SubjectDetail extends Component<Props, {}> {
           }}
           trendingPodcasts={trending}
           featuredPodcasts={featured}
+          theme={theme}
           authors={authors}
         />
       </ContentWrapper>
@@ -153,4 +163,4 @@ class SubjectDetail extends Component<Props, {}> {
   }
 }
 
-export default SubjectDetail;
+export default withTheme(SubjectDetail);

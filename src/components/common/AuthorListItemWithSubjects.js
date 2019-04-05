@@ -9,6 +9,7 @@ import styled from 'styled-components';
 
 import DefaultButton from '~/components/common/DefaultButton';
 import Icon from '~/components/common/Icon';
+import appStyles from '~/styles';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -98,7 +99,18 @@ const SearchAuthorListItem = ({
   onPress,
   name,
 }: Props): Object => (
-  <Wrapper>
+  <Wrapper
+    style={{
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    }}
+  >
     <CardWrapper>
       <AuthorName>{name}</AuthorName>
       <NumberPodcasts>
@@ -117,8 +129,9 @@ const SearchAuthorListItem = ({
         onPress={onPress}
       >
         <Icon
-          size={24}
+          color={appStyles.colors.white}
           name="magnify"
+          size={24}
         />
       </DetailButton>
     </CardWrapper>

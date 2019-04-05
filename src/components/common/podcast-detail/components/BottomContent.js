@@ -20,7 +20,7 @@ const Section = styled(View)`
 const SectionContentWrapper = styled(View)`
   margin-top: ${({ theme }) => theme.metrics.largeSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.lightSecondaryColor};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
   border-radius: 4px;
 `;
 
@@ -31,7 +31,7 @@ const AuthorDetailWrapper = styled(View)`
 `;
 
 const PodcastDescriptionText = styled(Text)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-family: CircularStd-Medium;
   font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
 `;

@@ -34,7 +34,7 @@ const PlaylistTitle = styled(Text).attrs({
   margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('5.35%')}px;
   font-family: CircularStd-Black;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 const NumberPodcasts = styled(Text)`

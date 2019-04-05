@@ -2,10 +2,12 @@
 
 import React from 'react';
 import { FlatList, Animated, View } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import PodcastListItem from './PodcastListItem';
 import Header from './Header';
+
+import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
 const HEADER_HEIGHT = appStyles.metrics.getHeightFromDP('50%');
@@ -14,18 +16,19 @@ const Container = styled(View)`
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 type Props = {
   onTogglePlaylistDownloadedSwitch: Function,
   onRemovePodcastFromPlaylist: Function,
   isPlaylistAvailableOffline: boolean,
-  onPressPodcastsListItem: Function,
   onPressPlayAllButton: Function,
   onPressShuffleButton: Function,
   podcastsImages: Array<string>,
   podcasts: Array<Object>,
+  navigation: Object,
+  theme: Object,
   title: string,
 };
 
@@ -33,11 +36,12 @@ const PlaylistDetailComponent = ({
   onTogglePlaylistDownloadedSwitch,
   onRemovePodcastFromPlaylist,
   isPlaylistAvailableOffline,
-  onPressPodcastsListItem,
   onPressPlayAllButton,
   onPressShuffleButton,
   podcastsImages,
+  navigation,
   podcasts,
+  theme,
   title,
 }: Props): Object => (
   <Container>
@@ -53,7 +57,13 @@ const PlaylistDetailComponent = ({
       renderItem={({ item, index }) => (
         <PodcastListItem
           onRemovePodcastFromPlaylist={() => onRemovePodcastFromPlaylist(index)}
-          onPressPodcastsListItem={() => onPressPodcastsListItem(item)}
+          onPressPodcastsListItem={() => {
+            navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
+              [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
+              [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
+              [CONSTANTS.PARAMS.APP_THEME]: theme,
+            });
+          }}
           isDownloading={item.isDownloading}
           podcast={item}
           index={index}
@@ -66,4 +76,4 @@ const PlaylistDetailComponent = ({
   </Container>
 );
 
-export default PlaylistDetailComponent;
+export default withTheme(PlaylistDetailComponent);

@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { FlatList, View } from 'react-native';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,7 +17,7 @@ const Wrapper = styled(View)`
   width: 100%;
   height: 100%;
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.backgroundColor};
 `;
 
 const RecentlyPlayedList = styled(FlatList)`
@@ -30,6 +30,7 @@ type Props = {
   podcastsRecentlyPlayed: Array<Object>,
   podcastsDownloaded: Array<Object>,
   navigation: Object,
+  theme: Object,
 };
 
 type State = {
@@ -96,7 +97,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
 
   render() {
     const { podcastsRecentlyPlayed } = this.state;
-    const { navigation } = this.props;
+    const { navigation, theme } = this.props;
 
     return (
       <Wrapper>
@@ -107,6 +108,7 @@ class RecentlyPlayed extends PureComponent<Props, State> {
                 [CONSTANTS.KEYS
                   .PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: true,
                 [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
+                [CONSTANTS.PARAMS.APP_THEME]: theme,
               })
               }
               shouldShowDownloadStatus
@@ -132,7 +134,9 @@ const mapStateToProps = state => ({
   podcastsDownloaded: state.localPodcastsManager.podcastsDownloaded,
 });
 
+const RecentlyPlayedWithTheme = withTheme(RecentlyPlayed);
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RecentlyPlayed);
+)(RecentlyPlayedWithTheme);

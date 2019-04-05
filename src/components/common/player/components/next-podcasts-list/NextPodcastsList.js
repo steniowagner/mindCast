@@ -13,7 +13,7 @@ import appStyles from '~/styles';
 const Container = styled(View)`
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
   padding-top: ${({ theme }) => theme.metrics.getHeightFromDP('6%')}px;
 `;
 
@@ -25,7 +25,7 @@ const Header = styled(View)`
 `;
 
 const NextText = styled(Text)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('7%')}px;
   font-family: CircularStd-Bold;
   padding-left: ${({ theme }) => theme.metrics.largeSize}px;

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent, Fragment } from 'react';
-import { Animated, View } from 'react-native';
+import { StatusBar, Animated, View } from 'react-native';
 import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions } from 'react-navigation';
@@ -22,7 +22,7 @@ import AuthorName from './AuthorName';
 const Container = styled(View)`
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.dark};
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
 const Header = styled(Animated.View)`
@@ -37,9 +37,9 @@ const ImageWrapper = styled(View)`
   height: 100%;
 `;
 
-const SmokeShadow = styled(LinearGradient).attrs({
-  colors: ['transparent', appStyles.colors.dark],
-})`
+const SmokeShadow = styled(LinearGradient).attrs(({ theme }) => ({
+  colors: ['transparent', theme.colors.secondaryColor],
+}))`
   width: 100%;
   height: ${({ theme }) => theme.metrics.getHeightFromDP('30%')};
   position: absolute;
@@ -87,11 +87,14 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   }
 
   onPressPodcastListItem = (podcast: Object, navigation: Object): void => {
+    const theme = this.getAppTheme();
+
     const pushAction = StackActions.push({
       routeName: CONSTANTS.ROUTES.PODCAST_DETAIL,
       params: {
         [CONSTANTS.KEYS.PODCAST_DETAIL_SHOULD_SHOW_AUTHOR_SECTION]: false,
         [CONSTANTS.PARAMS.PODCAST_DETAIL]: podcast,
+        [CONSTANTS.PARAMS.APP_THEME]: theme,
       },
     });
 
@@ -120,7 +123,9 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     </Header>
   );
 
-  renderContent = (author: AuthorProps, navigation: Object): Object => {
+  renderContent = (): Object => {
+    const { navigation, author } = this.props;
+
     const {
       profileImageThumbnail,
       relatedAuthors,
@@ -192,20 +197,39 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     );
   };
 
-  render() {
+  getAppTheme = (): Object => {
+    const { navigation } = this.props;
     const {
-      navigation, loading, author, error,
-    } = this.props;
+      state: { params },
+    } = navigation;
+
+    const theme = params[CONSTANTS.PARAMS.APP_THEME];
+
+    return theme;
+  };
+
+  getBarStyle = (): string => {
+    const theme = this.getAppTheme();
+    const barStyle = theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content';
+
+    return barStyle;
+  };
+
+  render() {
+    const { navigation, loading, author } = this.props;
 
     const hasAuthorDefined = !!author;
+    const barStyle = this.getBarStyle();
 
     return (
       <Container>
-        {loading || !hasAuthorDefined ? (
-          <Loading />
-        ) : (
-          this.renderContent(author, navigation)
-        )}
+        <StatusBar
+          backgroundColor="transparent"
+          barStyle={barStyle}
+          translucent
+          animated
+        />
+        {loading || !hasAuthorDefined ? <Loading /> : this.renderContent()}
       </Container>
     );
   }

@@ -19,7 +19,7 @@ const Container = styled(TouchableOpacity)`
 const Index = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.extraLargeSize}px;
   font-family: CircularStd-Bold;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 const Image = styled(FastImage).attrs(({ uri }) => ({
@@ -48,13 +48,13 @@ const Title = styled(Text).attrs({
   margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
   font-size: ${({ theme }) => theme.metrics.largeSize}px;
   font-family: CircularStd-Bold;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textColor};
 `;
 
 const Subject = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.mediumSize * 1.25}px;
   font-family: CircularStd-Medium;
-  color: ${({ theme }) => theme.colors.progressiveImageForeground};
+  color: ${({ theme }) => theme.colors.subTextColor};
 `;
 
 const MainContent = styled(View)`
@@ -66,7 +66,7 @@ const BottomLine = styled(View)`
   width: 100%;
   height: 1.5px;
   margin-top: ${({ theme }) => theme.metrics.largeSize}px;
-  background-color: ${({ theme }) => theme.colors.progressiveImageForeground};
+  background-color: ${({ theme }) => theme.colors.subTextColor};
 `;
 
 type Props = {

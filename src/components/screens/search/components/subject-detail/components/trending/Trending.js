@@ -8,10 +8,12 @@ import TrendingListItem from './TrendingListItem';
 import appStyles from '~/styles';
 
 const ListsWrapper = styled(View)`
+  width: ${({ theme }) => theme.metrics.width}px;
   height: 100%;
   flex-direction: row;
   flex-wrap: wrap;
-  padding-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
+  justify-content: space-around;
+  padding-left: 4px;
 `;
 
 type Props = {
@@ -30,8 +32,10 @@ const renderList = (
     data={podcasts}
     style={{
       flex: 1,
-      paddingLeft: side === 'right' ? appStyles.metrics.smallSize : 0,
-      paddingRight: side === 'left' ? appStyles.metrics.smallSize : 0,
+      width: appStyles.metrics.getWidthFromDP('50%'),
+    }}
+    contentContainerStyle={{
+      alignItems: 'center',
     }}
     renderItem={({ item, index }) => (
       <TrendingListItem
@@ -54,9 +58,6 @@ const TrendingPodcastsList = ({ podcasts, onPress }: Props): Object => {
 
   return (
     <ScrollView
-      contentContainerStyle={{
-        marginHorizontal: appStyles.metrics.mediumSize,
-      }}
       showsVerticalScrollIndicator={false}
     >
       <ListsWrapper>
