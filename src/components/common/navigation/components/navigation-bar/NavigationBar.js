@@ -33,18 +33,7 @@ const NavigationBar = ({
   stackRouteSelected,
   items,
 }: Props): Object => (
-  <Wrapper
-    style={{
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 6,
-      },
-      shadowOpacity: 0.37,
-      shadowRadius: 7.49,
-      elevation: 12,
-    }}
-  >
+  <Wrapper>
     {items.map((item, index) => (
       <NavigationBarItem
         {...item}

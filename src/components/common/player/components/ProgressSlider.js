@@ -35,7 +35,7 @@ class ProgressSlider extends Component<Props, State> {
     slideValue: 0,
   };
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const { player } = nextProps;
     const { shouldSeekProgressSlider, currentTime } = player;
 

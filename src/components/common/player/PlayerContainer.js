@@ -84,9 +84,23 @@ class PlayerContainer extends Component<Props, State> {
     } = this.props;
 
     const { params } = navigation.state;
-    const { playlist: pastPlaylist, currentPodcast, paused } = player;
+    const {
+      playlist: pastPlaylist,
+      currentPodcast,
+      paused,
+      playlistIndex,
+    } = player;
 
     const playerParams = params[CONSTANTS.PARAMS.PLAYER];
+    const isLookingUpPlayer = playerParams[CONSTANTS.KEYS.LOOKUP_PLAYER];
+
+    this.setHeaderRightMenuPress();
+
+    if (isLookingUpPlayer) {
+      this.setHeaderTitle(navigation, pastPlaylist[playlistIndex].subject);
+
+      return;
+    }
 
     const shouldShufflePlaylist = playerParams[CONSTANTS.KEYS.SHOULD_SHUFFLE_PLAYLIST];
     const playlist = playerParams[CONSTANTS.KEYS.PLAYLIST];
@@ -97,8 +111,6 @@ class PlayerContainer extends Component<Props, State> {
       playlist,
       pastPlaylist,
     );
-
-    this.setHeaderRightMenuPress();
 
     if (
       !isCurrentPodcastDefined

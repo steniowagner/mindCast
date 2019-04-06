@@ -104,9 +104,9 @@ class PlayerControls extends PureComponent<Props, {}> {
     return (
       <Container>
         <Wrapper>
-          {this.renderSideButton('rewind', playPrevious, iconSize)}
+          {this.renderSideButton('skip-previous', playPrevious, iconSize)}
           {this.renderCenterButton(paused, pause, play, iconSize)}
-          {this.renderSideButton('fast-forward', playNext, iconSize)}
+          {this.renderSideButton('skip-next', playNext, iconSize)}
         </Wrapper>
       </Container>
     );
