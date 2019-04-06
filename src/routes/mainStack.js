@@ -1,14 +1,11 @@
-// @flow
-
 import React from 'react';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   createMaterialTopTabNavigator,
   createAppContainer,
 } from 'react-navigation';
 import { withTheme } from 'styled-components';
 
+import Navigation from '~/components/common/navigation/Navigation';
 import HomeRoutes from '~/components/screens/home/routes';
 import SearchRoutes from '~/components/screens/search/routes';
 import LibraryRoutes from '~/components/screens/library/routes';
@@ -24,74 +21,40 @@ export const ROUTE_NAMES = {
   SETTINGS: 'SETTINGS',
 };
 
-type Props = {
-  tintColor: string,
-};
-
-const getTabIcon = (icon: string): Object => ({ tintColor }: Props) => (
-  <Icon
-    color={tintColor}
-    name={icon}
-    size={25}
-  />
-);
-
 const ApplicationTabs = createMaterialTopTabNavigator(
   {
     [ROUTE_NAMES.HOME]: {
       screen: HomeRoutes,
       header: null,
-      navigationOptions: {
-        tabBarIcon: getTabIcon('compass-outline'),
-      },
     },
 
     [ROUTE_NAMES.SEARCH]: {
       screen: SearchRoutes,
       header: null,
-      navigationOptions: {
-        tabBarIcon: getTabIcon('magnify'),
-      },
     },
 
     [ROUTE_NAMES.LIBRARY]: {
       screen: LibraryRoutes,
       header: null,
-      navigationOptions: {
-        tabBarIcon: getTabIcon('library-music'),
-      },
     },
 
     [ROUTE_NAMES.SETTINGS]: {
       screen: SettingsRoutes,
       header: null,
-      navigationOptions: {
-        tabBarIcon: getTabIcon('settings'),
-      },
     },
   },
   {
+    tabBarComponent: ({ navigationState, navigation }) => (
+      <Navigation
+        navigationState={navigationState}
+        navigation={navigation}
+      />
+    ),
     initialRouteName: ROUTE_NAMES.HOME,
     tabBarPosition: 'bottom',
     animationEnabled: true,
     swipeEnabled: false,
-    lazy: true,
-    tabBarOptions: {
-      showLabel: false,
-      showIcon: true,
-      style: {
-        paddingBottom: isEqualsOrLargestThanIphoneX() ? 30 : 0,
-        backgroundColor: appStyles.colors.white,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 10,
-      },
-      indicatorStyle: {
-        backgroundColor: 'transparent',
-      },
-      inactiveTintColor: appStyles.colors.subText,
-      activeTintColor: appStyles.colors.primaryColor,
-    },
+    lazy: false,
   },
 );
 

@@ -1,15 +1,13 @@
 import { createStackNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
 
-import Settings from './Settings';
+import CONSTANST from '~/utils/CONSTANTS';
 
-export const ROUTE_NAMES = {
-  SETTINGS: 'SETTINGS',
-};
+import Settings from './Settings';
 
 const RootStack = createStackNavigator(
   {
-    [ROUTE_NAMES.SETTINGS]: {
+    [CONSTANST.ROUTES.SETTINGS]: {
       screen: Settings,
       navigationOptions: () => ({
         headerBackTitle: null,
@@ -18,19 +16,11 @@ const RootStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: ROUTE_NAMES.SETTINGS,
+    initialRouteName: CONSTANST.ROUTES.SETTINGS,
     mode: Platform.OS === 'ios' ? 'card' : 'modal',
     headerLayoutPreset: 'center',
     headerMode: 'screen',
   },
 );
-
-RootStack.navigationOptions = ({ navigation }) => {
-  const tabBarVisible = navigation.state.index <= 0;
-
-  return {
-    tabBarVisible,
-  };
-};
 
 export default RootStack;

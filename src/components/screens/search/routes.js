@@ -18,12 +18,11 @@ import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {
   SEARCH_AUTHORS_RESULT: 'SEARCH_AUTHORS_RESULT',
-  SEARCH: 'SEARCH',
 };
 
 const RootStack = createStackNavigator(
   {
-    [ROUTE_NAMES.SEARCH]: {
+    [CONSTANTS.ROUTES.SEARCH]: {
       screen: Search,
       navigationOptions: () => ({
         headerBackTitle: null,
@@ -74,19 +73,11 @@ const RootStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: ROUTE_NAMES.HOME,
+    initialRouteName: CONSTANTS.ROUTES.SEARCH,
     mode: Platform.OS === 'ios' ? 'card' : 'modal',
     headerLayoutPreset: 'center',
     headerMode: 'screen',
   },
 );
-
-RootStack.navigationOptions = ({ navigation }) => {
-  const tabBarVisible = navigation.state.index <= 0;
-
-  return {
-    tabBarVisible,
-  };
-};
 
 export default RootStack;

@@ -39,7 +39,7 @@ export const ROUTE_NAMES = {
 
 const RootStack = createStackNavigator(
   {
-    [ROUTE_NAMES.LIBRARY]: {
+    [CONSTANTS.ROUTES.LIBRARY]: {
       screen: Library,
       navigationOptions: () => ({
         headerBackTitle: null,
@@ -121,19 +121,11 @@ const RootStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: ROUTE_NAMES.HOME,
+    initialRouteName: CONSTANTS.ROUTES.LIBRARY,
     mode: Platform.OS === 'ios' ? 'card' : 'modal',
     headerLayoutPreset: 'center',
     headerMode: 'screen',
   },
 );
-
-RootStack.navigationOptions = ({ navigation }) => {
-  const tabBarVisible = navigation.state.index <= 0;
-
-  return {
-    tabBarVisible,
-  };
-};
 
 export default RootStack;

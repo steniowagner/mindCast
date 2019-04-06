@@ -23,8 +23,9 @@ const getHeightFromDP = (heightPercentage: string): number => {
 };
 
 export default {
-  statusBarHeight: Platform.OS === 'ios' ? 20 : 0,
+  navigationHeaderFontSize: Platform.OS === 'ios' ? 17 : 19,
   navigationHeaderHeight: Platform.OS === 'ios' ? 64 : 54,
+  statusBarHeight: Platform.OS === 'ios' ? 20 : 0,
   extraSmallSize: getWidthFromDP('1%'),
   smallSize: getWidthFromDP('2%'),
   mediumSize: getWidthFromDP('3%'),

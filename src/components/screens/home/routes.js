@@ -24,12 +24,11 @@ export const ROUTE_NAMES = {
   TRENDING_AUTHORS_SEE_ALL: 'TRENDING_AUTHORS_SEE_ALL',
   HOTTEST_PODCASTS_SEE_ALL: 'HOTTEST_PODCASTS_SEE_ALL',
   NEW_RELEASES_SEE_ALL: 'NEW_RELEASES_SEE_ALL',
-  HOME: 'HOME',
 };
 
 const RootStack = createStackNavigator(
   {
-    [ROUTE_NAMES.HOME]: {
+    [CONSTANTS.ROUTES.HOME]: {
       screen: Home,
       navigationOptions: () => ({
         headerBackTitle: null,
@@ -92,13 +91,5 @@ const RootStack = createStackNavigator(
     headerMode: 'screen',
   },
 );
-
-RootStack.navigationOptions = ({ navigation }) => {
-  const tabBarVisible = navigation.state.index <= 0;
-
-  return {
-    tabBarVisible,
-  };
-};
 
 export default RootStack;
