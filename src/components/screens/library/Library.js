@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import ScreenTitle from '~/components/common/ScreenTitle';
 import Playlists from './components/playlists/Playlists';
@@ -17,19 +17,17 @@ const Wrapper = styled(View)`
 
 type Props = {
   navigation: Object,
-  theme: Object,
 };
 
-const Library = ({ navigation, theme }: Props) => (
+const Library = ({ navigation }: Props) => (
   <Wrapper>
     <ScreenTitle
       title="Library"
     />
     <Sections
       navigation={navigation}
-      theme={theme}
     />
   </Wrapper>
 );
 
-export default withTheme(Library);
+export default Library;

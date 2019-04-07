@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react';
-import { View } from 'react-native';
-import styled from 'styled-components';
+import { StatusBar, View } from 'react-native';
+import styled, { withTheme } from 'styled-components';
 
 import ScreenTitle from '~/components/common/ScreenTitle';
 import SearchAuthorTextInput from './SearchAuthorTextInput';
@@ -39,6 +39,7 @@ type Props = {
   isTextInputFocused: boolean,
   onTypeAuthorName: Function,
   navigation: Object,
+  theme: Object,
 };
 
 const SearchComponent = ({
@@ -47,27 +48,38 @@ const SearchComponent = ({
   isTextInputFocused,
   onTypeAuthorName,
   navigation,
-}: Props): Object => (
-  <Container>
-    <ScreenTitle
-      title="Search"
-    />
-    <SearchAuthorTextInputWrapper>
-      <SearchAuthorTextInput
-        onSearchForAuthor={onSearchForAuthor}
-        onToggleDarkLayer={onToggleDarkLayer}
-        onTypeAuthorName={onTypeAuthorName}
-      />
-    </SearchAuthorTextInputWrapper>
-    <SubjectsListWrapper
-      isTextInputFocused={isTextInputFocused}
-    >
-      <SubjectsList
-        isTextInputFocused={isTextInputFocused}
-        navigation={navigation}
-      />
-    </SubjectsListWrapper>
-  </Container>
-);
+  theme,
+}: Props): Object => {
+  const barStyle = theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content';
 
-export default SearchComponent;
+  return (
+    <Container>
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={barStyle}
+        translucent
+        animated
+      />
+      <ScreenTitle
+        title="Search"
+      />
+      <SearchAuthorTextInputWrapper>
+        <SearchAuthorTextInput
+          onSearchForAuthor={onSearchForAuthor}
+          onToggleDarkLayer={onToggleDarkLayer}
+          onTypeAuthorName={onTypeAuthorName}
+        />
+      </SearchAuthorTextInputWrapper>
+      <SubjectsListWrapper
+        isTextInputFocused={isTextInputFocused}
+      >
+        <SubjectsList
+          isTextInputFocused={isTextInputFocused}
+          navigation={navigation}
+        />
+      </SubjectsListWrapper>
+    </Container>
+  );
+};
+
+export default withTheme(SearchComponent);

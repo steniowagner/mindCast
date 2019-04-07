@@ -25,6 +25,7 @@ export const DEFAULT_HEADER_STYLE = {
   headerTitleStyle: {
     fontFamily: 'CircularStd-Medium',
     fontSize: appStyles.metrics.navigationHeaderFontSize,
+    fontWeight: undefined,
   },
 };
 

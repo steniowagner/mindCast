@@ -1,7 +1,13 @@
 // @flow
 
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import {
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+  Text,
+  View,
+} from 'react-native';
 import styled from 'styled-components';
 
 import {
@@ -11,9 +17,14 @@ import {
 import ThemeContextConsumer from '~/ThemeContextProvider';
 import ScreenTitle from '~/components/common/ScreenTitle';
 import Switch from '~/components/common/Switch';
+import Icon from '~/components/common/Icon';
 import CONSTANTS from '~/utils/CONSTANTS';
+import { ROUTE_NAMES } from './routes';
+import appStyles from '~/styles';
 
-const Wrapper = styled(View)`
+const Wrapper = styled(ScrollView).attrs({
+  alwaysBounceVertical: false,
+})`
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.secondaryColor};
@@ -21,7 +32,6 @@ const Wrapper = styled(View)`
 
 const OptionsWrapper = styled(View)`
   width: 100%;
-  height: 100%;
   margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
   padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
 `;
@@ -89,7 +99,17 @@ const items = [
   },
 ];
 
-class Settings extends Component {
+type Props = {
+  navigation: Object,
+};
+
+type State = {
+  shouldDownloadMobileData: boolean,
+  isOfflineModeOn: boolean,
+  isAutoPlayOn: boolean,
+};
+
+class Settings extends Component<Props, State> {
   state = {
     shouldDownloadMobileData: false,
     isOfflineModeOn: false,
@@ -125,6 +145,8 @@ class Settings extends Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <Wrapper>
         <ScreenTitle
@@ -167,6 +189,34 @@ class Settings extends Component {
                     </Row>
                   );
                 })}
+                <Row>
+                  <TextWrapper>
+                    <OptiontTitle>About</OptiontTitle>
+                    <OptionDescription>
+                      Want to know more about the Creator of this App? Check it
+                      out!
+                    </OptionDescription>
+                  </TextWrapper>
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('ABOUT')}
+                    hitSlop={{
+                      bottom: appStyles.metrics.smallSize,
+                      right: appStyles.metrics.smallSize,
+                      left: appStyles.metrics.smallSize,
+                      top: appStyles.metrics.smallSize,
+                    }}
+                  >
+                    <Icon
+                      color={appStyles.colors.subTextWhite}
+                      name={
+                        Platform.OS === 'android'
+                          ? 'arrow-right'
+                          : 'chevron-right'
+                      }
+                      size={Platform.OS === 'android' ? 32 : 34}
+                    />
+                  </TouchableOpacity>
+                </Row>
               </OptionsWrapper>
             );
           }}
@@ -175,22 +225,5 @@ class Settings extends Component {
     );
   }
 }
-
-// const Settings = (): Object => (
-//   <Wrapper>
-// <ThemeContextConsumer>
-//   {(context) => {
-//     const { onToggleDarkTheme, isDarkThemeActivated } = context;
-
-//     return (
-//       <Switch
-//         onToggle={onToggleDarkTheme}
-//         value={isDarkThemeActivated}
-//       />
-//     );
-//   }}
-// </ThemeContextConsumer>
-//   </Wrapper>
-// );
 
 export default Settings;
