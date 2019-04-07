@@ -7,7 +7,7 @@ import styled, { withTheme } from 'styled-components';
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
 
-const Container = styled(View)`
+const Container = styled(TouchableOpacity)`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
@@ -40,7 +40,9 @@ const SectionItem = ({
   title,
   theme,
 }: Props): Object => (
-  <Container>
+  <Container
+    onPress={onPressItem}
+  >
     <LeftContentWrapper>
       <Icon
         color={theme.colors.primaryColor}
@@ -49,21 +51,11 @@ const SectionItem = ({
       />
       <OptionTitle>{title}</OptionTitle>
     </LeftContentWrapper>
-    <TouchableOpacity
-      onPress={onPressItem}
-      hitSlop={{
-        bottom: appStyles.metrics.smallSize,
-        right: appStyles.metrics.smallSize,
-        left: appStyles.metrics.smallSize,
-        top: appStyles.metrics.smallSize,
-      }}
-    >
-      <Icon
-        color={theme.colors.textColor}
-        name="chevron-right"
-        size={28}
-      />
-    </TouchableOpacity>
+    <Icon
+      color={theme.colors.textColor}
+      name="chevron-right"
+      size={28}
+    />
   </Container>
 );
 

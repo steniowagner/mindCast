@@ -3,8 +3,13 @@
 import React, { Fragment, Component, createContext } from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
+import {
+  getItemFromStorage,
+  persistItemInStorage,
+} from '~/utils/AsyncStorageManager';
 
 import appStyles, { lightTheme, darkTheme } from './styles';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const { Provider, Consumer } = createContext();
 
@@ -18,13 +23,44 @@ type State = {
 
 class ThemeContextProvider extends Component<Props, State> {
   state = {
-    isDarkThemeActivated: false,
+    isDarkThemeActivated: null,
   };
 
-  onToggleDarkTheme = (isDarkThemeActivated: boolean): void => {
+  async componentDidMount() {
+    const isFirstTimeRunningApp = await getItemFromStorage(
+      CONSTANTS.KEYS.FIRST_TIME_RUNNING_APP,
+      false,
+    );
+
+    if (typeof isFirstTimeRunningApp === 'boolean') {
+      this.setState({
+        isDarkThemeActivated: true,
+      });
+
+      return;
+    }
+
+    const appThemeFromStorage = await getItemFromStorage(
+      CONSTANTS.KEYS.APP_THEME,
+      false,
+    );
+
+    const isDarkThemeActivated = appThemeFromStorage === 'true';
+
     this.setState({
       isDarkThemeActivated,
     });
+  }
+
+  onToggleDarkTheme = async (): void => {
+    const { isDarkThemeActivated } = this.state;
+
+    this.setState({
+      isDarkThemeActivated: !isDarkThemeActivated,
+    });
+
+    await persistItemInStorage(CONSTANTS.KEYS.APP_THEME, !isDarkThemeActivated);
+    await persistItemInStorage(CONSTANTS.KEYS.FIRST_TIME_RUNNING_APP, true);
   };
 
   getAppTheme = (): Object => {
@@ -44,6 +80,10 @@ class ThemeContextProvider extends Component<Props, State> {
   render() {
     const { isDarkThemeActivated } = this.state;
     const { children } = this.props;
+
+    if (typeof isDarkThemeActivated !== 'boolean') {
+      return null;
+    }
 
     const appTheme = this.getAppTheme();
 

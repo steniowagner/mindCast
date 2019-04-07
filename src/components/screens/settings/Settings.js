@@ -1,35 +1,196 @@
 // @flow
 
-import React from 'react';
-import { Platform, View } from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 import styled from 'styled-components';
 
+import {
+  getItemFromStorage,
+  persistItemInStorage,
+} from '~/utils/AsyncStorageManager';
 import ThemeContextConsumer from '~/ThemeContextProvider';
+import ScreenTitle from '~/components/common/ScreenTitle';
 import Switch from '~/components/common/Switch';
+import CONSTANTS from '~/utils/CONSTANTS';
 
 const Wrapper = styled(View)`
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
   background-color: ${({ theme }) => theme.colors.secondaryColor};
 `;
 
-const Settings = (): Object => (
-  <Wrapper>
-    <ThemeContextConsumer>
-      {(context) => {
-        const { onToggleDarkTheme, isDarkThemeActivated } = context;
+const OptionsWrapper = styled(View)`
+  width: 100%;
+  height: 100%;
+  margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  padding-horizontal: ${({ theme }) => theme.metrics.largeSize}px;
+`;
 
-        return (
-          <Switch
-            onToggle={onToggleDarkTheme}
-            value={isDarkThemeActivated}
-          />
-        );
-      }}
-    </ThemeContextConsumer>
-  </Wrapper>
-);
+const Row = styled(View)`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TextWrapper = styled(View)`
+  width: 75%;
+  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
+`;
+
+const OptiontTitle = styled(Text)`
+  margin-bottom: ${({ theme }) => theme.metrics.extraSmallSize}px;
+  font-family: CircularStd-Bold;
+  font-size: ${({ theme }) => theme.metrics.largeSize * 1.1}px;
+  color: ${({ theme }) => theme.colors.textColor};
+`;
+
+const OptionDescription = styled(Text)`
+  font-family: CircularStd-Medium;
+  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+  color: ${({ theme }) => theme.colors.subTextColor};
+`;
+
+const DARK_THEME_STATE_REF = 'DARK_THEME_STATE_REF';
+
+const STORAGE_KEYS = {
+  DOWNLOAD_MOBILE_DATA: 'DOWNLOAD_MOBILE_DATA',
+  OFFLINE_MODE: 'OFFLINE_MODE',
+  AUTO_PLAY: 'AUTO_PLAY',
+};
+
+const items = [
+  {
+    title: 'AutoPlay',
+    description:
+      'Continue listening to similar podcasts when the current playlist ends.',
+    stateReference: 'isAutoPlayOn',
+    storageKey: STORAGE_KEYS.AUTO_PLAY,
+  },
+  {
+    title: 'Offline mode',
+    description:
+      'When you goes offline, only will be possible to listen podcasts previously downloaded.',
+    stateReference: 'isOfflineModeOn',
+    storageKey: STORAGE_KEYS.OFFLINE_MODE,
+  },
+  {
+    title: 'Dark Theme',
+    description:
+      'Activate the Dark theme (the Light Theme will be activated otherwise).',
+    stateReference: DARK_THEME_STATE_REF,
+  },
+  {
+    title: 'Download with Mobile Network',
+    description:
+      "Allows the App to performs downloads by using the device's network.",
+    stateReference: 'shouldDownloadMobileData',
+    storageKey: STORAGE_KEYS.DOWNLOAD_MOBILE_DATA,
+  },
+];
+
+class Settings extends Component {
+  state = {
+    shouldDownloadMobileData: false,
+    isOfflineModeOn: false,
+    isAutoPlayOn: false,
+  };
+
+  async componentDidMount() {
+    const [
+      shouldDownloadMobileData,
+      isOfflineModeOn,
+      isAutoPlayOn,
+    ] = await Promise.all([
+      getItemFromStorage(STORAGE_KEYS.DOWNLOAD_MOBILE_DATA, false),
+      getItemFromStorage(STORAGE_KEYS.OFFLINE_MODE, false),
+      getItemFromStorage(STORAGE_KEYS.AUTO_PLAY, false),
+    ]);
+
+    this.setState({
+      shouldDownloadMobileData: shouldDownloadMobileData === 'true',
+      isOfflineModeOn: isOfflineModeOn === 'true',
+      isAutoPlayOn: isAutoPlayOn === 'true',
+    });
+  }
+
+  onToggleSwitch = async (stateReference: string, storageKey: string): void => {
+    const currentOptionValue = this.state[stateReference];
+
+    this.setState({
+      [stateReference]: !currentOptionValue,
+    });
+
+    await persistItemInStorage(storageKey, !currentOptionValue);
+  };
+
+  render() {
+    return (
+      <Wrapper>
+        <ScreenTitle
+          title="Settings"
+        />
+        <ThemeContextConsumer>
+          {(context) => {
+            const { onToggleDarkTheme, isDarkThemeActivated } = context;
+
+            return (
+              <OptionsWrapper>
+                {items.map((item) => {
+                  const value = item.stateReference !== DARK_THEME_STATE_REF
+                    ? this.state[item.stateReference]
+                    : isDarkThemeActivated;
+
+                  return (
+                    <Row
+                      key={item.title}
+                    >
+                      <TextWrapper>
+                        <OptiontTitle>{item.title}</OptiontTitle>
+                        <OptionDescription>
+                          {item.description}
+                        </OptionDescription>
+                      </TextWrapper>
+                      <Switch
+                        onToggle={() => {
+                          const onToggle = item.stateReference === DARK_THEME_STATE_REF
+                            ? onToggleDarkTheme
+                            : () => this.onToggleSwitch(
+                              item.stateReference,
+                              item.storageKey,
+                            );
+
+                          onToggle();
+                        }}
+                        value={value}
+                      />
+                    </Row>
+                  );
+                })}
+              </OptionsWrapper>
+            );
+          }}
+        </ThemeContextConsumer>
+      </Wrapper>
+    );
+  }
+}
+
+// const Settings = (): Object => (
+//   <Wrapper>
+// <ThemeContextConsumer>
+//   {(context) => {
+//     const { onToggleDarkTheme, isDarkThemeActivated } = context;
+
+//     return (
+//       <Switch
+//         onToggle={onToggleDarkTheme}
+//         value={isDarkThemeActivated}
+//       />
+//     );
+//   }}
+// </ThemeContextConsumer>
+//   </Wrapper>
+// );
 
 export default Settings;

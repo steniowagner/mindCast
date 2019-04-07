@@ -19,10 +19,7 @@ const CustomSwitch = ({ onToggle, value }: Props): Object => {
       Platform.OS === 'android'
         ? appStyles.colors.primaryColorAlpha
         : appStyles.colors.primaryColor,
-    false:
-      Platform.OS === 'android'
-        ? appStyles.colors.progressiveImageForeground
-        : '',
+    false: Platform.OS === 'android' ? appStyles.colors.subTextWhite : '',
   };
 
   return (
