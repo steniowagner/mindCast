@@ -4,7 +4,23 @@ import React, { Component } from 'react';
 import { View, Text, Slider } from 'react-native';
 import styled from 'styled-components';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Creators as PlayerCreators } from '~/store/ducks/player';
+
 import appStyles from '~/styles';
+
+const Wrapper = styled(View)`
+  width: 100%;
+  justify-content: center;
+  padding-horizontal: 20px;
+`;
+
+const TimerWrapper = styled(View)`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 const TimerText = styled(Text)`
   color: ${({ theme }) => theme.colors.white};
@@ -79,37 +95,29 @@ class ProgressSlider extends Component<Props, State> {
     const { totalDurationInSeconds, duration } = currentPodcast;
 
     return (
-      <View
-        style={{
-          width: '100%',
-          justifyContent: 'center',
-          alginItems: 'center',
-          paddingHorizontal: 20,
-        }}
-      >
+      <Wrapper>
         <Slider
           onSlidingComplete={value => this.onSlidingComplete(value)}
           minimumTrackTintColor={appStyles.colors.primaryColor}
-          thumbTintColor={appStyles.colors.primaryColor}
+          maximumTrackTintColor={appStyles.colors.subTextWhite}
           onValueChange={value => this.onValueChange(value)}
+          thumbTintColor={appStyles.colors.primaryColor}
           maximumValue={totalDurationInSeconds}
           value={slideValue}
           minimumValue={0}
           step={1}
         />
-        <View
-          style={{
-            width: '100%',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-          }}
-        >
+        <TimerWrapper>
           <TimerText>{currentTime}</TimerText>
           <TimerText>{duration}</TimerText>
-        </View>
-      </View>
+        </TimerWrapper>
+      </Wrapper>
     );
   }
 }
 
-export default ProgressSlider;
+const mapStateToProps = state => ({
+  player: state.player,
+});
+
+export default connect(mapStateToProps)(ProgressSlider);

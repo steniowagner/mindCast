@@ -8,22 +8,18 @@ import appStyles from '~/styles';
 
 type Props = {
   onToggleAddPlaylistModal: Function,
-  iconSize: number,
 };
 
-const HandlePodcastInPlaylists = ({
-  onToggleAddPlaylistModal,
-  iconSize,
-}: Props): Object => (
+const AddPodcastPlaylist = ({ onToggleAddPlaylistModal }: Props): Object => (
   <Button
     onPress={onToggleAddPlaylistModal}
   >
     <Icon
+      size={appStyles.metrics.getWidthFromDP('6%') + 5}
       color={appStyles.colors.white}
       name="playlist-plus"
-      size={iconSize + 5}
     />
   </Button>
 );
 
-export default HandlePodcastInPlaylists;
+export default AddPodcastPlaylist;

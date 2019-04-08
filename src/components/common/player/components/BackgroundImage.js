@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, Image } from 'react-native';
 import styled from 'styled-components';
 
@@ -31,20 +31,13 @@ type Props = {
   imageURL: string,
 };
 
-class BackgroundImage extends PureComponent<Props, {}> {
-  render() {
-    const { imageURL } = this.props;
-    const hasImageURLprop = typeof imageURL === 'string' && imageURL.length > 0;
-
-    return (
-      <Container>
-        {hasImageURLprop && <BlurredImage
-          imageURL={imageURL}
-        />}
-        <BlackLayer />
-      </Container>
-    );
-  }
-}
+const BackgroundImage = ({ imageURL }: Props): Object => (
+  <Container>
+    <BlurredImage
+      imageURL={imageURL}
+    />
+    <BlackLayer />
+  </Container>
+);
 
 export default BackgroundImage;

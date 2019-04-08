@@ -22,7 +22,6 @@ type Props = {
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
-  iconSize: number,
 };
 
 const handlePress = (
@@ -46,26 +45,27 @@ const handlePress = (
 };
 
 const getIconConfig = (
-  defaultSize: number,
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
 ): Object => {
+  const iconSize = appStyles.metrics.getWidthFromDP('6%');
+
   const config = {
     name: 'repeat-off',
     color: appStyles.colors.white,
-    size: defaultSize,
+    size: iconSize,
   };
 
   if (shouldRepeatPlaylist) {
     config.color = appStyles.colors.primaryColor;
     config.name = 'repeat';
-    config.size = defaultSize + 2;
+    config.size = iconSize + 2;
   }
 
   if (shouldRepeatCurrent) {
     config.color = appStyles.colors.primaryColor;
     config.name = 'repeat-once';
-    config.size = defaultSize + 2;
+    config.size = iconSize + 2;
   }
 
   return config;
@@ -77,10 +77,8 @@ const Repeat = ({
   disableRepetition,
   setRepeatPlaylist,
   setRepeatCurrent,
-  iconSize,
 }: Props): Object => {
   const { name, color, size } = getIconConfig(
-    iconSize,
     shouldRepeatPlaylist,
     shouldRepeatCurrent,
   );

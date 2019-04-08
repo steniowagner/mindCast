@@ -1,6 +1,6 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 import styled from 'styled-components';
 
@@ -43,19 +43,13 @@ type Props = {
   title: string,
 };
 
-class CurrentPodcastPlaying extends PureComponent<Props, {}> {
-  render() {
-    const { author, title } = this.props;
+const PodcastTextContent = ({ author, title }: Props): Object => (
+  <Container>
+    <Wrapper>
+      <AuthorText>{author}</AuthorText>
+      <TitleText>{title}</TitleText>
+    </Wrapper>
+  </Container>
+);
 
-    return (
-      <Container>
-        <Wrapper>
-          <AuthorText>{author}</AuthorText>
-          <TitleText>{title}</TitleText>
-        </Wrapper>
-      </Container>
-    );
-  }
-}
-
-export default CurrentPodcastPlaying;
+export default PodcastTextContent;

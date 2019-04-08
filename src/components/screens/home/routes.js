@@ -13,7 +13,7 @@ import Home from './Home';
 
 import {
   getDefaultHeaderWithButton,
-  getDefaultNavigationWithTitle,
+  getDefaultHeaderWithTitle,
   getPlayerNavigationOption,
   getHiddenHeaderLayout,
 } from '~/routes/utils/navigationOptions';
@@ -38,20 +38,12 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
-        'Podcast Detail',
-        navigation,
-        screenProps,
-      ),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Podcast Detail', navigation, screenProps),
     },
 
     [ROUTE_NAMES.TRENDING_AUTHORS_SEE_ALL]: {
       screen: TrendingAuthorsSeeAll,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
-        'Trending Authors',
-        navigation,
-        screenProps,
-      ),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Trending Authors', navigation, screenProps),
     },
 
     [ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL]: {

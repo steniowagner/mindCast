@@ -4,8 +4,8 @@ import React from 'react';
 import { StatusBar, View } from 'react-native';
 import styled from 'styled-components';
 
-import CurrentPodcastPlaying from './CurrentPodcastPlaying';
-import BottomPlayerOptions from './bottom-player-options/BottomPlayerOptionsContainer';
+import BottomPlayerOptions from './bottom-player-options/BottomPlayerOptions';
+import PodcastTextContent from './PodcastTextContent';
 import BackgroundImage from './BackgroundImage';
 import ProgressSlider from './ProgressSlider';
 import PlayerControls from './PlayerControls';
@@ -26,112 +26,98 @@ const BottomSection = styled(View)`
   padding-bottom: ${({ theme }) => theme.metrics.getHeightFromDP('3.5%')}px;
 `;
 
-type PlayerProps = {
+type Props = {
   isCurrentPodcastDownloaded: boolean,
-  shouldSeekProgressSlider: boolean,
+  onToggleAddPlaylistModal: Function,
+  isAddPlaylistModalOpen: boolean,
+  isAddPlaylistModalOpen: boolean,
   shouldShufflePlaylist: boolean,
   shouldRepeatPlaylist: boolean,
-  currentTimeInSeconds: number,
   shouldRepeatCurrent: boolean,
-  playlist: Array<Object>,
-  currentPodcast: Object,
-  playlistIndex: number,
-  currentTime: string,
-  paused: boolean,
-};
-
-type LocalPodcastManagerProps = {
-  podcastsDownloaded: Array<Object>,
-};
-
-type Props = {
-  localPodcastsManager: LocalPodcastManagerProps,
   seekProgressTimer: Function,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
-  downloadPodcast: Function,
   shufflePlaylist: Function,
-  removePodcast: Function,
+  playlist: Array<Object>,
+  currentPodcast: Object,
   playPrevious: Function,
-  player: PlayerProps,
+  playlistIndex: number,
   playNext: Function,
   pause: Function,
+  paused: boolean,
   play: Function,
 };
 
 const PlayerComponent = ({
-  localPodcastsManager,
+  isCurrentPodcastDownloaded,
+  onToggleAddPlaylistModal,
+  isAddPlaylistModalOpen,
+  shouldShufflePlaylist,
+  shouldRepeatPlaylist,
+  shouldRepeatCurrent,
   seekProgressTimer,
   disableRepetition,
   setRepeatPlaylist,
   setRepeatCurrent,
-  downloadPodcast,
   shufflePlaylist,
-  removePodcast,
+  currentPodcast,
+  playlistIndex,
   playPrevious,
   playNext,
-  player,
+  playlist,
+  paused,
   pause,
   play,
-}: Props): Object => {
-  const { currentPodcast, paused } = player;
-  const {
-    thumbnailImageURL, imageURL, author, title,
-  } = currentPodcast;
-
-  return (
-    <Wrapper>
-      <StatusBar
-        backgroundColor="transparent"
-        barStyle="light-content"
-        translucent
-        animated
+}: Props): Object => (
+  <Wrapper>
+    <StatusBar
+      backgroundColor="transparent"
+      barStyle="light-content"
+      translucent
+      animated
+    />
+    <BackgroundImage
+      imageURL={currentPodcast.thumbnailImageURL}
+    />
+    <UpperSection>
+      <PodcastImage
+        thumbnailImageURL={currentPodcast.thumbnailImageURL}
+        imageURL={currentPodcast.imageURL}
       />
-      <BackgroundImage
-        imageURL={thumbnailImageURL}
+      <PodcastTextContent
+        author={currentPodcast.author.name}
+        title={currentPodcast.title}
       />
-      <UpperSection>
-        <PodcastImage
-          thumbnailImageURL={thumbnailImageURL}
-          imageURL={imageURL}
-        />
-        <CurrentPodcastPlaying
-          author={author.name}
-          title={title}
-        />
-        <ProgressSlider
-          seekProgressTimer={seekProgressTimer}
-          player={player}
-        />
-        <PlayerControls
-          playPrevious={playPrevious}
-          playNext={playNext}
-          paused={paused}
-          pause={pause}
-          play={play}
-        />
-      </UpperSection>
-      <BottomSection>
-        <BottomPlayerOptions
-          isCurrentPodcastDownloaded={player.isCurrentPodcastDownloaded}
-          shouldShufflePlaylist={player.shouldShufflePlaylist}
-          shouldRepeatPlaylist={player.shouldRepeatPlaylist}
-          shouldRepeatCurrent={player.shouldRepeatCurrent}
-          localPodcastsManager={localPodcastsManager}
-          currentPodcast={player.currentPodcast}
-          disableRepetition={disableRepetition}
-          setRepeatPlaylist={setRepeatPlaylist}
-          playlistIndex={player.playlistIndex}
-          setRepeatCurrent={setRepeatCurrent}
-          downloadPodcast={downloadPodcast}
-          shufflePlaylist={shufflePlaylist}
-          removePodcast={removePodcast}
-          playlist={player.playlist}
-        />
-      </BottomSection>
-    </Wrapper>
-  );
-};
+      <ProgressSlider
+        seekProgressTimer={seekProgressTimer}
+      />
+      <PlayerControls
+        playPrevious={playPrevious}
+        playNext={playNext}
+        paused={paused}
+        pause={pause}
+        play={play}
+      />
+    </UpperSection>
+    <BottomSection>
+      <BottomPlayerOptions
+        isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
+        onToggleAddPlaylistModal={onToggleAddPlaylistModal}
+        isAddPlaylistModalOpen={isAddPlaylistModalOpen}
+        shouldShufflePlaylist={shouldShufflePlaylist}
+        shouldRepeatPlaylist={shouldRepeatPlaylist}
+        shouldRepeatCurrent={shouldRepeatCurrent}
+        disableRepetition={disableRepetition}
+        setRepeatPlaylist={setRepeatPlaylist}
+        setRepeatCurrent={setRepeatCurrent}
+        shufflePlaylist={shufflePlaylist}
+        currentPodcast={currentPodcast}
+        playlistIndex={playlistIndex}
+        playlist={playlist}
+      />
+    </BottomSection>
+  </Wrapper>
+);
 
 export default PlayerComponent;

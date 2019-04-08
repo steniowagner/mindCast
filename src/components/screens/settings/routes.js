@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 
 import {
   getPlayerNavigationOption,
-  getDefaultNavigationWithTitle,
+  getDefaultHeaderWithTitle,
 } from '~/routes/utils/navigationOptions';
 import Player from '~/components/common/player/PlayerContainer';
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -32,7 +32,7 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.ABOUT]: {
       screen: About,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle('About', navigation, screenProps),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('About', navigation, screenProps),
     },
   },
   {

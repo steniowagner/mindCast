@@ -20,7 +20,7 @@ import Library from './Library';
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
 import {
   getDefaultHeaderWithButton,
-  getDefaultNavigationWithTitle,
+  getDefaultHeaderWithTitle,
   getPlayerNavigationOption,
   getHiddenHeaderLayout,
   DEFAULT_HEADER_STYLE,
@@ -54,7 +54,7 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.PLAYLIST_DETAIL]: {
       screen: PlaylistDetail,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle('', navigation, screenProps),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('', navigation, screenProps),
     },
 
     [ROUTE_NAMES.PLAYLISTS]: {
@@ -69,11 +69,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
-        'Podcast Detail',
-        navigation,
-        screenProps,
-      ),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Podcast Detail', navigation, screenProps),
     },
 
     [CONSTANTS.ROUTES.AUTHOR_DETAIL]: {
@@ -113,11 +109,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.INTERESTS]: {
       screen: Interests,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
-        'Your Interests',
-        navigation,
-        screenProps,
-      ),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Your Interests', navigation, screenProps),
     },
   },
   {

@@ -10,7 +10,7 @@ import Search from './SearchContainer';
 
 import {
   getPlayerNavigationOption,
-  getDefaultNavigationWithTitle,
+  getDefaultHeaderWithTitle,
   getHiddenHeaderLayout,
 } from '~/routes/utils/navigationOptions';
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -32,11 +32,7 @@ const RootStack = createStackNavigator(
 
     [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
-        'Search Authors',
-        navigation,
-        screenProps,
-      ),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Search Authors', navigation, screenProps),
     },
 
     [CONSTANTS.ROUTES.SUBJECT_DETAIL]: {
@@ -60,11 +56,7 @@ const RootStack = createStackNavigator(
 
     [CONSTANTS.ROUTES.PODCAST_DETAIL]: {
       screen: PodcastDetailContainer,
-      navigationOptions: ({ navigation, screenProps }) => getDefaultNavigationWithTitle(
-        'Podcast Detail',
-        navigation,
-        screenProps,
-      ),
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Podcast Detail', navigation, screenProps),
     },
 
     [CONSTANTS.ROUTES.PLAYER]: {

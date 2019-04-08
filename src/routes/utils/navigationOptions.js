@@ -3,10 +3,7 @@
 import React from 'react';
 import { StatusBar, Platform } from 'react-native';
 
-import {
-  HeaderButton,
-  POSITIONS,
-} from '~/components/common/player/components/HeaderButton';
+import { HeaderButton, POSITIONS } from '~/components/common/HeaderButton';
 import HeaderActionButton from '~/components/common/HeaderActionButton';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -23,8 +20,8 @@ export const DEFAULT_HEADER_STYLE = {
     color: appStyles.colors.white,
   },
   headerTitleStyle: {
-    fontFamily: 'CircularStd-Bold',
     fontSize: appStyles.metrics.navigationHeaderFontSize,
+    fontFamily: 'CircularStd-Bold',
     fontWeight: undefined,
   },
 };
@@ -55,7 +52,7 @@ export const getPlayerNavigationOption = (navigation: Object): Object => {
   };
 };
 
-export const getDefaultNavigationWithTitle = (
+export const getDefaultHeaderWithTitle = (
   title: string,
   navigation: Object,
   screenProps: Object,
@@ -90,7 +87,7 @@ export const getDefaultHeaderWithButton = (
   const { theme } = screenProps;
 
   const onPressHeaderButton = params && params[CONSTANTS.PARAMS.HEADER_ACTION];
-  const headerWithTitleStyle = getDefaultNavigationWithTitle(
+  const headerWithTitleStyle = getDefaultHeaderWithTitle(
     title,
     navigation,
     screenProps,

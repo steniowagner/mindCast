@@ -4,6 +4,10 @@ import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import styled from 'styled-components';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
+
 import { CustomAlert, TYPES } from '~/components/common/Alert';
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
@@ -12,12 +16,12 @@ import Button from './Button';
 
 const Wrapper = styled(View)`
   height: 100%;
-  width: ${({ iconSize }) => iconSize + 8};
+  width: ${({ theme }) => theme.metrics.getWidthFromDP('6%') + 8};
   justify-content: center;
   align-items: center;
 `;
 
-const _checkCurrentPodcastStored = (
+const checkCurrentPodcastStored = (
   currentPodcast: Object,
   podcastsDownloaded: Array<Object>,
 ): boolean => {
@@ -28,7 +32,7 @@ const _checkCurrentPodcastStored = (
   return isCurrentPodcastStored;
 };
 
-const _getButtonConfig = (isCurrentPodcastStored: boolean): Object => {
+const getButtonConfig = (isCurrentPodcastStored: boolean): Object => {
   const buttonConfig = isCurrentPodcastStored
     ? {
       name: 'cloud-check',
@@ -66,14 +70,13 @@ const renderButton = (
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
-  iconSize: number,
 ): Object => {
-  const isCurrentPodcastStored = _checkCurrentPodcastStored(
+  const isCurrentPodcastStored = checkCurrentPodcastStored(
     currentPodcast,
     podcastsDownloaded,
   );
 
-  const { name, color } = _getButtonConfig(isCurrentPodcastStored);
+  const { name, color } = getButtonConfig(isCurrentPodcastStored);
 
   return (
     <Button
@@ -86,9 +89,9 @@ const renderButton = (
       }
     >
       <Icon
+        size={appStyles.metrics.getWidthFromDP('6%') + 4}
         color={color}
         name={name}
-        size={iconSize + 4}
       />
     </Button>
   );
@@ -116,7 +119,6 @@ type Props = {
   downloadPodcast: Function,
   removePodcast: Function,
   currentPodcast: Object,
-  iconSize: number,
 };
 
 const Download = ({
@@ -124,7 +126,6 @@ const Download = ({
   downloadPodcast,
   currentPodcast,
   removePodcast,
-  iconSize,
 }: Props): Object => {
   const { podcastsDownloaded, downloadingList } = localPodcastsManager;
 
@@ -134,9 +135,7 @@ const Download = ({
   );
 
   return (
-    <Wrapper
-      iconSize={iconSize}
-    >
+    <Wrapper>
       {isCurrentPodcastBeenDownloaded
         ? renderLoading()
         : renderButton(
@@ -144,10 +143,18 @@ const Download = ({
           downloadPodcast,
           removePodcast,
           currentPodcast,
-          iconSize,
         )}
     </Wrapper>
   );
 };
 
-export default Download;
+const mapDispatchToProps = dispatch => bindActionCreators(LocalPodcastsManagerCreators, dispatch);
+
+const mapStateToProps = state => ({
+  localPodcastsManager: state.localPodcastsManager,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Download);

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Animated, View } from 'react-native';
 import SideMenu from 'react-native-side-menu';
 import styled from 'styled-components';
@@ -8,19 +8,13 @@ import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
-import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
 
+import PlaylistList from '~/components/common/playlists-list/PlaylistsListContainer';
 import NextPodcastsList from './components/next-podcasts-list/NextPodcastsList';
 import PlayerComponent from './components/PlayerComponent';
+
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
-
-const Container = styled(View)`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-color: ${({ theme }) => theme.colors.dark};
-`;
 
 const DarkLayer = styled(Animated.View)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('15%')};
@@ -29,67 +23,49 @@ const DarkLayer = styled(Animated.View)`
   background-color: ${({ theme }) => theme.colors.darkLayer};
 `;
 
-type PlayerProps = {
+type Props = {
   isCurrentPodcastDownloaded: boolean,
-  shouldSeekProgressSlider: boolean,
+  onToggleAddPlaylistModal: Function,
+  isAddPlaylistModalOpen: boolean,
+  isAddPlaylistModalOpen: boolean,
   shouldShufflePlaylist: boolean,
   shouldRepeatPlaylist: boolean,
   shouldRepeatCurrent: boolean,
-  currentTimeInSeconds: number,
-  playlist: Array<Object>,
-  playlistIndex: number,
-  currentPodcast: Object,
-  currentTime: string,
-  paused: boolean,
-};
-
-type LocalPodcastManagerProps = {
-  podcastsDownloaded: Array<Object>,
-};
-
-type Props = {
-  localPodcastsManager: LocalPodcastManagerProps,
-  removeFromPlaylist: Function,
   setupShufflePlayer: Function,
+  removeFromPlaylist: Function,
   seekProgressTimer: Function,
   disableRepetition: Function,
   setRepeatPlaylist: Function,
   setRepeatCurrent: Function,
-  downloadPodcast: Function,
   shufflePlaylist: Function,
-  removePodcast: Function,
+  playlist: Array<Object>,
+  currentPodcast: Object,
   playPrevious: Function,
+  playlistIndex: number,
   setupPlayer: Function,
-  player: PlayerProps,
   navigation: Object,
   playNext: Function,
   pause: Function,
+  paused: boolean,
   play: Function,
 };
 
 type State = {
+  isAddPlaylistModalOpen: boolean,
   isQueueSideMenuOpen: boolean,
 };
 
-class PlayerContainer extends Component<Props, State> {
+class Player extends Component<Props, State> {
   _darkLayerOpacity = new Animated.Value(0);
 
   state = {
+    isAddPlaylistModalOpen: false,
     isQueueSideMenuOpen: false,
   };
 
   componentDidMount() {
-    const {
-      setupShufflePlayer, setupPlayer, navigation, player,
-    } = this.props;
-
+    const { navigation, playlist, playlistIndex } = this.props;
     const { params } = navigation.state;
-    const {
-      playlist: pastPlaylist,
-      currentPodcast,
-      paused,
-      playlistIndex,
-    } = player;
 
     const playerParams = params[CONSTANTS.PARAMS.PLAYER];
     const isLookingUpPlayer = playerParams[CONSTANTS.KEYS.LOOKUP_PLAYER];
@@ -97,48 +73,30 @@ class PlayerContainer extends Component<Props, State> {
     this.setHeaderRightMenuPress();
 
     if (isLookingUpPlayer) {
-      this.setHeaderTitle(navigation, pastPlaylist[playlistIndex].subject);
+      this.setHeaderTitle(playlist[playlistIndex].subject);
 
       return;
     }
 
-    const shouldShufflePlaylist = playerParams[CONSTANTS.KEYS.SHOULD_SHUFFLE_PLAYLIST];
-    const playlist = playerParams[CONSTANTS.KEYS.PLAYLIST];
-
-    const isCurrentPodcastDefined = !!currentPodcast;
-    const isPodcastChanged = isCurrentPodcastDefined && currentPodcast.id !== playlist[0].id;
-    const isPlayingSamePlaylist = this.checkIsPlayingSamePlaylist(
-      playlist,
-      pastPlaylist,
-    );
-
-    if (
-      !isCurrentPodcastDefined
-      || isPodcastChanged
-      || !isPlayingSamePlaylist
-      || shouldShufflePlaylist
-    ) {
-      const properAction = shouldShufflePlaylist
-        ? setupShufflePlayer
-        : setupPlayer;
-
-      properAction(playlist);
-    }
-
-    this.setHeaderTitle(navigation, playlist[0].subject);
+    this.handlePlayerConfiguration(playerParams);
   }
 
   componentWillUpdate(nextProps: Props) {
-    const { navigation, player } = nextProps;
-    const { currentPodcast } = player;
-
-    const { currentPodcast: nextPodcast } = nextProps.player;
-    const { currentPodcast: pastPodcast } = this.props.player;
+    const nextPodcast = nextProps.currentPodcast;
+    const pastPodcast = this.props.currentPodcast;
 
     if (pastPodcast && nextPodcast && pastPodcast.id !== nextPodcast.id) {
-      this.setHeaderTitle(navigation, nextPodcast.subject);
+      this.setHeaderTitle(nextPodcast.subject);
     }
   }
+
+  onToggleAddPlaylistModal = (): void => {
+    const { isAddPlaylistModalOpen } = this.state;
+
+    this.setState({
+      isAddPlaylistModalOpen: !isAddPlaylistModalOpen,
+    });
+  };
 
   onToggleQueueSideMenu = (): void => {
     const { isQueueSideMenuOpen } = this.state;
@@ -155,7 +113,9 @@ class PlayerContainer extends Component<Props, State> {
     });
   };
 
-  setHeaderTitle = (navigation: Object, subject: string): void => {
+  setHeaderTitle = (subject: string): void => {
+    const { navigation } = this.props;
+
     navigation.setParams({
       [CONSTANTS.PARAMS.PLAYER_TITLE]: subject,
     });
@@ -178,6 +138,42 @@ class PlayerContainer extends Component<Props, State> {
     });
   };
 
+  handlePlayerConfiguration = (playerParams: Object): void => {
+    const {
+      playlist: pastPlaylist,
+      currentPodcast,
+      playlistIndex,
+      paused,
+    } = this.props;
+
+    const shouldShufflePlaylist = playerParams[CONSTANTS.KEYS.SHOULD_SHUFFLE_PLAYLIST];
+    const playlist = playerParams[CONSTANTS.KEYS.PLAYLIST];
+
+    const isCurrentPodcastDefined = !!currentPodcast;
+    const isPodcastChanged = isCurrentPodcastDefined && currentPodcast.id !== playlist[0].id;
+    const isPlayingSamePlaylist = this.checkIsPlayingSamePlaylist(
+      playlist,
+      pastPlaylist,
+    );
+
+    if (
+      !isCurrentPodcastDefined
+      || isPodcastChanged
+      || !isPlayingSamePlaylist
+      || shouldShufflePlaylist
+    ) {
+      const { setupShufflePlayer, setupPlayer } = this.props;
+
+      const properAction = shouldShufflePlaylist
+        ? setupShufflePlayer
+        : setupPlayer;
+
+      properAction(playlist);
+    }
+
+    this.setHeaderTitle(playlist[0].subject);
+  };
+
   checkIsPlayingSamePlaylist = (
     currentPlaylist: Array<Object>,
     pastPlaylist: Array<Object>,
@@ -197,64 +193,72 @@ class PlayerContainer extends Component<Props, State> {
 
   render() {
     const {
-      localPodcastsManager,
+      isCurrentPodcastDownloaded,
+      shouldShufflePlaylist,
+      shouldRepeatPlaylist,
+      shouldRepeatCurrent,
       removeFromPlaylist,
       disableRepetition,
       seekProgressTimer,
       setRepeatPlaylist,
       setRepeatCurrent,
-      downloadPodcast,
       shufflePlaylist,
-      removePodcast,
+      currentPodcast,
+      playlistIndex,
       playPrevious,
+      playlist,
       playNext,
-      player,
+      paused,
       pause,
       play,
     } = this.props;
 
-    const { isQueueSideMenuOpen } = this.state;
-    const { currentPodcast } = player;
-    const isPodcastDefined = !!currentPodcast;
+    const { isAddPlaylistModalOpen, isQueueSideMenuOpen } = this.state;
 
     return (
-      <Container>
-        {isPodcastDefined && (
+      <Fragment>
+        {!!currentPodcast && (
           <SideMenu
-            openMenuOffset={appStyles.metrics.getWidthFromDP('85%')}
             animationFunction={(prop, value) => Animated.timing(prop, {
               toValue: value,
               duration: 250,
             })
             }
-            isOpen={isQueueSideMenuOpen}
-            bounceBackOnOverdraw
             menu={
               isQueueSideMenuOpen ? (
                 <NextPodcastsList
-                  shouldRepeatPlaylist={player.shouldRepeatPlaylist}
+                  shouldRepeatPlaylist={shouldRepeatPlaylist}
                   onBackPress={this.onToggleQueueSideMenu}
                   removeFromPlaylist={removeFromPlaylist}
-                  playlistIndex={player.playlistIndex}
-                  playlist={player.playlist}
+                  playlistIndex={playlistIndex}
+                  playlist={playlist}
                 />
               ) : null
             }
+            openMenuOffset={appStyles.metrics.getWidthFromDP('85%')}
+            isOpen={isQueueSideMenuOpen}
+            bounceBackOnOverdraw
             menuPosition="right"
             disableGestures
           >
             <PlayerComponent
-              localPodcastsManager={localPodcastsManager}
+              onToggleAddPlaylistModal={this.onToggleAddPlaylistModal}
+              isCurrentPodcastDownloaded={isCurrentPodcastDownloaded}
+              isAddPlaylistModalOpen={isAddPlaylistModalOpen}
+              shouldShufflePlaylist={shouldShufflePlaylist}
+              shouldRepeatPlaylist={shouldRepeatPlaylist}
+              shouldRepeatCurrent={shouldRepeatCurrent}
               disableRepetition={disableRepetition}
               setRepeatPlaylist={setRepeatPlaylist}
               seekProgressTimer={seekProgressTimer}
               setRepeatCurrent={setRepeatCurrent}
-              downloadPodcast={downloadPodcast}
               shufflePlaylist={shufflePlaylist}
-              removePodcast={removePodcast}
+              currentPodcast={currentPodcast}
+              playlistIndex={playlistIndex}
               playPrevious={playPrevious}
               playNext={playNext}
-              player={player}
+              playlist={playlist}
+              paused={paused}
               pause={pause}
               play={play}
             />
@@ -267,25 +271,31 @@ class PlayerContainer extends Component<Props, State> {
             }}
           />
         )}
-      </Container>
+        {isAddPlaylistModalOpen && (
+          <PlaylistList
+            onToggleModal={this.onToggleAddPlaylistModal}
+            podcast={currentPodcast}
+          />
+        )}
+      </Fragment>
     );
   }
 }
 
-const Creators = Object.assign(
-  {},
-  LocalPodcastsManagerCreators,
-  PlayerCreators,
-);
-
-const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(PlayerCreators, dispatch);
 
 const mapStateToProps = state => ({
-  localPodcastsManager: state.localPodcastsManager,
-  player: state.player,
+  isCurrentPodcastDownloaded: state.player.isCurrentPodcastDownloaded,
+  shouldShufflePlaylist: state.player.shouldShufflePlaylist,
+  shouldRepeatPlaylist: state.player.shouldRepeatPlaylist,
+  shouldRepeatCurrent: state.player.shouldRepeatCurrent,
+  currentPodcast: state.player.currentPodcast,
+  playlistIndex: state.player.playlistIndex,
+  playlist: state.player.playlist,
+  paused: state.player.paused,
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PlayerContainer);
+)(Player);

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
-import styled from 'styled-components';
 import FastImage from 'react-native-fast-image';
+import styled from 'styled-components';
 
 import Icon from '~/components/common/Icon';
 import appStyles from '~/styles';
@@ -67,8 +67,8 @@ type AuthorProps = {
 };
 
 type PodcastProps = {
-  imageURL: string,
   author: AuthorProps,
+  imageURL: string,
   title: string,
   id: string,
 };
