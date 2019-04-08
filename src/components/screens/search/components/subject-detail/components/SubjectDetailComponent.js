@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
-import { Animated, StatusBar, View } from 'react-native';
+import { Animated, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import styled, { withTheme } from 'styled-components';
 
@@ -17,7 +17,7 @@ const TAB_ITEMS = [
   { id: 'authors', title: 'Authors' },
 ];
 
-const HEADER_HEIGHT = appStyles.metrics.getHeightFromDP('20%');
+const HEADER_HEIGHT = appStyles.metrics.getHeightFromDP('25%');
 
 const Container = styled(View)`
   flex: 1;
@@ -84,8 +84,6 @@ class SubjectDetail extends Component<Props, {}> {
     });
   };
 
-  getBarStyle = (theme: Object): string => (theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content');
-
   renderHeader = (thumbnailImageURL: string, imageURL: string): Object => (
     <Header>
       <ProgressiveImage
@@ -123,16 +121,8 @@ class SubjectDetail extends Component<Props, {}> {
     const { data } = subject;
     const { thumbnailImageURL, imageURL, items } = data;
 
-    const barStyle = this.getBarStyle(theme);
-
     return (
       <Fragment>
-        <StatusBar
-          backgroundColor="transparent"
-          barStyle={barStyle}
-          translucent
-          animated
-        />
         {this.renderHeader(thumbnailImageURL, imageURL)}
         <SmokeShadow />
         <Animated.View

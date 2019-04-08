@@ -2,14 +2,14 @@
 
 import React from 'react';
 import {
-  TouchableOpacity, Platform, View, Text,
+  TouchableWithoutFeedback, Platform, View, Text,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled from 'styled-components';
 
 import AuthorInfo from '~/components/common/AuthorInfo';
 
-const ButtonWrapper = styled(TouchableOpacity)`
+const ButtonWrapper = styled(View)`
   width: ${({ theme }) => theme.metrics.getWidthFromDP('45%')}px;
   margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;
 `;
@@ -77,37 +77,39 @@ const TrendingListItem = ({
   title,
   side,
 }: Props): Object => (
-  <ButtonWrapper
+  <TouchableWithoutFeedback
     onPress={onPress}
   >
-    <PodcastImage
-      uri={podcastImage}
-      index={index}
-      side={side}
-    />
-    <BottomContent
-      style={{
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 4,
-        },
-        shadowOpacity: 0.32,
-        shadowRadius: 5.46,
-        elevation: 9,
-      }}
-    >
-      <PodcastTitle>{title}</PodcastTitle>
-      <AuthorInfoWrapper>
-        <AuthorInfo
-          imageURL={author.thumbnailImageURL}
-          numberOfLines={2}
-          name={author.name}
-          textColor="dark"
-        />
-      </AuthorInfoWrapper>
-    </BottomContent>
-  </ButtonWrapper>
+    <ButtonWrapper>
+      <PodcastImage
+        uri={podcastImage}
+        index={index}
+        side={side}
+      />
+      <BottomContent
+        style={{
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+        }}
+      >
+        <PodcastTitle>{title}</PodcastTitle>
+        <AuthorInfoWrapper>
+          <AuthorInfo
+            imageURL={author.thumbnailImageURL}
+            numberOfLines={2}
+            name={author.name}
+            textColor="dark"
+          />
+        </AuthorInfoWrapper>
+      </BottomContent>
+    </ButtonWrapper>
+  </TouchableWithoutFeedback>
 );
 
 export default TrendingListItem;

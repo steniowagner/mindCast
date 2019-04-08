@@ -45,7 +45,7 @@ const Row = styled(View)`
 
 const TextWrapper = styled(View)`
   width: 75%;
-  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
+  margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize * 1.5}px;
 `;
 
 const OptiontTitle = styled(Text)`
@@ -57,7 +57,7 @@ const OptiontTitle = styled(Text)`
 
 const OptionDescription = styled(Text)`
   font-family: CircularStd-Medium;
-  font-size: ${({ theme }) => theme.metrics.largeSize}px;
+  font-size: ${({ theme }) => theme.metrics.mediumSize * 1.3}px;
   color: ${({ theme }) => theme.colors.subTextColor};
 `;
 

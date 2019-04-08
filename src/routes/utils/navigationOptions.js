@@ -23,7 +23,7 @@ export const DEFAULT_HEADER_STYLE = {
     color: appStyles.colors.white,
   },
   headerTitleStyle: {
-    fontFamily: 'CircularStd-Medium',
+    fontFamily: 'CircularStd-Bold',
     fontSize: appStyles.metrics.navigationHeaderFontSize,
     fontWeight: undefined,
   },
@@ -98,14 +98,6 @@ export const getDefaultHeaderWithButton = (
 
   return {
     ...headerWithTitleStyle,
-    ...Platform.select({
-      android: {
-        headerStyle: {
-          ...headerWithTitleStyle.headerStyle,
-          marginTop: StatusBar.currentHeight,
-        },
-      },
-    }),
     headerRight: (
       <HeaderActionButton
         color={theme.colors.textColor}

@@ -1,8 +1,8 @@
 // @flow
 
 import React from 'react';
-import { StatusBar, View } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import { View } from 'react-native';
+import styled from 'styled-components';
 
 import ScreenTitle from '~/components/common/ScreenTitle';
 import SearchAuthorTextInput from './SearchAuthorTextInput';
@@ -48,38 +48,27 @@ const SearchComponent = ({
   isTextInputFocused,
   onTypeAuthorName,
   navigation,
-  theme,
-}: Props): Object => {
-  const barStyle = theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content';
-
-  return (
-    <Container>
-      <StatusBar
-        backgroundColor="transparent"
-        barStyle={barStyle}
-        translucent
-        animated
+}: Props): Object => (
+  <Container>
+    <ScreenTitle
+      title="Search"
+    />
+    <SearchAuthorTextInputWrapper>
+      <SearchAuthorTextInput
+        onSearchForAuthor={onSearchForAuthor}
+        onToggleDarkLayer={onToggleDarkLayer}
+        onTypeAuthorName={onTypeAuthorName}
       />
-      <ScreenTitle
-        title="Search"
-      />
-      <SearchAuthorTextInputWrapper>
-        <SearchAuthorTextInput
-          onSearchForAuthor={onSearchForAuthor}
-          onToggleDarkLayer={onToggleDarkLayer}
-          onTypeAuthorName={onTypeAuthorName}
-        />
-      </SearchAuthorTextInputWrapper>
-      <SubjectsListWrapper
+    </SearchAuthorTextInputWrapper>
+    <SubjectsListWrapper
+      isTextInputFocused={isTextInputFocused}
+    >
+      <SubjectsList
         isTextInputFocused={isTextInputFocused}
-      >
-        <SubjectsList
-          isTextInputFocused={isTextInputFocused}
-          navigation={navigation}
-        />
-      </SubjectsListWrapper>
-    </Container>
-  );
-};
+        navigation={navigation}
+      />
+    </SubjectsListWrapper>
+  </Container>
+);
 
-export default withTheme(SearchComponent);
+export default SearchComponent;

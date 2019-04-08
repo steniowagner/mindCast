@@ -1,8 +1,8 @@
 // @flow
 
 import React, { PureComponent, Fragment } from 'react';
-import { StatusBar, Animated, View } from 'react-native';
-import styled, { withTheme } from 'styled-components';
+import { Animated, View } from 'react-native';
+import styled from 'styled-components';
 import LinearGradient from 'react-native-linear-gradient';
 import { StackActions } from 'react-navigation';
 
@@ -62,7 +62,6 @@ type Props = {
   navigation: Object,
   loading: boolean,
   error: boolean,
-  theme: Object,
 };
 
 class AuthorDetailComponent extends PureComponent<Props, {}> {
@@ -188,28 +187,17 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     );
   };
 
-  getBarStyle = (theme: Object): string => (theme.colors.secondaryColor === '#111' ? 'light-content' : 'dark-content');
-
   render() {
-    const {
-      navigation, loading, author, theme,
-    } = this.props;
+    const { navigation, loading, author } = this.props;
 
     const hasAuthorDefined = !!author;
-    const barStyle = this.getBarStyle(theme);
 
     return (
       <Container>
-        <StatusBar
-          backgroundColor="transparent"
-          barStyle={barStyle}
-          translucent
-          animated
-        />
         {loading || !hasAuthorDefined ? <Loading /> : this.renderContent()}
       </Container>
     );
   }
 }
 
-export default withTheme(AuthorDetailComponent);
+export default AuthorDetailComponent;

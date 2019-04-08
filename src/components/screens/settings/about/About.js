@@ -113,7 +113,7 @@ const RedLine = styled(View)`
   background-color: ${({ theme }) => theme.colors.primaryColor};
 `;
 
-const onPressSocialButton = async (url: string): void => {
+const onPressSocialButton = async (url: string) => {
   const canOpenURL = await Linking.canOpenURL(url);
 
   if (canOpenURL) {
