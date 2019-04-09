@@ -168,9 +168,9 @@ export function* getAuthorById({ payload }) {
       AuthorCreators.getAuthorByIdSuccess({
         id: 1,
         profileImage:
-          'https://s2.glbimg.com/3auOxS3cG2mc_H5jFXDpxC7ol-w=/e.glbimg.com/og/ed/f/original/2016/09/12/dr-alan-turing-2956483.jpg',
+          'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
         profileImageThumbnail:
-          'https://s2.glbimg.com/3auOxS3cG2mc_H5jFXDpxC7ol-w=/e.glbimg.com/og/ed/f/original/2016/09/12/dr-alan-turing-2956483.jpg',
+          'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
         name: 'Stenio Wagner',
         about:
           'Brazilian mathematician, computer scientist, logician, cryptanalyst, philosopher and theorical biologist.',

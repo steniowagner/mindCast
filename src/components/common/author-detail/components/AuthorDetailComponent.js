@@ -130,7 +130,21 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
             />
           </ImageWrapper>
         </Header>
-        <SmokeShadow />
+        <Animated.View
+          style={{
+            opacity: this._scrollViewOffset.interpolate({
+              inputRange: [
+                0,
+                appStyles.metrics.getHeightFromDP('25%'),
+                appStyles.metrics.getHeightFromDP('30%'),
+              ],
+              outputRange: [1, 1, 0],
+              extrapolate: 'clamp',
+            }),
+          }}
+        >
+          <SmokeShadow />
+        </Animated.View>
         <Animated.ScrollView
           scrollEventThrottle={16}
           style={[
