@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { StatusBar, Platform } from 'react-native';
 
@@ -16,21 +17,26 @@ import {
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
-export const ROUTE_NAMES = {
+const LOCAL_STACK_ROUTES = {
   SEARCH_AUTHORS_RESULT: 'SEARCH_AUTHORS_RESULT',
 };
 
 const RootStack = createStackNavigator(
   {
     [CONSTANTS.ROUTES.SEARCH]: {
-      screen: Search,
+      screen: props => (
+        <Search
+          {...props}
+          LOCAL_STACK_ROUTES={LOCAL_STACK_ROUTES}
+        />
+      ),
       navigationOptions: () => ({
         headerBackTitle: null,
         header: null,
       }),
     },
 
-    [ROUTE_NAMES.SEARCH_AUTHORS_RESULT]: {
+    [LOCAL_STACK_ROUTES.SEARCH_AUTHORS_RESULT]: {
       screen: SearchAuthorListContainer,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Search Authors', navigation, screenProps),
     },

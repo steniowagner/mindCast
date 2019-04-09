@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import NewReleasesSectionItemList from '~/components/common/author-detail/components/new-releases-section/NewReleasesSectionItemList';
 import SectionWithButton from '~/components/common/SectionWithButton';
-import { ROUTE_NAMES } from '../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 import PODCASTS from '../PODCASTS_TEST';
@@ -31,7 +30,10 @@ type Props = {
 const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
   <Wrapper>
     <SectionWithButton
-      onPress={() => navigation.navigate(ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL)}
+      onPress={() => {
+        const { params } = navigation.state;
+        navigation.navigate(params.LOCAL_STACK_ROUTES.HOTTEST_PODCASTS_SEE_ALL);
+      }}
       sectionTitle="Hottest Podcasts"
       buttonText="SEE ALL"
       buttonSize="small"

@@ -8,7 +8,6 @@ import { Creators as AuthorCreators } from '~/store/ducks/author';
 
 import SearchComponent from './components/SearchComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
-import { ROUTE_NAMES } from './routes';
 
 type AuthorProps = {
   loading: boolean,
@@ -41,7 +40,9 @@ class SearchContainer extends Component<Props, State> {
     const { authorName } = this.state;
 
     if (authorName.length) {
-      navigation.navigate(ROUTE_NAMES.SEARCH_AUTHORS_RESULT, {
+      const { params } = navigation.state;
+
+      navigation.navigate(params.LOCAL_STACK_ROUTES.SEARCH_AUTHORS_RESULT, {
         [CONSTANTS.PARAMS.SEARCH_AUTHOR_BY_NAME]: authorName,
       });
     }

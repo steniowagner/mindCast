@@ -29,6 +29,7 @@ type LocalPodcastManager = {
 type Props = {
   localPodcastsManager: LocalPodcastManager,
   setOfflineAvailability: Function,
+  LOCAL_STACK_ROUTES: Object,
   removePodcast: Function,
   getPlaylist: Function,
   navigation: Object,
@@ -41,10 +42,14 @@ class PlaylistDetailContainer extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const { getPlaylist, navigation } = this.props;
+    const { LOCAL_STACK_ROUTES, getPlaylist, navigation } = this.props;
     const { params } = navigation.state;
 
     const playlistTitle = params[CONSTANTS.PARAMS.PLAYLIST_TITLE];
+
+    navigation.setParams({
+      LOCAL_STACK_ROUTES,
+    });
 
     getPlaylist(playlistTitle);
   }

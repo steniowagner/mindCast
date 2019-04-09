@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
 
@@ -11,14 +12,19 @@ import CONSTANTS from '~/utils/CONSTANTS';
 import Settings from './Settings';
 import About from './about/About';
 
-export const ROUTE_NAMES = {
+const LOCAL_STACK_ROUTES = {
   ABOUT: 'ABOUT',
 };
 
 const RootStack = createStackNavigator(
   {
     [CONSTANTS.ROUTES.SETTINGS]: {
-      screen: Settings,
+      screen: props => (
+        <Settings
+          {...props}
+          LOCAL_STACK_ROUTES={LOCAL_STACK_ROUTES}
+        />
+      ),
       navigationOptions: () => ({
         headerBackTitle: null,
         header: null,
@@ -30,7 +36,7 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
     },
 
-    [ROUTE_NAMES.ABOUT]: {
+    [LOCAL_STACK_ROUTES.ABOUT]: {
       screen: About,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('About', navigation, screenProps),
     },

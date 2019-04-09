@@ -12,6 +12,7 @@ import HomeComponent from './components/HomeComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 
 type Props = {
+  LOCAL_STACK_ROUTES: Object,
   navigation: Object,
 };
 
@@ -32,6 +33,12 @@ class HomeContainer extends Component<Props, {}> {
     loadPodcastsRecentlyPlayed();
 
     loadPlaylists();
+
+    const { LOCAL_STACK_ROUTES } = this.props;
+
+    navigation.setParams({
+      LOCAL_STACK_ROUTES,
+    });
   }
 
   render() {

@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import styled from 'styled-components';
 
 import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
-import { ROUTE_NAMES } from '../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 import SectionItem from './SectionItem';
 
@@ -15,15 +14,20 @@ const ContentWrapper = styled(View)`
   padding-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const getSectionsConfig = (navigation: Object): Array<Object> => {
+const getSectionsConfig = (
+  LOCAL_STACK_ROUTES: Object,
+  navigation: Object,
+): Array<Object> => {
   const sections = [
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.PLAYLISTS),
+      onPress: () => navigation.navigate(LOCAL_STACK_ROUTES.PLAYLISTS, {
+        LOCAL_STACK_ROUTES,
+      }),
       iconName: 'playlist-play',
       title: 'Playlists',
     },
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.YOUR_PODCASTS, {
+      onPress: () => navigation.navigate(LOCAL_STACK_ROUTES.YOUR_PODCASTS, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,
           navigation,
@@ -33,7 +37,7 @@ const getSectionsConfig = (navigation: Object): Array<Object> => {
       title: 'Your Podcasts',
     },
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.PODCASTS_DOWNLOADED, {
+      onPress: () => navigation.navigate(LOCAL_STACK_ROUTES.PODCASTS_DOWNLOADED, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,
           navigation,
@@ -43,7 +47,7 @@ const getSectionsConfig = (navigation: Object): Array<Object> => {
       title: 'Downloads',
     },
     {
-      onPress: () => navigation.navigate(ROUTE_NAMES.RECENTLY_PLAYED, {
+      onPress: () => navigation.navigate(LOCAL_STACK_ROUTES.RECENTLY_PLAYED, {
         [CONSTANTS.PARAMS.HEADER_PLAY_FUNCTION_PARAM]: (
           playlist,
           navigation,
@@ -63,11 +67,12 @@ const getSectionsConfig = (navigation: Object): Array<Object> => {
 };
 
 type Props = {
+  LOCAL_STACK_ROUTES: Object,
   navigation: Object,
 };
 
-const Sections = ({ navigation }: Props): Object => {
-  const sections = getSectionsConfig(navigation);
+const Sections = ({ LOCAL_STACK_ROUTES, navigation }: Props): Object => {
+  const sections = getSectionsConfig(LOCAL_STACK_ROUTES, navigation);
 
   return (
     <ContentWrapper>

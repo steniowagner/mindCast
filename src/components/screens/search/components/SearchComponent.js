@@ -39,7 +39,6 @@ type Props = {
   isTextInputFocused: boolean,
   onTypeAuthorName: Function,
   navigation: Object,
-  theme: Object,
 };
 
 const SearchComponent = ({

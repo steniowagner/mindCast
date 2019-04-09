@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   createStackNavigator,
   createAppContainer,
   withNavigation,
 } from 'react-navigation';
-import { StatusBar, Platform } from 'react-native';
-import { withTheme } from 'styled-components';
+import { Platform } from 'react-native';
 
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
 import PodcastsDownloaded from './components/PodcastsDownloaded';
@@ -28,7 +27,7 @@ import {
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
-export const ROUTE_NAMES = {
+const LOCAL_STACK_ROUTES = {
   LIBRARY: 'LIBRARY',
   PLAYLIST_DETAIL: 'PLAYLIST_DETAIL',
   PLAYLISTS: 'PLAYLISTS',
@@ -40,7 +39,12 @@ export const ROUTE_NAMES = {
 const RootStack = createStackNavigator(
   {
     [CONSTANTS.ROUTES.LIBRARY]: {
-      screen: Library,
+      screen: props => (
+        <Library
+          {...props}
+          LOCAL_STACK_ROUTES={LOCAL_STACK_ROUTES}
+        />
+      ),
       navigationOptions: () => ({
         headerBackTitle: null,
         header: null,
@@ -52,12 +56,12 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation }) => getPlayerNavigationOption(navigation),
     },
 
-    [ROUTE_NAMES.PLAYLIST_DETAIL]: {
+    [LOCAL_STACK_ROUTES.PLAYLIST_DETAIL]: {
       screen: PlaylistDetail,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('', navigation, screenProps),
     },
 
-    [ROUTE_NAMES.PLAYLISTS]: {
+    [LOCAL_STACK_ROUTES.PLAYLISTS]: {
       screen: Playlists,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
@@ -77,7 +81,7 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ screenProps }) => getHiddenHeaderLayout(screenProps),
     },
 
-    [ROUTE_NAMES.YOUR_PODCASTS]: {
+    [LOCAL_STACK_ROUTES.YOUR_PODCASTS]: {
       screen: YourPodcasts,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
@@ -87,7 +91,7 @@ const RootStack = createStackNavigator(
       ),
     },
 
-    [ROUTE_NAMES.PODCASTS_DOWNLOADED]: {
+    [LOCAL_STACK_ROUTES.PODCASTS_DOWNLOADED]: {
       screen: PodcastsDownloaded,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
@@ -97,7 +101,7 @@ const RootStack = createStackNavigator(
       ),
     },
 
-    [ROUTE_NAMES.RECENTLY_PLAYED]: {
+    [LOCAL_STACK_ROUTES.RECENTLY_PLAYED]: {
       screen: RecentlyPlayed,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,

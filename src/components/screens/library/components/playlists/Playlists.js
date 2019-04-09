@@ -14,7 +14,6 @@ import PlaylistOperationModal from './PlaylistOperationModal';
 import PlaylistListItem from './PlaylistListItem';
 
 import { CustomAlert, TYPES } from '~/components/common/Alert';
-import { ROUTE_NAMES } from '../../routes';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -195,8 +194,9 @@ class Playlists extends Component<Props, State> {
 
   onPressPlaylistItem = (playlistTitle: string): void => {
     const { navigation } = this.props;
+    const { LOCAL_STACK_ROUTES } = navigation.state.params;
 
-    navigation.navigate(ROUTE_NAMES.PLAYLIST_DETAIL, {
+    navigation.navigate(LOCAL_STACK_ROUTES.PLAYLIST_DETAIL, {
       [CONSTANTS.PARAMS.PLAYLIST_TITLE]: playlistTitle,
     });
   };

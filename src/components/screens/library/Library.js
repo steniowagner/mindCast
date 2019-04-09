@@ -16,15 +16,17 @@ const Wrapper = styled(View)`
 `;
 
 type Props = {
+  LOCAL_STACK_ROUTES: Object,
   navigation: Object,
 };
 
-const Library = ({ navigation }: Props) => (
+const Library = ({ LOCAL_STACK_ROUTES, navigation }: Props): Object => (
   <Wrapper>
     <ScreenTitle
       title="Library"
     />
     <Sections
+      LOCAL_STACK_ROUTES={LOCAL_STACK_ROUTES}
       navigation={navigation}
     />
   </Wrapper>

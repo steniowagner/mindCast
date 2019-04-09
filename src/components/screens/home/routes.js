@@ -20,7 +20,7 @@ import {
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
-export const ROUTE_NAMES = {
+const LOCAL_STACK_ROUTES = {
   TRENDING_AUTHORS_SEE_ALL: 'TRENDING_AUTHORS_SEE_ALL',
   HOTTEST_PODCASTS_SEE_ALL: 'HOTTEST_PODCASTS_SEE_ALL',
   NEW_RELEASES_SEE_ALL: 'NEW_RELEASES_SEE_ALL',
@@ -29,7 +29,12 @@ export const ROUTE_NAMES = {
 const RootStack = createStackNavigator(
   {
     [CONSTANTS.ROUTES.HOME]: {
-      screen: Home,
+      screen: props => (
+        <Home
+          {...props}
+          LOCAL_STACK_ROUTES={LOCAL_STACK_ROUTES}
+        />
+      ),
       navigationOptions: () => ({
         headerBackTitle: null,
         header: null,
@@ -41,12 +46,12 @@ const RootStack = createStackNavigator(
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Podcast Detail', navigation, screenProps),
     },
 
-    [ROUTE_NAMES.TRENDING_AUTHORS_SEE_ALL]: {
+    [LOCAL_STACK_ROUTES.TRENDING_AUTHORS_SEE_ALL]: {
       screen: TrendingAuthorsSeeAll,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithTitle('Trending Authors', navigation, screenProps),
     },
 
-    [ROUTE_NAMES.HOTTEST_PODCASTS_SEE_ALL]: {
+    [LOCAL_STACK_ROUTES.HOTTEST_PODCASTS_SEE_ALL]: {
       screen: HottestPodcastsSeeAll,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
@@ -56,7 +61,7 @@ const RootStack = createStackNavigator(
       ),
     },
 
-    [ROUTE_NAMES.NEW_RELEASES_SEE_ALL]: {
+    [LOCAL_STACK_ROUTES.NEW_RELEASES_SEE_ALL]: {
       screen: NewReleasesSeeAll,
       navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
         navigation,
@@ -77,7 +82,7 @@ const RootStack = createStackNavigator(
     },
   },
   {
-    initialRouteName: ROUTE_NAMES.HOME,
+    initialRouteName: LOCAL_STACK_ROUTES.HOME,
     mode: Platform.OS === 'ios' ? 'card' : 'modal',
     headerLayoutPreset: 'center',
     headerMode: 'screen',

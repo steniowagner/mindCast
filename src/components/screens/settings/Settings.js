@@ -19,7 +19,6 @@ import ScreenTitle from '~/components/common/ScreenTitle';
 import Switch from '~/components/common/Switch';
 import Icon from '~/components/common/Icon';
 import CONSTANTS from '~/utils/CONSTANTS';
-import { ROUTE_NAMES } from './routes';
 import appStyles from '~/styles';
 
 const Wrapper = styled(ScrollView).attrs({
@@ -100,6 +99,7 @@ const items = [
 ];
 
 type Props = {
+  LOCAL_STACK_ROUTES: Object,
   navigation: Object,
 };
 
@@ -198,7 +198,10 @@ class Settings extends Component<Props, State> {
                     </OptionDescription>
                   </TextWrapper>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('ABOUT')}
+                    onPress={() => {
+                      const { LOCAL_STACK_ROUTES } = this.props;
+                      navigation.navigate(LOCAL_STACK_ROUTES.ABOUT);
+                    }}
                     hitSlop={{
                       bottom: appStyles.metrics.smallSize,
                       right: appStyles.metrics.smallSize,
