@@ -8,8 +8,6 @@ import NewReleasesSectionItemList from '~/components/common/author-detail/compon
 import SectionWithButton from '~/components/common/SectionWithButton';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-import PODCASTS from '../PODCASTS_TEST';
-
 const Wrapper = styled(View)`
   width: 100%;
   flex: 1;
@@ -24,25 +22,31 @@ const HottestPodcastsDiscoverList = styled(FlatList)`
 `;
 
 type Props = {
+  data: Array<Object>,
   navigation: Object,
 };
 
-const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
+const HottestPodcastsDiscover = ({ navigation, data }: Props): Object => (
   <Wrapper>
     <SectionWithButton
       onPress={() => {
         const { params } = navigation.state;
-        navigation.navigate(params.LOCAL_STACK_ROUTES.HOTTEST_PODCASTS_SEE_ALL);
+        navigation.navigate(
+          params.LOCAL_STACK_ROUTES.HOTTEST_PODCASTS_SEE_ALL,
+          {
+            [CONSTANTS.PARAMS.PODCASTS_HOTTEST_PODCASTS]: data,
+          },
+        );
       }}
       sectionTitle="Hottest Podcasts"
       buttonText="SEE ALL"
       buttonSize="small"
     />
     <HottestPodcastsDiscoverList
-      showsHorizontalScrollIndicator={false}
-      horizontal
       keyExtractor={podcast => `${podcast.id}`}
-      data={PODCASTS}
+      showsHorizontalScrollIndicator={false}
+      data={data}
+      horizontal
       renderItem={({ item, index }) => (
         <NewReleasesSectionItemList
           onPress={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
@@ -50,9 +54,9 @@ const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
             [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
           })
           }
-          isLastIndex={index === PODCASTS.length - 1}
+          isLastIndex={index === data.length - 1}
           imageURL={item.imageURL}
-          subject={item.subject}
+          subject={item.category}
           title={item.title}
           stars={item.stars}
         />
@@ -61,4 +65,4 @@ const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
   </Wrapper>
 );
 
-export default TrendingAuthorsDiscover;
+export default HottestPodcastsDiscover;

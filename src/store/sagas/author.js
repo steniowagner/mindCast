@@ -37,7 +37,8 @@ const PODCASTS = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 1,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/till_i_die2.mp3',
+    url:
+      'http://192.168.25.27:3001/mind-cast/api/v1/podcasts/c074e615d1d02123e928ba9ebc1d72ff/listen',
     thumbnailImageURL:
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar-thumbnail.jpeg',
     imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
@@ -87,7 +88,8 @@ const PODCASTS = [
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
     id: 3,
-    url: 'https://s3-sa-east-1.amazonaws.com/mind-cast/valerie.mp3',
+    url:
+      'http://192.168.25.27:3001/mind-cast/api/v1/podcasts/listen/f0f4c524d742ace4322cfb773a4d8897',
     thumbnailImageURL:
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/tomorrows-bad-seeds-thumbnail.jpeg',
     imageURL:

@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
 
-import PODCASTS from '../PODCASTS_TEST';
-
 import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
 import NewReleasesSeeAllListItem from '~/components/common/PodcastItemLIst';
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -24,25 +22,36 @@ const NewReleasesSeeAllList = styled(FlatList)`
 `;
 
 type Props = {
+  data: Array<Object>,
   navigation: Object,
 };
 
 class NewReleasesSeeAll extends Component<Props, {}> {
   componentDidMount() {
+    const newReleases = this.getNewReleases();
     const { navigation } = this.props;
 
-    setHeaderPlayButtonPress(PODCASTS, navigation);
+    setHeaderPlayButtonPress(newReleases, navigation);
   }
+
+  getNewReleases = (): Array<Object> => {
+    const { navigation } = this.props;
+    const { params } = navigation.state;
+
+    return params[CONSTANTS.PARAMS.PODCASTS_NEW_RELEASES];
+  };
 
   render() {
     const { navigation } = this.props;
+
+    const newReleases = this.getNewReleases();
 
     return (
       <Wrapper>
         <NewReleasesSeeAllList
           keyExtractor={podcast => `${podcast.id}`}
           showsVerticalScrollIndicator={false}
-          data={PODCASTS}
+          data={newReleases}
           renderItem={({ item, index }) => (
             <NewReleasesSeeAllListItem
               onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
@@ -52,8 +61,8 @@ class NewReleasesSeeAll extends Component<Props, {}> {
               })
               }
               shouldShowDownloadStatus={false}
-              podcast={item}
               index={index + 1}
+              podcast={item}
             />
           )}
         />

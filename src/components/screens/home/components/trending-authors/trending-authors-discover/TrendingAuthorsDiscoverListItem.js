@@ -78,8 +78,8 @@ const NumberOfPodcasts = styled(Text).attrs({
 `;
 
 type AuthorProps = {
-  numberPodcasts: number,
-  imageURL: string,
+  profileImageURL: string,
+  podcasts: Array<Object>,
   name: string,
   id: string,
 };
@@ -88,6 +88,7 @@ type Props = {
   isLastIndex: boolean,
   author: AuthorProps,
   onPress: Function,
+  isFirst: boolean,
 };
 
 const TrendingAuthorsListItem = ({
@@ -111,13 +112,13 @@ const TrendingAuthorsListItem = ({
     }}
   >
     <AuthorImage
-      uri={author.imageURL}
+      uri={author.profileImageURL}
     />
     <TextContent>
       <AuthorName>{author.name}</AuthorName>
       <NumberOfPodcasts>
-        {`${author.numberPodcasts} ${
-          author.numberPodcasts === 1 ? 'Podcast' : 'Podcasts'
+        {`${author.podcasts.length} ${
+          author.podcasts.length === 1 ? 'Podcast' : 'Podcasts'
         }`}
       </NumberOfPodcasts>
     </TextContent>

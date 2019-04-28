@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import AuthorsListItem from '~/components/common/AuthorListItemWithSubjects';
 import CONSTANTS from '~/utils/CONSTANTS';
-import PODCASTS from '../PODCASTS_TEST';
 
 const Wrapper = styled(View)`
   width: 100%;
@@ -20,43 +19,38 @@ const TrendingAuthorsList = styled(FlatList)`
   height: 100%;
 `;
 
-class TrendingAuthorsSeeAll extends Component {
-  render() {
-    const { navigation } = this.props;
+type Props = {
+  navigation: Object,
+};
 
-    const AUTHORS = PODCASTS.map((podcast, index) => ({
-      ...podcast.author,
-      imageURL:
-        'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
-      subjects: ['science', 'technology', 'history', 'philosofy'],
-      id: index,
-    }));
+const TrendingAuthorsSeeAll = ({ navigation }: Props): Object => {
+  const { params } = navigation.state;
+  const trendingAuthors = params[CONSTANTS.PARAMS.TRENDING_AUTHORS];
 
-    return (
-      <Wrapper>
-        <TrendingAuthorsList
-          keyExtractor={podcast => `${podcast.id}`}
-          showsVerticalScrollIndicator={false}
-          data={AUTHORS}
-          renderItem={({ item, index }) => (
-            <AuthorsListItem
-              onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
-                [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
-                  id: item.id,
-                },
-              })
-              }
-              numberPodcasts={item.numberPodcasts}
-              profileImage={item.imageURL}
-              subjects={item.subjects}
-              name={item.name}
-              id={item.id}
-            />
-          )}
-        />
-      </Wrapper>
-    );
-  }
-}
+  return (
+    <Wrapper>
+      <TrendingAuthorsList
+        keyExtractor={author => `${author.id}`}
+        showsVerticalScrollIndicator={false}
+        data={trendingAuthors}
+        renderItem={({ item, index }) => (
+          <AuthorsListItem
+            onPress={() => navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+              [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+                id: item.id,
+              },
+            })
+            }
+            numberPodcasts={item.podcasts.length}
+            profileImage={item.profileImageURL}
+            subjects={item.categories}
+            name={item.name}
+            id={item.id}
+          />
+        )}
+      />
+    </Wrapper>
+  );
+};
 
 export default TrendingAuthorsSeeAll;

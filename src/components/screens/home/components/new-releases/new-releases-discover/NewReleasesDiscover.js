@@ -8,8 +8,6 @@ import NewReleasesDiscoverListItem from './NewReleasesDiscoverListItem';
 import SectionWithButton from '~/components/common/SectionWithButton';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-import PODCAST from '../../PODCASTS_TEST';
-
 const Wrapper = styled(View)`
   width: 100%;
   flex: 1;
@@ -17,32 +15,35 @@ const Wrapper = styled(View)`
   margin-bottom: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
-const NewReleasesDiscover = styled(FlatList)`
+const NewReleasesDiscoverList = styled(FlatList)`
   width: 100%;
   flex: 1;
   margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
 `;
 
 type Props = {
+  data: Array<Object>,
   navigation: Object,
 };
 
-const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
+const NewReleasesDiscover = ({ navigation, data }: Props): Object => (
   <Wrapper>
     <SectionWithButton
       onPress={() => {
         const { params } = navigation.state;
-        navigation.navigate(params.LOCAL_STACK_ROUTES.NEW_RELEASES_SEE_ALL);
+        navigation.navigate(params.LOCAL_STACK_ROUTES.NEW_RELEASES_SEE_ALL, {
+          [CONSTANTS.PARAMS.PODCASTS_NEW_RELEASES]: data,
+        });
       }}
       sectionTitle="New Releases"
       buttonText="SEE ALL"
       buttonSize="small"
     />
-    <NewReleasesDiscover
+    <NewReleasesDiscoverList
       keyExtractor={podcast => `${podcast.id}`}
       showsHorizontalScrollIndicator={false}
       horizontal
-      data={PODCAST}
+      data={data}
       renderItem={({ item, index }) => (
         <NewReleasesDiscoverListItem
           onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
@@ -50,12 +51,12 @@ const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
             [CONSTANTS.PARAMS.PODCAST_DETAIL]: item,
           })
           }
-          authorImage={item.author.thumbnailImageURL}
+          authorImage={item.author.thumbnailProfileImageURL}
           authorName={item.author.name}
           podcastImage={item.imageURL}
-          isLastIndex={index === PODCAST.length - 1}
+          isLastIndex={index === data.length - 1}
           navigation={navigation}
-          subject={item.subject}
+          subject={item.category}
           title={item.title}
         />
       )}
@@ -63,4 +64,4 @@ const TrendingAuthorsDiscover = ({ navigation }: Props): Object => (
   </Wrapper>
 );
 
-export default TrendingAuthorsDiscover;
+export default NewReleasesDiscover;

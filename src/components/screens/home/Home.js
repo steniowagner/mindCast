@@ -4,37 +4,29 @@ import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Creators as PlayerCreators } from '~/store/ducks/player';
-import { Creators as LocalPodcastsManagerCreators } from '~/store/ducks/localPodcastsManager';
-import { Creators as PlaylistsCreators } from '~/store/ducks/playlist';
+import { Creators as HomeCreators } from '~/store/ducks/home';
 
 import HomeComponent from './components/HomeComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 
+type HomeStoreData = {
+  loading: boolean,
+  error: boolean,
+  data: Object,
+};
+
 type Props = {
   LOCAL_STACK_ROUTES: Object,
+  home: HomeStoreData,
   navigation: Object,
+  getHome: Function,
 };
 
 class HomeContainer extends Component<Props, {}> {
   componentDidMount() {
-    const {
-      createPlaylist,
-      setPodcastsDownloadedList,
-      navigation,
-      loadPlaylists,
-      loadPodcastsRecentlyPlayed,
-    } = this.props;
+    const { LOCAL_STACK_ROUTES, getHome, navigation } = this.props;
 
-    // createPlaylist('MY_PLAYLIST');
-
-    setPodcastsDownloadedList();
-
-    loadPodcastsRecentlyPlayed();
-
-    loadPlaylists();
-
-    const { LOCAL_STACK_ROUTES } = this.props;
+    getHome();
 
     navigation.setParams({
       LOCAL_STACK_ROUTES,
@@ -42,24 +34,28 @@ class HomeContainer extends Component<Props, {}> {
   }
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, getHome, home } = this.props;
+    const { loading, error, data } = home;
 
-    return <HomeComponent
-      navigation={navigation}
-    />;
+    return (
+      <HomeComponent
+        navigation={navigation}
+        getHome={getHome}
+        loading={loading}
+        error={error}
+        data={data}
+      />
+    );
   }
 }
 
-const Creators = Object.assign(
-  {},
-  LocalPodcastsManagerCreators,
-  PlaylistsCreators,
-  PlayerCreators,
-);
+const mapDispatchToProps = dispatch => bindActionCreators(HomeCreators, dispatch);
 
-const mapDispatchToProps = dispatch => bindActionCreators(Creators, dispatch);
+const mapStateToProps = state => ({
+  home: state.home,
+});
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(HomeContainer);

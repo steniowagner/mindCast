@@ -2,7 +2,9 @@
 
 import React, { Fragment, Component, createContext } from 'react';
 import { StatusBar } from 'react-native';
+
 import { ThemeProvider } from 'styled-components';
+
 import {
   getItemFromStorage,
   persistItemInStorage,

@@ -109,7 +109,7 @@ class Interests extends Component<{}, State> {
     }
   }
 
-  async componentWillUnmount() {
+  async componentDidUpdate() {
     const { interests } = this.state;
 
     await persistItemInStorage(CONSTANTS.KEYS.INTERESTS_STORAGE_KEY, interests);

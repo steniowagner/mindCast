@@ -10,8 +10,6 @@ import { setHeaderPlayButtonPress } from '~/routes/utils/navigationOptions';
 import AuthorsListItem from '~/components/common/AuthorListItem';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-import PODCASTS from '../PODCASTS_TEST';
-
 const Wrapper = styled(View)`
   width: 100%;
   height: 100%;
@@ -32,19 +30,29 @@ type Props = {
 class HottestPodcastsSeeAll extends Component<Props, {}> {
   componentDidMount() {
     const { navigation } = this.props;
+    const hottestPodcasts = this.getHottestPodcasts();
 
-    setHeaderPlayButtonPress(PODCASTS, navigation);
+    setHeaderPlayButtonPress(hottestPodcasts, navigation);
   }
+
+  getHottestPodcasts = (): Array<Object> => {
+    const { navigation } = this.props;
+    const { params } = navigation.state;
+
+    return params[CONSTANTS.PARAMS.PODCASTS_HOTTEST_PODCASTS];
+  };
 
   render() {
     const { navigation } = this.props;
+
+    const hottestPodcasts = this.getHottestPodcasts();
 
     return (
       <Wrapper>
         <HottestPodcastsSeeAllList
           keyExtractor={podcast => `${podcast.id}`}
           showsVerticalScrollIndicator={false}
-          data={PODCASTS}
+          data={hottestPodcasts}
           renderItem={({ item, index }) => (
             <HottestPodcastsSeeAllListItem
               onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {
