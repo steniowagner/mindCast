@@ -41,9 +41,9 @@ const Featured = ({ onPressItem, navigation, featured }: Props): Object => (
       {featured.map((podcast, index) => (
         <FeaturedListItem
           onPress={() => onPressItem(podcast)}
-          imageURL={podcast.smallImageURL}
+          imageURL={podcast.thumbnailImageURL}
           fileName={podcast.fileName}
-          subject={podcast.subject}
+          subject={podcast.category}
           title={podcast.title}
           index={index + 1}
           key={podcast.id}

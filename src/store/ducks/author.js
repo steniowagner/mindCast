@@ -8,10 +8,10 @@ export const Types = {
 };
 
 const INITIAL_STATE = {
+  author: null,
   loading: true,
   error: false,
   authors: [],
-  data: null,
 };
 
 export const Creators = {
@@ -71,7 +71,7 @@ const author = (state = INITIAL_STATE, { type, payload }) => {
     case Types.GET_AUTHOR_BY_ID_REQUEST:
       return {
         ...state,
-        data: null,
+        author: null,
         loading: true,
         error: false,
       };
@@ -80,7 +80,7 @@ const author = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        data: payload.data,
+        author: payload.data,
       };
 
     case Types.GET_AUTHOR_BY_ID_ERROR:

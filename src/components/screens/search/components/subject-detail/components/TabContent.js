@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import FeaturedListItem from './FeaturedListItem';
@@ -98,6 +98,11 @@ class TabContent extends Component<Props, {}> {
             style={{
               paddingHorizontal: appStyles.metrics.mediumSize,
             }}
+            ItemSeparatorComponent={() => (
+              <View
+                style={{ marginVertical: 5 }}
+              />
+            )}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => `${item.id}`}
             data={authors}

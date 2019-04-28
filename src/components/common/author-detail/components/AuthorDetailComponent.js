@@ -49,8 +49,8 @@ type AuthorProps = {
   profileImageThumbnail: string,
   relatedAuthors: Array<Object>,
   newReleases: Array<Object>,
+  categories: Array<string>,
   featured: Array<Object>,
-  subjects: Array<string>,
   profileImage: string,
   about: string,
   name: string,
@@ -98,117 +98,109 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
     navigation.dispatch(pushAction);
   };
 
-  renderContent = (): Object => {
-    const { navigation, author } = this.props;
-
-    const {
-      profileImageThumbnail,
-      relatedAuthors,
-      profileImage,
-      newReleases,
-      featured,
-      subjects,
-      about,
-      name,
-    } = author;
-
-    return (
-      <Fragment>
-        <Header
-          style={{
-            opacity: this._scrollViewOffset.interpolate({
-              inputRange: [0, appStyles.metrics.getHeightFromDP('25%')],
-              outputRange: [1, 0],
-              extrapolate: 'clamp',
-            }),
-          }}
-        >
-          <ImageWrapper>
-            <ProgressiveImage
-              thumbnailImageURL={profileImageThumbnail}
-              imageURL={profileImage}
-            />
-          </ImageWrapper>
-        </Header>
-        <Animated.View
-          style={{
-            opacity: this._scrollViewOffset.interpolate({
-              inputRange: [
-                0,
-                appStyles.metrics.getHeightFromDP('25%'),
-                appStyles.metrics.getHeightFromDP('30%'),
-              ],
-              outputRange: [1, 1, 0],
-              extrapolate: 'clamp',
-            }),
-          }}
-        >
-          <SmokeShadow />
-        </Animated.View>
-        <Animated.ScrollView
-          scrollEventThrottle={16}
-          style={[
-            {
-              paddingBottom: appStyles.metrics.getHeightFromDP('6%'),
-              transform: [
-                {
-                  translateY: this._scrollViewInitialPosition.y,
-                },
-              ],
-            },
-          ]}
-          onScroll={Animated.event([
-            {
-              nativeEvent: {
-                contentOffset: { y: this._scrollViewOffset },
+  renderContent = (author: Object, navigation: Object): Object => (
+    <Fragment>
+      <Header
+        style={{
+          opacity: this._scrollViewOffset.interpolate({
+            inputRange: [0, appStyles.metrics.getHeightFromDP('25%')],
+            outputRange: [1, 0],
+            extrapolate: 'clamp',
+          }),
+        }}
+      >
+        <ImageWrapper>
+          <ProgressiveImage
+            thumbnailImageURL={author.thumbnailProfileImageURL}
+            imageURL={author.profileImageURL}
+          />
+        </ImageWrapper>
+      </Header>
+      <Animated.View
+        style={{
+          opacity: this._scrollViewOffset.interpolate({
+            inputRange: [
+              0,
+              appStyles.metrics.getHeightFromDP('25%'),
+              appStyles.metrics.getHeightFromDP('30%'),
+            ],
+            outputRange: [1, 1, 0],
+            extrapolate: 'clamp',
+          }),
+        }}
+      >
+        <SmokeShadow />
+      </Animated.View>
+      <Animated.ScrollView
+        scrollEventThrottle={16}
+        style={[
+          {
+            paddingBottom: appStyles.metrics.getHeightFromDP('6%'),
+            transform: [
+              {
+                translateY: this._scrollViewInitialPosition.y,
               },
+            ],
+          },
+        ]}
+        onScroll={Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: { y: this._scrollViewOffset },
             },
-          ])}
-          showsVerticalScrollIndicator={false}
-        >
-          <SectionWrapper>
-            <AuthorName
-              name={name}
-            />
-          </SectionWrapper>
-          <SectionWrapper>
-            <AboutSection
-              about={about}
-            />
-          </SectionWrapper>
-          <SectionWrapper>
-            <SubjectsSection
-              subjects={subjects}
-            />
-          </SectionWrapper>
+          },
+        ])}
+        showsVerticalScrollIndicator={false}
+      >
+        <SectionWrapper>
+          <AuthorName
+            name={author.name}
+          />
+        </SectionWrapper>
+        <SectionWrapper>
+          <AboutSection
+            about={author.about}
+          />
+        </SectionWrapper>
+        <SectionWrapper>
+          <SubjectsSection
+            subjects={author.categories}
+          />
+        </SectionWrapper>
+        {author.podcasts.newReleases && author.podcasts.newReleases.length && (
           <NewReleasesSection
             onPressItem={podcast => this.onPressPodcastListItem(podcast, navigation)
             }
-            newReleases={newReleases}
+            newReleases={author.podcasts.newReleases}
             navigation={navigation}
           />
-          <FeaturedSection
-            onPressItem={podcast => this.onPressPodcastListItem(podcast, navigation)
-            }
-            navigation={navigation}
-            featured={featured}
-          />
+        )}
+        {author.podcasts.featured && author.podcasts.featured.length > 0}
+        <FeaturedSection
+          onPressItem={podcast => this.onPressPodcastListItem(podcast, navigation)
+          }
+          navigation={navigation}
+          featured={author.podcasts.featured}
+        />
+        {author.relatedAuthors && author.relatedAuthors.length > 0 && (
           <RelatedAuthors
-            relatedAuthors={relatedAuthors}
+            relatedAuthors={author.relatedAuthors}
           />
-        </Animated.ScrollView>
-      </Fragment>
-    );
-  };
+        )}
+      </Animated.ScrollView>
+    </Fragment>
+  );
 
   render() {
     const { navigation, loading, author } = this.props;
 
-    const hasAuthorDefined = !!author;
-
     return (
       <Container>
-        {loading || !hasAuthorDefined ? <Loading /> : this.renderContent()}
+        {loading || !author ? (
+          <Loading />
+        ) : (
+          this.renderContent(author, navigation)
+        )}
       </Container>
     );
   }

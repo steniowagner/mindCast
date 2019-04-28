@@ -40,6 +40,7 @@ type Props = {
 
 const SubjectsSection = ({ subjects }: Props): Object => (
   <Wrapper>
+    {console.tron.log(subjects)}
     <SectionTitle
       title="Subjects"
     />

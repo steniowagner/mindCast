@@ -15,10 +15,7 @@ const ContentWrapper = styled(View)`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.metrics.smallSize}px;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
-  background-color: ${({ theme }) => theme.colors.secondaryColor};
-  border-radius: 4px;
 `;
 
 const AuthorImage = styled(FastImage).attrs(({ uri }) => ({

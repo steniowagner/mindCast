@@ -26,8 +26,9 @@ const SectionContentWrapper = styled(View)`
 
 const AuthorDetailWrapper = styled(View)`
   width: 100%;
-  height: 100%;
   margin-top: ${({ theme }) => theme.metrics.largeSize}px;
+  background-color: ${({ theme }) => theme.colors.secondaryColor};
+  border-radius: 4px;
 `;
 
 const PodcastDescriptionText = styled(Text)`

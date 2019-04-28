@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-
+import { View } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as AuthorCreators } from '~/store/ducks/author';
@@ -9,16 +9,12 @@ import { Creators as AuthorCreators } from '~/store/ducks/author';
 import AuthorDetailComponent from './components/AuthorDetailComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-type AuthorProps = {
-  loading: boolean,
-  error: boolean,
-  data: Object,
-};
-
 type Props = {
   getAuthorById: Function,
-  author: AuthorProps,
   navigation: Object,
+  loading: boolean,
+  error: boolean,
+  author: Object,
 };
 
 class AuthorDetailContainer extends Component<Props, {}> {
@@ -31,22 +27,25 @@ class AuthorDetailContainer extends Component<Props, {}> {
   }
 
   render() {
-    const { navigation, author } = this.props;
-    const { loading, data, error } = author;
+    const {
+      navigation, loading, author, error,
+    } = this.props;
 
     return (
       <AuthorDetailComponent
         navigation={navigation}
         loading={loading}
+        author={author}
         error={error}
-        author={data}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
-  author: state.author,
+const mapStateToProps = ({ author }) => ({
+  loading: author.loading,
+  author: author.author,
+  error: author.error,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(AuthorCreators, dispatch);

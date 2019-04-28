@@ -52,7 +52,7 @@ const NewReleasesSection = ({
           isLastIndex={index === newReleases.length - 1}
           onPress={() => onPressItem(item)}
           imageURL={item.imageURL}
-          subject={item.subject}
+          subject={item.category}
           title={item.title}
           stars={item.stars}
         />

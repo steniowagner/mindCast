@@ -93,29 +93,6 @@ class SubjectDetail extends Component<Props, {}> {
     </Header>
   );
 
-  renderTabContent = (items: Object): Object => {
-    const { trending, featured, authors } = items;
-
-    return (
-      <ContentWrapper>
-        <CustomTab
-          onChangeTabIndex={this.onChangeTabIndex}
-          contentWidth={appStyles.metrics.width}
-          data={TAB_ITEMS}
-          theme="dark"
-        />
-        <TabContent
-          setListRef={(ref) => {
-            this._outterListRef = ref;
-          }}
-          trendingPodcasts={trending}
-          featuredPodcasts={featured}
-          authors={authors}
-        />
-      </ContentWrapper>
-    );
-  };
-
   renderContent = (): Object => {
     const { subject, theme } = this.props;
     const { data } = subject;
@@ -137,7 +114,22 @@ class SubjectDetail extends Component<Props, {}> {
             },
           ]}
         >
-          {this.renderTabContent(items)}
+          <ContentWrapper>
+            <CustomTab
+              onChangeTabIndex={this.onChangeTabIndex}
+              contentWidth={appStyles.metrics.width}
+              data={TAB_ITEMS}
+              theme="dark"
+            />
+            <TabContent
+              setListRef={(ref) => {
+                this._outterListRef = ref;
+              }}
+              trendingPodcasts={items.trending}
+              featuredPodcasts={items.featured}
+              authors={items.authors}
+            />
+          </ContentWrapper>
         </Animated.View>
       </Fragment>
     );
