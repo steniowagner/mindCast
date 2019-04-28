@@ -91,7 +91,7 @@ const AuthorListItem = ({
   <ContentWrapper>
     {withIndex && <Index>{index}</Index>}
     <AuthorImage
-      uri={author.imageURL}
+      uri={author.profileImageURL}
     />
     <RightContent
       withIndex={withIndex}

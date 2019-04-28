@@ -13,5 +13,5 @@ export default {
   lightSecondaryColor: '#222',
   dark: '#111',
   black: '#000',
-  lightDark: 'rgba(1, 1, 1, 0.5)',
+  lightDark: 'rgba(0, 0, 0, 0.4)',
 };

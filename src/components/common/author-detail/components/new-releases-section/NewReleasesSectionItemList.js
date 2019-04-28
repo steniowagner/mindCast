@@ -21,7 +21,7 @@ const DarkLayer = styled(View)`
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: ${({ theme }) => theme.colors.darkLayer};
+  background-color: ${({ theme }) => theme.colors.lightDark};
   border-radius: 3px;
 `;
 

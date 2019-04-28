@@ -36,7 +36,7 @@ const DarkLayer = styled(View)`
   justify-content: space-between;
   padding: ${({ theme }) => theme.metrics.mediumSize}px;
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.colors.darkLayer};
+  background-color: ${({ theme }) => theme.colors.lightDark};
 `;
 
 const PodcastTitle = styled(Text).attrs({

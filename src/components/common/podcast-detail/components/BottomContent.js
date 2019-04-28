@@ -38,11 +38,9 @@ const PodcastDescriptionText = styled(Text)`
 
 type Props = {
   shouldShowAuthorSection: boolean,
-  onPressLearnMore: Function,
-  authorImageURL: string,
-  uploadedAt: string,
+  onPressDetail: Function,
   description: string,
-  authorName: string,
+  author: Object,
 };
 
 const BottomContent = ({

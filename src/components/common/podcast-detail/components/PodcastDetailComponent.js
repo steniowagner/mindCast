@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Fragment } from 'react';
+import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import styled, { withTheme } from 'styled-components';
@@ -28,11 +28,11 @@ type AuthorProps = {
 };
 
 type PodcastProps = {
+  author: AuthorProps,
   description: string,
   uploadedAt: string,
   imageURL: string,
   subject: string,
-  author: AuthorProps,
   title: string,
   stars: number,
   url: string,
@@ -64,44 +64,42 @@ const PodcastDetailComponent = ({
   navigation,
   podcast,
 }: Props): Object => (
-  <Fragment>
-    <Wrapper
-      showsVerticalScrollIndicator={false}
-      alwaysBounceVertical={false}
-    >
-      <PodcastInfo
-        imageURL={podcast.imageURL}
-        subject={podcast.subject}
-        title={podcast.title}
-        stars={podcast.stars}
+  <Wrapper
+    showsVerticalScrollIndicator={false}
+    alwaysBounceVertical={false}
+  >
+    <PodcastInfo
+      imageURL={podcast.imageURL}
+      subject={podcast.category}
+      title={podcast.title}
+      stars={podcast.stars}
+    />
+    <ActionButtons
+      onPressAddToPlaylist={onToggleAddPlaylistModal}
+      isDownloadingPodcast={isDownloadingPodcast}
+      onPressDownloadButton={onPressDownloadButton}
+      isPodcastDownloaded={isPodcastDownloaded}
+      onPressPlay={onPressPlay}
+    />
+    <BottomContent
+      shouldShowAuthorSection={shouldShowAuthorSection}
+      onPressDetail={() => {
+        navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
+          [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
+            id: podcast.author.id,
+          },
+        });
+      }}
+      description={podcast.description}
+      author={podcast.author}
+    />
+    {isAddPlaylistModalOpen && (
+      <PlaylistList
+        onToggleModal={onToggleAddPlaylistModal}
+        podcast={podcast}
       />
-      <ActionButtons
-        onPressAddToPlaylist={onToggleAddPlaylistModal}
-        isDownloadingPodcast={isDownloadingPodcast}
-        onPressDownloadButton={onPressDownloadButton}
-        isPodcastDownloaded={isPodcastDownloaded}
-        onPressPlay={onPressPlay}
-      />
-      <BottomContent
-        shouldShowAuthorSection={shouldShowAuthorSection}
-        onPressDetail={() => {
-          navigation.navigate(CONSTANTS.ROUTES.AUTHOR_DETAIL, {
-            [CONSTANTS.PARAMS.AUTHOR_DETAIL]: {
-              id: podcast.id,
-            },
-          });
-        }}
-        description={podcast.description}
-        author={podcast.author}
-      />
-      {isAddPlaylistModalOpen && (
-        <PlaylistList
-          onToggleModal={onToggleAddPlaylistModal}
-          podcast={podcast}
-        />
-      )}
-    </Wrapper>
-  </Fragment>
+    )}
+  </Wrapper>
 );
 
 export default PodcastDetailComponent;
