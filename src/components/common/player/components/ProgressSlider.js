@@ -92,7 +92,7 @@ class ProgressSlider extends Component<Props, State> {
     const { player } = this.props;
 
     const { currentPodcast, currentTime } = player;
-    const { totalDurationInSeconds, duration } = currentPodcast;
+    const { durationInSeconds, duration } = currentPodcast;
 
     return (
       <Wrapper>
@@ -102,7 +102,7 @@ class ProgressSlider extends Component<Props, State> {
           maximumTrackTintColor={appStyles.colors.subTextWhite}
           onValueChange={value => this.onValueChange(value)}
           thumbTintColor={appStyles.colors.primaryColor}
-          maximumValue={totalDurationInSeconds}
+          maximumValue={durationInSeconds}
           value={slideValue}
           minimumValue={0}
           step={1}

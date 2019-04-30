@@ -60,8 +60,8 @@ const TrendingAuthorsDiscover = ({ navigation, data }: Props): Object => (
       contentContainerStyle={{
         alignItems: 'center',
       }}
+      data={data.slice(0, 9)}
       horizontal
-      data={data}
     />
   </Wrapper>
 );

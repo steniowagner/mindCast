@@ -45,7 +45,7 @@ const HottestPodcastsDiscover = ({ navigation, data }: Props): Object => (
     <HottestPodcastsDiscoverList
       keyExtractor={podcast => `${podcast.id}`}
       showsHorizontalScrollIndicator={false}
-      data={data}
+      data={data.slice(0, 9)}
       horizontal
       renderItem={({ item, index }) => (
         <NewReleasesSectionItemList

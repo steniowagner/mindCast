@@ -9,12 +9,11 @@ const Container = styled(View)`
   height: ${({ theme }) => theme.metrics.getHeightFromDP('15%')}px;
   justify-content: center;
   align-items: center;
-  margin-top: ${({ theme }) => theme.metrics.extraLargeSize}px;
-  margin-bottom: ${({ theme }) => theme.metrics.mediumSize}px;
+  margin-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
 `;
 
 const Wrapper = styled(View)`
-  width: 60%;
+  width: 75%;
   justify-content: center;
   align-items: center;
 `;

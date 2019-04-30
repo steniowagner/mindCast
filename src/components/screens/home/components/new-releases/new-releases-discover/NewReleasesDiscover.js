@@ -43,7 +43,7 @@ const NewReleasesDiscover = ({ navigation, data }: Props): Object => (
       keyExtractor={podcast => `${podcast.id}`}
       showsHorizontalScrollIndicator={false}
       horizontal
-      data={data}
+      data={data.slice(0, 9)}
       renderItem={({ item, index }) => (
         <NewReleasesDiscoverListItem
           onPressItem={() => navigation.navigate(CONSTANTS.ROUTES.PODCAST_DETAIL, {

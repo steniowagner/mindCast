@@ -1,8 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import Sound from 'react-native-video';
+import { Platform } from 'react-native';
 
+import Sound from 'react-native-video';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as PlayerCreators } from '~/store/ducks/player';
@@ -40,7 +41,8 @@ class SoundComponent extends Component<Props, {}> {
   }
 
   onEnd = (): void => {
-    const { setPodcast, player, playNext } = this.props;
+    const { setPodcast, playNext, player } = this.props;
+
     const {
       shouldRepeatCurrent,
       currentPodcast,
@@ -53,7 +55,8 @@ class SoundComponent extends Component<Props, {}> {
       return;
     }
 
-    const currentPodcastChangedURI = currentPodcast.uri !== playlist[playlistIndex].uri;
+    const currentPodcastChangedURI = !!playlist[playlistIndex].uri
+      && playlist[playlistIndex].uri !== currentPodcast.uri;
 
     if (currentPodcastChangedURI) {
       setPodcast();

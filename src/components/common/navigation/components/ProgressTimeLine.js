@@ -23,7 +23,7 @@ const CurrentTimeLine = styled(View)`
 `;
 
 type Props = {
-  totalDurationInSeconds: number,
+  durationInSeconds: number,
   currentTime: string,
 };
 
@@ -40,23 +40,23 @@ const getTotalSecondsFromCurrentTime = (currentTime: string): number => {
 };
 
 const getCurrentTimeLineWidth = (
-  totalDurationInSeconds: number,
+  durationInSeconds: number,
   currentTime: string,
 ): number => {
   const currentTimeInSeconds = getTotalSecondsFromCurrentTime(currentTime);
   const screenWidth = appStyles.metrics.width;
 
-  const currentTimeLineWidth = (currentTimeInSeconds * screenWidth) / totalDurationInSeconds;
+  const currentTimeLineWidth = (currentTimeInSeconds * screenWidth) / durationInSeconds;
 
   return currentTimeLineWidth;
 };
 
 const ProgressTimeLine = ({
-  totalDurationInSeconds,
+  durationInSeconds,
   currentTime,
 }: Props): Object => {
   const currentTimeLineWidth = getCurrentTimeLineWidth(
-    totalDurationInSeconds,
+    durationInSeconds,
     currentTime,
   );
 
@@ -71,7 +71,7 @@ const ProgressTimeLine = ({
 };
 
 const mapStateToProps = state => ({
-  totalDurationInSeconds: state.player.currentPodcast.totalDurationInSeconds,
+  durationInSeconds: state.player.currentPodcast.durationInSeconds,
   currentTime: state.player.currentTime,
 });
 

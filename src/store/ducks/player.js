@@ -240,16 +240,13 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         },
       };
 
-    case Types.SET_PODCAST_REQUEST:
-      return {
-        ...state,
-      };
-
     case Types.SET_PODCAST_SUCCESS:
       return {
         ...state,
         currentPodcast: payload.currentPodcast,
+        currentTime: '00:00',
         paused: false,
+        seekValue: 0,
       };
 
     case Types.PLAY_NEXT_REQUEST:

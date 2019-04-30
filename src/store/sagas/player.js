@@ -1,9 +1,11 @@
 import {
   select, delay, call, all, put,
 } from 'redux-saga/effects';
+import { SERVER_URL } from 'react-native-dotenv';
 
-import { Creators as PlayerCreators } from '../ducks/player';
 import { Creators as LocalPodcastsManagerCreators } from '../ducks/localPodcastsManager';
+import { Creators as PlayerCreators } from '../ducks/player';
+import api from '~/services/api';
 
 const _findIndexInsideOriginalPlaylist = (
   originalPlaylist,
@@ -35,7 +37,9 @@ function* _definePodcastURI(podcast) {
     && !!podcastStored.path
     && typeof podcastStored.path === 'string';
 
-  const uri = isPodcastStored ? podcastStored.path : podcast.url;
+  const uri = isPodcastStored
+    ? podcastStored.path
+    : `${SERVER_URL}/podcasts/${podcast.id}/listen`;
 
   const podcastWithURI = {
     ...podcast,
@@ -48,8 +52,7 @@ function* _definePodcastURI(podcast) {
 function* _getSecondsPassedSincePodcastStarted() {
   const { currentTime } = yield select(state => state.player);
 
-  const rawMinutes = currentTime.split(':')[0];
-  const rawSeconds = currentTime.split(':')[1];
+  const [rawMinutes, rawSeconds] = currentTime.split(':');
 
   const minutes = parseInt(rawMinutes, 10);
   const seconds = parseInt(rawSeconds, 10);
@@ -85,7 +88,7 @@ function* _rewindToPreviousPodcast(newPlaylistIndex) {
       }),
     );
   } catch (err) {
-    console.tron.log('_rewindToPreviousPodcast', err);
+    console.tron.log('_rewindToPreviousPodcast');
   }
 }
 
@@ -147,7 +150,7 @@ export function* shufflePlaylist() {
       }),
     );
   } catch (err) {
-    console.tron.log('shufflePlaylist', err);
+    console.tron.log('shufflePlaylist');
   }
 }
 
@@ -171,7 +174,7 @@ export function* setupShufflePlayer({ payload }) {
 
     yield call(setPodcast);
   } catch (err) {
-    console.tron.log('setupPlayer', 'err');
+    console.tron.log('setupPlayer');
   }
 }
 
@@ -194,7 +197,7 @@ export function* setPodcast() {
       ),
     ]);
   } catch (err) {
-    console.log(err);
+    console.tron.log('err');
   }
 }
 
@@ -250,10 +253,16 @@ export function* playNext() {
   try {
     const {
       shouldRepeatPlaylist,
+      shouldRepeatCurrent,
+      currentPodcast,
       backupPlaylist,
       playlistIndex,
       playlist,
     } = yield select(state => state.player);
+
+    if (shouldRepeatCurrent) {
+      return yield _defineNextPodcast(currentPodcast, playlistIndex);
+    }
 
     const isLastPodcastOfPlaylist = playlistIndex === playlist.length - 1;
     const isLastPodcastShouldRepeatPlaylist = isLastPodcastOfPlaylist && shouldRepeatPlaylist;
@@ -275,7 +284,7 @@ export function* playNext() {
       );
     }
   } catch (err) {
-    console.tron.log('playNext', err);
+    console.tron.log('playNext');
   }
 }
 
@@ -311,6 +320,6 @@ export function* playPrevious() {
 
     yield call(setPodcast);
   } catch (err) {
-    console.tron.log('playPrevious', err);
+    console.tron.log('playPrevious');
   }
 }

@@ -73,7 +73,7 @@ class Player extends Component<Props, State> {
     this.setHeaderRightMenuPress();
 
     if (isLookingUpPlayer) {
-      this.setHeaderTitle(playlist[playlistIndex].subject);
+      this.setHeaderTitle(playlist[playlistIndex].category);
 
       return;
     }
@@ -86,7 +86,7 @@ class Player extends Component<Props, State> {
     const pastPodcast = this.props.currentPodcast;
 
     if (pastPodcast && nextPodcast && pastPodcast.id !== nextPodcast.id) {
-      this.setHeaderTitle(nextPodcast.subject);
+      this.setHeaderTitle(nextPodcast.category);
     }
   }
 
@@ -171,7 +171,7 @@ class Player extends Component<Props, State> {
       properAction(playlist);
     }
 
-    this.setHeaderTitle(playlist[0].subject);
+    this.setHeaderTitle(playlist[0].category);
   };
 
   checkIsPlayingSamePlaylist = (

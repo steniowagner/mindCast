@@ -2,6 +2,7 @@ import RNFS from 'react-native-fs';
 import {
   select, call, all, put,
 } from 'redux-saga/effects';
+import { SERVER_URL } from 'react-native-dotenv';
 
 import {
   removeItemFromStorage,
@@ -173,7 +174,7 @@ export function* setPodcastsDownloadedList() {
 }
 
 function* _handleDownloadPodcastResult(statusCode, path, podcast) {
-  if (statusCode === 200) {
+  if (statusCode === 206) {
     const podcastWithLocalURI = {
       ...podcast,
       path,
@@ -199,12 +200,12 @@ function* _handleDownloadPodcastResult(statusCode, path, podcast) {
 
 export function* downloadPodcast(podcast) {
   try {
-    const { url, id } = podcast;
+    const { id } = podcast;
 
     const PATH_TO_FILE = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
 
     const { jobId, promise } = yield call(RNFS.downloadFile, {
-      fromUrl: url,
+      fromUrl: `${SERVER_URL}/podcasts/${id}/listen`,
       toFile: PATH_TO_FILE,
       discretionary: true,
     });
@@ -266,17 +267,14 @@ export function* stopPodcastDownload(downloadInfo) {
 export function* removePodcastFromLocalStorage({ payload }) {
   try {
     const { podcast } = payload;
-    const { uri, id } = podcast;
+    const { id } = podcast;
 
-    let uriToRemove = uri;
+    const uri = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
 
-    if (!uri) {
-      uriToRemove = `${RNFS.DocumentDirectoryPath}/${id}.mp3`;
-    }
-    const isPodcastFileExists = yield call(RNFS.exists, uriToRemove);
+    const isPodcastFileExists = yield call(RNFS.exists, uri);
 
     if (isPodcastFileExists) {
-      yield call(RNFS.unlink, uriToRemove);
+      yield call(RNFS.unlink, uri);
 
       yield _removePersistedPodcasts(id);
 
