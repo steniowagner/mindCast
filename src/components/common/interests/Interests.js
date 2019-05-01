@@ -16,37 +16,44 @@ const DEFAULT_INTERESTS = [
   {
     isSelected: true,
     title: 'ALL',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/all/all.jpg',
   },
   {
     isSelected: false,
     title: 'TECHNOLOGY',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/technology/big.jpg',
   },
   {
     isSelected: false,
     title: 'PHILOSOFY',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/philosofy/big.jpg',
   },
   {
     isSelected: false,
     title: 'SCIENCE',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/science/big.jpeg',
   },
   {
     isSelected: false,
     title: 'LITERATURE',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/literature/big.jpg',
   },
   {
     isSelected: false,
     title: 'POP CULTURE',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/pop-culture/big.jpg',
   },
   {
     isSelected: false,
     title: 'HISTORY',
-    imageURL: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/history/big.jpg',
   },
 ];
 
@@ -134,6 +141,12 @@ class Interests extends Component<{}, State> {
     const { interests } = this.state;
 
     if (indexSelected === 0) {
+      this.setState({
+        interests: interests.map(interest => (interest.title === 'ALL'
+          ? { ...interest, isSelected: true }
+          : { ...interest, isSelected: false })),
+      });
+
       return;
     }
 

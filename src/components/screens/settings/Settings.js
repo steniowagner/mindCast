@@ -189,26 +189,26 @@ class Settings extends Component<Props, State> {
                     </Row>
                   );
                 })}
-                <Row>
-                  <TextWrapper>
-                    <OptiontTitle>About</OptiontTitle>
-                    <OptionDescription>
-                      Want to know more about the Creator of this App? Check it
-                      out!
-                    </OptionDescription>
-                  </TextWrapper>
-                  <TouchableOpacity
-                    onPress={() => {
-                      const { LOCAL_STACK_ROUTES } = this.props;
-                      navigation.navigate(LOCAL_STACK_ROUTES.ABOUT);
-                    }}
-                    hitSlop={{
-                      bottom: appStyles.metrics.smallSize,
-                      right: appStyles.metrics.smallSize,
-                      left: appStyles.metrics.smallSize,
-                      top: appStyles.metrics.smallSize,
-                    }}
-                  >
+                <TouchableOpacity
+                  onPress={() => {
+                    const { LOCAL_STACK_ROUTES } = this.props;
+                    navigation.navigate(LOCAL_STACK_ROUTES.ABOUT);
+                  }}
+                  hitSlop={{
+                    bottom: appStyles.metrics.smallSize,
+                    right: appStyles.metrics.smallSize,
+                    left: appStyles.metrics.smallSize,
+                    top: appStyles.metrics.smallSize,
+                  }}
+                >
+                  <Row>
+                    <TextWrapper>
+                      <OptiontTitle>About</OptiontTitle>
+                      <OptionDescription>
+                        Want to know more about the Creator of this App? Check
+                        it out!
+                      </OptionDescription>
+                    </TextWrapper>
                     <Icon
                       color={appStyles.colors.subTextWhite}
                       name={
@@ -218,8 +218,8 @@ class Settings extends Component<Props, State> {
                       }
                       size={Platform.OS === 'android' ? 32 : 34}
                     />
-                  </TouchableOpacity>
-                </Row>
+                  </Row>
+                </TouchableOpacity>
               </OptionsWrapper>
             );
           }}

@@ -13,7 +13,8 @@ const Wrapper = styled(TouchableOpacity)`
 
 const PodcastImage = styled(FastImage).attrs(({ uri }) => ({
   source: {
-    uri: 'https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg',
+    priority: FastImage.priority.high,
+    uri,
   },
 }))`
   width: 100%;
