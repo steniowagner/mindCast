@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { StatusBar, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import SubjectDetailContainer from './components/subject-detail/SubjectDetailContainer';
 import PodcastDetailContainer from '~/components/common/podcast-detail/PodcastDetailContainer';
@@ -50,7 +50,7 @@ const RootStack = createStackNavigator(
 
         return {
           title,
-          ...getHiddenHeaderLayout(screenProps),
+          ...getHiddenHeaderLayout(screenProps, '#fff'),
         };
       },
     },

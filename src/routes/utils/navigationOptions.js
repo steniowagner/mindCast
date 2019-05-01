@@ -124,12 +124,15 @@ export const setHeaderPlayButtonPress = (
   });
 };
 
-export const getHiddenHeaderLayout = (screenProps: Object): Object => {
+export const getHiddenHeaderLayout = (
+  screenProps: Object,
+  colorOverride: ?string,
+): Object => {
   const { theme } = screenProps;
 
   return {
     ...DEFAULT_HEADER_STYLE,
-    headerTintColor: theme.colors.textColor,
+    headerTintColor: colorOverride || theme.colors.textColor,
     headerBackTitle: null,
     ...Platform.select({
       android: {

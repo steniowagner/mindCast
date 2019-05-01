@@ -15,7 +15,7 @@ const Container = styled(TouchableOpacity)`
 `;
 
 const SubjectImage = styled(FastImage).attrs(({ uri }) => ({
-  source: { uri },
+  source: { uri, priority: FastImage.priority.high },
 }))`
   width: 100%;
   height: 100%;
@@ -41,12 +41,14 @@ const Title = styled(Text)`
 type Props = {
   isTextInputFocused: boolean,
   onPress: Function,
+  imageURL: string,
   title: string,
   index: number,
 };
 
 const SubjectListItem = ({
   isTextInputFocused,
+  imageURL,
   onPress,
   title,
   index,
@@ -57,7 +59,7 @@ const SubjectListItem = ({
     index={index}
   >
     <SubjectImage
-      uri="https://s3-sa-east-1.amazonaws.com/mind-cast/images/ragnar.jpeg"
+      uri={imageURL}
     />
     <DarkLayer>
       <Title>{title}</Title>

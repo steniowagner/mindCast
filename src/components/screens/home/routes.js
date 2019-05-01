@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { StatusBar, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import AuthorDetailContainer from '~/components/common/author-detail/AuthorDetailContainer';
 import TrendingAuthorsSeeAll from './components/trending-authors/TrendingAuthorsSeeAll';

@@ -56,7 +56,7 @@ const AuthorInfoWrapper = styled(View)`
 `;
 
 type AuthorProps = {
-  thumbnailImageURL: string,
+  thumbnailProfileImageURL: string,
   name: string,
 };
 
@@ -101,7 +101,7 @@ const TrendingListItem = ({
         <PodcastTitle>{title}</PodcastTitle>
         <AuthorInfoWrapper>
           <AuthorInfo
-            imageURL={author.thumbnailImageURL}
+            imageURL={author.thumbnailProfileImageURL}
             numberOfLines={2}
             name={author.name}
             textColor="dark"

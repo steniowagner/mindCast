@@ -8,6 +8,7 @@ import styled, { withTheme } from 'styled-components';
 import ProgressiveImage from '~/components/common/ProgressiveImage';
 import CustomTab from '~/components/common/CustomTab';
 import Loading from '~/components/common/Loading';
+import CONSTANTS from '~/utils/CONSTANTS';
 import TabContent from './TabContent';
 import appStyles from '~/styles';
 
@@ -41,7 +42,7 @@ const SmokeShadow = styled(LinearGradient).attrs(({ theme }) => ({
   colors: ['transparent', theme.colors.secondaryColor],
 }))`
   width: 100%;
-  height: ${HEADER_HEIGHT}px;
+  height: ${HEADER_HEIGHT};
   position: absolute;
 `;
 
@@ -51,6 +52,7 @@ const ContentWrapper = styled(View)`
 `;
 
 type Props = {
+  navigation: Object,
   loading: boolean,
   subject: Object,
   error: boolean,
@@ -69,9 +71,9 @@ class SubjectDetail extends Component<Props, {}> {
     const shouldShowTabContent = !loading && !error && !!subject;
 
     if (shouldShowTabContent) {
-      Animated.spring(this._tabsInitialPosition.y, {
+      Animated.timing(this._tabsInitialPosition.y, {
         toValue: HEADER_HEIGHT,
-        speed: 3.5,
+        duration: 250,
         useNativeDriver: true,
       }).start();
     }
@@ -90,13 +92,18 @@ class SubjectDetail extends Component<Props, {}> {
         thumbnailImageURL={thumbnailImageURL}
         imageURL={imageURL}
       />
+      <DarkLayer />
     </Header>
   );
 
   renderContent = (): Object => {
-    const { subject, theme } = this.props;
+    const { navigation, subject, theme } = this.props;
+    const { params } = navigation.state;
+
+    const { imageURL, thumbnailImageURL } = params[
+      CONSTANTS.PARAMS.SUBJECT_DETAIL
+    ];
     const { data } = subject;
-    const { thumbnailImageURL, imageURL, items } = data;
 
     return (
       <Fragment>
@@ -125,9 +132,9 @@ class SubjectDetail extends Component<Props, {}> {
               setListRef={(ref) => {
                 this._outterListRef = ref;
               }}
-              trendingPodcasts={items.trending}
-              featuredPodcasts={items.featured}
-              authors={items.authors}
+              trendingPodcasts={data.trending}
+              featuredPodcasts={data.featured}
+              authors={data.authors}
             />
           </ContentWrapper>
         </Animated.View>
@@ -136,9 +143,7 @@ class SubjectDetail extends Component<Props, {}> {
   };
 
   render() {
-    const {
-      loading, error, subject, theme,
-    } = this.props;
+    const { loading } = this.props;
 
     return (
       <Container>{loading ? <Loading /> : this.renderContent()}</Container>

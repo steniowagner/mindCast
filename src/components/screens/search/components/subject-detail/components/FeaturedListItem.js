@@ -90,7 +90,7 @@ const FeaturedListitem = ({ onPress, podcast }: Props): Object => (
     <BottomContent>
       <TextWrapper>
         <AuthorInfo
-          imageURL={podcast.author.thumbnailImageURL}
+          imageURL={podcast.author.thumbnailProfileImageURL}
           name={podcast.author.name}
           numberOfLines={1}
           textColor="dark"

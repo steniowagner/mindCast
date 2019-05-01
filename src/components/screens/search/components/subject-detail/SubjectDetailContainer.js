@@ -41,6 +41,7 @@ class SubjectDetailContainer extends Component<Props, {}> {
 
     return (
       <SubjectDetailComponent
+        navigation={navigation}
         loading={loading}
         subject={subject}
         error={error}

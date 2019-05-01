@@ -10,26 +10,50 @@ const items = [
   {
     id: 'technology',
     title: 'TECHNOLOGY',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/technology/big.jpg',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/technology/thumbnail.jpg',
   },
   {
     id: 'philosofy',
     title: 'PHILOSOFY',
-  },
-  {
-    id: 'science',
-    title: 'SCIENCE',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/philosofy/big.jpg',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/philosofy/thumbnail.jpg',
   },
   {
     id: 'literature',
     title: 'LITERATURE',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/literature/big.jpg',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/literature/thumbnail.jpg',
+  },
+  {
+    id: 'science',
+    title: 'SCIENCE',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/science/big.jpeg',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/science/thumbnail.jpg',
   },
   {
     id: 'pop-culture',
     title: 'POP CULTURE',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/pop-culture/big.jpg',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/pop-culture/thumbnail.jpg',
   },
   {
     id: 'history',
     title: 'HISTORY',
+    imageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/history/big.jpg',
+    thumbnailImageURL:
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/history/thumbnail.jpg',
   },
 ];
 
@@ -48,6 +72,7 @@ const SubjectsList = ({ isTextInputFocused, navigation }: Props): Object => (
           });
         }}
         isTextInputFocused={isTextInputFocused}
+        imageURL={item.imageURL}
         title={item.title}
         index={index}
       />
