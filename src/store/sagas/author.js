@@ -1,4 +1,6 @@
-import { call, select, put } from 'redux-saga/effects';
+import {
+  call, select, put, delay,
+} from 'redux-saga/effects';
 
 import { Creators as AuthorCreators } from '../ducks/author';
 import parseParams from './utils/parseParams';

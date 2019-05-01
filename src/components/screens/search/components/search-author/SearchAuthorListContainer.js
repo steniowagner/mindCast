@@ -6,12 +6,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Creators as AuthorCreators } from '~/store/ducks/author';
 
-import SearchAuthorListComponent from './components/SearchAuthorListComponent';
+import SearchAuthorListComponent from './SearchAuthorListComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
 type AuthorProps = {
-  loadingSingleAuthor: boolean,
+  loadingSearchAuthorByName: boolean,
   authors: Array<Object>,
 };
 
@@ -41,12 +41,12 @@ class SearchAuthorListContainer extends Component<Props, {}> {
 
   render() {
     const { navigation, author } = this.props;
-    const { loadingSingleAuthor, authors } = author;
+    const { loadingSearchAuthorByName, authors } = author;
     const authorName = this.getAuthorNameParam();
 
     return (
       <SearchAuthorListComponent
-        loading={loadingSingleAuthor}
+        loading={loadingSearchAuthorByName}
         authorName={authorName}
         navigation={navigation}
         authors={authors}

@@ -20,29 +20,42 @@ const ContentWrapper = styled(View)`
   margin-top: -${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
 `;
 
-const AuthorNotFoundText = styled(Text).attrs({
-  numberOfLines: 2,
+const Title = styled(Text).attrs({
+  numberOfLines: 1,
 })`
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.1}px;
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.4}px;
   color: ${({ theme }) => theme.colors.textColor};
+  font-family: CircularStd-Black;
+  text-align: center;
+`;
+
+const Message = styled(Text).attrs({
+  numberOfLines: 3,
+})`
+  margin-top: ${({ theme }) => theme.metrics.mediumSize}px;
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.1}px;
+  color: ${({ theme }) => theme.colors.subTextColor};
   font-family: CircularStd-Medium;
   text-align: center;
 `;
 
 type Props = {
-  authorName: string,
+  message: string,
+  title: string,
+  icon: string,
 };
 
-const AuthorNotFound = ({ authorName }: Props): Object => (
+const ErrorMessage = ({ message, title, icon }: Props): Object => (
   <Wrapper>
     <ContentWrapper>
       <Icon
-        name="magnify-close"
+        name={icon}
         size={150}
       />
-      <AuthorNotFoundText>{`No results for "${authorName}"`}</AuthorNotFoundText>
+      <Title>{title}</Title>
+      <Message>{message}</Message>
     </ContentWrapper>
   </Wrapper>
 );
 
-export default AuthorNotFound;
+export default ErrorMessage;

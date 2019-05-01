@@ -5,8 +5,8 @@ import { Animated, Text, View } from 'react-native';
 import styled from 'styled-components';
 
 import SearchAuthorListItem from '~/components/common/AuthorListItemWithSubjects';
+import ErrorMessage from '~/components/common/ErrorMessage';
 import Loading from '~/components/common/Loading';
-import AuthorNotFound from './AuthorNotFound';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -103,8 +103,10 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
       <Container>
         {loading ? <Loading /> : this.renderSearchAuthorsList()}
         {!loading && authors.length === 0 && (
-          <AuthorNotFound
-            authorName={authorName}
+          <ErrorMessage
+            title={`No results for "${authorName}"`}
+            icon="magnify-close"
+            message=""
           />
         )}
       </Container>

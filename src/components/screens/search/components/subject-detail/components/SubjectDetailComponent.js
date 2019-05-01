@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import styled, { withTheme } from 'styled-components';
 
 import ProgressiveImage from '~/components/common/ProgressiveImage';
+import ErrorMessage from '~/components/common/ErrorMessage';
 import CustomTab from '~/components/common/CustomTab';
 import Loading from '~/components/common/Loading';
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -143,10 +144,20 @@ class SubjectDetail extends Component<Props, {}> {
   };
 
   render() {
-    const { loading } = this.props;
+    const { loading, error, subject } = this.props;
 
     return (
-      <Container>{loading ? <Loading /> : this.renderContent()}</Container>
+      <Container>
+        {!error && !loading && !!subject.data && this.renderContent()}
+        {loading && !error && <Loading />}
+        {error && !loading && (
+          <ErrorMessage
+            message="Seems like you're having some troubles when trying to connect with the server."
+            icon="server-network-off"
+            title="Oops..."
+          />
+        )}
+      </Container>
     );
   }
 }

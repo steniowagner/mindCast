@@ -8,6 +8,7 @@ import TrendingAuthorsDiscover from './trending-authors/trending-authors-discove
 import NewReleasesDiscover from './new-releases/new-releases-discover/NewReleasesDiscover';
 import HottestPodcasts from './hottest-podcasts/HottestPodcastsDiscover';
 
+import ErrorMessage from '~/components/common/ErrorMessage';
 import ScreenTitle from '~/components/common/ScreenTitle';
 import Loading from '~/components/common/Loading';
 import CONSTANTS from '~/utils/CONSTANTS';
@@ -43,6 +44,13 @@ const HomeComponent = ({
 }: Props): Object => (
   <Wrapper>
     {loading && !error && <Loading />}
+    {!loading && error && (
+      <ErrorMessage
+        message="Seems like you're having some troubles when trying to connect with the server."
+        icon="server-network-off"
+        title="Oops..."
+      />
+    )}
     {!loading && !error && (
       <ScrollView
         showsVerticalScrollIndicator={false}

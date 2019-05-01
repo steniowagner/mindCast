@@ -48,9 +48,14 @@ const RootStack = createStackNavigator(
         const subject = params[CONSTANTS.PARAMS.SUBJECT_DETAIL];
         const title = `#${subject.id}`;
 
+        const { colors } = screenProps.theme;
+        const headerTextColor = params[CONSTANTS.PARAMS.HAS_ERROR]
+          ? colors.textColor
+          : '#fff';
+
         return {
           title,
-          ...getHiddenHeaderLayout(screenProps, '#fff'),
+          ...getHiddenHeaderLayout(screenProps, headerTextColor),
         };
       },
     },

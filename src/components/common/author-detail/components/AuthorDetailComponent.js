@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { StackActions } from 'react-navigation';
 
 import ProgressiveImage from '~/components/common/ProgressiveImage';
+import ErrorMessage from '~/components/common/ErrorMessage';
 import Loading from '~/components/common/Loading';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
@@ -58,9 +59,9 @@ type AuthorProps = {
 };
 
 type Props = {
-  loadingMultipleAuthors: boolean,
   author: AuthorProps,
   navigation: Object,
+  loading: boolean,
   error: boolean,
 };
 
@@ -72,8 +73,8 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   });
 
   componentWillReceiveProps(nextProps: Props) {
-    const { loadingMultipleAuthors, error, author } = nextProps;
-    const shouldShowContent = !loadingMultipleAuthors && !error && !!author;
+    const { loading, error, author } = nextProps;
+    const shouldShowContent = !loading && !error && !!author;
 
     if (shouldShowContent) {
       this._scrollViewOffset.setValue(0);
@@ -192,14 +193,23 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   );
 
   render() {
-    const { navigation, loadingMultipleAuthors, author } = this.props;
+    const {
+      navigation, loading, author, error,
+    } = this.props;
 
     return (
       <Container>
-        {loadingMultipleAuthors || !author ? (
-          <Loading />
-        ) : (
-          this.renderContent(author, navigation)
+        {loading && <Loading />}
+        {!loading
+          && !error
+          && !!author
+          && this.renderContent(author, navigation)}
+        {error && (
+          <ErrorMessage
+            message="Seems like you're having some troubles when trying to connect with the server."
+            icon="server-network-off"
+            title="Oops..."
+          />
         )}
       </Container>
     );

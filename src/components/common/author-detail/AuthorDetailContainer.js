@@ -43,7 +43,7 @@ class AuthorDetailContainer extends Component<Props, {}> {
 }
 
 const mapStateToProps = ({ author }) => ({
-  loading: author.loading,
+  loading: author.loadingSearchAuthorById,
   author: author.author,
   error: author.error,
 });
