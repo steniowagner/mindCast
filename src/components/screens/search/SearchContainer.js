@@ -9,12 +9,8 @@ import { Creators as AuthorCreators } from '~/store/ducks/author';
 import SearchComponent from './components/SearchComponent';
 import CONSTANTS from '~/utils/CONSTANTS';
 
-type AuthorProps = {
-  loading: boolean,
-};
-
 type Props = {
-  author: AuthorProps,
+  LOCAL_STACK_ROUTES: Object,
   navigation: Object,
 };
 
@@ -36,13 +32,11 @@ class SearchContainer extends Component<Props, State> {
   };
 
   onSearchForAuthor = (): void => {
-    const { navigation } = this.props;
+    const { navigation, LOCAL_STACK_ROUTES } = this.props;
     const { authorName } = this.state;
 
     if (authorName.length) {
-      const { params } = navigation.state;
-
-      navigation.navigate(params.LOCAL_STACK_ROUTES.SEARCH_AUTHORS_RESULT, {
+      navigation.navigate(LOCAL_STACK_ROUTES.SEARCH_AUTHORS_RESULT, {
         [CONSTANTS.PARAMS.SEARCH_AUTHOR_BY_NAME]: authorName,
       });
     }
@@ -55,9 +49,8 @@ class SearchContainer extends Component<Props, State> {
   };
 
   render() {
-    const { navigation, author } = this.props;
+    const { navigation } = this.props;
     const { isTextInputFocused } = this.state;
-    const { loading } = author;
 
     return (
       <SearchComponent
@@ -66,19 +59,14 @@ class SearchContainer extends Component<Props, State> {
         onTypeAuthorName={this.onTypeAuthorName}
         isTextInputFocused={isTextInputFocused}
         navigation={navigation}
-        loading={loading}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
-  author: state.author,
-});
-
 const mapDispatchToProps = dispatch => bindActionCreators(AuthorCreators, dispatch);
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SearchContainer);

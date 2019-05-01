@@ -1,11 +1,19 @@
 import { call, select, put } from 'redux-saga/effects';
 
 import { Creators as AuthorCreators } from '../ducks/author';
+import parseParams from './utils/parseParams';
 import api from '~/services/api';
 
 export function* searchAuthorByName({ payload }) {
   try {
-    yield put(AuthorCreators.searchAuthorByNameSuccess([]));
+    const { name } = payload;
+
+    const { data } = yield call(api.get, '/authors/filter', {
+      paramsSerializer: params => parseParams(params),
+      params: { name },
+    });
+
+    yield put(AuthorCreators.searchAuthorByNameSuccess(data.authors));
   } catch (err) {
     yield put(AuthorCreators.searchAuthorByNameFailure());
   }

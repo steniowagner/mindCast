@@ -8,8 +8,9 @@ export const Types = {
 };
 
 const INITIAL_STATE = {
+  loadingMultipleAuthors: false,
+  loadingSingleAuthor: true,
   author: null,
-  loading: true,
   error: false,
   authors: [],
 };
@@ -50,21 +51,21 @@ const author = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         authors: [],
-        loading: true,
+        loadingSingleAuthor: true,
         error: false,
       };
 
     case Types.SEARCH_AUTHOR_BY_NAME_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loadingSingleAuthor: false,
         authors: payload.data,
       };
 
     case Types.SEARCH_AUTHOR_BY_NAME_ERROR:
       return {
         ...state,
-        loading: false,
+        loadingSingleAuthor: false,
         error: true,
       };
 
@@ -72,21 +73,21 @@ const author = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         author: null,
-        loading: true,
+        loadingMultipleAuthors: true,
         error: false,
       };
 
     case Types.GET_AUTHOR_BY_ID_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loadingMultipleAuthors: false,
         author: payload.data,
       };
 
     case Types.GET_AUTHOR_BY_ID_ERROR:
       return {
         ...state,
-        loading: false,
+        loadingMultipleAuthors: false,
         error: true,
       };
 

@@ -11,8 +11,8 @@ import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
 type AuthorProps = {
+  loadingSingleAuthor: boolean,
   authors: Array<Object>,
-  loading: boolean,
 };
 
 type Props = {
@@ -41,14 +41,14 @@ class SearchAuthorListContainer extends Component<Props, {}> {
 
   render() {
     const { navigation, author } = this.props;
-    const { loading, authors } = author;
+    const { loadingSingleAuthor, authors } = author;
     const authorName = this.getAuthorNameParam();
 
     return (
       <SearchAuthorListComponent
+        loading={loadingSingleAuthor}
         authorName={authorName}
         navigation={navigation}
-        loading={loading}
         authors={authors}
       />
     );

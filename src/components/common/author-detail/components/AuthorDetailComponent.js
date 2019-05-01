@@ -58,9 +58,9 @@ type AuthorProps = {
 };
 
 type Props = {
+  loadingMultipleAuthors: boolean,
   author: AuthorProps,
   navigation: Object,
-  loading: boolean,
   error: boolean,
 };
 
@@ -72,8 +72,8 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   });
 
   componentWillReceiveProps(nextProps: Props) {
-    const { loading, error, author } = nextProps;
-    const shouldShowContent = !loading && !error && !!author;
+    const { loadingMultipleAuthors, error, author } = nextProps;
+    const shouldShowContent = !loadingMultipleAuthors && !error && !!author;
 
     if (shouldShowContent) {
       this._scrollViewOffset.setValue(0);
@@ -192,11 +192,11 @@ class AuthorDetailComponent extends PureComponent<Props, {}> {
   );
 
   render() {
-    const { navigation, loading, author } = this.props;
+    const { navigation, loadingMultipleAuthors, author } = this.props;
 
     return (
       <Container>
-        {loading || !author ? (
+        {loadingMultipleAuthors || !author ? (
           <Loading />
         ) : (
           this.renderContent(author, navigation)

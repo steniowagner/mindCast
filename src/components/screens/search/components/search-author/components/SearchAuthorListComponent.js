@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 import SearchAuthorListItem from '~/components/common/AuthorListItemWithSubjects';
 import Loading from '~/components/common/Loading';
+import AuthorNotFound from './AuthorNotFound';
 import CONSTANTS from '~/utils/CONSTANTS';
 import appStyles from '~/styles';
 
@@ -60,7 +61,9 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
     return (
       <Animated.FlatList
         ListHeaderComponent={
-          <SearchResultText>{`Results for: '${authorName}'`}</SearchResultText>
+          authors.length > 0 && (
+            <SearchResultText>{`Results for: '${authorName}'`}</SearchResultText>
+          )
         }
         style={[
           {
@@ -79,9 +82,9 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
               },
             })
             }
-            numberPodcasts={item.numberPodcasts}
-            profileImage={item.profileImage}
-            subjects={item.subjects}
+            numberPodcasts={item.podcasts.length}
+            profileImage={item.profileImageURL}
+            subjects={item.categories}
             name={item.name}
             id={item.id}
           />
@@ -94,13 +97,16 @@ class SearchAuthorListComponent extends PureComponent<Props, {}> {
   };
 
   render() {
-    const { authors, loading } = this.props;
-
-    const shouldRenderLoading = loading && authors.length === 0;
+    const { authorName, loading, authors } = this.props;
 
     return (
       <Container>
-        {shouldRenderLoading ? <Loading /> : this.renderSearchAuthorsList()}
+        {loading ? <Loading /> : this.renderSearchAuthorsList()}
+        {!loading && authors.length === 0 && (
+          <AuthorNotFound
+            authorName={authorName}
+          />
+        )}
       </Container>
     );
   }
