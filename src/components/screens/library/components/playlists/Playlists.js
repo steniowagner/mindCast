@@ -74,7 +74,9 @@ class Playlists extends Component<Props, State> {
   }
 
   getPodcastImages = (podcasts: Array<Object>): Array<string> => {
-    const images = podcasts.slice(0, 4).map(podcast => podcast.smallImageURL);
+    const images = podcasts
+      .slice(0, 4)
+      .map(podcast => podcast.thumbnailImageURL);
 
     return images;
   };

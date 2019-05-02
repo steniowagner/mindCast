@@ -19,6 +19,7 @@ type Playlist = {
 type Props = {
   podcastsDownloaded: Array<Object>,
   playlists: Array<Playlist>,
+  createPlaylist: Function,
   onToggleModal: Function,
   loadPlaylists: Function,
   addPodcast: Function,
@@ -91,11 +92,12 @@ class PlaylistListContainer extends Component<Props, {}> {
   };
 
   render() {
-    const { onToggleModal, playlists } = this.props;
+    const { onToggleModal, playlists, createPlaylist } = this.props;
 
     return (
       <PlaylistListComponent
         onPressPlaylistListItem={this.onPressPlaylistListItem}
+        createPlaylist={createPlaylist}
         onToggleModal={onToggleModal}
         playlists={playlists}
       />

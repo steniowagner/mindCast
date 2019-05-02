@@ -76,11 +76,6 @@ type Props = {
   mode: string,
 };
 
-type State = {
-  playlistTitle: string,
-  error: string,
-};
-
 const AndroidOperationModal = ({
   onTypePlaylistTitle,
   playlistTitle,

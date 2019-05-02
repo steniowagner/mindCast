@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import styled, { withTheme } from 'styled-components';
 
+import CreatePlaylistButton from './CreatePlaylistButton';
 import PlaylistListItem from './PlaylistsListItem';
 import Icon from '~/components/common/Icon';
 
@@ -49,18 +50,20 @@ type Playlist = {
 type Props = {
   onPressPlaylistListItem: Function,
   playlists: Array<Playlist>,
+  createPlaylist: Function,
   onToggleModal: Function,
   theme: Object,
 };
 
 const getPodcastImages = (podcasts: Array<Object>): Array<string> => {
-  const images = podcasts.slice(0, 4).map(podcast => podcast.smallImageURL);
+  const images = podcasts.slice(0, 4).map(podcast => podcast.thumbnailImageURL);
 
   return images;
 };
 
 const PlaylistListComponent = ({
   onPressPlaylistListItem,
+  createPlaylist,
   onToggleModal,
   playlists,
   theme,
@@ -102,6 +105,11 @@ const PlaylistListComponent = ({
           showsVerticalScrollIndicator={false}
           keyExtractor={item => `${item.title}`}
           data={playlists}
+        />
+      )}
+      {playlists.length === 0 && (
+        <CreatePlaylistButton
+          createPlaylist={createPlaylist}
         />
       )}
     </Container>
