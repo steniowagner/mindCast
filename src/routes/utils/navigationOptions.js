@@ -36,7 +36,6 @@ export const getPlayerNavigationOption = (navigation: Object): Object => {
   return {
     ...DEFAULT_HEADER_STYLE,
     headerStyle: {
-      marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       backgroundColor: 'transparent',
       borderBottomWidth: 0,
     },
@@ -69,7 +68,6 @@ export const getDefaultHeaderWithTitle = (
     headerTransparent: false,
     headerStyle: {
       backgroundColor: theme.colors.secondaryColor,
-      marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       borderBottomWidth: 0,
       elevation: 0,
     },
@@ -134,12 +132,5 @@ export const getHiddenHeaderLayout = (
     ...DEFAULT_HEADER_STYLE,
     headerTintColor: colorOverride || theme.colors.textColor,
     headerBackTitle: null,
-    ...Platform.select({
-      android: {
-        headerStyle: {
-          marginTop: StatusBar.currentHeight,
-        },
-      },
-    }),
   };
 };

@@ -103,7 +103,6 @@ class ThemeContextProvider extends Component<Props, State> {
             <StatusBar
               backgroundColor={appTheme.colors.androidToolbarColor}
               barStyle={isDarkThemeActivated ? 'light-content' : 'dark-content'}
-              translucent
               animated
             />
             {children}

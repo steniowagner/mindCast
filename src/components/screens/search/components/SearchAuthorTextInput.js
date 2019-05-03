@@ -13,7 +13,6 @@ const Wrapper = styled(View)`
   align-items: center;
   margin-vertical: ${({ theme }) => theme.metrics.largeSize}px;
   padding-horizontal: ${({ theme }) => theme.metrics.smallSize}px;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('6%')};
   border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.white};
 `;
@@ -33,6 +32,11 @@ const Input = styled(TextInput).attrs(({ theme }) => ({
   margin-left: ${({ theme }) => theme.metrics.smallSize}px;
   font-family: CircularStd-Book;
   color: ${({ theme }) => theme.colors.darkText};
+`;
+
+const IconWrapper = styled(View)`
+  padding-top: ${({ theme }) => theme.metrics.mediumSize};
+  padding-bottom: ${({ theme }) => theme.metrics.getWidthFromDP('2.5%')};
 `;
 
 type Props = {
@@ -58,11 +62,13 @@ const SearchAuthorTextInput = ({
       elevation: 4,
     }}
   >
-    <Icon
-      name="magnify"
-      color={appStyles.colors.darkText}
-      size={20}
-    />
+    <IconWrapper>
+      <Icon
+        name="magnify"
+        color={appStyles.colors.darkText}
+        size={20}
+      />
+    </IconWrapper>
     <Input
       onChangeText={text => onTypeAuthorName(text)}
       onFocus={() => onToggleDarkLayer(true)}

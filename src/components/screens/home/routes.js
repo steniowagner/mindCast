@@ -37,7 +37,7 @@ const RootStack = createStackNavigator(
       ),
       navigationOptions: () => ({
         headerBackTitle: null,
-        header: null,
+        headerTransparent: true,
       }),
     },
 

@@ -10,7 +10,6 @@ import HomeRoutes from '~/components/screens/home/routes';
 import SearchRoutes from '~/components/screens/search/routes';
 import LibraryRoutes from '~/components/screens/library/routes';
 import SettingsRoutes from '~/components/screens/settings/routes';
-import isEqualsOrLargestThanIphoneX from '~/utils/isEqualsOrLargestThanIphoneX';
 import appStyles from '~/styles';
 
 export const ROUTE_NAMES = {

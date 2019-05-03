@@ -72,9 +72,8 @@ const PlayerComponent = ({
 }: Props): Object => (
   <Wrapper>
     <StatusBar
-      backgroundColor="transparent"
+      backgroundColor="#111"
       barStyle="light-content"
-      translucent
       animated
     />
     <BackgroundImage
