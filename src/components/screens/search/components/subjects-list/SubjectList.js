@@ -24,12 +24,12 @@ const items = [
       'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/philosofy/thumbnail.jpg',
   },
   {
-    id: 'literature',
-    title: 'LITERATURE',
+    id: 'business',
+    title: 'BUSINESS',
     imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/literature/big.jpg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/business/big.jpg',
     thumbnailImageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/literature/thumbnail.jpg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/business/thumbnail.jpg',
   },
   {
     id: 'science',

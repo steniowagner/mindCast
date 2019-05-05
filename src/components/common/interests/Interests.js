@@ -39,9 +39,9 @@ const DEFAULT_INTERESTS = [
   },
   {
     isSelected: false,
-    title: 'LITERATURE',
+    title: 'BUSINESS',
     imageURL:
-      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/literature/big.jpg',
+      'https://s3-sa-east-1.amazonaws.com/mind-cast/images/categories/business/big.jpg',
   },
   {
     isSelected: false,
