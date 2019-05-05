@@ -9,7 +9,9 @@ import appStyles from '~/styles';
 
 const Wrapper = styled(View)`
   width: 100%;
-  margin-vertical: ${({ theme }) => theme.metrics.getHeightFromDP('10%')}px;
+  height: ${({ theme }) => theme.metrics.getHeightFromDP('30%')}px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const AppTitle = styled(Text)`

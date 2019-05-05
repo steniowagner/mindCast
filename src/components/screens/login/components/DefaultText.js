@@ -8,7 +8,6 @@ const TextStyle = styled(Text)`
   font-size: ${({ theme }) => theme.metrics.getWidthFromDP('4.5%')}px;
   font-family: CircularStd-Bold;
   color: ${({ color }) => color};
-  text-align: center;
 `;
 
 type Props = {

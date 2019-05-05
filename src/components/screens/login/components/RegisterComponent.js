@@ -8,6 +8,12 @@ import BottomContent from './BottomContent';
 import ChangeAction from './ChangeAction';
 import Input from './Input';
 
+const Wrapper = styled(View)`
+  width: 100%;
+  height: ${({ theme }) => theme.metrics.getHeightFromDP('70%')}px;
+  justify-content: space-between;
+`;
+
 const Row = styled(View)`
   flex-direction: row;
   justify-content: space-between;
@@ -21,33 +27,45 @@ const DefaultText = styled(Text)`
   text-align: center;
 `;
 
-const LoginComponent = (): Object => (
-  <View>
-    <Input
-      placeholder="E-mail"
-      iconName="email-outline"
-      type="emailAddress"
-    />
-    <Input
-      placeholder="Password"
-      iconName="lock-outline"
-      type="password"
-    />
-    <Input
-      placeholder="Confirm Password"
-      iconName="lock-reset"
-      type="password"
-    />
-    <ChangeAction
-      onPressActionButton={() => {}}
-      questionText="Has account?"
-      changeActionText="Log-in"
-      buttonText="REGISTER"
-    />
+type Props = {
+  onNavigateToMainStack: Function,
+  onChangeListIndex: Function,
+};
+
+const LoginComponent = ({
+  onNavigateToMainStack,
+  onChangeListIndex,
+}: Props): Object => (
+  <Wrapper>
+    <View>
+      <Input
+        placeholder="E-mail"
+        iconName="email-outline"
+        type="emailAddress"
+      />
+      <Input
+        placeholder="Password"
+        iconName="lock-outline"
+        type="password"
+      />
+      <Input
+        placeholder="Confirm Password"
+        iconName="lock-reset"
+        type="password"
+      />
+      <ChangeAction
+        onPressActionButton={() => onChangeListIndex(0)}
+        onNavigateToMainStack={onNavigateToMainStack}
+        questionText="Has account?"
+        changeActionText="Log-in"
+        buttonText="REGISTER"
+      />
+    </View>
     <BottomContent
+      onNavigateToMainStack={onNavigateToMainStack}
       actionSelected="Register"
     />
-  </View>
+  </Wrapper>
 );
 
 export default LoginComponent;

@@ -20,6 +20,7 @@ const Row = styled(View)`
 `;
 
 type Props = {
+  onNavigateToMainStack: Function,
   onPressActionButton: Function,
   changeActionText: string,
   questionText: string,
@@ -27,6 +28,7 @@ type Props = {
 };
 
 const ChangeAction = ({
+  onNavigateToMainStack,
   onPressActionButton,
   changeActionText,
   questionText,
@@ -48,7 +50,7 @@ const ChangeAction = ({
       </TouchableOpacity>
     </Row>
     <DefaultButton
-      onPress={() => {}}
+      onPress={onNavigateToMainStack}
       text={buttonText}
       size="large"
     />
