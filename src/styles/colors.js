@@ -12,6 +12,9 @@ export default {
   white: '#FFF',
   lightSecondaryColor: '#222',
   dark: '#111',
+  facebook: '#3B5998',
+  googlePlus: '#DD4B39',
   black: '#000',
   lightDark: 'rgba(0, 0, 0, 0.4)',
+  transparentGray: 'rgba(218, 218, 218, 0.8)',
 };

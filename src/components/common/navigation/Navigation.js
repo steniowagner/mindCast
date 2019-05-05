@@ -11,8 +11,8 @@ import CONSTANTS from '~/utils/CONSTANTS';
 
 const navigationBarItems = [
   {
-    label: 'Home',
-    icon: 'home',
+    label: 'Discover',
+    icon: 'compass',
     route: CONSTANTS.ROUTES.HOME,
   },
   {
