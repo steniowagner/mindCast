@@ -42,7 +42,7 @@ class Login extends Component<Props, {}> {
   onNavigateToMainStack = (): void => {
     const { navigation } = this.props;
 
-    navigation.navigate(CONSTANTS.ROUTES.MAIN_STACK);
+    navigation.navigate(CONSTANTS.ROUTES.INTERESTS);
   };
 
   render() {

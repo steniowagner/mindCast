@@ -1,13 +1,36 @@
 import React from 'react';
 
-import { createSwitchNavigator, createAppContainer } from 'react-navigation';
+import {
+  createSwitchNavigator,
+  createAppContainer,
+  createStackNavigator,
+} from 'react-navigation';
 import { withTheme } from 'styled-components';
 
 import OboardingIntro from '~/components/screens/oboarding-intro/OnboardingIntro';
+import { getDefaultHeaderWithButton } from './utils/navigationOptions';
+import Interests from '~/components/screens/interests/Interests';
 import StarterScreen from '~/components/screens/StaterScreen';
 import Login from '~/components/screens/login/Login';
 import CONSTANTS from '../utils/CONSTANTS';
 import MainStack from './mainStack';
+
+const InterestsScreen = createStackNavigator(
+  {
+    [CONSTANTS.ROUTES.INTERESTS]: {
+      screen: Interests,
+      navigationOptions: ({ navigation, screenProps }) => getDefaultHeaderWithButton(
+        navigation,
+        screenProps,
+        'Your Interests',
+        'check-all',
+      ),
+    },
+  },
+  {
+    headerLayoutPreset: 'center',
+  },
+);
 
 const InitialStack = createSwitchNavigator(
   {
@@ -22,6 +45,8 @@ const InitialStack = createSwitchNavigator(
     [CONSTANTS.ROUTES.LOGIN]: {
       screen: Login,
     },
+
+    [CONSTANTS.ROUTES.INTERESTS]: InterestsScreen,
 
     [CONSTANTS.ROUTES.MAIN_STACK]: {
       screen: MainStack,
