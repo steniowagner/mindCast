@@ -8,7 +8,7 @@ const Wrapper = styled(View)`
   width: 100%;
   height: ${({ theme }) => theme.metrics.getHeightFromDP('30%')};
   justify-content: flex-end;
-  padding-right: ${({ theme }) => theme.metrics.getWidthFromDP('50%')}px;
+  padding-right: ${({ theme }) => theme.metrics.getWidthFromDP('35%')}px;
 `;
 
 const Name = styled(Text)`

@@ -59,7 +59,7 @@ const RelatedAuthors = ({ relatedAuthors }: Props): Object => (
       keyExtractor={podcast => `${podcast.id}`}
       renderItem={({ item }) => (
         <RelatedAuthorsListItem
-          profileImage={item.profileImage}
+          profileImage={item.profileImageURL}
           name={item.name}
           id={item.id}
         />

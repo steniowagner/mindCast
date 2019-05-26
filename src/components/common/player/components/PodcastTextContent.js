@@ -28,12 +28,10 @@ const AuthorText = styled(Text).attrs({
   text-align: center;
 `;
 
-const TitleText = styled(Text).attrs({
-  numberOfLines: 2,
-})`
+const TitleText = styled(Text)`
   font-family: CircularStd-Black;
   color: ${({ theme }) => theme.colors.white};
-  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.2}px;
+  font-size: ${({ theme }) => theme.metrics.extraLargeSize * 1.1}px;
   text-align: center;
 `;
 

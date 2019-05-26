@@ -74,15 +74,14 @@ type AuthorProps = {
 };
 
 type PodcastProps = {
-  thumbnailImageURL: string,
   author: AuthorProps,
+  imageURL: string,
   title: string,
 };
 
 type Props = {
   currentPodcast: PodcastProps,
   playlist: Array<Object>,
-  playPrevious: Function,
   navigation: Object,
   playNext: Function,
   paused: boolean,
@@ -92,7 +91,6 @@ type Props = {
 
 const PlayerTracker = ({
   currentPodcast,
-  playPrevious,
   navigation,
   playlist,
   playNext,
@@ -117,7 +115,7 @@ const PlayerTracker = ({
           }
         >
           <PodcastImage
-            uri={currentPodcast.thumbnailImageURL}
+            uri={currentPodcast.imageURL}
           />
           <TextContentWrapper>
             <PodcastTitle>{currentPodcast.title}</PodcastTitle>
@@ -126,14 +124,6 @@ const PlayerTracker = ({
         </ContentWrapper>
         <PlayerButtonsWrapper>
           <TouchableOpacity
-            onPress={playPrevious}
-          >
-            <PlayerIcon
-              name="skip-previous"
-              size={24}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={() => (paused ? play() : pause())}
             style={{
               marginHorizontal: 4,
@@ -141,7 +131,7 @@ const PlayerTracker = ({
           >
             <PlayerIcon
               name={paused ? 'play-circle' : 'pause-circle'}
-              size={32}
+              size={36}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -149,7 +139,7 @@ const PlayerTracker = ({
           >
             <PlayerIcon
               name="skip-next"
-              size={24}
+              size={28}
             />
           </TouchableOpacity>
         </PlayerButtonsWrapper>
