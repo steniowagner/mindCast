@@ -18,7 +18,7 @@ const InputWrapper = styled(View)`
 
 const ContentContainer = styled(View)`
   width: 100%;
-  height: ${({ theme }) => theme.metrics.getHeightFromDP('7%')}px;
+  height: ${({ theme }) => theme.metrics.getHeightFromDP('8%')}px;
   justify-content: center;
   align-items: center;
   margin-bottom: ${({ theme }) => theme.metrics.largeSize}px;

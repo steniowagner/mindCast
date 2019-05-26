@@ -1,7 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import { StatusBar, FlatList, View } from 'react-native';
+import {
+  StatusBar, Animated, FlatList, View,
+} from 'react-native';
 import styled from 'styled-components';
 
 import RegisterComponent from './components/RegisterComponent';
@@ -34,6 +36,21 @@ const LAYOUTS = [
 
 class Login extends Component<Props, {}> {
   _flatListRef: Object = {};
+  _headerAnimation = new Animated.Value(0);
+  _formAnimation = new Animated.Value(0);
+
+  componentDidMount() {
+    Animated.stagger(100, [
+      Animated.timing(this._headerAnimation, {
+        duration: 500,
+        toValue: 1,
+      }),
+      Animated.timing(this._formAnimation, {
+        duration: 600,
+        toValue: 1,
+      }),
+    ]).start();
+  }
 
   onChangeListIndex = (index: number): void => {
     this._flatListRef.scrollToIndex({ animated: true, index });
@@ -45,7 +62,28 @@ class Login extends Component<Props, {}> {
     navigation.navigate(CONSTANTS.ROUTES.INTERESTS);
   };
 
+  createFadeAnimationStyle = (animation: Object): Object => {
+    const translateY = animation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [-5, 0],
+    });
+
+    return {
+      opacity: animation,
+      transform: [
+        {
+          translateY,
+        },
+      ],
+    };
+  };
+
   render() {
+    const formAnimation = this.createFadeAnimationStyle(this._formAnimation);
+    const headerAnimation = this.createFadeAnimationStyle(
+      this._headerAnimation,
+    );
+
     return (
       <Wrapper>
         <StatusBar
@@ -55,30 +93,38 @@ class Login extends Component<Props, {}> {
           animated
         />
         <BackgroundImage />
-        <Header />
-        <FlatList
-          renderItem={({ item }) => {
-            const { Layout } = item;
+        <Animated.View
+          style={headerAnimation}
+        >
+          <Header />
+        </Animated.View>
+        <Animated.View
+          style={formAnimation}
+        >
+          <FlatList
+            renderItem={({ item }) => {
+              const { Layout } = item;
 
-            return (
-              <ContentWrapper>
-                <Layout
-                  onNavigateToMainStack={this.onNavigateToMainStack}
-                  onChangeListIndex={this.onChangeListIndex}
-                />
-              </ContentWrapper>
-            );
-          }}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          ref={(ref: any): void => {
-            this._flatListRef = ref;
-          }}
-          scrollEnabled={false}
-          data={LAYOUTS}
-          pagingEnabled
-          horizontal
-        />
+              return (
+                <ContentWrapper>
+                  <Layout
+                    onNavigateToMainStack={this.onNavigateToMainStack}
+                    onChangeListIndex={this.onChangeListIndex}
+                  />
+                </ContentWrapper>
+              );
+            }}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            ref={(ref: any): void => {
+              this._flatListRef = ref;
+            }}
+            scrollEnabled={false}
+            data={LAYOUTS}
+            pagingEnabled
+            horizontal
+          />
+        </Animated.View>
       </Wrapper>
     );
   }
