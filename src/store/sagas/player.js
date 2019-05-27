@@ -88,7 +88,7 @@ function* _rewindToPreviousPodcast(newPlaylistIndex) {
       }),
     );
   } catch (err) {
-    console.tron.log('_rewindToPreviousPodcast');
+    console.log('_rewindToPreviousPodcast');
   }
 }
 
@@ -150,7 +150,7 @@ export function* shufflePlaylist() {
       }),
     );
   } catch (err) {
-    console.tron.log('shufflePlaylist');
+    console.log('shufflePlaylist');
   }
 }
 
@@ -158,7 +158,7 @@ export function* setupPlayer() {
   try {
     yield call(setPodcast);
   } catch (err) {
-    console.tron.log('setupPlayer', 'err');
+    console.log('setupPlayer', 'err');
   }
 }
 
@@ -174,7 +174,7 @@ export function* setupShufflePlayer({ payload }) {
 
     yield call(setPodcast);
   } catch (err) {
-    console.tron.log('setupPlayer');
+    console.log('setupPlayer');
   }
 }
 
@@ -197,7 +197,7 @@ export function* setPodcast() {
       ),
     ]);
   } catch (err) {
-    console.tron.log('err');
+    console.log('err');
   }
 }
 
@@ -249,6 +249,20 @@ function* _handleRestartPlayer(firstPodcast) {
   );
 }
 
+export function* repeatCurrentPodcast() {
+  try {
+    const { currentPodcast } = yield select(state => state.player);
+
+    const podcastWithURI = yield _definePodcastURI(currentPodcast);
+
+    yield delay(300);
+
+    yield put(PlayerCreators.repeatCurrentPodcastSuccess(podcastWithURI));
+  } catch (err) {
+    console.log('err');
+  }
+}
+
 export function* playNext() {
   try {
     const {
@@ -284,7 +298,7 @@ export function* playNext() {
       );
     }
   } catch (err) {
-    console.tron.log('playNext');
+    console.log('playNext');
   }
 }
 
@@ -320,6 +334,6 @@ export function* playPrevious() {
 
     yield call(setPodcast);
   } catch (err) {
-    console.tron.log('playPrevious');
+    console.log('playPrevious');
   }
 }

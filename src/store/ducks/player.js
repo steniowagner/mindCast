@@ -20,6 +20,8 @@ export const Types = {
   SETUP_SHUFFLE_PLAYER_REQUEST: 'player/SETUP_SHUFFLE_PLAYER_REQUEST',
   SETUP_SHUFFLE_PLAYER_SUCCESS: 'player/SETUP_SHUFFLE_PLAYER_SUCCESS',
   SET_PODCASTS_RECENTLY_PLAYED: 'player/SET_PODCASTS_RECENTLY_PLAYED',
+  REPEAT_CURRENT_PODCAST_REQUEST: 'REPEAT_CURRENT_PODCAST_REQUEST',
+  REPEAT_CURRENT_PODCAST_SUCCESS: 'REPEAT_CURRENT_PODCAST_SUCCESS',
   PLAY: 'player/PLAY',
   STOP: 'player/STOP',
 };
@@ -134,6 +136,15 @@ export const Creators = {
   setupShufflePlayerSuccess: playlist => ({
     type: Types.SETUP_SHUFFLE_PLAYER_SUCCESS,
     payload: { playlist },
+  }),
+
+  repeatCurrentPodcast: () => ({
+    type: Types.REPEAT_CURRENT_PODCAST_REQUEST,
+  }),
+
+  repeatCurrentPodcastSuccess: currentPodcast => ({
+    type: Types.REPEAT_CURRENT_PODCAST_SUCCESS,
+    payload: { currentPodcast },
   }),
 
   play: () => ({
@@ -330,6 +341,25 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
         originalPlaylist: payload.playlist,
         backupPlaylist: payload.playlist,
         playlist: payload.playlist,
+      };
+
+    case Types.REPEAT_CURRENT_PODCAST_REQUEST:
+      return {
+        ...state,
+        currentTime: '00:00',
+        currentPodcast: {
+          ...state.currentPodcast,
+          uri: null,
+        },
+        paused: true,
+        seekValue: 0,
+      };
+
+    case Types.REPEAT_CURRENT_PODCAST_SUCCESS:
+      return {
+        ...state,
+        currentPodcast: payload.currentPodcast,
+        paused: false,
       };
 
     case Types.PLAY:

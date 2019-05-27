@@ -21,6 +21,7 @@ type PlayerProps = {
 
 type Props = {
   seekProgressTimerSuccess: Function,
+  repeatCurrentPodcast: Function,
   setCurrentTime: Function,
   setPodcast: Function,
   player: PlayerProps,
@@ -41,25 +42,16 @@ class SoundComponent extends Component<Props, {}> {
   }
 
   onEnd = (): void => {
-    const { setPodcast, playNext, player } = this.props;
+    const { repeatCurrentPodcast, playNext, player } = this.props;
+    const { shouldRepeatCurrent } = player;
 
-    const {
-      shouldRepeatCurrent,
-      currentPodcast,
-      playlist,
-      playlistIndex,
-    } = player;
-
-    if (!shouldRepeatCurrent) {
-      playNext();
+    if (Platform.OS === 'ios' && shouldRepeatCurrent) {
+      repeatCurrentPodcast();
       return;
     }
 
-    const currentPodcastChangedURI = !!playlist[playlistIndex].uri
-      && playlist[playlistIndex].uri !== currentPodcast.uri;
-
-    if (currentPodcastChangedURI) {
-      setPodcast();
+    if (!shouldRepeatCurrent) {
+      playNext();
     }
   };
 
