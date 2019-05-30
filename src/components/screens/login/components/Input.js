@@ -39,6 +39,7 @@ const CustomInput = styled(TextInput).attrs(({ placeholder, type, theme }) => ({
   width: 90%;
   height: 100%;
   margin-left: ${({ theme }) => theme.metrics.mediumSize}px;
+  font-size: ${({ theme }) => 1.1 * theme.metrics.largeSize}px;
   font-family: CircularStd-Book;
   color: ${({ theme }) => theme.colors.darkText};
 `;
