@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import styled from 'styled-components';
 
@@ -11,18 +11,18 @@ import appStyles from '~/styles';
 const Wrapper = styled(View)`
   width: 100%;
   align-self: flex-end;
-  margin-bottom: ${({ theme }) => 2 * theme.metrics.extraLargeSize}px;
 `;
 
 const ButtonWrapper = styled(TouchableOpacity)`
-  width: ${({ theme }) => theme.metrics.getWidthFromDP('42%')};
+  width: 100%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: ${({ withMarginBottom, theme }) => (withMarginBottom ? theme.metrics.largeSize : 0)}px;
   padding-vertical: ${({ theme }) => theme.metrics.mediumSize}px;
   padding-horizontal: ${({ theme }) => theme.metrics.extraLargeSize}px;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const OrText = styled(Text)`
@@ -46,33 +46,39 @@ const LineWrapper = styled(View)`
 `;
 
 const ButtonsWrapper = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
-const GapSpace = styled(View)`
-  width: ${({ theme }) => theme.metrics.extraSmallSize}px;
-  height: 1px;
-`;
+type RenderButtonProps = {
+  withMarginBottom: boolean,
+  backgroundColor: string,
+  actionSelected: string,
+  onPress: Function,
+  iconName: string,
+  size: number,
+};
 
-const renderButton = (
-  onNavigateToMainStack,
-  iconColor,
-  iconName,
+const renderButton = ({
+  withMarginBottom,
+  backgroundColor,
   actionSelected,
+  iconName,
+  onPress,
   size,
-  withGap,
-): Object => (
+}: RenderButtonProps): Object => (
   <ButtonWrapper
-    onPress={onNavigateToMainStack}
+    withMarginBottom={withMarginBottom}
+    backgroundColor={backgroundColor}
+    onPress={onPress}
   >
     <DefaultText
       text={`${actionSelected} with`}
-      color={appStyles.colors.darkText}
+      color={appStyles.colors.white}
+      withMarginRight
     />
-    {withGap && <GapSpace />}
     <Icon
-      color={iconColor}
+      color={appStyles.colors.white}
       name={iconName}
       size={size}
     />
@@ -95,21 +101,22 @@ const BottomContent = ({
       <Line />
     </LineWrapper>
     <ButtonsWrapper>
-      {renderButton(
-        onNavigateToMainStack,
-        appStyles.colors.facebook,
-        'facebook',
+      {renderButton({
+        backgroundColor: appStyles.colors.facebook,
+        onPress: onNavigateToMainStack,
+        withMarginBottom: true,
+        iconName: 'facebook-box',
         actionSelected,
-        20,
-      )}
-      {renderButton(
-        onNavigateToMainStack,
-        appStyles.colors.googlePlus,
-        'google-plus',
+        size: 25,
+      })}
+      {renderButton({
+        backgroundColor: appStyles.colors.googlePlus,
+        onPress: onNavigateToMainStack,
+        withMarginBottom: true,
+        iconName: 'google-plus-box',
         actionSelected,
-        24,
-        true,
-      )}
+        size: 30,
+      })}
     </ButtonsWrapper>
   </Wrapper>
 );
