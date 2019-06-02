@@ -60,7 +60,7 @@ iOS .ipa installer: Soon!
 	- Shuffle Playlist
 	- Repeat Playist
 	- Repeat a single Podcast
-	- Donwload the current podcast
+	- Download the current podcast
 	- Add the current Podcast to a Playlist
 	- Access the queue of next podcasts that will be played
 	- Remove podcasts from the queue
