@@ -13,7 +13,7 @@ The idea of the App is:
 
 _"Share knowledge in the form of podcasts, providing a simple way to learn"._
 
-**PS:** Podcasts was just the context choosed by me for this project, but all the code inside this app can be reused for any app that has audio-streaming as domain, so you can reuse everything here in your next music-player, podcast-library or anything inside this context!
+**PS:** Podcasts was just the context chosen by me for this project, but all the code inside this app can be reused for any app that has audio-streaming as domain, so you can reuse everything here in your next music-player, podcast-library or anything inside this context!
 
 ## Why?
 
@@ -43,7 +43,7 @@ iOS .ipa installer: Soon!
 
 ## Functionalities
 
-- Choose your interests (all, technology, philosfy, science, business, pop-culture or history - it will be used to make requests in order to have a personalized app with what the user want to hear about)
+- Choose your interests (all, technology, philosophy, science, business, pop-culture or history - it will be used to make requests in order to have a personalized app with what the user want to hear about)
 
 - Get informations about a specific Author, with his New Releases/Featured Podcats and Related Authors
 
@@ -65,7 +65,7 @@ iOS .ipa installer: Soon!
 	- Access the queue of next podcasts that will be played
 	- Remove podcasts from the queue
 	- Play/Pause the current Podcast
-	- Next/Previous podcast on the Playlsit
+	- Next/Previous podcast on the Playlist
 
 - Bottom Player
 	- Access the bottom player out of the Player screen in order to keep tracking the current podcast
