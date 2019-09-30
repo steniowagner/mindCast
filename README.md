@@ -15,6 +15,8 @@ _"Share knowledge in the form of podcasts, providing a simple way to learn"._
 
 **PS:** Podcasts was just the context choosed by me for this project, but all the code inside this app can be reused for any app that has audio-streaming as domain, so you can reuse everything here in your next music-player, podcast-library or anything inside this context!
 
+**On the Media 🤩:** A [review](https://youtu.be/nu8mwGZUBFU) about this app (pt-BR 🇧🇷).
+
 ## Why?
 
 This project is part of my personal portfolio, so, I'll be happy if you could provide me any feedback about the project, code, structure or anything that you can report that could make me a better developer!
