@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  front:
+    build: . 
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    entrypoint:
+      - "yarn start"
