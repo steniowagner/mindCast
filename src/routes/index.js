@@ -7,7 +7,7 @@ import {
 } from 'react-navigation';
 import { withTheme } from 'styled-components';
 
-import OboardingIntro from '~/components/screens/oboarding-intro/OnboardingIntro';
+import OnboardingIntro from '~/components/screens/onboarding-intro/OnboardingIntro';
 import { getDefaultHeaderWithButton } from './utils/navigationOptions';
 import Interests from '~/components/screens/interests/Interests';
 import StarterScreen from '~/components/screens/StaterScreen';
@@ -39,7 +39,7 @@ const InitialStack = createSwitchNavigator(
     },
 
     [CONSTANTS.ROUTES.ONBOARDING_INTRO]: {
-      screen: OboardingIntro,
+      screen: OnboardingIntro,
     },
 
     [CONSTANTS.ROUTES.LOGIN]: {
