@@ -32,7 +32,7 @@
     "react": "16.6.3",
     "react-native": "0.58.4",
     "react-native-dotenv": "^0.2.0",
-    "react-native-fast-image": "^5.1.2",
+    "react-native-fast-image": "^8.3.0",
     "react-native-fs": "2.13.2",
     "react-native-gesture-handler": "^1.0.16",
     "react-native-linear-gradient": "^2.5.3",
