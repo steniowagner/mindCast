@@ -171,7 +171,7 @@ $ react-native run-ios
 - [Axios](https://github.com/axios/axios) - HTTP Client
 - [ESlint](https://eslint.org/) - Linter
 - [React-Native-Dotenv](https://github.com/zetachang/react-native-dotenv) - Configs from .env file
-- [Flow](https://redux-saga.js.org/) - Static Type Checker
+- [Flow](https://flow.org/) - Static Type Checker
 - [Prettier](https://prettier.io/) - Code Formatter
 - [Babel](https://babeljs.io/) - JavaScript Compiler
 - [Reactotron](https://infinite.red/reactotron) - Inspector
